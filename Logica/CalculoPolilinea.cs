@@ -2234,7 +2234,7 @@ namespace Logica
             Point2d pm;
             int contador = 0;
 
-            while (casos && contador<20)
+            while (casos )
             {
                 contador++;
                 this.Reiniciar_casos();
@@ -2247,14 +2247,34 @@ namespace Logica
                     {
                         componentes[0].V_pr = true;
                     }
+                    double[] lr = ajuste_recta(componentes[0].lista_puntos, 0).Item2;
+                    double dis = Distancia_P_R(lr[0], lr[1], componentes[1].xc, componentes[1].yc);
+                    if (componentes[0].azr == 0 || componentes[0].azr == 180)
+                    {
+                        dis = Math.Abs(componentes[1].xc - componentes[1].lista_puntos[0].p.X);
+                    }
+                    if (dis < componentes[1].radio)
+                    {
+                        componentes[0].c_p = true;
+                    }
                 }
                 //El último punto de la recta queda dentro del círculo anterior
                 if (componentes[componentes.Count - 1].Tipo == 1 && componentes[componentes.Count - 2].Tipo == 2)
                 {
                     distancia = Distancia(new Point2d(componentes[componentes.Count - 1].lista_puntos[componentes[componentes.Count - 1].lista_puntos.Count - 1].p.X, componentes[componentes.Count - 1].lista_puntos[componentes[componentes.Count - 1].lista_puntos.Count - 1].p.Y), new Point2d(componentes[componentes.Count - 2].xc, componentes[componentes.Count - 2].yc));
-                    if (distancia < componentes[componentes.Count - 1].radio)
+                    if (distancia < componentes[componentes.Count - 2].radio)
                     {
                         componentes[componentes.Count - 1].V_ur = true;
+                    }
+                    double[] lr = ajuste_recta(componentes[componentes.Count-1].lista_puntos, 0).Item2;
+                    double dis = Distancia_P_R(lr[0], lr[1], componentes[componentes.Count - 2].xc, componentes[componentes.Count - 2].yc);
+                    if (componentes[componentes.Count - 1].azr == 0 || componentes[componentes.Count - 1].azr == 180)
+                    {
+                        dis = Math.Abs(componentes[componentes.Count - 2].xc - componentes[componentes.Count - 2].lista_puntos[0].p.X);
+                    }
+                    if (dis < componentes[componentes.Count - 2].radio)
+                    {
+                        componentes[componentes.Count - 1].c_a = true;
                     }
                 }
                 this.casos_extremos();
@@ -2280,6 +2300,76 @@ namespace Logica
                             hacer_caso = false;
                             break;
                         }
+                    }
+                }
+                if (hacer_caso)
+                {
+                    if (componentes[0].caso3 == true)
+                    {
+                        //hacer caso 3
+                        List<Punto> pv = new List<Punto>();
+                        List<Punto> recta = new List<Punto>();
+                        Tuple<List<Punto>, double[], int> lr = Tuple.Create(pv, new double[2], 0);
+                        for (int t = 0; t <= componentes[0].lista_puntos.Count - 1; t++)
+                        {
+                            recta.Add(componentes[0].lista_puntos[t]);
+                        }
+                        lr = ajuste_recta(recta, 0);
+                        double xc = componentes[0].lista_puntos[componentes[0].lista_puntos.Count - 2].p.X;
+                        double yc = componentes[0].lista_puntos[componentes[0].lista_puntos.Count - 2].p.Y;
+                        //xc = x_p_1;
+                        //yc = y_p_1;
+                        Punto p_r = new Punto();
+                        p_r = Rellenar_centro(componentes[0].lista_puntos[componentes[0].lista_puntos.Count - 1], xc, yc, 1);
+                        componentes[0].azr = p_r.Az;
+                        double giro = 0;
+                        int pos = 3;
+                            pos = 1;
+                        if (componentes[0].c_p == true)
+                        {
+
+                            giro = Girar(lr, componentes[1], pos, componentes[0].azr);
+                        }
+
+                        int contar = 0;
+                        Girar_Recta(0, giro, componentes[0].azr);
+
+                        hacer_caso = false;
+                        
+                    }
+                    if (componentes[componentes.Count-1].caso3 == true)
+                    {
+                        //hacer caso 3
+                        List<Punto> pv = new List<Punto>();
+                        List<Punto> recta = new List<Punto>();
+                        Tuple<List<Punto>, double[], int> lr = Tuple.Create(pv, new double[2], 0);
+                        for (int t = 0; t <= componentes[componentes.Count - 1].lista_puntos.Count - 1; t++)
+                        {
+                            recta.Add(componentes[componentes.Count - 1].lista_puntos[t]);
+                        }
+                        lr = ajuste_recta(recta, 0);
+                        double xc = componentes[componentes.Count - 1].lista_puntos[componentes[componentes.Count - 1].lista_puntos.Count - 2].p.X;
+                        double yc = componentes[componentes.Count - 1].lista_puntos[componentes[componentes.Count - 1].lista_puntos.Count - 2].p.Y;
+                        //xc = x_p_1;
+                        //yc = y_p_1;
+                        Punto p_r = new Punto();
+                        p_r = Rellenar_centro(componentes[componentes.Count - 1].lista_puntos[componentes[componentes.Count - 1].lista_puntos.Count - 1], xc, yc, 1);
+                        componentes[componentes.Count - 1].azr = p_r.Az;
+                        double giro = 0;
+                        int pos = 3;
+
+                            pos = 2;
+                        if (componentes[componentes.Count - 1].c_a == true)
+                        {
+                            giro = Girar(lr, componentes[componentes.Count - 2], pos, componentes[componentes.Count - 1].azr);
+                        }
+
+
+                        int contar = 0;
+                        Girar_Recta(componentes.Count - 1, giro, componentes[componentes.Count - 1].azr);
+
+                        hacer_caso = false;
+                        
                     }
                 }
                 if (hacer_caso)
@@ -2386,6 +2476,24 @@ namespace Logica
             else
             {
                 componentes[componentes.Count - 2].caso5 = false;
+            }
+            //caso 3
+            if (componentes[0].Tipo == 1 && componentes[1].Tipo == 2 && componentes[0].c_p == true)
+            {
+                componentes[1].caso3 = true;
+            }
+            else
+            {
+                componentes[1].caso3 = false;
+            }
+            //caso 3
+            if (componentes[componentes.Count - 1].Tipo == 1 && componentes[componentes.Count - 2].Tipo == 2 && componentes[componentes.Count - 1].c_a == true)
+            {
+                componentes[componentes.Count - 1].caso3 = true;
+            }
+            else
+            {
+                componentes[componentes.Count - 1].caso3 = false;
             }
         }
         public bool ajuste_tipo2(double x,double y,double r,int pos)//este es el ultimo ajuste utilizando las curvas en cluster
@@ -14845,45 +14953,19 @@ namespace Logica
             bool continuar = true;
             //primera clotoide
             int intermedias = 1;
-            if (componentes[0].Tipo == 1 && componentes[1].Tipo == 2)//si es recta--curva
+            if (componentes.Count == 2)
             {
-
-                int cont = 0;
-                while (cont < 1000)//el 1000 se pone para las comprobaciones
+                if (componentes[0].Tipo == 1 && componentes[1].Tipo == 2)//si es recta--curva
                 {
-                    Rellenar_Recta(componentes[0]);
-                    Rellenar_Curva(componentes[1]);
-                    cont++;
-                    EjeDeTrazado.componentes.Clotoide Clo = Recta_Curva(componentes[0], componentes[1], 1);
-                    if (Clo.getPuntoEntrada == Clo.getPuntoSalida || double.IsNaN(Clo.getQe()))
+
+                    int cont = 0;
+                    while (cont < 1000)//el 1000 se pone para las comprobaciones
                     {
-                        if (componentes[1].direccion == EjeTrazado.sentidoCurva.Antihorario)
-                        {
-                            Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
-                        }
-                        else
-                        {
-                            Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
-                        }
-                        //Dibujar_entidad(0);
-
-                    }
-                    else
-                    {
-                        if ((componentes[0].lista_puntos[0].p.X < componentes[0].lista_puntos[1].p.X && componentes[0].lista_puntos[0].p.X < Clo.getPointAtDist(0)[0]) ||
-                            (componentes[0].lista_puntos[0].p.X > componentes[0].lista_puntos[1].p.X && componentes[0].lista_puntos[0].p.X > Clo.getPointAtDist(0)[0]))
-                        {
-                            //Dibujar_Clotoide(Clo);
-
-                            tadLayShare.puntos.Punto3d pl1 = new tadLayShare.puntos.Punto3d(componentes[0].lista_puntos[0].p.X, componentes[0].lista_puntos[0].p.Y, 0);
-                            tadLayShare.puntos.Punto3d pl2 = new tadLayShare.puntos.Punto3d(Clo.getPointAtDist(0)[0], Clo.getPointAtDist(0)[1], 0);
-
-                            EjeDeTrazado.componentes.Linea linea = new EjeDeTrazado.componentes.Linea(pl1, pl2, 0, 0, componentes[0].azr);
-                            mcomponenetes.Add(linea);
-                            mcomponenetes.Add(Clo);
-                            break;
-                        }
-                        else
+                        Rellenar_Recta(componentes[0]);
+                        Rellenar_Curva(componentes[1]);
+                        cont++;
+                        EjeDeTrazado.componentes.Clotoide Clo = Recta_Curva(componentes[0], componentes[1], 1);
+                        if (Clo.getPuntoEntrada == Clo.getPuntoSalida || double.IsNaN(Clo.getQe()))
                         {
                             if (componentes[1].direccion == EjeTrazado.sentidoCurva.Antihorario)
                             {
@@ -14893,169 +14975,96 @@ namespace Logica
                             {
                                 Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
                             }
+                            //Dibujar_entidad(0);
+
                         }
-                    }
-                }
-            }
-            else if (componentes[0].Tipo == 2 && componentes[1].Tipo == 1 && componentes[2].Tipo == 2)//curva--recta--curva
-            {
-                EjeDeTrazado.componentes.Clotoide[] Clotoides = new EjeDeTrazado.componentes.Clotoide[2];
-                Clotoides = Curva_Recta_Curva(componentes[0], componentes[1], componentes[2]);
-                double az = Az_Clotoide(Clotoides[0]);
-
-                Punto3d p3d;
-                Punto3d p3d2;
-                Punto3d p3dc;
-                EjeDeTrazado.componentes.Curva Curvaa;
-                
-                p3d = new Punto3d(componentes[0].lista_puntos[0].p.X, componentes[0].lista_puntos[0].p.Y, 0);
-                p3d2 = new Punto3d(Clotoides[0].getPointAtDist(0)[0], Clotoides[0].getPointAtDist(0)[1], 0);
-                p3dc = new Punto3d(componentes[0].xc, componentes[0].yc, 0);
-                Curvaa = new EjeDeTrazado.componentes.Curva(p3d, p3d2, p3dc, componentes[0].radio, 0, 0, componentes[0].direccion);
-                mcomponenetes.Add(Curvaa);
-                
-                mcomponenetes.Add(Clotoides[0]);
-                double xx = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaX;
-                double yy = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaY;
-                tadLayShare.puntos.Punto3d pl1 = new tadLayShare.puntos.Punto3d(xx, yy, 0);
-                tadLayShare.puntos.Punto3d pl2 = new tadLayShare.puntos.Punto3d(Clotoides[1].getPointAtDist(0)[0], Clotoides[1].getPointAtDist(0)[1], 0);
-                EjeDeTrazado.componentes.Linea linea = new EjeDeTrazado.componentes.Linea(pl1, pl2, 0, 0, componentes[1].azr);
-                mcomponenetes.Add(linea);
-                mcomponenetes.Add(Clotoides[1]);
-                intermedias = 2;
-                if (componentes.Count==3)
-                {
-                    xx = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaX;
-                    yy = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaY;
-                    p3d = new Punto3d(xx, yy, 0);
-                    p3d2 = new Punto3d(componentes[2].lista_puntos[componentes[2].lista_puntos.Count-1].p.X, componentes[2].lista_puntos[componentes[2].lista_puntos.Count-1].p.Y, 0);
-                    p3dc = new Punto3d(componentes[2].xc, componentes[2].yc, 0);
-                    Curvaa = new EjeDeTrazado.componentes.Curva(p3d, p3d2, p3dc, componentes[2].radio, 0, 0, componentes[2].direccion);
-                    mcomponenetes.Add(Curvaa);
-                    continuar = false;
-                }
-            }
-            else//curva--curva
-            {
-                Rellenar_Curva(componentes[0]);
-                Rellenar_Curva(componentes[1]);
-                EjeDeTrazado.componentes.Clotoide Clo = Curva_Curva(componentes[0], componentes[1]);
-                Punto3d p3d = new Punto3d(componentes[0].lista_puntos[0].p.X, componentes[0].lista_puntos[0].p.Y, 0);
-                Punto3d p3d2 = new Punto3d(Clo.getPointAtDist(Clo.getLe_r())[0], Clo.getPointAtDist(Clo.getLe_r())[1], 0);
-                Punto3d p3dc = new Punto3d(componentes[0].xc, componentes[0].yc, 0);
-                EjeDeTrazado.componentes.Curva Curvaa = new EjeDeTrazado.componentes.Curva(p3d, p3d2, p3dc, componentes[0].radio, 0, 0, componentes[0].direccion);
-                mcomponenetes.Add(Curvaa);
-                mcomponenetes.Add(Clo);
-
-            }
-            if (continuar)
-            {
-                if (componentes.Count > 2)
-                {
-                    //Clotoides intermedias
-                    for (int i = intermedias; i < componentes.Count - 2; i++)
-                    {
-                        //se busca si una recta esta entre 2 curvas para crear una clotoide de entrada y otra de salida
-                        if (componentes[i - 1].Tipo == 2 && componentes[i + 1].Tipo == 2 && componentes[i].Tipo == 1)
+                        else
                         {
-                            if (curva_gran_radio)
+                            if ((componentes[0].lista_puntos[0].p.X < componentes[0].lista_puntos[1].p.X && componentes[0].lista_puntos[0].p.X < Clo.getPointAtDist(0)[0]) ||
+                                (componentes[0].lista_puntos[0].p.X > componentes[0].lista_puntos[1].p.X && componentes[0].lista_puntos[0].p.X > Clo.getPointAtDist(0)[0]))
                             {
-                                if (componentes[i].Tipo == 1 && componentes[i + 1].Tipo == 2)
-                                {
-                                    curva_gran_radio = false;
-                                    EjeDeTrazado.componentes.Clotoide Clo = Recta_Curva(componentes[i], componentes[i + 1], 1);
-                                    double xx = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaX;
-                                    double yy = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaY;
-                                    tadLayShare.puntos.Punto3d pl1 = new tadLayShare.puntos.Punto3d(xx, yy, 0);
-                                    tadLayShare.puntos.Punto3d pl2 = new tadLayShare.puntos.Punto3d(Clo.getPointAtDist(0)[0], Clo.getPointAtDist(0)[1], 0);
-                                    EjeDeTrazado.componentes.Linea linea = new EjeDeTrazado.componentes.Linea(pl1, pl2, 0, 0, componentes[i].azr);
-                                    mcomponenetes.Add(linea);
-                                    mcomponenetes.Add(Clo);
-                                }
+                                //Dibujar_Clotoide(Clo);
+
+                                tadLayShare.puntos.Punto3d pl1 = new tadLayShare.puntos.Punto3d(componentes[0].lista_puntos[0].p.X, componentes[0].lista_puntos[0].p.Y, 0);
+                                tadLayShare.puntos.Punto3d pl2 = new tadLayShare.puntos.Punto3d(Clo.getPointAtDist(0)[0], Clo.getPointAtDist(0)[1], 0);
+
+                                EjeDeTrazado.componentes.Linea linea = new EjeDeTrazado.componentes.Linea(pl1, pl2, 0, 0, componentes[0].azr);
+                                mcomponenetes.Add(linea);
+                                mcomponenetes.Add(Clo);
+                                double xx = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaX;
+                                double yy = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaY;
+                                Punto3d p3d = new Punto3d(xx, yy, 0);
+                                Punto3d p3d2 = new Punto3d(componentes[1].lista_puntos[componentes[1].lista_puntos.Count - 1].p.X, componentes[1].lista_puntos[componentes[1].lista_puntos.Count - 1].p.Y, 0);
+                                Punto3d p3dc = new Punto3d(componentes[1].xc, componentes[1].yc, 0);
+                                EjeDeTrazado.componentes.Curva Curvaa = new EjeDeTrazado.componentes.Curva(p3d, p3d2, p3dc, componentes[1].radio, 0, 0, componentes[1].direccion);
+                                mcomponenetes.Add(Curvaa);
+
+                                break;
                             }
                             else
                             {
-                                if (componentes[i].Tipo == 1 && componentes[i + 2].Tipo == 1 && (Math.Abs(componentes[i].azr - componentes[i + 2].azr) <= 2 || componentes[i + 1].radio > gran_r))
+                                if (componentes[1].direccion == EjeTrazado.sentidoCurva.Antihorario)
                                 {
-                                    EjeDeTrazado.componentes.Clotoide Clo = Curva_Recta(componentes[i - 1], componentes[i], 2);
-
-                                    EjeDeTrazado.componentes.Curva Curva = Curva_Gran_Radio(componentes[i], componentes[i + 1], componentes[i + 2]);
-
-                                    curva_gran_radio = true;
-                                    double xx = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaX;
-                                    double yy = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaY;
-                                    Punto3d p3d = new Punto3d(xx, yy, 0);
-                                    Punto3d p3d2 = new Punto3d(Clo.getPointAtDist(0)[0], Clo.getPointAtDist(0)[1], 0);
-                                    Punto3d p3dc = new Punto3d(componentes[i - 1].xc, componentes[i - 1].yc, 0);
-                                    EjeDeTrazado.componentes.Curva Curvaa = new EjeDeTrazado.componentes.Curva(p3d, p3d2, p3dc, componentes[i - 1].radio, 0, 0, componentes[i - 1].direccion);
-                                    mcomponenetes.Add(Curvaa);
-                                    mcomponenetes.Add(Clo);
-                                    xx = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaX;
-                                    yy = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaY;
-                                    tadLayShare.puntos.Punto3d pl1 = new tadLayShare.puntos.Punto3d(xx, yy, 0);
-                                    tadLayShare.puntos.Punto3d pl2 = new tadLayShare.puntos.Punto3d(Curva.getPointAtDist(0)[0], Curva.getPointAtDist(0)[1], 0);
-                                    EjeDeTrazado.componentes.Linea linea = new EjeDeTrazado.componentes.Linea(pl1, pl2, 0, 0, componentes[i].azr);
-                                    mcomponenetes.Add(linea);
-                                    mcomponenetes.Add(Curva);
-
+                                    Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
                                 }
                                 else
                                 {
-                                    EjeDeTrazado.componentes.Clotoide[] Clotoides = new EjeDeTrazado.componentes.Clotoide[2];
-                                    Clotoides = Curva_Recta_Curva(componentes[i - 1], componentes[i], componentes[i + 1]);
-
-                                    double[] pr1 = Clotoides[0].getPointAtDist(Clotoides[0].getPkFinal());
-                                    double xx = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaX;
-                                    double yy = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaY;
-                                    Punto3d p3d = new Punto3d(xx, yy, 0);
-                                    Punto3d p3d2 = new Punto3d(Clotoides[0].getPointAtDist(0)[0], Clotoides[0].getPointAtDist(0)[1], 0);
-                                    Punto3d p3dc = new Punto3d(componentes[i - 1].xc, componentes[i - 1].yc, 0);
-                                    EjeDeTrazado.componentes.Curva Curvaa = new EjeDeTrazado.componentes.Curva(p3d, p3d2, p3dc, componentes[i - 1].radio, 0, 0, componentes[i - 1].direccion);
-                                    mcomponenetes.Add(Curvaa);
-                                    mcomponenetes.Add(Clotoides[0]);
-                                    xx = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaX;
-                                    yy = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaY;
-                                    tadLayShare.puntos.Punto3d pl1 = new tadLayShare.puntos.Punto3d(xx, yy, 0);
-                                    tadLayShare.puntos.Punto3d pl2 = new tadLayShare.puntos.Punto3d(Clotoides[1].getPointAtDist(0)[0], Clotoides[1].getPointAtDist(0)[1], 0);
-                                    EjeDeTrazado.componentes.Linea linea = new EjeDeTrazado.componentes.Linea(pl1, pl2, 0, 0, componentes[i].azr);
-                                    mcomponenetes.Add(linea);
-                                    mcomponenetes.Add(Clotoides[1]);
-
-                                    double[] pr2 = Clotoides[1].getPointAtDist(0);
+                                    Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
                                 }
                             }
-
-                        }
-                        if (componentes[i].Tipo == 2 && componentes[i + 1].Tipo == 2)
-                        {
-                            Rellenar_Curva(componentes[i]);
-                            Rellenar_Curva(componentes[i + 1]);
-                            EjeDeTrazado.componentes.Clotoide Clo = Curva_Curva(componentes[i], componentes[i + 1]);
-                            double xx = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaX;
-                            double yy = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaY;
-                            Punto3d p3d = new Punto3d(xx, yy, 0);
-                            Punto3d p3d2 = new Punto3d(Clo.getPointAtDist(Clo.getLe_r())[0], Clo.getPointAtDist(Clo.getLe_r())[1], 0);
-                            Punto3d p3dc = new Punto3d(componentes[i].xc, componentes[i].yc, 0);
-                            EjeDeTrazado.componentes.Curva Curvaa = new EjeDeTrazado.componentes.Curva(p3d, p3d2, p3dc, componentes[i].radio, 0, 0, componentes[i].direccion);
-                            mcomponenetes.Add(Curvaa);
-                            mcomponenetes.Add(Clo);
-
                         }
                     }
+                }
+                else if (componentes[componentes.Count - 2].Tipo == 2 && componentes[componentes.Count - 1].Tipo == 1)//si es curva--recta
+                {
 
-
-                    //ultima clotoide
-                    if (componentes[componentes.Count - 2].Tipo == 2 && componentes[componentes.Count - 1].Tipo == 1)//si es recta--curva
+                    int cont = 0;
+                    while (cont < 1000)//el 1000 se pone para las comprobaciones
                     {
-
-                        int cont = 0;
-                        while (cont < 1000)//el 1000 se pone para las comprobaciones
+                        Rellenar_Recta(componentes[componentes.Count - 1]);
+                        Rellenar_Curva(componentes[componentes.Count - 2]);
+                        cont++;
+                        EjeDeTrazado.componentes.Clotoide Clo = Curva_Recta(componentes[componentes.Count - 2], componentes[componentes.Count - 1], 2);
+                        if (Clo.getPuntoEntrada == Clo.getPuntoSalida || double.IsNaN(Clo.getQe()))
                         {
-                            Rellenar_Recta(componentes[componentes.Count - 1]);
-                            Rellenar_Curva(componentes[componentes.Count - 2]);
-                            cont++;
-                            EjeDeTrazado.componentes.Clotoide Clo = Curva_Recta(componentes[componentes.Count - 2], componentes[componentes.Count - 1], 2);
-                            if (Clo.getPuntoEntrada == Clo.getPuntoSalida || double.IsNaN(Clo.getQe()))
+                            if (componentes[componentes.Count - 2].direccion == EjeTrazado.sentidoCurva.Antihorario)
+                            {
+                                Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
+                            }
+                            else
+                            {
+                                Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
+                            }
+                            //Dibujar_entidad(componentes.Count - 1);
+                        }
+                        else
+                        {
+
+                            if (((componentes[componentes.Count - 1].lista_puntos[0].p.X < componentes[componentes.Count - 1].lista_puntos[1].p.X) && (Clo.getPointAtDist(Clo.getPkFinal())[0] <= componentes[componentes.Count - 1].lista_puntos[1].p.X)) ||
+                               (( componentes[componentes.Count - 1].lista_puntos[0].p.X > componentes[componentes.Count - 1].lista_puntos[1].p.X) && (Clo.getPointAtDist(Clo.getPkFinal())[0] >= componentes[componentes.Count - 1].lista_puntos[1].p.X)))
+                            {
+                                //Dibujar_Clotoide(Clo);
+                                Punto3d p3d = new Punto3d(componentes[0].lista_puntos[0].p.X, componentes[0].lista_puntos[0].p.Y, 0);
+                                Punto3d p3d2 = new Punto3d(Clo.getPointAtDist(0)[0], Clo.getPointAtDist(0)[1], 0);
+                                Punto3d p3dc = new Punto3d(componentes[0].xc, componentes[0].yc, 0);
+                                EjeDeTrazado.componentes.Curva Curvaa = new EjeDeTrazado.componentes.Curva(p3d, p3d2, p3dc, componentes[0].radio, 0, 0, componentes[0].direccion);
+                                mcomponenetes.Add(Curvaa);
+                                mcomponenetes.Add(Clo);
+                                double xx = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaX;
+                                double yy = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaY;
+                                tadLayShare.puntos.Punto3d pl1 = new tadLayShare.puntos.Punto3d(xx, yy, 0);
+                                tadLayShare.puntos.Punto3d pl2 = new tadLayShare.puntos.Punto3d(componentes[componentes.Count - 1].lista_puntos[componentes[componentes.Count - 1].lista_puntos.Count - 1].p.X, componentes[componentes.Count - 1].lista_puntos[componentes[componentes.Count - 1].lista_puntos.Count - 1].p.Y, 0);
+
+                                EjeDeTrazado.componentes.Linea linea = new EjeDeTrazado.componentes.Linea(pl1, pl2, 0, 0, componentes[componentes.Count - 1].azr);
+                                mcomponenetes.Add(linea);
+                                break;
+                            }
+                            /*if ((componentes[componentes.Count - 1].lista_puntos[0].p.X < Clo.getPointAtDist(Clo.getPkFinal())[0] && Clo.getPointAtDist(Clo.getPkFinal())[0] < componentes[componentes.Count - 1].lista_puntos[1].p.X) || (componentes[componentes.Count - 1].lista_puntos[0].p.X > Clo.getPointAtDist(Clo.getPkFinal())[0] && Clo.getPointAtDist(Clo.getPkFinal())[0] > componentes[componentes.Count - 1].lista_puntos[1].p.X))
+                            {
+                                Dibujar_Clotoide(Clo);
+                                break;
+                            }*/
+                            else
                             {
                                 if (componentes[componentes.Count - 2].direccion == EjeTrazado.sentidoCurva.Antihorario)
                                 {
@@ -15067,35 +15076,224 @@ namespace Logica
                                 }
                                 //Dibujar_entidad(componentes.Count - 1);
                             }
+
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (componentes[0].Tipo == 1 && componentes[1].Tipo == 2)//si es recta--curva
+                {
+
+                    int cont = 0;
+                    while (cont < 1000)//el 1000 se pone para las comprobaciones
+                    {
+                        Rellenar_Recta(componentes[0]);
+                        Rellenar_Curva(componentes[1]);
+                        cont++;
+                        EjeDeTrazado.componentes.Clotoide Clo = Recta_Curva(componentes[0], componentes[1], 1);
+                        if (Clo.getPuntoEntrada == Clo.getPuntoSalida || double.IsNaN(Clo.getQe()))
+                        {
+                            if (componentes[1].direccion == EjeTrazado.sentidoCurva.Antihorario)
+                            {
+                                Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
+                            }
                             else
                             {
-                                if (((componentes[componentes.Count - 1].lista_puntos[0].p.X < componentes[componentes.Count - 1].lista_puntos[1].p.X) && (Clo.getPointAtDist(Clo.getPkFinal())[0] <= componentes[componentes.Count - 1].lista_puntos[1].p.X)) ||
-                                    ((componentes[componentes.Count - 1].lista_puntos[0].p.X > componentes[componentes.Count - 1].lista_puntos[1].p.X) && (Clo.getPointAtDist(Clo.getPkFinal())[0] >= componentes[componentes.Count - 1].lista_puntos[1].p.X)))
-                                {
-                                    //Dibujar_Clotoide(Clo);
-                                    double xx = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaX;
-                                    double yy = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaY;
-                                    Punto3d p3d = new Punto3d(xx, yy, 0);
-                                    Punto3d p3d2 = new Punto3d(Clo.getPointAtDist(0)[0], Clo.getPointAtDist(0)[1], 0);
-                                    Punto3d p3dc = new Punto3d(componentes[componentes.Count - 2].xc, componentes[componentes.Count - 2].yc, 0);
-                                    EjeDeTrazado.componentes.Curva Curvaa = new EjeDeTrazado.componentes.Curva(p3d, p3d2, p3dc, componentes[componentes.Count - 2].radio, 0, 0, componentes[componentes.Count - 2].direccion);
-                                    mcomponenetes.Add(Curvaa);
-                                    mcomponenetes.Add(Clo);
-                                    xx = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaX;
-                                    yy = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaY;
-                                    tadLayShare.puntos.Punto3d pl1 = new tadLayShare.puntos.Punto3d(xx, yy, 0);
-                                    tadLayShare.puntos.Punto3d pl2 = new tadLayShare.puntos.Punto3d(componentes[componentes.Count - 1].lista_puntos[componentes[componentes.Count - 1].lista_puntos.Count - 1].p.X, componentes[componentes.Count - 1].lista_puntos[componentes[componentes.Count - 1].lista_puntos.Count - 1].p.Y, 0);
+                                Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
+                            }
+                            //Dibujar_entidad(0);
 
-                                    EjeDeTrazado.componentes.Linea linea = new EjeDeTrazado.componentes.Linea(pl1, pl2, 0, 0, componentes[componentes.Count - 1].azr);
-                                    mcomponenetes.Add(linea);
-                                    break;
-                                }
-                                /*if ((componentes[componentes.Count - 1].lista_puntos[0].p.X < Clo.getPointAtDist(Clo.getPkFinal())[0] && Clo.getPointAtDist(Clo.getPkFinal())[0] < componentes[componentes.Count - 1].lista_puntos[1].p.X) || (componentes[componentes.Count - 1].lista_puntos[0].p.X > Clo.getPointAtDist(Clo.getPkFinal())[0] && Clo.getPointAtDist(Clo.getPkFinal())[0] > componentes[componentes.Count - 1].lista_puntos[1].p.X))
+                        }
+                        else
+                        {
+                            if ((componentes[0].lista_puntos[0].p.X < componentes[0].lista_puntos[1].p.X && componentes[0].lista_puntos[0].p.X < Clo.getPointAtDist(0)[0]) ||
+                                (componentes[0].lista_puntos[0].p.X > componentes[0].lista_puntos[1].p.X && componentes[0].lista_puntos[0].p.X > Clo.getPointAtDist(0)[0]))
+                            {
+                                //Dibujar_Clotoide(Clo);
+
+                                tadLayShare.puntos.Punto3d pl1 = new tadLayShare.puntos.Punto3d(componentes[0].lista_puntos[0].p.X, componentes[0].lista_puntos[0].p.Y, 0);
+                                tadLayShare.puntos.Punto3d pl2 = new tadLayShare.puntos.Punto3d(Clo.getPointAtDist(0)[0], Clo.getPointAtDist(0)[1], 0);
+
+                                EjeDeTrazado.componentes.Linea linea = new EjeDeTrazado.componentes.Linea(pl1, pl2, 0, 0, componentes[0].azr);
+                                mcomponenetes.Add(linea);
+                                mcomponenetes.Add(Clo);
+                                break;
+                            }
+                            else
+                            {
+                                if (componentes[1].direccion == EjeTrazado.sentidoCurva.Antihorario)
                                 {
-                                    Dibujar_Clotoide(Clo);
-                                    break;
-                                }*/
+                                    Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
+                                }
                                 else
+                                {
+                                    Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (componentes[0].Tipo == 2 && componentes[1].Tipo == 1 && componentes[2].Tipo == 2)//curva--recta--curva
+                {
+                    EjeDeTrazado.componentes.Clotoide[] Clotoides = new EjeDeTrazado.componentes.Clotoide[2];
+                    Clotoides = Curva_Recta_Curva(componentes[0], componentes[1], componentes[2]);
+                    double az = Az_Clotoide(Clotoides[0]);
+
+                    Punto3d p3d;
+                    Punto3d p3d2;
+                    Punto3d p3dc;
+                    EjeDeTrazado.componentes.Curva Curvaa;
+
+                    p3d = new Punto3d(componentes[0].lista_puntos[0].p.X, componentes[0].lista_puntos[0].p.Y, 0);
+                    p3d2 = new Punto3d(Clotoides[0].getPointAtDist(0)[0], Clotoides[0].getPointAtDist(0)[1], 0);
+                    p3dc = new Punto3d(componentes[0].xc, componentes[0].yc, 0);
+                    Curvaa = new EjeDeTrazado.componentes.Curva(p3d, p3d2, p3dc, componentes[0].radio, 0, 0, componentes[0].direccion);
+                    mcomponenetes.Add(Curvaa);
+
+                    mcomponenetes.Add(Clotoides[0]);
+                    double xx = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaX;
+                    double yy = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaY;
+                    tadLayShare.puntos.Punto3d pl1 = new tadLayShare.puntos.Punto3d(xx, yy, 0);
+                    tadLayShare.puntos.Punto3d pl2 = new tadLayShare.puntos.Punto3d(Clotoides[1].getPointAtDist(0)[0], Clotoides[1].getPointAtDist(0)[1], 0);
+                    EjeDeTrazado.componentes.Linea linea = new EjeDeTrazado.componentes.Linea(pl1, pl2, 0, 0, componentes[1].azr);
+                    mcomponenetes.Add(linea);
+                    mcomponenetes.Add(Clotoides[1]);
+                    intermedias = 2;
+                    if (componentes.Count == 3)
+                    {
+                        xx = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaX;
+                        yy = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaY;
+                        p3d = new Punto3d(xx, yy, 0);
+                        p3d2 = new Punto3d(componentes[2].lista_puntos[componentes[2].lista_puntos.Count - 1].p.X, componentes[2].lista_puntos[componentes[2].lista_puntos.Count - 1].p.Y, 0);
+                        p3dc = new Punto3d(componentes[2].xc, componentes[2].yc, 0);
+                        Curvaa = new EjeDeTrazado.componentes.Curva(p3d, p3d2, p3dc, componentes[2].radio, 0, 0, componentes[2].direccion);
+                        mcomponenetes.Add(Curvaa);
+                        continuar = false;
+                    }
+                }
+                else//curva--curva
+                {
+                    Rellenar_Curva(componentes[0]);
+                    Rellenar_Curva(componentes[1]);
+                    EjeDeTrazado.componentes.Clotoide Clo = Curva_Curva(componentes[0], componentes[1]);
+                    Punto3d p3d = new Punto3d(componentes[0].lista_puntos[0].p.X, componentes[0].lista_puntos[0].p.Y, 0);
+                    Punto3d p3d2 = new Punto3d(Clo.getPointAtDist(Clo.getLe_r())[0], Clo.getPointAtDist(Clo.getLe_r())[1], 0);
+                    Punto3d p3dc = new Punto3d(componentes[0].xc, componentes[0].yc, 0);
+                    EjeDeTrazado.componentes.Curva Curvaa = new EjeDeTrazado.componentes.Curva(p3d, p3d2, p3dc, componentes[0].radio, 0, 0, componentes[0].direccion);
+                    mcomponenetes.Add(Curvaa);
+                    mcomponenetes.Add(Clo);
+
+                }
+                if (continuar)
+                {
+                    if (componentes.Count > 2)
+                    {
+                        //Clotoides intermedias
+                        for (int i = intermedias; i < componentes.Count - 2; i++)
+                        {
+                            //se busca si una recta esta entre 2 curvas para crear una clotoide de entrada y otra de salida
+                            if (componentes[i - 1].Tipo == 2 && componentes[i + 1].Tipo == 2 && componentes[i].Tipo == 1)
+                            {
+                                if (curva_gran_radio)
+                                {
+                                    if (componentes[i].Tipo == 1 && componentes[i + 1].Tipo == 2)
+                                    {
+                                        curva_gran_radio = false;
+                                        EjeDeTrazado.componentes.Clotoide Clo = Recta_Curva(componentes[i], componentes[i + 1], 1);
+                                        double xx = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaX;
+                                        double yy = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaY;
+                                        tadLayShare.puntos.Punto3d pl1 = new tadLayShare.puntos.Punto3d(xx, yy, 0);
+                                        tadLayShare.puntos.Punto3d pl2 = new tadLayShare.puntos.Punto3d(Clo.getPointAtDist(0)[0], Clo.getPointAtDist(0)[1], 0);
+                                        EjeDeTrazado.componentes.Linea linea = new EjeDeTrazado.componentes.Linea(pl1, pl2, 0, 0, componentes[i].azr);
+                                        mcomponenetes.Add(linea);
+                                        mcomponenetes.Add(Clo);
+                                    }
+                                }
+                                else
+                                {
+                                    if (componentes[i].Tipo == 1 && componentes[i + 2].Tipo == 1 && (Math.Abs(componentes[i].azr - componentes[i + 2].azr) <= 2 || componentes[i + 1].radio > gran_r))
+                                    {
+                                        EjeDeTrazado.componentes.Clotoide Clo = Curva_Recta(componentes[i - 1], componentes[i], 2);
+
+                                        EjeDeTrazado.componentes.Curva Curva = Curva_Gran_Radio(componentes[i], componentes[i + 1], componentes[i + 2]);
+
+                                        curva_gran_radio = true;
+                                        double xx = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaX;
+                                        double yy = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaY;
+                                        Punto3d p3d = new Punto3d(xx, yy, 0);
+                                        Punto3d p3d2 = new Punto3d(Clo.getPointAtDist(0)[0], Clo.getPointAtDist(0)[1], 0);
+                                        Punto3d p3dc = new Punto3d(componentes[i - 1].xc, componentes[i - 1].yc, 0);
+                                        EjeDeTrazado.componentes.Curva Curvaa = new EjeDeTrazado.componentes.Curva(p3d, p3d2, p3dc, componentes[i - 1].radio, 0, 0, componentes[i - 1].direccion);
+                                        mcomponenetes.Add(Curvaa);
+                                        mcomponenetes.Add(Clo);
+                                        xx = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaX;
+                                        yy = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaY;
+                                        tadLayShare.puntos.Punto3d pl1 = new tadLayShare.puntos.Punto3d(xx, yy, 0);
+                                        tadLayShare.puntos.Punto3d pl2 = new tadLayShare.puntos.Punto3d(Curva.getPointAtDist(0)[0], Curva.getPointAtDist(0)[1], 0);
+                                        EjeDeTrazado.componentes.Linea linea = new EjeDeTrazado.componentes.Linea(pl1, pl2, 0, 0, componentes[i].azr);
+                                        mcomponenetes.Add(linea);
+                                        mcomponenetes.Add(Curva);
+
+                                    }
+                                    else
+                                    {
+                                        EjeDeTrazado.componentes.Clotoide[] Clotoides = new EjeDeTrazado.componentes.Clotoide[2];
+                                        Clotoides = Curva_Recta_Curva(componentes[i - 1], componentes[i], componentes[i + 1]);
+
+                                        double[] pr1 = Clotoides[0].getPointAtDist(Clotoides[0].getPkFinal());
+                                        double xx = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaX;
+                                        double yy = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaY;
+                                        Punto3d p3d = new Punto3d(xx, yy, 0);
+                                        Punto3d p3d2 = new Punto3d(Clotoides[0].getPointAtDist(0)[0], Clotoides[0].getPointAtDist(0)[1], 0);
+                                        Punto3d p3dc = new Punto3d(componentes[i - 1].xc, componentes[i - 1].yc, 0);
+                                        EjeDeTrazado.componentes.Curva Curvaa = new EjeDeTrazado.componentes.Curva(p3d, p3d2, p3dc, componentes[i - 1].radio, 0, 0, componentes[i - 1].direccion);
+                                        mcomponenetes.Add(Curvaa);
+                                        mcomponenetes.Add(Clotoides[0]);
+                                        xx = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaX;
+                                        yy = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaY;
+                                        tadLayShare.puntos.Punto3d pl1 = new tadLayShare.puntos.Punto3d(xx, yy, 0);
+                                        tadLayShare.puntos.Punto3d pl2 = new tadLayShare.puntos.Punto3d(Clotoides[1].getPointAtDist(0)[0], Clotoides[1].getPointAtDist(0)[1], 0);
+                                        EjeDeTrazado.componentes.Linea linea = new EjeDeTrazado.componentes.Linea(pl1, pl2, 0, 0, componentes[i].azr);
+                                        mcomponenetes.Add(linea);
+                                        mcomponenetes.Add(Clotoides[1]);
+
+                                        double[] pr2 = Clotoides[1].getPointAtDist(0);
+                                    }
+                                }
+
+                            }
+                            if (componentes[i].Tipo == 2 && componentes[i + 1].Tipo == 2)
+                            {
+                                Rellenar_Curva(componentes[i]);
+                                Rellenar_Curva(componentes[i + 1]);
+                                EjeDeTrazado.componentes.Clotoide Clo = Curva_Curva(componentes[i], componentes[i + 1]);
+                                double xx = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaX;
+                                double yy = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaY;
+                                Punto3d p3d = new Punto3d(xx, yy, 0);
+                                Punto3d p3d2 = new Punto3d(Clo.getPointAtDist(Clo.getLe_r())[0], Clo.getPointAtDist(Clo.getLe_r())[1], 0);
+                                Punto3d p3dc = new Punto3d(componentes[i].xc, componentes[i].yc, 0);
+                                EjeDeTrazado.componentes.Curva Curvaa = new EjeDeTrazado.componentes.Curva(p3d, p3d2, p3dc, componentes[i].radio, 0, 0, componentes[i].direccion);
+                                mcomponenetes.Add(Curvaa);
+                                mcomponenetes.Add(Clo);
+
+                            }
+                        }
+
+
+                        //ultima clotoide
+                        if (componentes[componentes.Count - 2].Tipo == 2 && componentes[componentes.Count - 1].Tipo == 1)//si es recta--curva
+                        {
+
+                            int cont = 0;
+                            while (cont < 1000)//el 1000 se pone para las comprobaciones
+                            {
+                                Rellenar_Recta(componentes[componentes.Count - 1]);
+                                Rellenar_Curva(componentes[componentes.Count - 2]);
+                                cont++;
+                                EjeDeTrazado.componentes.Clotoide Clo = Curva_Recta(componentes[componentes.Count - 2], componentes[componentes.Count - 1], 2);
+                                if (Clo.getPuntoEntrada == Clo.getPuntoSalida || double.IsNaN(Clo.getQe()))
                                 {
                                     if (componentes[componentes.Count - 2].direccion == EjeTrazado.sentidoCurva.Antihorario)
                                     {
@@ -15107,71 +15305,113 @@ namespace Logica
                                     }
                                     //Dibujar_entidad(componentes.Count - 1);
                                 }
+                                else
+                                {
+                                    if (((componentes[componentes.Count - 1].lista_puntos[0].p.X < componentes[componentes.Count - 1].lista_puntos[1].p.X) && (Clo.getPointAtDist(Clo.getPkFinal())[0] <= componentes[componentes.Count - 1].lista_puntos[1].p.X)) ||
+                                        ((componentes[componentes.Count - 1].lista_puntos[0].p.X > componentes[componentes.Count - 1].lista_puntos[1].p.X) && (Clo.getPointAtDist(Clo.getPkFinal())[0] >= componentes[componentes.Count - 1].lista_puntos[1].p.X)))
+                                    {
+                                        //Dibujar_Clotoide(Clo);
+                                        double xx = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaX;
+                                        double yy = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaY;
+                                        Punto3d p3d = new Punto3d(xx, yy, 0);
+                                        Punto3d p3d2 = new Punto3d(Clo.getPointAtDist(0)[0], Clo.getPointAtDist(0)[1], 0);
+                                        Punto3d p3dc = new Punto3d(componentes[componentes.Count - 2].xc, componentes[componentes.Count - 2].yc, 0);
+                                        EjeDeTrazado.componentes.Curva Curvaa = new EjeDeTrazado.componentes.Curva(p3d, p3d2, p3dc, componentes[componentes.Count - 2].radio, 0, 0, componentes[componentes.Count - 2].direccion);
+                                        mcomponenetes.Add(Curvaa);
+                                        mcomponenetes.Add(Clo);
+                                        xx = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaX;
+                                        yy = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaY;
+                                        tadLayShare.puntos.Punto3d pl1 = new tadLayShare.puntos.Punto3d(xx, yy, 0);
+                                        tadLayShare.puntos.Punto3d pl2 = new tadLayShare.puntos.Punto3d(componentes[componentes.Count - 1].lista_puntos[componentes[componentes.Count - 1].lista_puntos.Count - 1].p.X, componentes[componentes.Count - 1].lista_puntos[componentes[componentes.Count - 1].lista_puntos.Count - 1].p.Y, 0);
 
+                                        EjeDeTrazado.componentes.Linea linea = new EjeDeTrazado.componentes.Linea(pl1, pl2, 0, 0, componentes[componentes.Count - 1].azr);
+                                        mcomponenetes.Add(linea);
+                                        break;
+                                    }
+                                    /*if ((componentes[componentes.Count - 1].lista_puntos[0].p.X < Clo.getPointAtDist(Clo.getPkFinal())[0] && Clo.getPointAtDist(Clo.getPkFinal())[0] < componentes[componentes.Count - 1].lista_puntos[1].p.X) || (componentes[componentes.Count - 1].lista_puntos[0].p.X > Clo.getPointAtDist(Clo.getPkFinal())[0] && Clo.getPointAtDist(Clo.getPkFinal())[0] > componentes[componentes.Count - 1].lista_puntos[1].p.X))
+                                    {
+                                        Dibujar_Clotoide(Clo);
+                                        break;
+                                    }*/
+                                    else
+                                    {
+                                        if (componentes[componentes.Count - 2].direccion == EjeTrazado.sentidoCurva.Antihorario)
+                                        {
+                                            Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
+                                        }
+                                        else
+                                        {
+                                            Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
+                                        }
+                                        //Dibujar_entidad(componentes.Count - 1);
+                                    }
+
+                                }
                             }
+
                         }
+                        else if (componentes[componentes.Count - 1].Tipo == 2 && componentes[componentes.Count - 2].Tipo == 1)//curva--recta--curva
+                        {
+                            EjeDeTrazado.componentes.Clotoide[] Clotoides = new EjeDeTrazado.componentes.Clotoide[2];
+                            Clotoides = Curva_Recta_Curva(componentes[componentes.Count - 3], componentes[componentes.Count - 2], componentes[componentes.Count - 1]);
 
-                    }
-                    else if (componentes[componentes.Count - 1].Tipo == 2 && componentes[componentes.Count - 2].Tipo == 1)//curva--recta--curva
-                    {
-                        EjeDeTrazado.componentes.Clotoide[] Clotoides = new EjeDeTrazado.componentes.Clotoide[2];
-                        Clotoides = Curva_Recta_Curva(componentes[componentes.Count - 3], componentes[componentes.Count - 2], componentes[componentes.Count - 1]);
+                            double[] pr1 = Clotoides[0].getPointAtDist(Clotoides[0].getPkFinal());
+                            double xx = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaX;
+                            double yy = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaY;
+                            Punto3d p3d = new Punto3d(xx, yy, 0);
+                            Punto3d p3d2 = new Punto3d(Clotoides[0].getPointAtDist(0)[0], Clotoides[0].getPointAtDist(0)[1], 0);
+                            Punto3d p3dc = new Punto3d(componentes[componentes.Count - 3].xc, componentes[componentes.Count - 3].yc, 0);
+                            EjeDeTrazado.componentes.Curva Curvaa = new EjeDeTrazado.componentes.Curva(p3d, p3d2, p3dc, componentes[componentes.Count - 3].radio, 0, 0, componentes[componentes.Count - 3].direccion);
+                            mcomponenetes.Add(Curvaa);
+                            mcomponenetes.Add(Clotoides[0]);
+                            xx = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaX;
+                            yy = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaY;
+                            tadLayShare.puntos.Punto3d pl1 = new tadLayShare.puntos.Punto3d(xx, yy, 0);
+                            tadLayShare.puntos.Punto3d pl2 = new tadLayShare.puntos.Punto3d(Clotoides[1].getPointAtDist(0)[0], Clotoides[1].getPointAtDist(0)[1], 0);
+                            EjeDeTrazado.componentes.Linea linea = new EjeDeTrazado.componentes.Linea(pl1, pl2, 0, 0, componentes[componentes.Count - 2].azr);
+                            mcomponenetes.Add(linea);
+                            mcomponenetes.Add(Clotoides[1]);
+                            xx = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaX;
+                            yy = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaY;
+                            p3d = new Punto3d(xx, yy, 0);
+                            p3d2 = new Punto3d(componentes[componentes.Count - 1].lista_puntos[componentes[componentes.Count - 1].lista_puntos.Count - 1].p.X, componentes[componentes.Count - 1].lista_puntos[componentes[componentes.Count - 1].lista_puntos.Count - 1].p.Y, 0);
+                            p3dc = new Punto3d(componentes[componentes.Count - 1].xc, componentes[componentes.Count - 1].yc, 0);
+                            EjeDeTrazado.componentes.Curva Curvaa2 = new EjeDeTrazado.componentes.Curva(p3d, p3d2, p3dc, componentes[componentes.Count - 1].radio, 0, 0, componentes[componentes.Count - 1].direccion);
+                            mcomponenetes.Add(Curvaa2);
 
-                        double[] pr1 = Clotoides[0].getPointAtDist(Clotoides[0].getPkFinal());
-                        double xx = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaX;
-                        double yy = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaY;
-                        Punto3d p3d = new Punto3d(xx, yy, 0);
-                        Punto3d p3d2 = new Punto3d(Clotoides[0].getPointAtDist(0)[0], Clotoides[0].getPointAtDist(0)[1], 0);
-                        Punto3d p3dc = new Punto3d(componentes[componentes.Count - 3].xc, componentes[componentes.Count - 3].yc, 0);
-                        EjeDeTrazado.componentes.Curva Curvaa = new EjeDeTrazado.componentes.Curva(p3d, p3d2, p3dc, componentes[componentes.Count - 3].radio, 0, 0, componentes[componentes.Count - 3].direccion);
-                        mcomponenetes.Add(Curvaa);
-                        mcomponenetes.Add(Clotoides[0]);
-                        xx = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaX;
-                        yy = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaY;
-                        tadLayShare.puntos.Punto3d pl1 = new tadLayShare.puntos.Punto3d(xx, yy, 0);
-                        tadLayShare.puntos.Punto3d pl2 = new tadLayShare.puntos.Punto3d(Clotoides[1].getPointAtDist(0)[0], Clotoides[1].getPointAtDist(0)[1], 0);
-                        EjeDeTrazado.componentes.Linea linea = new EjeDeTrazado.componentes.Linea(pl1, pl2, 0, 0, componentes[componentes.Count - 2].azr);
-                        mcomponenetes.Add(linea);
-                        mcomponenetes.Add(Clotoides[1]);
-                        xx = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaX;
-                        yy = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaY;
-                        p3d = new Punto3d(xx, yy, 0);
-                        p3d2 = new Punto3d(componentes[componentes.Count - 1].lista_puntos[componentes[componentes.Count - 1].lista_puntos.Count - 1].p.X, componentes[componentes.Count - 1].lista_puntos[componentes[componentes.Count - 1].lista_puntos.Count - 1].p.Y, 0);
-                        p3dc = new Punto3d(componentes[componentes.Count - 1].xc, componentes[componentes.Count - 1].yc, 0);
-                        EjeDeTrazado.componentes.Curva Curvaa2 = new EjeDeTrazado.componentes.Curva(p3d, p3d2, p3dc, componentes[componentes.Count - 1].radio, 0, 0, componentes[componentes.Count - 1].direccion);
-                        mcomponenetes.Add(Curvaa2);
+                            double[] pr2 = Clotoides[1].getPointAtDist(0);
 
-                        double[] pr2 = Clotoides[1].getPointAtDist(0);
+                        }
+                        else//curva--curva
+                        {
+                            Rellenar_Curva(componentes[componentes.Count - 2]);
+                            Rellenar_Curva(componentes[componentes.Count - 1]);
+                            EjeDeTrazado.componentes.Clotoide Clo = Curva_Curva(componentes[componentes.Count - 2], componentes[componentes.Count - 1]);
 
-                    }
-                    else//curva--curva
-                    {
-                        Rellenar_Curva(componentes[componentes.Count - 2]);
-                        Rellenar_Curva(componentes[componentes.Count - 1]);
-                        EjeDeTrazado.componentes.Clotoide Clo = Curva_Curva(componentes[componentes.Count - 2], componentes[componentes.Count - 1]);
-
-                    }
-                }
-                else
-                {
-                    if (componentes[1].Tipo == 1)
-                    {
-                        tadLayShare.puntos.Punto3d pl1 = new tadLayShare.puntos.Punto3d(mcomponenetes[0].getPuntoSalida.coordenadaX, mcomponenetes[0].getPuntoSalida.coordenadaY, 0);
-                        tadLayShare.puntos.Punto3d pl2 = new tadLayShare.puntos.Punto3d(componentes[1].lista_puntos[componentes[1].lista_puntos.Count - 1].p.X, componentes[1].lista_puntos[componentes[1].lista_puntos.Count - 1].p.Y, 0);
-
-                        EjeDeTrazado.componentes.Linea linea = new EjeDeTrazado.componentes.Linea(pl1, pl2, 0, 0, componentes[1].azr);
-                        mcomponenetes.Add(linea);
+                        }
                     }
                     else
                     {
-                        Punto3d p3d = new Punto3d(mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaX, mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaY, 0);
-                        Punto3d p3d2 = new Punto3d(componentes[1].lista_puntos[componentes[1].lista_puntos.Count - 1].p.X, componentes[1].lista_puntos[componentes[1].lista_puntos.Count - 1].p.Y, 0);
-                        Punto3d p3dc = new Punto3d(componentes[1].xc, componentes[1].yc, 0);
-                        EjeDeTrazado.componentes.Curva Curvaa = new EjeDeTrazado.componentes.Curva(p3d, p3d2, p3dc, componentes[1].radio, 0, 0, componentes[1].direccion);
-                        mcomponenetes.Add(Curvaa);
+                        if (componentes[1].Tipo == 1)
+                        {
+                            tadLayShare.puntos.Punto3d pl1 = new tadLayShare.puntos.Punto3d(mcomponenetes[0].getPuntoSalida.coordenadaX, mcomponenetes[0].getPuntoSalida.coordenadaY, 0);
+                            tadLayShare.puntos.Punto3d pl2 = new tadLayShare.puntos.Punto3d(componentes[1].lista_puntos[componentes[1].lista_puntos.Count - 1].p.X, componentes[1].lista_puntos[componentes[1].lista_puntos.Count - 1].p.Y, 0);
+
+                            EjeDeTrazado.componentes.Linea linea = new EjeDeTrazado.componentes.Linea(pl1, pl2, 0, 0, componentes[1].azr);
+                            mcomponenetes.Add(linea);
+                        }
+                        else
+                        {
+                            Punto3d p3d = new Punto3d(mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaX, mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaY, 0);
+                            Punto3d p3d2 = new Punto3d(componentes[1].lista_puntos[componentes[1].lista_puntos.Count - 1].p.X, componentes[1].lista_puntos[componentes[1].lista_puntos.Count - 1].p.Y, 0);
+                            Punto3d p3dc = new Punto3d(componentes[1].xc, componentes[1].yc, 0);
+                            EjeDeTrazado.componentes.Curva Curvaa = new EjeDeTrazado.componentes.Curva(p3d, p3d2, p3dc, componentes[1].radio, 0, 0, componentes[1].direccion);
+                            mcomponenetes.Add(Curvaa);
+                        }
                     }
                 }
             }
+            
         }
         private void Casos_Solapes(List<double> azimuts,List<Point2d> Puntos_rectas,double gran_r)
         {
@@ -15935,7 +16175,8 @@ namespace Logica
                 Rellenar_Componentes();
                 ///this.viabilidad();
                 
-                //this.viabilidad_Extremos();
+                this.viabilidad_Extremos();
+
             }
             /*
              * Caso 7
