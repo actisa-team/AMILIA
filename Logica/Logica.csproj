@@ -56,21 +56,6 @@
       <HintPath>..\..\..\..\..\..\..\..\Program Files\Autodesk\AutoCAD 2017\Autodesk.AutoCAD.Interop.Common.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
-    <Reference Include="Datos, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\APLITOP\bin\Debug\Datos.dll</HintPath>
-    </Reference>
-    <Reference Include="EjeDeTrazado, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\EjeDeTrazado\bin\Debug\EjeDeTrazado.dll</HintPath>
-    </Reference>
-    <Reference Include="engCadNet, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\APLITOP\bin\Debug\engCadNet.dll</HintPath>
-    </Reference>
-    <Reference Include="interfaz">
-      <HintPath>..\APLITOP\bin\Debug\interfaz.dll</HintPath>
-    </Reference>
     <Reference Include="MaterialSkin">
       <HintPath>..\packages\MaterialSkin.0.2.1\lib\MaterialSkin.dll</HintPath>
     </Reference>
@@ -83,13 +68,9 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="tadLayLan, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\engCadNet\bin\Debug\tadLayLan.dll</HintPath>
-    </Reference>
     <Reference Include="tadLayShare, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\engCadNet\bin\Debug\tadLayShare.dll</HintPath>
+      <HintPath>..\tadLayShare\bin\Debug\tadLayShare.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +126,24 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Datos\Datos.csproj">
+      <Project>{50bbc15a-c67c-4bc7-b565-a25a6c49fb85}</Project>
+      <Name>Datos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EjeDeTrazado\EjeDeTrazado.csproj">
+      <Project>{caf3e36e-1a68-4a90-bd3f-0b039f70496a}</Project>
+      <Name>EjeDeTrazado</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\engCadNet\engCadNet.csproj">
+      <Project>{f7b495ac-e395-4519-8723-3ba6ce2933fa}</Project>
+      <Name>engCadNet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\tadLayLan\tadLayLan.csproj">
+      <Project>{63f26170-bf7a-413e-9417-fc663f706173}</Project>
+      <Name>tadLayLan</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

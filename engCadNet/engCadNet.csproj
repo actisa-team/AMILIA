@@ -122,6 +122,10 @@
       <Project>{63f26170-bf7a-413e-9417-fc663f706173}</Project>
       <Name>tadLayLan</Name>
     </ProjectReference>
+    <ProjectReference Include="..\tadLayShare\tadLayShare.csproj">
+      <Project>{a184dfb3-80f5-46c0-802b-bf8b6996b5fa}</Project>
+      <Name>tadLayShare</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

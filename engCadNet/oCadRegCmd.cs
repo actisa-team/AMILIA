@@ -12,6 +12,7 @@ namespace engCadNet
 
     using Autodesk.AutoCAD.DatabaseServices;
     using Autodesk.AutoCAD.Runtime;
+    using RegistryKey = Autodesk.AutoCAD.Runtime.RegistryKey;
 
 
     /// <summary>
@@ -151,7 +152,7 @@ namespace engCadNet
         )
         {
             // Choose a Registry hive based on the function input
-            RegistryKey hive = (currentUser ? Registry.CurrentUser : Registry.LocalMachine);
+            RegistryKey hive = (currentUser ? Autodesk.AutoCAD.Runtime.Registry.CurrentUser : Autodesk.AutoCAD.Runtime.Registry.LocalMachine);
 
 
             // Open the main AutoCAD (or vertical) and "Applications" keys
@@ -230,8 +231,8 @@ namespace engCadNet
 
                 RegistryKey hive =
                   (currentUser ?
-                    Registry.CurrentUser :
-                    Registry.LocalMachine);
+                    Autodesk.AutoCAD.Runtime.Registry.CurrentUser :
+                    Autodesk.AutoCAD.Runtime.Registry.LocalMachine);
 
                 // Open the main AutoCAD (vertical) and "Applications" keys
 

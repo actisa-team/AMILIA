@@ -187,7 +187,7 @@ namespace interfaz
                         {
                             n_curvas = 2;
                         }
-                        Logica.CalculoPolilinea calculo = new CalculoPolilinea(ref a, opcion, ratio, it);
+                        CalculoPolilinea calculo = new CalculoPolilinea(ref a, opcion, ratio, it);
 
                         /*
                          * 
