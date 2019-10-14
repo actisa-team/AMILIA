@@ -1,0 +1,538 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="uiAbaAnguloTotal" xml:space="preserve">
+    <value>Ángulo total [º]</value>
+  </data>
+  <data name="uiAbaGradosDiscretizacion" xml:space="preserve">
+    <value>Grados discretización [º]</value>
+  </data>
+  <data name="uiAbaInvalidarTramosIncrementoLongitud" xml:space="preserve">
+    <value>Invalidar tramos con incremento longitud [%]</value>
+  </data>
+  <data name="uiAbaToleranciaPuntoObjetivo" xml:space="preserve">
+    <value>Tolerancia hacia el punto objetivo [%]</value>
+  </data>
+  <data name="uiAbaTramoDiscretizacion" xml:space="preserve">
+    <value>Discretización tramo [m]</value>
+  </data>
+  <data name="uiBtnCrearNombreSolucion" xml:space="preserve">
+    <value>Generar nombre</value>
+  </data>
+  <data name="uiBtnEjeBasico" xml:space="preserve">
+    <value>Generar eje básico...</value>
+  </data>
+  <data name="uiCoeMinAlturaMaximaPila" xml:space="preserve">
+    <value>Coeficiente minoración altura máxima pila [0-1]</value>
+  </data>
+  <data name="uiCoeMinDesmonteAlturaMaxima" xml:space="preserve">
+    <value>Coeficiente minoración altura máxima desmonte [0-1]</value>
+  </data>
+  <data name="uiCoeMinPendienteMaximaEstructuras" xml:space="preserve">
+    <value>Coeficiente minoración pendiente máxima estructuras [0-1]</value>
+  </data>
+  <data name="uiCoeMinPendienteMaximaRoad" xml:space="preserve">
+    <value>Coeficiente minoración pendiente máxima trazado [0-1]</value>
+  </data>
+  <data name="uiCoeMinTerraplenAlturaMaxima" xml:space="preserve">
+    <value>Coeficiente minoración altura máxima terraplen [0-1]</value>
+  </data>
+  <data name="uiEjeBasico" xml:space="preserve">
+    <value>Eje básico</value>
+  </data>
+  <data name="uiEjeTrazado" xml:space="preserve">
+    <value>Eje trazado</value>
+  </data>
+  <data name="uiEjeVisibilidad" xml:space="preserve">
+    <value>Eje visibilidad</value>
+  </data>
+  <data name="uiEjeVisibilidadAutomatico" xml:space="preserve">
+    <value>Generar eje visibilidad automático</value>
+  </data>
+  <data name="uiEjeVisibilidadUsuario" xml:space="preserve">
+    <value>Seleccionar eje visibilidad</value>
+  </data>
+  <data name="uiEstructurasPendienteMaximaPC" xml:space="preserve">
+    <value>Pendiente máxima  [%]</value>
+  </data>
+  <data name="uiEstructurasPendienteMinimaPC" xml:space="preserve">
+    <value>Pendiente mínima [%]</value>
+  </data>
+  <data name="uiEstudioPrevioAnchoPlataforma" xml:space="preserve">
+    <value>Ancho de plataforma [m]</value>
+  </data>
+  <data name="uiEstudioPrevioCosteDesmonte" xml:space="preserve">
+    <value>Coste de desmonte [€/m3]</value>
+  </data>
+  <data name="uiEstudioPrevioCosteImplantacion" xml:space="preserve">
+    <value>Coste de implantación  [€/m2]</value>
+  </data>
+  <data name="uiEstudioPrevioCostePuentes" xml:space="preserve">
+    <value>Coste de puentes y viaductos [€/m2]</value>
+  </data>
+  <data name="uiEstudioPrevioCosteTerraplen" xml:space="preserve">
+    <value>Coste de terraplén [€/m3]</value>
+  </data>
+  <data name="uiEstudioPrevioCosteTuneles" xml:space="preserve">
+    <value>Coste de túneles [€/Km]</value>
+  </data>
+  <data name="uiEstudioPrevioDesmonteAlturaMaxima" xml:space="preserve">
+    <value>Altura máxima desmonte [m]</value>
+  </data>
+  <data name="uiEstudioPrevioDesmonteTalud" xml:space="preserve">
+    <value>Talud desmonte  [t h: 1v]</value>
+  </data>
+  <data name="uiEstudioPrevioPuenteAlturaMaxima" xml:space="preserve">
+    <value>Altura máxima pila [m]</value>
+  </data>
+  <data name="uiEstudioPrevioTerraplenAlturaMaxima" xml:space="preserve">
+    <value>Altura máxima terraplén [m]</value>
+  </data>
+  <data name="uiEstudioPrevioTerraplenTalud" xml:space="preserve">
+    <value>Talud terraplén [t h: 1v]</value>
+  </data>
+  <data name="uiGenerarEjeBasico" xml:space="preserve">
+    <value>Generar eje básico...</value>
+  </data>
+  <data name="uiGrAbanico" xml:space="preserve">
+    <value>Valoración dinámica de trazados</value>
+  </data>
+  <data name="uiGrCoeficientesMinoracion" xml:space="preserve">
+    <value>Análisis sensibilidad coeficiente minoración</value>
+  </data>
+  <data name="uiGrEstructuras" xml:space="preserve">
+    <value>Estructuras</value>
+  </data>
+  <data name="uiGrEstructurasPendiente" xml:space="preserve">
+    <value>Pendientes estructuras (Puentes y túneles)</value>
+  </data>
+  <data name="uiGrEstudioPrevioCostesGlobales" xml:space="preserve">
+    <value>Costes globales de implantación</value>
+  </data>
+  <data name="uiGrEstudioPrevioGeometria" xml:space="preserve">
+    <value>Datos geometría</value>
+  </data>
+  <data name="uiGrRoadPendientes" xml:space="preserve">
+    <value>Pendientes de trazado</value>
+  </data>
+  <data name="uiGrSolucion" xml:space="preserve">
+    <value>Datos solución</value>
+  </data>
+  <data name="uiGrupo" xml:space="preserve">
+    <value>Grupo</value>
+  </data>
+  <data name="uiGrValoracion" xml:space="preserve">
+    <value>Ponderación variables para valoración dinámica de trazados</value>
+  </data>
+  <data name="uiNombre" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
+  <data name="uiObraLineal" xml:space="preserve">
+    <value>Obra lineal</value>
+  </data>
+  <data name="uiPerfilLongitudinal" xml:space="preserve">
+    <value>Perfil longitudinal</value>
+  </data>
+  <data name="uiPuenteGenerar" xml:space="preserve">
+    <value>Generar puentes y viaductos</value>
+  </data>
+  <data name="uiRoadAijConsiderarConstante" xml:space="preserve">
+    <value>Considerar Aij constante</value>
+  </data>
+  <data name="uiRoadAijMaximo" xml:space="preserve">
+    <value>Aij máximo tramo [m]</value>
+  </data>
+  <data name="uiRoadAijMinimo" xml:space="preserve">
+    <value>Aij mínimo tramo [m]</value>
+  </data>
+  <data name="uiRoadAvanceMaximo" xml:space="preserve">
+    <value>Avance máximo</value>
+  </data>
+  <data name="uiRoadGrupo" xml:space="preserve">
+    <value>Grupo</value>
+  </data>
+  <data name="uiRoadKvConcavo" xml:space="preserve">
+    <value>Kv cóncavo</value>
+  </data>
+  <data name="uiRoadKvConvexo" xml:space="preserve">
+    <value>Kv convexo</value>
+  </data>
+  <data name="uiRoadKvDeseable" xml:space="preserve">
+    <value>Deseable</value>
+  </data>
+  <data name="uiRoadKvMinimo" xml:space="preserve">
+    <value>Mínimo</value>
+  </data>
+  <data name="uiRoadPendienteMaximaPC" xml:space="preserve">
+    <value>Pendiente máxima trazado [%]</value>
+  </data>
+  <data name="uiRoadPendienteMinimaPC" xml:space="preserve">
+    <value>Pendiente mínima trazado [%]</value>
+  </data>
+  <data name="uiRoadPermitirReduccionesVelocidad" xml:space="preserve">
+    <value>Permitir reducciones puntuales velocidad</value>
+  </data>
+  <data name="uiRoadPreferencias" xml:space="preserve">
+    <value>Preferencias [Rectas\Curvas]</value>
+  </data>
+  <data name="uiRoadPreferenciasCurvas" xml:space="preserve">
+    <value>Curvas</value>
+  </data>
+  <data name="uiRoadPreferenciasKv" xml:space="preserve">
+    <value>Preferencias Kv</value>
+  </data>
+  <data name="uiRoadPreferenciasRectas" xml:space="preserve">
+    <value>Rectas</value>
+  </data>
+  <data name="uiRoadRadio" xml:space="preserve">
+    <value>Radio proyecto [m]</value>
+  </data>
+  <data name="uiRoadSelect" xml:space="preserve">
+    <value>Seleccionar carretera</value>
+  </data>
+  <data name="uiRoadValorMinimoSalidaLlegada" xml:space="preserve">
+    <value>Valor mínimo salida-llegada [m]</value>
+  </data>
+  <data name="uiRoadVelocidad" xml:space="preserve">
+    <value>Velocidad proyecto [km/h]</value>
+  </data>
+  <data name="uiSeleccion" xml:space="preserve">
+    <value>Selección</value>
+  </data>
+  <data name="uiSolucionGenerarEnvolventeMaxMin" xml:space="preserve">
+    <value>Generar envolvente máxima-mínima</value>
+  </data>
+  <data name="uiSolucionNombre" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
+  <data name="uiSolucionOptAvancesCortos" xml:space="preserve">
+    <value>Avances cortos</value>
+  </data>
+  <data name="uiSolucionOptAvancesLargos" xml:space="preserve">
+    <value>Avances largos</value>
+  </data>
+  <data name="uiTabCarretera" xml:space="preserve">
+    <value>Carretera</value>
+  </data>
+  <data name="uiTabEstudioPrevio" xml:space="preserve">
+    <value>Geometría y costes</value>
+  </data>
+  <data name="uiTabOptAvanzadas1" xml:space="preserve">
+    <value>Opc. Avanzadas 1</value>
+  </data>
+  <data name="uiTabOptAvanzadas2" xml:space="preserve">
+    <value>Opc. Avanzadas 2</value>
+  </data>
+  <data name="uiTabPendientes" xml:space="preserve">
+    <value>Pendientes</value>
+  </data>
+  <data name="uiTabValoracion" xml:space="preserve">
+    <value>Valoración</value>
+  </data>
+  <data name="uiTunelesGenerar" xml:space="preserve">
+    <value>Generar túneles</value>
+  </data>
+  <data name="uiValoracionCostesPC" xml:space="preserve">
+    <value>Valoración por coste global [%]</value>
+  </data>
+  <data name="uiValoracionDistanciaPC" xml:space="preserve">
+    <value>Valoración por distancia [%]</value>
+  </data>
+  <data name="uiValoracionPendientePC" xml:space="preserve">
+    <value>Valoración por orografía de implantación [%]</value>
+  </data>
+  <data name="uiObraLinealExportar" xml:space="preserve">
+    <value>Exportar planta y secciones</value>
+  </data>
+  <data name="uiObraLinealExport" xml:space="preserve">
+    <value>Exportar</value>
+  </data>
+  <data name="uiPeraltePC" xml:space="preserve">
+    <value>Peralte [%]</value>
+  </data>
+  <data name="uiEjeTrazadoRotular" xml:space="preserve">
+    <value>Rotular</value>
+  </data>
+  <data name="uiCrear" xml:space="preserve">
+    <value>Crear...</value>
+  </data>
+  <data name="uiRotular" xml:space="preserve">
+    <value>Rotular...</value>
+  </data>
+  <data name="uiInformeVer" xml:space="preserve">
+    <value>Ver Informe...</value>
+  </data>
+  <data name="uiDistancia" xml:space="preserve">
+    <value>Distancia [m]</value>
+  </data>
+  <data name="uiCorredores" xml:space="preserve">
+    <value>Crear corredores</value>
+  </data>
+  <data name="uiBtnEjeBasicoManual" xml:space="preserve">
+    <value>Generar eje básico manual</value>
+  </data>
+  <data name="uiBtnEjeBasicoPM" xml:space="preserve">
+    <value>Generar eje básico (punto medio)</value>
+  </data>
+  <data name="uiRepetionesMax" xml:space="preserve">
+    <value>Nº max de repeticiones</value>
+  </data>
+  <data name="uiAutocorrecion" xml:space="preserve">
+    <value>Autocorrección</value>
+  </data>
+  <data name="uiObligadoAbanicosCortos" xml:space="preserve">
+    <value>El eje trazado al punto medio solo se puede hacer con avances cortos.</value>
+  </data>
+  <data name="uiCreandoSecciones" xml:space="preserve">
+    <value>\nCreando Secciones</value>
+    <comment>Poner la \n en todos los idiomas</comment>
+  </data>
+  <data name="uiGenerandoMediciones" xml:space="preserve">
+    <value>\nGenerando Mediciones</value>
+    <comment>Poner la \n en todos los idiomas</comment>
+  </data>
+  <data name="uiGenerandoPlanta" xml:space="preserve">
+    <value>\nGenerando Planta</value>
+    <comment>Poner la \n en todos los idiomas</comment>
+  </data>
+  <data name="uiGenerandoSecciones" xml:space="preserve">
+    <value>\nGenerando Secciones</value>
+    <comment>Poner la \n en todos los idiomas</comment>
+  </data>
+  <data name="uiGuardandoSecciones" xml:space="preserve">
+    <value>\nGuardando Secciones</value>
+    <comment>Poner la \n en todos los idiomas</comment>
+  </data>
+  <data name="uiNoSelPolilinea" xml:space="preserve">
+    <value>No has seleccionado una polilínea</value>
+  </data>
+  <data name="uiPlanta" xml:space="preserve">
+    <value>_Planta</value>
+    <comment>Sin espacios y con la _</comment>
+  </data>
+  <data name="uiSeccion" xml:space="preserve">
+    <value>_Sección</value>
+    <comment>Sin espacios y con la _</comment>
+  </data>
+  <data name="uiSeleccionaEjeVisibilidad" xml:space="preserve">
+    <value>Selecciona Eje Visibilidad</value>
+  </data>
+  <data name="uiNomEnvMaxima" xml:space="preserve">
+    <value>002_EnvolventeMáxima</value>
+    <comment>sin espacios</comment>
+  </data>
+  <data name="uiNomEnvMinima" xml:space="preserve">
+    <value>003_EnvolventeMínima</value>
+    <comment>sin espacios</comment>
+  </data>
+  <data name="uiNomSolPrimaria" xml:space="preserve">
+    <value>001_Primaria</value>
+    <comment>sin espacios</comment>
+  </data>
+  <data name="uiSelTramoGanador" xml:space="preserve">
+    <value>Seleccione el tramo ganador</value>
+  </data>
+  <data name="uiEjeVisibilidadGlobal" xml:space="preserve">
+    <value>Eje de visibilidad global</value>
+  </data>
+  <data name="uiEjeVisibilidadGlobalCrear" xml:space="preserve">
+    <value>Crear eje de visibilidad global</value>
+  </data>
+  <data name="uiFerrocarriles" xml:space="preserve">
+    <value>Ferrocarriles</value>
+  </data>
+  <data name="uiPendMaxFiltroCotas" xml:space="preserve">
+    <value>Pendiente máxima – filtro cotas</value>
+  </data>
+  <data name="uiPendMaxFiltroTerreno" xml:space="preserve">
+    <value>Pendiente máxima – filtro terreno</value>
+  </data>
+  <data name="uiSeparacionCarreteras" xml:space="preserve">
+    <value>Separación para carreteras</value>
+  </data>
+  <data name="uiSeparacionFerrocarril" xml:space="preserve">
+    <value>Separación para ferrocarriles</value>
+  </data>
+  <data name="uiAplicarGranRadio" xml:space="preserve">
+    <value>Aplicar curvas de gran radio</value>
+  </data>
+  <data name="uiBtnEjeBasicoTijera" xml:space="preserve">
+    <value>Trazado Tijera</value>
+  </data>
+  <data name="uiChBLongitudLimitada" xml:space="preserve">
+    <value>Longitud limitada de recta</value>
+  </data>
+  <data name="uiChBLongitudMaxima" xml:space="preserve">
+    <value>Longitud máxima de recta</value>
+  </data>
+  <data name="uiChBLongitudMinima" xml:space="preserve">
+    <value>Longitud mínima de recta</value>
+  </data>
+  <data name="uiChBSinRectas" xml:space="preserve">
+    <value>Enlace por clotoides</value>
+  </data>
+  <data name="uiEntronqueSegundos" xml:space="preserve">
+    <value>Tiempo máximo de entronque [seg]</value>
+  </data>
+  <data name="uiGrAddRectas" xml:space="preserve">
+    <value>Añadir tramos</value>
+  </data>
+  <data name="uiGranRadio" xml:space="preserve">
+    <value>Radio [m]</value>
+  </data>
+  <data name="uiGrCurvas" xml:space="preserve">
+    <value>Curvas</value>
+  </data>
+  <data name="uiIncluirLongitudTramos" xml:space="preserve">
+    <value>Incluir longitud de los tramos</value>
+  </data>
+  <data name="uiTabTijera" xml:space="preserve">
+    <value>Tijera</value>
+  </data>
+  <data name="uiDistDistEntronque" xml:space="preserve">
+    <value>Distancia de entronque [m]</value>
+  </data>
+  <data name="uiDistDistEntronqueDestinoPC" xml:space="preserve">
+    <value>Inicio de pto de entronque desde destino [%]</value>
+  </data>
+  <data name="uiDistDistEntronqueOrigenPC" xml:space="preserve">
+    <value>Inicio de pto de entronque desde origen [%]</value>
+  </data>
+  <data name="uiPenalizarTramosCortos" xml:space="preserve">
+    <value>Penalizar alternativa convergencia por incumplimiento de normativa en tramos cortos</value>
+  </data>
+  <data name="ucRadioCondicionadoLmin" xml:space="preserve">
+    <value>Radios de curvas condicionados a longitudes de rectas según criterio de Llim</value>
+  </data>
+  <data name="uiDitanciaEntronquePC" xml:space="preserve">
+    <value>Converger a % del punto de inicio y fin</value>
+  </data>
+  <data name="ucCoefDistanciaEje" xml:space="preserve">
+    <value>Coeficiente distancia eje de visib.</value>
+  </data>
+  <data name="ucCoefDistanciaTramo" xml:space="preserve">
+    <value>Coeficiente longitud tramo</value>
+  </data>
+  <data name="uiChDescartarAlternCortas" xml:space="preserve">
+    <value>Descartar si longitud inferior a:[m]</value>
+  </data>
+  <data name="uiCrearInformeMedicionesSecciones" xml:space="preserve">
+    <value>Crear informe mediciones</value>
+  </data>
+</root>

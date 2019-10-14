@@ -1,0 +1,379 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="uiARC" xml:space="preserve">
+    <value>Couches de la bande d'arrêt</value>
+  </data>
+  <data name="uiASI" xml:space="preserve">
+    <value>Couches de sécurité</value>
+  </data>
+  <data name="uiBER" xml:space="preserve">
+    <value>Couches de berme</value>
+  </data>
+  <data name="uiCapaAsientoMaterial" xml:space="preserve">
+    <value>Matériau couches de sécurité</value>
+  </data>
+  <data name="uiCapaAsientoRendimientoPC" xml:space="preserve">
+    <value>Utilisation pour couches de sécurité [%]</value>
+  </data>
+  <data name="uiCapaAsientoValido" xml:space="preserve">
+    <value>Valable pour couches de sécurité?</value>
+  </data>
+  <data name="uiCapaFirmeRendimiento" xml:space="preserve">
+    <value>Utilisation pour fabriquer matériau granulaire [%]</value>
+  </data>
+  <data name="uiCapaGranularesRendimientoPC" xml:space="preserve">
+    <value>Utilisation pour couches de revêtement [%]</value>
+  </data>
+  <data name="uiCBR" xml:space="preserve">
+    <value>CBR</value>
+  </data>
+  <data name="uiCoeficienteEsponjamiento" xml:space="preserve">
+    <value>Coefficient de foisonnement</value>
+  </data>
+  <data name="uiCoeficientePasoTerraplen" xml:space="preserve">
+    <value>Coefficient de passage en remblai</value>
+  </data>
+  <data name="uiColor" xml:space="preserve">
+    <value>Couleur</value>
+  </data>
+  <data name="uiDesbroceEspesor" xml:space="preserve">
+    <value>Épaisseur de défrichage</value>
+  </data>
+  <data name="uiDesbroceMaterial" xml:space="preserve">
+    <value>Matériau de défrichage</value>
+  </data>
+  <data name="uiDetalle" xml:space="preserve">
+    <value>Détail</value>
+  </data>
+  <data name="uiEspesor" xml:space="preserve">
+    <value>Épaisseur [m]</value>
+  </data>
+  <data name="uiEspesorTotal" xml:space="preserve">
+    <value>Épaisseur totale :{0} [m]</value>
+  </data>
+  <data name="uiExcaMartillo" xml:space="preserve">
+    <value>Excavation avec utilisation de marteau pneumatique</value>
+  </data>
+  <data name="uiExcaMediosConvencionales" xml:space="preserve">
+    <value>Excavation pour les moyens conventionnels</value>
+  </data>
+  <data name="uiExcaNivelFreatico" xml:space="preserve">
+    <value>Excavation avec utilisation de systèmes d'épuisement des eaux</value>
+  </data>
+  <data name="uiExcavabilidad" xml:space="preserve">
+    <value>Possibilité d'excavation</value>
+  </data>
+  <data name="uiExcavacionMaterial" xml:space="preserve">
+    <value>Matériau d'excavation</value>
+  </data>
+  <data name="uiExcavacionTerraplenPC" xml:space="preserve">
+    <value>Coefficient d'utilisation pour remblai [%]</value>
+  </data>
+  <data name="uiExcaVertedero2Fases" xml:space="preserve">
+    <value>Excavation avec utilisation d'excavations en deux phases</value>
+  </data>
+  <data name="uiExcaVoladuras" xml:space="preserve">
+    <value>Excavation avec utilisation d'explosifs</value>
+  </data>
+  <data name="uiFIR" xml:space="preserve">
+    <value>Couches de revêtement</value>
+  </data>
+  <data name="uiFirmeMaterial" xml:space="preserve">
+    <value>Matériau granulaire</value>
+  </data>
+  <data name="uiGrupoGeologico" xml:space="preserve">
+    <value>Groupe géologique</value>
+  </data>
+  <data name="uiGrupoLitologico" xml:space="preserve">
+    <value>Groupe lithologique</value>
+  </data>
+  <data name="uiMaterial" xml:space="preserve">
+    <value>Matériau</value>
+  </data>
+  <data name="uiOrden" xml:space="preserve">
+    <value>Ordre</value>
+  </data>
+  <data name="uiPendienteMaximaTerreno" xml:space="preserve">
+    <value>Pente maximale recommandable pour terrain [%]</value>
+  </data>
+  <data name="uiSaneoDesmonteCode" xml:space="preserve">
+    <value>Matériau purge en déblai</value>
+  </data>
+  <data name="uiSaneoDesmonteEspesor" xml:space="preserve">
+    <value>Épaisseur purge en déblai[m]</value>
+  </data>
+  <data name="uiSaneoTerraplenCode" xml:space="preserve">
+    <value>Matériau purge sous remblai</value>
+  </data>
+  <data name="uiSaneoTerraplenEspesor" xml:space="preserve">
+    <value>Épaisseur purge sous remblai [m]</value>
+  </data>
+  <data name="uiTaludProtecciones" xml:space="preserve">
+    <value>Protections talus</value>
+  </data>
+  <data name="uiTaludProtecFlexibles" xml:space="preserve">
+    <value>Talus avec protections flexibles</value>
+  </data>
+  <data name="uiTaludProtecRigidas" xml:space="preserve">
+    <value>Talus avec protections rigides ou ancrages</value>
+  </data>
+  <data name="uiTaludProtecSin" xml:space="preserve">
+    <value>Talus sans protection</value>
+  </data>
+  <data name="uiTerraplenMaterial" xml:space="preserve">
+    <value>Matériaux de remblai</value>
+  </data>
+  <data name="uiTNS" xml:space="preserve">
+    <value>TNS</value>
+  </data>
+  <data name="uiZahorrasValido" xml:space="preserve">
+    <value>Valable pour graves?</value>
+  </data>
+  <data name="uiBermaPie" xml:space="preserve">
+    <value>Commencer avec berme au dessous</value>
+  </data>
+  <data name="uiBermaX" xml:space="preserve">
+    <value>Valeur de (a) [m]</value>
+  </data>
+  <data name="uiBermaY" xml:space="preserve">
+    <value>Valeur de (h) [m]</value>
+  </data>
+  <data name="uiBtnCopiarFirmeViario" xml:space="preserve">
+    <value>Copier couche de revêtement à couche de la bande d'arrêt</value>
+  </data>
+  <data name="uiCapasBerma" xml:space="preserve">
+    <value>Zone berme</value>
+  </data>
+  <data name="uiCopiarFirmeArcen" xml:space="preserve">
+    <value>Aides</value>
+  </data>
+  <data name="uiDesmonteMuroHmax" xml:space="preserve">
+    <value>Hauteur maximale de mur (H) [m]</value>
+  </data>
+  <data name="uiMuroEmpotramiento" xml:space="preserve">
+    <value>Encastrement [m]</value>
+  </data>
+  <data name="uiMuroEspesor" xml:space="preserve">
+    <value>Épaisseur moyenne du mur [m]</value>
+  </data>
+  <data name="uiTabCapas" xml:space="preserve">
+    <value>Couches</value>
+  </data>
+  <data name="uiTabDatos" xml:space="preserve">
+    <value>Données généraux</value>
+  </data>
+  <data name="uiTabDesmonte" xml:space="preserve">
+    <value>Déblai</value>
+  </data>
+  <data name="uiTabExcPro" xml:space="preserve">
+    <value>Possibilité d'excavation et protections du talus</value>
+  </data>
+  <data name="uiTabTerraplen" xml:space="preserve">
+    <value>Terre plein</value>
+  </data>
+  <data name="uiTalud" xml:space="preserve">
+    <value>Talus [Th: 1v]</value>
+  </data>
+  <data name="uiTaludAlturaMaxEje" xml:space="preserve">
+    <value>Hauteur maximale d'axis (H) [m]</value>
+  </data>
+  <data name="uiTaludBermas" xml:space="preserve">
+    <value>Talus avec bermes</value>
+  </data>
+  <data name="uiTaludConstante" xml:space="preserve">
+    <value>Constant</value>
+  </data>
+  <data name="uiTaludDesMur" xml:space="preserve">
+    <value>Mur à côté</value>
+  </data>
+  <data name="uiTaludTerMuro" xml:space="preserve">
+    <value>Talus sur mur</value>
+  </data>
+  <data name="uiTerraplenMuroHmax" xml:space="preserve">
+    <value>Hauteur maximale de talus (H) [m]</value>
+  </data>
+  <data name="uiIndicaValor" xml:space="preserve">
+    <value>Indiquez une valeur</value>
+  </data>
+  <data name="uiIndicaGrupo" xml:space="preserve">
+    <value>Groupe?</value>
+  </data>
+  <data name="uiIndicaNombre" xml:space="preserve">
+    <value>Nom?</value>
+  </data>
+  <data name="uiCapasMustSave" xml:space="preserve">
+    <value>Pour assigner les couches, vous devez sauvegarder le registre actuel</value>
+  </data>
+  <data name="uiCapasCountCero" xml:space="preserve">
+    <value>Vous n'avez pas configuré la liste de couches de revêtement, sécurité ou bande d'arrêt</value>
+  </data>
+  <data name="uiCapasIdNull" xml:space="preserve">
+    <value>Erreur / La valeur de zone est nulle</value>
+  </data>
+  <data name="uiUserExcavabilidadNot100" xml:space="preserve">
+    <value>La somme des pourcentages de possibilité d'excavation n'est pas 100</value>
+  </data>
+  <data name="uiUserTaludProteccioNot100" xml:space="preserve">
+    <value>La somme des pourcentages de protection de talus n'est pas 100</value>
+  </data>
+  <data name="uiGrListadosZonas" xml:space="preserve">
+    <value>Liste de zones géotechniques</value>
+  </data>
+  <data name="uiLblFrm" xml:space="preserve">
+    <value>Fiche géotechnique - Terrassement</value>
+  </data>
+  <data name="uiLblFrmManager" xml:space="preserve">
+    <value>Administrateur Fiches géotechniques; Terrassement</value>
+  </data>
+  <data name="uiUserZonaGeneralIsMayor1" xml:space="preserve">
+    <value>On peut définir une seule zone générale</value>
+  </data>
+  <data name="uiUserZonaGeneralIsZero" xml:space="preserve">
+    <value>Vous devez définir une zone générale</value>
+  </data>
+  <data name="userAprovechamiento" xml:space="preserve">
+    <value>Les coefficients d'utilisation ne sont pas proprement configurés. 
+(Couche remblai &gt; Couche sécurité &gt; Couche revêtement)</value>
+  </data>
+  <data name="uiIsSaneoDesmonte" xml:space="preserve">
+    <value>Configurer purge en déblai</value>
+  </data>
+  <data name="uiIsSaneoTerraplen" xml:space="preserve">
+    <value>Configurer purge sous remblai</value>
+  </data>
+  <data name="uiMaterialMuro" xml:space="preserve">
+    <value>Matériau du mur</value>
+  </data>
+  <data name="uiSaneoTerraplenAlturaEscalon" xml:space="preserve">
+    <value>Hauteur de marche [m]</value>
+  </data>
+  <data name="uiSaneoTerraplenPendMaxSinEscalon" xml:space="preserve">
+    <value>Pente maximale sans marche [%]</value>
+  </data>
+  <data name="uiValoracionExcavabilidad" xml:space="preserve">
+    <value>Évaluation subjective procédés d'excavation</value>
+  </data>
+  <data name="uiValoracionTaludProtecciones" xml:space="preserve">
+    <value>Évaluation subjective protections talus</value>
+  </data>
+  <data name="uiZonaDefault" xml:space="preserve">
+    <value>Zone générale de terrassement</value>
+  </data>
+</root>

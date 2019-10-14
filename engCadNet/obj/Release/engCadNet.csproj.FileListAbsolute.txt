@@ -1,0 +1,14 @@
+D:\VisualNet\DITEL\engCadNet\bin\Release\engCadNet.dll
+D:\VisualNet\DITEL\engCadNet\bin\Release\engCadNet.pdb
+D:\VisualNet\DITEL\engCadNet\bin\Release\engNet.dll
+D:\VisualNet\DITEL\engCadNet\bin\Release\tadLayLan.dll
+D:\VisualNet\DITEL\engCadNet\bin\Release\tadLayShare.dll
+D:\VisualNet\DITEL\engCadNet\bin\Release\engNet.pdb
+D:\VisualNet\DITEL\engCadNet\bin\Release\tadLayLan.pdb
+D:\VisualNet\DITEL\engCadNet\bin\Release\tadLayShare.pdb
+D:\VisualNet\DITEL\engCadNet\bin\Release\en\tadLayLan.resources.dll
+D:\VisualNet\DITEL\engCadNet\bin\Release\fr\tadLayLan.resources.dll
+D:\VisualNet\DITEL\engCadNet\obj\Release\engCadNet.csprojResolveAssemblyReference.cache
+D:\VisualNet\DITEL\engCadNet\obj\Release\engCadNet.csproj.CoreCompileInputs.cache
+D:\VisualNet\DITEL\engCadNet\obj\Release\engCadNet.dll
+D:\VisualNet\DITEL\engCadNet\obj\Release\engCadNet.pdb

@@ -1,0 +1,286 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="uiVerSeccion" xml:space="preserve">
+    <value>See Section...</value>
+  </data>
+  <data name="uiAdminSecciones" xml:space="preserve">
+    <value>Sections Administrator</value>
+  </data>
+  <data name="uiAltura" xml:space="preserve">
+    <value>Height [m]</value>
+  </data>
+  <data name="uiAncho" xml:space="preserve">
+    <value>Width [m]</value>
+  </data>
+  <data name="uiAnchoCarril" xml:space="preserve">
+    <value>Lane Width [m]</value>
+  </data>
+  <data name="uiAnchoInferior" xml:space="preserve">
+    <value>Lower Width [m]</value>
+  </data>
+  <data name="uiAnchoSuperior" xml:space="preserve">
+    <value>Upper Width [m]</value>
+  </data>
+  <data name="uiArcenExtAncho" xml:space="preserve">
+    <value>Outer Hard Shoulder Width [m]</value>
+  </data>
+  <data name="uiArcenIntAncho" xml:space="preserve">
+    <value>Inner Hard Shoulder Width [m]</value>
+  </data>
+  <data name="uiBermaExtAncho" xml:space="preserve">
+    <value>Outer Berm Width [m]</value>
+  </data>
+  <data name="uiBermaExtPendiente" xml:space="preserve">
+    <value>Outer Berm Slope [%]</value>
+  </data>
+  <data name="uiBermaIntPendiente" xml:space="preserve">
+    <value>Inner Berm Slope [%]</value>
+  </data>
+  <data name="uiCalzadaDoble" xml:space="preserve">
+    <value>Double Roads</value>
+  </data>
+  <data name="uiCalzadaUnica" xml:space="preserve">
+    <value>Simple Road</value>
+  </data>
+  <data name="uiCARRETERAS" xml:space="preserve">
+    <value>Roads</value>
+  </data>
+  <data name="uiCarrilesMargenDerechaNum" xml:space="preserve">
+    <value>Lanes on the right side [units]</value>
+  </data>
+  <data name="uiCarrilesMargenIzquierdaNum" xml:space="preserve">
+    <value>Lanes on the left side [units]</value>
+  </data>
+  <data name="uiCodigoMaterial" xml:space="preserve">
+    <value>Material code [cod]</value>
+  </data>
+  <data name="uiCunetaExterior" xml:space="preserve">
+    <value>Outer Ditch</value>
+  </data>
+  <data name="uiCunetaMediana" xml:space="preserve">
+    <value>Reservation Ditch</value>
+  </data>
+  <data name="uiCunetaPosicion" xml:space="preserve">
+    <value>Ditch Position</value>
+  </data>
+  <data name="uiCunetaPosicionFirme" xml:space="preserve">
+    <value>On Sidewalk</value>
+  </data>
+  <data name="uiCunetaPosicionBerma" xml:space="preserve">
+    <value>On Berm</value>
+  </data>
+  <data name="uiCUNETAS" xml:space="preserve">
+    <value>Ditches</value>
+  </data>
+  <data name="uiCunetaTalud" xml:space="preserve">
+    <value>Slope [Th: 1v]</value>
+  </data>
+  <data name="uiTRAPEZ" xml:space="preserve">
+    <value>Trapezoidal Ditch</value>
+  </data>
+  <data name="uiTRIANG" xml:space="preserve">
+    <value>Triangular Ditch</value>
+  </data>
+  <data name="uiDatos" xml:space="preserve">
+    <value>Data</value>
+  </data>
+  <data name="uiDescripcion" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="uiDOBAUT" xml:space="preserve">
+    <value>Dual Carriageway or Controlled-Access Motorway</value>
+  </data>
+  <data name="uiDOBSIN" xml:space="preserve">
+    <value>Dual Carriageway without a Central Reservation</value>
+  </data>
+  <data name="uiDOBURB" xml:space="preserve">
+    <value>Urban Dual Carriageway</value>
+  </data>
+  <data name="uiEspesor" xml:space="preserve">
+    <value>Thickness [m]</value>
+  </data>
+  <data name="uiFirmeTalud" xml:space="preserve">
+    <value>Slope of Sidewalk [Th: 1v]</value>
+  </data>
+  <data name="uiGeometria" xml:space="preserve">
+    <value>Geometry</value>
+  </data>
+  <data name="uiImagen" xml:space="preserve">
+    <value>Image</value>
+  </data>
+  <data name="uiMedianaAncho" xml:space="preserve">
+    <value>Central Reservation Width [m]</value>
+  </data>
+  <data name="uiNombre" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="uiSeccion" xml:space="preserve">
+    <value>Section</value>
+  </data>
+  <data name="uiSeccionAutopista" xml:space="preserve">
+    <value>Dual Carriageway Section Type</value>
+  </data>
+  <data name="uiSecciones" xml:space="preserve">
+    <value>Sections</value>
+  </data>
+  <data name="uiUNIGEN" xml:space="preserve">
+    <value>General type</value>
+  </data>
+  <data name="uiCunetaGeometria" xml:space="preserve">
+    <value>Geometry</value>
+  </data>
+  <data name="uiCunetaMaterial" xml:space="preserve">
+    <value>Material</value>
+  </data>
+  <data name="uiCunetaTipo" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="uiGrCunetaDatos" xml:space="preserve">
+    <value>Ditch data</value>
+  </data>
+  <data name="uiBarrera" xml:space="preserve">
+    <value>Barrier</value>
+  </data>
+  <data name="uiCunetaInterior" xml:space="preserve">
+    <value>Inner Ditch</value>
+  </data>
+  <data name="uiBarreraDwg" xml:space="preserve">
+    <value>Section [dwg]</value>
+  </data>
+  <data name="eAnchoArcen" xml:space="preserve">
+    <value>The value of the extension of the carriageway pavement is higher than the hard shoulder width</value>
+  </data>
+  <data name="uiFirmeIntoArcen" xml:space="preserve">
+    <value>Extension of the carriageway 
+pavement into the hard shoulder [m]</value>
+  </data>
+  <data name="eDobAutCunetaCotaInferiorAsiento" xml:space="preserve">
+    <value>The lower level of the inner ditch is lower than the lower level of the central reservation</value>
+  </data>
+  <data name="uiCalzadaSeccion" xml:space="preserve">
+    <value>Road section</value>
+  </data>
+  <data name="uiCalzadaTipo" xml:space="preserve">
+    <value>Road type</value>
+  </data>
+  <data name="uiBombeoPC" xml:space="preserve">
+    <value>Road Crown [%]</value>
+  </data>
+</root>

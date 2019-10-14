@@ -1,0 +1,360 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="uiAccCosteMuerto" xml:space="preserve">
+    <value>Coste unitario fallecido [u.m.]</value>
+  </data>
+  <data name="uiAccHerido" xml:space="preserve">
+    <value>Coste untario herido [u.m.]</value>
+  </data>
+  <data name="uiAccIM" xml:space="preserve">
+    <value>Índice mortalidad (IM)</value>
+  </data>
+  <data name="uiAccIP" xml:space="preserve">
+    <value>Índice Peligrosidad (IP)</value>
+  </data>
+  <data name="uiVEHCON" xml:space="preserve">
+    <value>Consumos por tipo vehículo</value>
+  </data>
+  <data name="uiCOSACC" xml:space="preserve">
+    <value>Costes de accidentes</value>
+  </data>
+  <data name="uiCosAceite" xml:space="preserve">
+    <value>Coste lubricante [u.m./litro]</value>
+  </data>
+  <data name="uiCosAmortizaciones" xml:space="preserve">
+    <value>Coste amortizaciones  [u.m./km]</value>
+  </data>
+  <data name="uiCosCombustible" xml:space="preserve">
+    <value>Costes combustible  [u.m./km]</value>
+  </data>
+  <data name="uiCosMantenimiento" xml:space="preserve">
+    <value>Coste mantenimiento y reparación  [u.m./km]</value>
+  </data>
+  <data name="uiCosNeumatico" xml:space="preserve">
+    <value>Coste neumáticos  [u.m./km]</value>
+  </data>
+  <data name="uiCosPonderacionTiempo" xml:space="preserve">
+    <value>Coeficiente ponderación costes tiempo</value>
+  </data>
+  <data name="uiCosVehiculoLigeros" xml:space="preserve">
+    <value>Costes tiempo vehículos ligeros</value>
+  </data>
+  <data name="uiCosVehiculoPesado" xml:space="preserve">
+    <value>Costes tiempo vehículos pesados</value>
+  </data>
+  <data name="uiCOTIFU" xml:space="preserve">
+    <value>Costes de tiempo y funcionamiento</value>
+  </data>
+  <data name="uiDATTRA" xml:space="preserve">
+    <value>Datos de tráfico</value>
+  </data>
+  <data name="uiDppParteCalidad" xml:space="preserve">
+    <value>Sobre los costes a. control calidad [%]</value>
+  </data>
+  <data name="uiDppParteExpropiaciones" xml:space="preserve">
+    <value>Sobre las expropiaciones [%]</value>
+  </data>
+  <data name="uiDppParteLicitación" xml:space="preserve">
+    <value>Sobre el presupuesto de licitación [%]</value>
+  </data>
+  <data name="uiDppParteOtros" xml:space="preserve">
+    <value>Sobre otros conceptos [%]</value>
+  </data>
+  <data name="uiDppPartePaisajisticas" xml:space="preserve">
+    <value>Sobre los costes r. paisajistica [%]</value>
+  </data>
+  <data name="uiDppPartePatrimonio" xml:space="preserve">
+    <value>Sobre los costes c. patrimonio [%]</value>
+  </data>
+  <data name="uiDtcAbosorcionFinal" xml:space="preserve">
+    <value>Absorción de tráfico año final [%]</value>
+  </data>
+  <data name="uiDtcAbsorcionInicial" xml:space="preserve">
+    <value>Absorción de tráfico año inicial [%]</value>
+  </data>
+  <data name="uiDtoCrecimientoAnual" xml:space="preserve">
+    <value>Crecimiento anual [%]</value>
+  </data>
+  <data name="uiDtoImd" xml:space="preserve">
+    <value>IMD año puesta en servicio </value>
+  </data>
+  <data name="uiDtoLon" xml:space="preserve">
+    <value>Longitud conexión actual [km]</value>
+  </data>
+  <data name="uiDtoVehiculoPesados" xml:space="preserve">
+    <value>Porcentaje vehículos pesados [%]</value>
+  </data>
+  <data name="uiDtoVp" xml:space="preserve">
+    <value>Velocidad media actual conexión [km/h]</value>
+  </data>
+  <data name="uiEppEmpleosCoste" xml:space="preserve">
+    <value>Coste empresarial medio por empleo</value>
+  </data>
+  <data name="uiEppEmpleosNum" xml:space="preserve">
+    <value>Nº empleos generados explotación</value>
+  </data>
+  <data name="uiGastosConservacion" xml:space="preserve">
+    <value>Gastos conservación [u.m./km]</value>
+  </data>
+  <data name="uiGastosRehabilitar" xml:space="preserve">
+    <value>Gastos rehabilitación [u.m./km]</value>
+  </data>
+  <data name="uiGACORE" xml:space="preserve">
+    <value>Gastos de conservación y rehabilitación</value>
+  </data>
+  <data name="uiGrAccidentesUnitarios" xml:space="preserve">
+    <value>Costes unitarios accidentes</value>
+  </data>
+  <data name="uiGrDpp" xml:space="preserve">
+    <value>Determinación de la participacion privada</value>
+  </data>
+  <data name="uiGrDtc" xml:space="preserve">
+    <value>Datos tráfico opción construcción</value>
+  </data>
+  <data name="uiGrDto" xml:space="preserve">
+    <value>Datos tráfico opción 0</value>
+  </data>
+  <data name="uiGrEpp" xml:space="preserve">
+    <value>Empleos generados explotación privada</value>
+  </data>
+  <data name="uiGrExplotacionConservacion" xml:space="preserve">
+    <value>Datos de explotación y conservación</value>
+  </data>
+  <data name="uiGrIdt" xml:space="preserve">
+    <value>Índices y datos temporales</value>
+  </data>
+  <data name="uiGrIip" xml:space="preserve">
+    <value>Ingresos de la inversión privada</value>
+  </data>
+  <data name="uiGrIndice" xml:space="preserve">
+    <value>Índices</value>
+  </data>
+  <data name="uiIdrEplotacionYears" xml:space="preserve">
+    <value>Número años explotación</value>
+  </data>
+  <data name="uiIdtConstruccionYears" xml:space="preserve">
+    <value>Número años construcción</value>
+  </data>
+  <data name="uiIdtIpcAnual" xml:space="preserve">
+    <value>actualización IPC anual [%]</value>
+  </data>
+  <data name="uiIdtTasaActualizacion" xml:space="preserve">
+    <value>Tasa de actualización [%]</value>
+  </data>
+  <data name="uiIipPrecioPeaje" xml:space="preserve">
+    <value>Precio peaje vehículo [u.m.]</value>
+  </data>
+  <data name="uiIipSubEstatalAnual" xml:space="preserve">
+    <value>Subvención estatal anual</value>
+  </data>
+  <data name="uiIipSubEstatalAnualFija" xml:space="preserve">
+    <value>Subvención estatal anual fija</value>
+  </data>
+  <data name="uiIipSubEstatalAnualUpdateIpc" xml:space="preserve">
+    <value>Subvención estatal anual actualizable IPC</value>
+  </data>
+  <data name="uiIipSubEstatalVehiculo" xml:space="preserve">
+    <value>Subvención estatal vehículo [u.m.]</value>
+  </data>
+  <data name="uiINDATE" xml:space="preserve">
+    <value>Índice y datos temporales</value>
+  </data>
+  <data name="uiGasExplotacionInvPrivada" xml:space="preserve">
+    <value>Gastos explotación  [u.m.]</value>
+  </data>
+  <data name="uiGasSegurosInvPrivada" xml:space="preserve">
+    <value>Seguros y otros  [u.m.]</value>
+  </data>
+  <data name="uiGrInversion" xml:space="preserve">
+    <value>Tipo de inversión</value>
+  </data>
+  <data name="uiInvDes" xml:space="preserve">
+    <value>Construcción inversión privada</value>
+  </data>
+  <data name="uiINVTIP" xml:space="preserve">
+    <value>Tipo de inversión</value>
+  </data>
+  <data name="uiGrGastosInvPrivada" xml:space="preserve">
+    <value>Gastos inversión privada</value>
+  </data>
+  <data name="uiGrRoadCero" xml:space="preserve">
+    <value>Conexión actual</value>
+  </data>
+  <data name="uiGrRoadUno" xml:space="preserve">
+    <value>Conexión nueva</value>
+  </data>
+  <data name="uiGrDatosCoste" xml:space="preserve">
+    <value>Datos de coste</value>
+  </data>
+  <data name="uiGrGastosRoadCero" xml:space="preserve">
+    <value>Gastos conexión actual</value>
+  </data>
+  <data name="uiGrGastosRoadUno" xml:space="preserve">
+    <value>Gastos conexión nueva</value>
+  </data>
+  <data name="uiCombustible" xml:space="preserve">
+    <value>Combustible [c.c./km]</value>
+  </data>
+  <data name="uiLubricante" xml:space="preserve">
+    <value>Lubricante [litros/km]</value>
+  </data>
+  <data name="uiVelocidad" xml:space="preserve">
+    <value>Velocidad [km/h]</value>
+  </data>
+  <data name="uiVehiculoLigero" xml:space="preserve">
+    <value>Vehículos ligeros</value>
+  </data>
+  <data name="uiVehiculoPesado" xml:space="preserve">
+    <value>Vehículos pesados</value>
+  </data>
+  <data name="uiVehiculoTipo" xml:space="preserve">
+    <value>Tipo de Vehículo</value>
+  </data>
+  <data name="uiGrDetalle" xml:space="preserve">
+    <value>Detalle</value>
+  </data>
+  <data name="uiGrTablaConsumo" xml:space="preserve">
+    <value>Tabla de consumo por tipo de vehículo</value>
+  </data>
+  <data name="uiGrK" xml:space="preserve">
+    <value>Coeficiente heridos</value>
+  </data>
+  <data name="uiNumHeridosAccidente" xml:space="preserve">
+    <value>Número heridos por accidente</value>
+  </data>
+  <data name="uiGrCosteCombustibleLubricante" xml:space="preserve">
+    <value>Costes combustibles y lubricante</value>
+  </data>
+  <data name="uiVEHMAN" xml:space="preserve">
+    <value>Mantenimiento por tipo vehículo</value>
+  </data>
+  <data name="uiGastosMantenimiento" xml:space="preserve">
+    <value>Gastos mantenimiento [u.m./km]</value>
+  </data>
+  <data name="uiIdtTasaRevisionPrecios" xml:space="preserve">
+    <value>Tasa revisión precios [%]</value>
+  </data>
+  <data name="uiGastosExplotacionManoObraPC" xml:space="preserve">
+    <value>Mano obra [% Gastos explotación]</value>
+  </data>
+  <data name="uiConexionActualEliminar" xml:space="preserve">
+    <value>Eliminar conexión actual</value>
+  </data>
+</root>

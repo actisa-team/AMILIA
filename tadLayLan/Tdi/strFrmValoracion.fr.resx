@@ -1,0 +1,408 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="uiAcuiferos" xml:space="preserve">
+    <value>Eaux souterraines [%]</value>
+  </data>
+  <data name="uiAdminValoracion" xml:space="preserve">
+    <value>Administrateur d'évaluation d'alternatives</value>
+  </data>
+  <data name="uiAprovechamientos" xml:space="preserve">
+    <value>Utilisation [%]</value>
+  </data>
+  <data name="uiCamposVisuales" xml:space="preserve">
+    <value>Champs visuels [%]</value>
+  </data>
+  <data name="uiCimEst" xml:space="preserve">
+    <value>Fondation de structures [%]</value>
+  </data>
+  <data name="uiCimObrasMenores" xml:space="preserve">
+    <value>Fondation petits travaux [%]</value>
+  </data>
+  <data name="uiCompensacionTierras" xml:space="preserve">
+    <value>Terrassements [%]</value>
+  </data>
+  <data name="uiCruceInfra" xml:space="preserve">
+    <value>Croisement des infrastructures linéaires [%]</value>
+  </data>
+  <data name="uiCruceViasPecuarias" xml:space="preserve">
+    <value>Croisement des chemins de transhumance [%]</value>
+  </data>
+  <data name="uiDominioPublicoHidraulico" xml:space="preserve">
+    <value>Domaine public hydraulique [%]</value>
+  </data>
+  <data name="uiEstabilidadTalud" xml:space="preserve">
+    <value>Stabilité de talus [%]</value>
+  </data>
+  <data name="uiEstabilidadTerreno" xml:space="preserve">
+    <value>Stabilité horizontale terrain [%]</value>
+  </data>
+  <data name="uiPublicoBC" xml:space="preserve">
+    <value>B/C Rentabilité sociale [%]</value>
+  </data>
+  <data name="uiPublicoPresupuesto" xml:space="preserve">
+    <value>Investissement publique [%]</value>
+  </data>
+  <data name="uiPublicoVAN" xml:space="preserve">
+    <value>V.A.N. Rentabilité sociale [%]</value>
+  </data>
+  <data name="uiExcavailidad" xml:space="preserve">
+    <value>Possibilité d'excavation [%]</value>
+  </data>
+  <data name="uiFauna" xml:space="preserve">
+    <value>Fauna [%]</value>
+  </data>
+  <data name="uiFlora" xml:space="preserve">
+    <value>Flore [%]</value>
+  </data>
+  <data name="uiFuertesHeladas" xml:space="preserve">
+    <value>Zones de grosses gelées [%]</value>
+  </data>
+  <data name="uiFuertesVientos" xml:space="preserve">
+    <value>Zones de vents forts [%]</value>
+  </data>
+  <data name="uiGeoEst" xml:space="preserve">
+    <value>Géotechnique de structures [%]</value>
+  </data>
+  <data name="uiGeoTun" xml:space="preserve">
+    <value>Géotechnique de tunnels [%]</value>
+  </data>
+  <data name="uiGrDisVal" xml:space="preserve">
+    <value>Distribution d'évaluations</value>
+  </data>
+  <data name="uiGrInversionEstatal" xml:space="preserve">
+    <value>Distribution d'évaluations partie publique</value>
+  </data>
+  <data name="uiGrInversionPrivada" xml:space="preserve">
+    <value>Distribution d'évaluations partie privée</value>
+  </data>
+  <data name="uiGrValGeoEst" xml:space="preserve">
+    <value>Évaluation de géotechnique de structures</value>
+  </data>
+  <data name="uiGrValGeoTun" xml:space="preserve">
+    <value>Évaluation de géotechnique de tunnels</value>
+  </data>
+  <data name="uiGrValGlobal" xml:space="preserve">
+    <value>Évaluation globale de structures et tunnels</value>
+  </data>
+  <data name="uiInteresPaisajistico" xml:space="preserve">
+    <value>Intérêt paysager [%]</value>
+  </data>
+  <data name="uiLluviasIntensas" xml:space="preserve">
+    <value>Zones de fortes pluies [%]</value>
+  </data>
+  <data name="uiMetodosExcavacion" xml:space="preserve">
+    <value>Méthodes excavation [%]</value>
+  </data>
+  <data name="uiMontesPublicos" xml:space="preserve">
+    <value>Forêts Publiques [%]</value>
+  </data>
+  <data name="uiMuros" xml:space="preserve">
+    <value>Murs [%]</value>
+  </data>
+  <data name="uiNevadas" xml:space="preserve">
+    <value>Zone de neige [%]</value>
+  </data>
+  <data name="uiPermeabilidadFauna" xml:space="preserve">
+    <value>Liberté de passage de faune [%]</value>
+  </data>
+  <data name="uiPresenciaAgua" xml:space="preserve">
+    <value>Présence d'eau [%]</value>
+  </data>
+  <data name="uiPrivadaBC" xml:space="preserve">
+    <value>B/C Exploitation privé [%]</value>
+  </data>
+  <data name="uiPrivadaPresupuesto" xml:space="preserve">
+    <value>Investissement privé [%]</value>
+  </data>
+  <data name="uiPrivadaVAN" xml:space="preserve">
+    <value>V.A.N. Exploitation privé [%]</value>
+  </data>
+  <data name="uiProExcavacionCimientos" xml:space="preserve">
+    <value>Méthode excavation fondation [%]</value>
+  </data>
+  <data name="uiProteccionTalud" xml:space="preserve">
+    <value>Protection de talus [%]</value>
+  </data>
+  <data name="uiRmr" xml:space="preserve">
+    <value>RMR [%]</value>
+  </data>
+  <data name="uiSectorPrimario" xml:space="preserve">
+    <value>Secteur primaire [%]</value>
+  </data>
+  <data name="uiSectorSecundario" xml:space="preserve">
+    <value>Secteur secondaire [%]</value>
+  </data>
+  <data name="uiSectorTerciario" xml:space="preserve">
+    <value>Secteur tertiaire [%]</value>
+  </data>
+  <data name="uiSuelos" xml:space="preserve">
+    <value>Terrains [%]</value>
+  </data>
+  <data name="uiSuelosNoUrbanizables" xml:space="preserve">
+    <value>Terrains non constructibles [%]</value>
+  </data>
+  <data name="uiSuelosUrbanizables" xml:space="preserve">
+    <value>Terrains constructibles [%]</value>
+  </data>
+  <data name="uiSuelosUrbanos" xml:space="preserve">
+    <value>Terrains urbains [%]</value>
+  </data>
+  <data name="uiTiempoRecorrido" xml:space="preserve">
+    <value>Temps de parcours [%]</value>
+  </data>
+  <data name="uiTormentasFrecuentes" xml:space="preserve">
+    <value>Zone de tempêtes fréquentes [%]</value>
+  </data>
+  <data name="uiTratamientosEspecificos" xml:space="preserve">
+    <value>Traitements spécifiques [%]</value>
+  </data>
+  <data name="uiTrazadoAlzado" xml:space="preserve">
+    <value>Tracé en élévation [%]</value>
+  </data>
+  <data name="uiTrazadoPlanta" xml:space="preserve">
+    <value>Tracé sur plan [%]</value>
+  </data>
+  <data name="uiUmbria" xml:space="preserve">
+    <value>Zone d'ombres [%]</value>
+  </data>
+  <data name="uiVALCLI" xml:space="preserve">
+    <value>Évaluation climat</value>
+  </data>
+  <data name="uiVALECO" xml:space="preserve">
+    <value>Évaluation variables économiques</value>
+  </data>
+  <data name="uiVAESTU" xml:space="preserve">
+    <value>Évaluation structures et tunnels</value>
+  </data>
+  <data name="uiVALGEO" xml:space="preserve">
+    <value>Évaluation de la géotechnique</value>
+  </data>
+  <data name="uiVALMED" xml:space="preserve">
+    <value>Évaluation environnementale</value>
+  </data>
+  <data name="uiCBR" xml:space="preserve">
+    <value>Valeur de CBR [%]</value>
+  </data>
+  <data name="uiVALPAT" xml:space="preserve">
+    <value>Évaluation variables patrimoniales</value>
+  </data>
+  <data name="uiVALSOC" xml:space="preserve">
+    <value>Évaluation variables socioéconomiques</value>
+  </data>
+  <data name="uiVALTRA" xml:space="preserve">
+    <value>Évaluation du tracé</value>
+  </data>
+  <data name="uiVolumenMovTierras" xml:space="preserve">
+    <value>Volume terrassement [%]</value>
+  </data>
+  <data name="uiYacimientosArqueologicos" xml:space="preserve">
+    <value>Sites archéologiques [%]</value>
+  </data>
+  <data name="uiZonasEspecialInteres" xml:space="preserve">
+    <value>Zones d'intérêt spécial [%]</value>
+  </data>
+  <data name="uiZonasInfraPublicas" xml:space="preserve">
+    <value>Zones d'infrastructures publiques [%]</value>
+  </data>
+  <data name="uiZonasMinasCanteras" xml:space="preserve">
+    <value>Zones de mines et carrières [%]</value>
+  </data>
+  <data name="uiZonProteccion" xml:space="preserve">
+    <value>Zones de protection [%]</value>
+  </data>
+  <data name="uiNieblasDensas" xml:space="preserve">
+    <value>Zones de brouillards fréquents [%]</value>
+  </data>
+  <data name="uiTunTipoTuneladora" xml:space="preserve">
+    <value>Type de tunnelier [%]</value>
+  </data>
+  <data name="uiDgvClimatica" xml:space="preserve">
+    <value>Climatique [%]</value>
+  </data>
+  <data name="uiDgvEconomicas" xml:space="preserve">
+    <value>Économique [%]</value>
+  </data>
+  <data name="uiDgvEstructurasTunelesMuros" xml:space="preserve">
+    <value>Structures, tunnels et murs [%]</value>
+  </data>
+  <data name="uiDgvGeotecnia" xml:space="preserve">
+    <value>Géotechnique [%]</value>
+  </data>
+  <data name="uiDgvHipotesis" xml:space="preserve">
+    <value>Liste hypothèse</value>
+  </data>
+  <data name="uiDgvMedioambiental" xml:space="preserve">
+    <value>Environnementale [%]</value>
+  </data>
+  <data name="uiDgvPatrimoniales" xml:space="preserve">
+    <value>Patrimoniales [%]</value>
+  </data>
+  <data name="uiDgvSocioEconomicas" xml:space="preserve">
+    <value>Socioéconomique [%]</value>
+  </data>
+  <data name="uiDgvTrazado" xml:space="preserve">
+    <value>Traçade [%]</value>
+  </data>
+  <data name="uiGrCalculoHipotesis" xml:space="preserve">
+    <value>Calcul de hypothèse</value>
+  </data>
+  <data name="uiGrPonderacionValoraciones" xml:space="preserve">
+    <value>Pondération d'évaluations</value>
+  </data>
+  <data name="uiHeaderMatrizDecision" xml:space="preserve">
+    <value>Matrice de décision</value>
+  </data>
+  <data name="uiDgvDescripcion" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="uiFrmMatrizDecisionDetail" xml:space="preserve">
+    <value>Éditeur de hypothèse</value>
+  </data>
+  <data name="uiGrHipotesisDatos" xml:space="preserve">
+    <value>Données</value>
+  </data>
+  <data name="uiGrHipotesisValoraciones" xml:space="preserve">
+    <value>Zones d'évaluation</value>
+  </data>
+  <data name="uiVALMAT" xml:space="preserve">
+    <value>Matrice de décision</value>
+  </data>
+  <data name="uiGrValoracionSoluciones" xml:space="preserve">
+    <value>Liste solutions disponibles pour évaluation </value>
+  </data>
+  <data name="uiFrmHipotesisSoluciones" xml:space="preserve">
+    <value>Liste solutions évaluées par hypothèse</value>
+  </data>
+  <data name="uiGrLstCapitulosValorados" xml:space="preserve">
+    <value>Liste chapitres évalués</value>
+  </data>
+  <data name="uiGrLstSolucionesValoradas" xml:space="preserve">
+    <value>Liste solutions évaluées</value>
+  </data>
+  <data name="uiGrLstSubcapitulosValorados" xml:space="preserve">
+    <value>Liste sous-chapitres évalués</value>
+  </data>
+  <data name="uiHipotesis" xml:space="preserve">
+    <value>Hypothèses</value>
+  </data>
+  <data name="uiValorarSolucionesPorHipotesis" xml:space="preserve">
+    <value>Évaluer solution par hypothèse</value>
+  </data>
+</root>

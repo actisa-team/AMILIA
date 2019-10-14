@@ -1,0 +1,1114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="uiInformes" xml:space="preserve">
+    <value>Rapports</value>
+  </data>
+  <data name="uiINFSOL" xml:space="preserve">
+    <value>Rapports par solution</value>
+  </data>
+  <data name="uiValoracionHipotesisDetalle" xml:space="preserve">
+    <value>Rapport évaluation de solutions par hypothèse [Détail]</value>
+  </data>
+  <data name="uiValoracionHipotesisResumen" xml:space="preserve">
+    <value>Rapport évaluation de solutions par hypothèse [Résumé]</value>
+  </data>
+  <data name="uiGrListadoSoluciones" xml:space="preserve">
+    <value>Liste solutions</value>
+  </data>
+  <data name="uiInformeRentabilidadPrivada" xml:space="preserve">
+    <value>Rapport rentabilité privée</value>
+  </data>
+  <data name="uiInformeRentabilidadSocial" xml:space="preserve">
+    <value>Rapport rentabilité sociale</value>
+  </data>
+  <data name="uiPresupuestoEjecucionMateria" xml:space="preserve">
+    <value>Budget exécution matériau</value>
+  </data>
+  <data name="uiPresupuestoPcaPrivado" xml:space="preserve">
+    <value>Budget avec investissement privé</value>
+  </data>
+  <data name="uiPresupuestoPcaPublico" xml:space="preserve">
+    <value>Budget pour l’Administration</value>
+  </data>
+  <data name="uiInfValoracionTrazadoAlzado" xml:space="preserve">
+    <value>RapportÉvaluationTracés Élévation_Solution_</value>
+    <comment>!!!Poner Junto es el nombre de un fichero!!!</comment>
+  </data>
+  <data name="uiInfValoracionTrazadoPlanta" xml:space="preserve">
+    <value>RapportÉvaluationTracésPlan_Solution_</value>
+    <comment>!!!Poner Junto es el nombre de un fichero!!!</comment>
+  </data>
+  <data name="uiTabPresupuestos" xml:space="preserve">
+    <value>Budgets</value>
+  </data>
+  <data name="uiTabRentabilidad" xml:space="preserve">
+    <value>Rentabilité</value>
+  </data>
+  <data name="uiTabVarios" xml:space="preserve">
+    <value>Divers</value>
+  </data>
+  <data name="uiInfValoracionTrazadoTiempo" xml:space="preserve">
+    <comment>!!!Poner Junto es el nombre de un fichero!!!</comment>
+    <value>RapportÉvaluationTracésTemps_Solution_</value>
+  </data>
+  <data name="uiAbsorcionTraficoFinal" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Absorption circulation année finale </value>
+  </data>
+  <data name="uiAbsorcionTraficoIni" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Absorption circulation année initiale </value>
+  </data>
+  <data name="uiAccidentes" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Accidents </value>
+  </data>
+  <data name="uiAñosExpl" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Années Exploitation </value>
+  </data>
+  <data name="uiConexionActIP" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Lien Actuel IP </value>
+  </data>
+  <data name="uiConexionActM" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Lien Actuel IM </value>
+  </data>
+  <data name="uiConexionActual" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Lien Actuel </value>
+  </data>
+  <data name="uiConexionActualConserv" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Lien Actuel Conservation (u.m./Km) </value>
+  </data>
+  <data name="uiConexionAcutalReha" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Lien Actuel Réhabilitation (u.m./Km) </value>
+  </data>
+  <data name="uiConexionNuevaConserv" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Nouvel Lien Conservation (u.m./Km) </value>
+  </data>
+  <data name="uiConexionNuevaIM" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Novel Lien IM </value>
+  </data>
+  <data name="uiConexionNuevaIP" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Nouvel Lien IP </value>
+  </data>
+  <data name="uiConexionNuevaReha" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Nouvel Lien Réhabilitation (u.m./Km) </value>
+  </data>
+  <data name="uiConsReha" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Conservation-Réhabilitation </value>
+  </data>
+  <data name="uiCosteHerido" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Coût blessés </value>
+  </data>
+  <data name="uiCosteMuerto" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Coût décès </value>
+  </data>
+  <data name="uicostePeaje" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Coût péage </value>
+  </data>
+  <data name="uiCostesFuncTiempo" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Coûts Fonctionnement - Temps</value>
+  </data>
+  <data name="uiDatosTrafico" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Données circulation </value>
+  </data>
+  <data name="uiExplotacion" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Exploitation </value>
+  </data>
+  <data name="uiGastosExpl" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Coûts Exploitation </value>
+  </data>
+  <data name="uiGastosManoObra" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Coûts Exploitation main d'oeuvre [%] </value>
+  </data>
+  <data name="uiIMD" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>IMD </value>
+  </data>
+  <data name="uiInvPrivada" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Investissement Privé </value>
+  </data>
+  <data name="uiLongKm" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Longueur (km) </value>
+  </data>
+  <data name="uiMuroHormigon" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Mur Béton [m3] </value>
+  </data>
+  <data name="uiNombreSol" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Nom Solution </value>
+  </data>
+  <data name="uiNumHeridos" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Nombre Blessés Accident K </value>
+  </data>
+  <data name="uiPreOtros" xml:space="preserve">
+    <comment>Otros gastos ademas de control calidad, conservacion patrimonio... </comment>
+    <value>Autres</value>
+  </data>
+  <data name="uiPrePartePrivada" xml:space="preserve">
+    <comment>espacio al principio y al final</comment>
+    <value> (partie privée)</value>
+  </data>
+  <data name="uiPrePartePublica" xml:space="preserve">
+    <comment>espacio al principio y al final</comment>
+    <value> (partie publique)</value>
+  </data>
+  <data name="uiPreRentabilidad" xml:space="preserve">
+    <comment>un espacio al principio</comment>
+    <value> Rentabilité</value>
+  </data>
+  <data name="uiRenConexionNueva" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Nouvel Lien </value>
+  </data>
+  <data name="uiSobvencionAnual" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Subvention Annuelle </value>
+  </data>
+  <data name="uiSubvencionActuIPC" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Subvention actualisable IPC </value>
+  </data>
+  <data name="uiSubvencionVehiculo" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Subvention Véhicule </value>
+  </data>
+  <data name="uiTasaActPrecConst" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Taux Actualisation Prix Construction </value>
+  </data>
+  <data name="uiTasaCrecimientoAnual" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Taux Croissance Annuelle </value>
+  </data>
+  <data name="uiTasaIPC" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Taux IPC </value>
+  </data>
+  <data name="uiTasas" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Taux </value>
+  </data>
+  <data name="uiTasasAct" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Taux Actualisation </value>
+  </data>
+  <data name="uiVehiculosPesados" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Percentage Poids Lourds </value>
+  </data>
+  <data name="uiVehiLigCosteTiempo" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Véhicule Léger - Coût Temps  </value>
+  </data>
+  <data name="uivehiLigeroCoef" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Véhicule Léger -  Coefficient Pondération </value>
+  </data>
+  <data name="uiVehiLigeroCosteAmortizacion" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Véhicule Léger - Coût Amortissement </value>
+  </data>
+  <data name="uiVehiLigeroCosteNeumatico" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Véhicule Léger - Coût Pneumatiques </value>
+  </data>
+  <data name="uiVehiPesadoCoef" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Poids Lourds - Coefficient Pondération </value>
+  </data>
+  <data name="uiVehiPesadoCosteAmortizacion" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Poids Lourds - Coût Amortissement </value>
+  </data>
+  <data name="uiVehiPesadoCosteNeumatico" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Poids Lourds - Coût Pneumatiques </value>
+  </data>
+  <data name="uiVehiPesadoCosteTiempo" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Poids Lourds - Coût Temps </value>
+  </data>
+  <data name="uiVelocidad" xml:space="preserve">
+    <comment>cuidado espacios</comment>
+    <value>Vitesse (km/h) </value>
+  </data>
+  <data name="uiHipotesis" xml:space="preserve">
+    <value>Hypothèse :</value>
+  </data>
+  <data name="uiAccidentesIPC" xml:space="preserve">
+    <value>Accidents avec IPC</value>
+  </data>
+  <data name="uiAlzado" xml:space="preserve">
+    <value>Élévation</value>
+  </data>
+  <data name="uiAmotizacion" xml:space="preserve">
+    <value>Amortissement</value>
+  </data>
+  <data name="uiAño" xml:space="preserve">
+    <value>Année</value>
+  </data>
+  <data name="uiAñoActividad" xml:space="preserve">
+    <value>Année Activité</value>
+  </data>
+  <data name="uiBalanceTotAct" xml:space="preserve">
+    <value>Balance Total Actualisé</value>
+  </data>
+  <data name="uiBalanceTotIPC" xml:space="preserve">
+    <value>Balance Total avec IPC</value>
+  </data>
+  <data name="uiCombustible" xml:space="preserve">
+    <value>Combusible u.m./km</value>
+  </data>
+  <data name="uiConserIPC" xml:space="preserve">
+    <value>Conservation avec IPC</value>
+  </data>
+  <data name="uiConsMantIPC" xml:space="preserve">
+    <value>Conservation et entretien avec CPI</value>
+  </data>
+  <data name="uiConstPrivadaRevPrecios" xml:space="preserve">
+    <value>Construction (Privée) avec révision de prix</value>
+  </data>
+  <data name="uiConstruccEstatalConRevPrecio" xml:space="preserve">
+    <value>Construction (Publique) avec révision de prix</value>
+  </data>
+  <data name="uiConstruccion" xml:space="preserve">
+    <value>Construction</value>
+  </data>
+  <data name="uiCosteAccConexionAct" xml:space="preserve">
+    <value>Coûts Accidents Lien Actuel</value>
+  </data>
+  <data name="uiCosteAccConexionNue" xml:space="preserve">
+    <value>Coûts Accidents Nouvel Lien</value>
+  </data>
+  <data name="uiCosteAccOpCero" xml:space="preserve">
+    <value>Coûts Accidents Option Zéro</value>
+  </data>
+  <data name="uiCosteConsConexionActual" xml:space="preserve">
+    <value>Coûts Conservation Lien Actuel</value>
+  </data>
+  <data name="uiCosteConsOpCero" xml:space="preserve">
+    <value>Coûts Conservation Option Zéro</value>
+  </data>
+  <data name="uiCosteConstPriv" xml:space="preserve">
+    <value>Coût Construction (Privée)</value>
+  </data>
+  <data name="uiCosteConstrEstatal" xml:space="preserve">
+    <value>Coût Construction (Publique)</value>
+  </data>
+  <data name="uiCosteFuncConexionAct" xml:space="preserve">
+    <value>Coûts Fonctionnement Lien Actuel</value>
+  </data>
+  <data name="uiCosteFuncConexionNue" xml:space="preserve">
+    <value>Coûts Fonctionnement Nouvel Lien</value>
+  </data>
+  <data name="uiCosteFuncOpCero" xml:space="preserve">
+    <value>Coûts Fonctionnement Option Zéro</value>
+  </data>
+  <data name="uiCostesAdcControlCalRentabilidad" xml:space="preserve">
+    <value>Coûts additionnels contrôle de qualité rentabilité</value>
+  </data>
+  <data name="uiCostesConsConexionNue" xml:space="preserve">
+    <value>Coûts Conservation Nouvel Lien</value>
+  </data>
+  <data name="uiCostesConsyMant" xml:space="preserve">
+    <value>Coûts Conservation et Entretien</value>
+  </data>
+  <data name="uiCostesEmpleo" xml:space="preserve">
+    <value>Coûts Emploi</value>
+  </data>
+  <data name="uiCostesExplotacion" xml:space="preserve">
+    <value>Coûts Exploitation</value>
+  </data>
+  <data name="uiCostesPeaje" xml:space="preserve">
+    <value>Coûts Péage</value>
+  </data>
+  <data name="uiCostesSeguros" xml:space="preserve">
+    <value>Coûts Assurances</value>
+  </data>
+  <data name="uiCostesSubAnual" xml:space="preserve">
+    <value>Coûts Subvention Annuelle</value>
+  </data>
+  <data name="uiCostesSubVehi" xml:space="preserve">
+    <value>Coûts Subvention Véhicle</value>
+  </data>
+  <data name="uiCostesTotIPC" xml:space="preserve">
+    <value>Coûts totaux avec IPC</value>
+  </data>
+  <data name="uiCosteTiempoConexionAct" xml:space="preserve">
+    <value>Coûts Temps Lien Actuel</value>
+  </data>
+  <data name="uiCosteTiempoConexionNue" xml:space="preserve">
+    <value>Coûts Temps Nouvel Lien</value>
+  </data>
+  <data name="uiCosteTiempoOpCero" xml:space="preserve">
+    <value>Coûts Temps Option Zéro</value>
+  </data>
+  <data name="uiCostTiempo" xml:space="preserve">
+    <value>Coûts Temps u.m./km</value>
+  </data>
+  <data name="uiCostTiempoTotal" xml:space="preserve">
+    <value>Coûts Totaux avec Temps u.m./km</value>
+  </data>
+  <data name="uiEmpleoIPC" xml:space="preserve">
+    <value>Emploi avec IPC</value>
+  </data>
+  <data name="uiEntidad" xml:space="preserve">
+    <value>Entité</value>
+  </data>
+  <data name="uiEspiralA" xml:space="preserve">
+    <value>Spirale (A)</value>
+  </data>
+  <data name="uiEstabHorTerreno" xml:space="preserve">
+    <value>Stabilité Horizontale Terrain</value>
+  </data>
+  <data name="uiEstabTaludes" xml:space="preserve">
+    <value>Stabilité Talus</value>
+  </data>
+  <data name="uiExcavMatillo" xml:space="preserve">
+    <value>Excavation Marteau Pneumatique ou semblable</value>
+  </data>
+  <data name="uiExcavMediosConvenc" xml:space="preserve">
+    <value>Excavation Moyens Conventionnels</value>
+  </data>
+  <data name="uiExcavRetiradaVer" xml:space="preserve">
+    <value>Excavation Retrait à Décharge 2 Phases</value>
+  </data>
+  <data name="uiExcavSisAgotamienro" xml:space="preserve">
+    <value>Excavation Systèmes d'épuisement Phréatique</value>
+  </data>
+  <data name="uiExcavVoladuras" xml:space="preserve">
+    <value>Excavation avec Explosifs</value>
+  </data>
+  <data name="uiExploICP" xml:space="preserve">
+    <value>Exploitation avec IPC</value>
+  </data>
+  <data name="uiFase" xml:space="preserve">
+    <value>Phase</value>
+  </data>
+  <data name="uiFuncTiempoIPC" xml:space="preserve">
+    <value>Fonctionnement et Temps avec IPC</value>
+  </data>
+  <data name="uiGrupo" xml:space="preserve">
+    <value>Groupe</value>
+  </data>
+  <data name="uiIndice" xml:space="preserve">
+    <value>Index</value>
+  </data>
+  <data name="uiIngresosPeaje" xml:space="preserve">
+    <value>Revenus Péage</value>
+  </data>
+  <data name="uiIngresosSubAnual" xml:space="preserve">
+    <value>Revenus Subvention Annuelle</value>
+  </data>
+  <data name="uiIngresosSubPeaje" xml:space="preserve">
+    <value>Revenus Subvention Péage</value>
+  </data>
+  <data name="uiIngTotIPC" xml:space="preserve">
+    <value>Revenus Totaux avec IPC</value>
+  </data>
+  <data name="uiIVAporCien" xml:space="preserve">
+    <value>TVA PER CENT</value>
+  </data>
+  <data name="uiLongM" xml:space="preserve">
+    <value>Longueur (m)</value>
+  </data>
+  <data name="uiLongPlanta" xml:space="preserve">
+    <value>Longueur Plan (m)</value>
+  </data>
+  <data name="uiLublicante" xml:space="preserve">
+    <value>Lubrifiant u.m./km</value>
+  </data>
+  <data name="uiMantenimiento" xml:space="preserve">
+    <value>Entretien u.m./km</value>
+  </data>
+  <data name="uiMetodosExcav" xml:space="preserve">
+    <value>Méthodes d'excavation</value>
+  </data>
+  <data name="uiMuro" xml:space="preserve">
+    <value>Mur</value>
+  </data>
+  <data name="uiNeumaticos" xml:space="preserve">
+    <value>Pneumatiques u.m./km</value>
+  </data>
+  <data name="uiNombre" xml:space="preserve">
+    <value>Nom</value>
+  </data>
+  <data name="uiNotaGlobal" xml:space="preserve">
+    <value>Score Global</value>
+  </data>
+  <data name="uiNotaLocal" xml:space="preserve">
+    <value>Score Local</value>
+  </data>
+  <data name="uiOtrosRentabilidad" xml:space="preserve">
+    <value>Autres Rentabilité</value>
+  </data>
+  <data name="uiPeajeIPC" xml:space="preserve">
+    <value>Péage avec IPC</value>
+  </data>
+  <data name="uiPk" xml:space="preserve">
+    <value>Pk</value>
+  </data>
+  <data name="uiPlanta" xml:space="preserve">
+    <value>Plan</value>
+  </data>
+  <data name="uiPreBaseImponible" xml:space="preserve">
+    <value>Assiette Imposable</value>
+  </data>
+  <data name="uiPreBaseLicitacion" xml:space="preserve">
+    <value>Budget base de licitation</value>
+  </data>
+  <data name="uiPreBeneficioIndustrial" xml:space="preserve">
+    <value>Bénéfice Industriel</value>
+  </data>
+  <data name="uiPreIVA" xml:space="preserve">
+    <value>TVA</value>
+  </data>
+  <data name="uiPreRestauracionPaisajistica" xml:space="preserve">
+    <value>Restauration du Paysage</value>
+  </data>
+  <data name="uiRadioM" xml:space="preserve">
+    <value>Radio (m)</value>
+  </data>
+  <data name="uiRadioXLong" xml:space="preserve">
+    <value>Radio x Longueur (m^2)</value>
+  </data>
+  <data name="uiTiempo" xml:space="preserve">
+    <value>Temps</value>
+  </data>
+  <data name="uiTiempoMin" xml:space="preserve">
+    <value>Temps (min)</value>
+  </data>
+  <data name="uiVelMaximaKmH" xml:space="preserve">
+    <value>Vitesse maximale (km/h)</value>
+  </data>
+  <data name="uiVelMinimaKmH" xml:space="preserve">
+    <value>Vitesse minimale (km/h)</value>
+  </data>
+  <data name="uiVolCapasAsiento" xml:space="preserve">
+    <value>Volume Couches Sécurité (m3)</value>
+  </data>
+  <data name="uiVolExc" xml:space="preserve">
+    <value>Volume Excavation (m3)</value>
+  </data>
+  <data name="uiVolExcEmpleo" xml:space="preserve">
+    <value>Volume Excavation Empoi (m3)</value>
+  </data>
+  <data name="uiVolExcPrestamo" xml:space="preserve">
+    <value>Volume Excavation Emprunt (m3)</value>
+  </data>
+  <data name="uiVolMovTierras" xml:space="preserve">
+    <value>Volume Terrassement </value>
+  </data>
+  <data name="uiVolTerrSaneo" xml:space="preserve">
+    <value>Volume Remblai et Assainissement</value>
+  </data>
+  <data name="uiZonaSinTuneles" xml:space="preserve">
+    <value>Zone sans tunnels</value>
+  </data>
+  <data name="uiApoyo" xml:space="preserve">
+    <value>Support</value>
+  </data>
+  <data name="uiId" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="uiLongPlantaM" xml:space="preserve">
+    <value>Longueur Plan (m)</value>
+  </data>
+  <data name="uiLongPlantaXPendienteAbs" xml:space="preserve">
+    <value>Longueur Plan x PenteAbs (m)</value>
+  </data>
+  <data name="uiPendiente" xml:space="preserve">
+    <value>Pente</value>
+  </data>
+  <data name="uiTramo" xml:space="preserve">
+    <value>Tronçon</value>
+  </data>
+  <data name="uiinformeMedMuro" xml:space="preserve">
+    <value>RAPPORT MESURE MUR BÉTON [M3]</value>
+  </data>
+  <data name="uiInformeRentPrivada" xml:space="preserve">
+    <value>RAPPORT RENTABILITÉ PRIVÉE</value>
+  </data>
+  <data name="uiInformeRentSocial" xml:space="preserve">
+    <value>RAPPORT RENTABILITÉ SOCIALE</value>
+  </data>
+  <data name="uiInformeValAlternativas" xml:space="preserve">
+    <value>RAPPORT ÉVALUATION D'ALTERNATIVES</value>
+  </data>
+  <data name="uiInformeValTierras" xml:space="preserve">
+    <value>RAPPORT ÉVALUATION COMPENSATION TERRASSEMENT</value>
+  </data>
+  <data name="uiInformeValTrazadoAlzado" xml:space="preserve">
+    <value>RAPPORT ÉVALUATION DE TRACÉ ÉLÉVATION</value>
+  </data>
+  <data name="uiInformeValTrazadoplanta" xml:space="preserve">
+    <value>RAPPORT ÉVALUATION DE TRACÉ PLAN</value>
+  </data>
+  <data name="uiInformeValTrazadoTiempo" xml:space="preserve">
+    <value>RAPPORT ÉVALUATION DE TRACÉ TEMPS</value>
+  </data>
+  <data name="uiPreConAdConIVA" xml:space="preserve">
+    <value>Budget pour l'Administration avec TVA</value>
+  </data>
+  <data name="uiPreConAdmSinIVA" xml:space="preserve">
+    <value>Budget pour l'Administration sans TVA</value>
+  </data>
+  <data name="uiPreConoAdmin" xml:space="preserve">
+    <value>Budget pour l'Administration</value>
+  </data>
+  <data name="uiPreConservacionPatrimonio" xml:space="preserve">
+    <value>Conservation patrimoniale</value>
+  </data>
+  <data name="uiPreConservacionPatriRenta" xml:space="preserve">
+    <value>Conservation patrimoniale Rentabilité</value>
+  </data>
+  <data name="uiPreControlCalidad" xml:space="preserve">
+    <value>Contrôle de qualité</value>
+  </data>
+  <data name="uiPreCostesAdicControlCalidad" xml:space="preserve">
+    <value>Coûts supplémentaires contrôle de qualité</value>
+  </data>
+  <data name="uiPreExpropiaciones" xml:space="preserve">
+    <value>Expropriations</value>
+  </data>
+  <data name="uiPreGastosGenerales" xml:space="preserve">
+    <value>Coûts Généraux</value>
+  </data>
+  <data name="uiPreInvPrivada" xml:space="preserve">
+    <value>Budget investissement privé</value>
+  </data>
+  <data name="uiPresConoAdminisPublico" xml:space="preserve">
+    <value>Budget Administration [Publique]</value>
+  </data>
+  <data name="uiPresupuConoAdminisPrivado" xml:space="preserve">
+    <value>Budget Administration [Privé]</value>
+  </data>
+  <data name="uiPresupuestoEjMaterial" xml:space="preserve">
+    <value>Budget Exécution Matériau</value>
+  </data>
+  <data name="uiProteccTaludes" xml:space="preserve">
+    <value>Protection Talus</value>
+  </data>
+  <data name="uiProtecFlexible" xml:space="preserve">
+    <value>Protection Talus Flexible</value>
+  </data>
+  <data name="uiRentabPrivadaBC" xml:space="preserve">
+    <value>Rentabilité Privée [B/C]</value>
+  </data>
+  <data name="uiRentabprivadaVAN" xml:space="preserve">
+    <value>Rentabilité Privée [VAN]</value>
+  </data>
+  <data name="uiRentabSocialBC" xml:space="preserve">
+    <value>Rentabilité Sociale [B/C]</value>
+  </data>
+  <data name="uiRentabSocialVAN" xml:space="preserve">
+    <value>Rentabilité Sociale [VAN]</value>
+  </data>
+  <data name="uiRentBC" xml:space="preserve">
+    <value>B/C</value>
+  </data>
+  <data name="uiRentCosTotActual" xml:space="preserve">
+    <value>Coûts Totaux Actualisés</value>
+  </data>
+  <data name="uiRentIngTotActual" xml:space="preserve">
+    <value>Revenus Totaux Actualisés</value>
+  </data>
+  <data name="uiRentPeriodoRecup" xml:space="preserve">
+    <value>Période Récuperation Investissement</value>
+  </data>
+  <data name="uiRentTasaIntRet" xml:space="preserve">
+    <value>Taux Interne de Retour</value>
+  </data>
+  <data name="uiRentValActualNeto" xml:space="preserve">
+    <value>Valeur Actualisée Net</value>
+  </data>
+  <data name="uiResPaisajRentabilidad" xml:space="preserve">
+    <value>Restauration du Paysage Rentabilité</value>
+  </data>
+  <data name="uiSegIPC" xml:space="preserve">
+    <value>Assurance avec IPC</value>
+  </data>
+  <data name="uiSubAnRevTasaSub" xml:space="preserve">
+    <value>Subvention Annuelle avec Révision Taux Subvention</value>
+  </data>
+  <data name="uiSubIPC" xml:space="preserve">
+    <value>Subventions avec IPC</value>
+  </data>
+  <data name="uiTaludprotecRigida" xml:space="preserve">
+    <value>Talus Protection Rigide</value>
+  </data>
+  <data name="uiTaludSinProtec" xml:space="preserve">
+    <value>Talus Sans Protection</value>
+  </data>
+  <data name="uiTasaActualizacion" xml:space="preserve">
+    <value>Taux Actualisation</value>
+  </data>
+  <data name="uiTasaRevIPC" xml:space="preserve">
+    <value>Taux Révision IPC</value>
+  </data>
+  <data name="uiTasaRevPrecConst" xml:space="preserve">
+    <value>Taux Révision Prix Construction</value>
+  </data>
+  <data name="uiTasaRevSub" xml:space="preserve">
+    <value>Taux Révision Subvention</value>
+  </data>
+  <data name="uiTierrasComp" xml:space="preserve">
+    <value>Compensation Terrassement</value>
+  </data>
+  <data name="uiTotalCostFunc" xml:space="preserve">
+    <value>Total Coûts Fonctionnement u.m./km</value>
+  </data>
+  <data name="uiTraConexionAct" xml:space="preserve">
+    <value>Circulation Lien Actuel</value>
+  </data>
+  <data name="uiTraConexionNue" xml:space="preserve">
+    <value>Circulation Nouvel Lien</value>
+  </data>
+  <data name="uiTraOpCero" xml:space="preserve">
+    <value>Circulation Option Zéro</value>
+  </data>
+  <data name="uiTratamientosEspecif" xml:space="preserve">
+    <value>Traitements Spéciaux</value>
+  </data>
+  <data name="uiTrazCurvMayor2500" xml:space="preserve">
+    <value>Tracé courbure supérieur 2500 [%]:</value>
+  </data>
+  <data name="uiTrazCurvMenor2500" xml:space="preserve">
+    <value>Tracé courbure inférieure 2500 [%]:</value>
+  </data>
+  <data name="uitrazRadioMedioMenor2500" xml:space="preserve">
+    <value>Radio Moyen Tracé courbure inférieure 2500 [m]:</value>
+  </data>
+  <data name="uiValAprovechamientos" xml:space="preserve">
+    <value>Évaluation Utilisation</value>
+  </data>
+  <data name="uiValCBR" xml:space="preserve">
+    <value>Évaluation CBR</value>
+  </data>
+  <data name="uiValExcavabilidad" xml:space="preserve">
+    <value>Évaluation possibilité d'excavation</value>
+  </data>
+  <data name="uiValGrupo01" xml:space="preserve">
+    <value>Évaluation Route</value>
+  </data>
+  <data name="uiValGrupo02" xml:space="preserve">
+    <value>Évaluation Géotechnique</value>
+  </data>
+  <data name="uiValGrupo03" xml:space="preserve">
+    <value>Évaluation Structures, Tunnels et Murs</value>
+  </data>
+  <data name="uiValGrupo0301" xml:space="preserve">
+    <value>Évaluation Fondation Ponts-Viaducs</value>
+  </data>
+  <data name="uiValGrupo0302" xml:space="preserve">
+    <value>Évaluation Géotechnique Tunnels</value>
+  </data>
+  <data name="uiValGrupo0303" xml:space="preserve">
+    <value>Évaluation Murs</value>
+  </data>
+  <data name="uiValGrupo04" xml:space="preserve">
+    <value>Évaluation Environnement</value>
+  </data>
+  <data name="uiValGrupo05" xml:space="preserve">
+    <value>Évaluation Climatique</value>
+  </data>
+  <data name="uiValGrupo06" xml:space="preserve">
+    <value>Évaluation Socioéconomique</value>
+  </data>
+  <data name="uiValGrupo07" xml:space="preserve">
+    <value>Évaluation Patrimoniale</value>
+  </data>
+  <data name="uiValGrupo08" xml:space="preserve">
+    <value>Évaluation Économique</value>
+  </data>
+  <data name="uiValNota" xml:space="preserve">
+    <value>Évaluation Score</value>
+  </data>
+  <data name="uiValNotaTantoPorCiento" xml:space="preserve">
+    <value>Évaluation Score [%]</value>
+  </data>
+  <data name="uiValPropia" xml:space="preserve">
+    <value>Évaluation Propre [%]:</value>
+  </data>
+  <data name="uiValPropiaDe0a10" xml:space="preserve">
+    <value>Évaluation Propre [0-1]:</value>
+  </data>
+  <data name="uiValPropiaM3" xml:space="preserve">
+    <value>Évaluation Propre (m3)</value>
+  </data>
+  <data name="uiValPropiaMin" xml:space="preserve">
+    <value>Évaluation Propre [t (min)]:</value>
+  </data>
+  <data name="uiValPropiaNoUnidad" xml:space="preserve">
+    <value>Évaluation Propre:</value>
+  </data>
+  <data name="uiDesfase" xml:space="preserve">
+    <value>Déphasage</value>
+  </data>
+  <data name="uiIncZ" xml:space="preserve">
+    <value>Z</value>
+  </data>
+  <data name="uiTerrenoCorrecion" xml:space="preserve">
+    <value>Correction Terrain</value>
+  </data>
+  <data name="uiEncuentro" xml:space="preserve">
+    <comment>con encuentro quiero decir la curva que une dos rectas en el perfil longitudinal</comment>
+    <value>Courbe de rencontre</value>
+  </data>
+  <data name="uiCurva" xml:space="preserve">
+    <value>Courbe</value>
+  </data>
+  <data name="uiEspiral" xml:space="preserve">
+    <value>Spirale</value>
+  </data>
+  <data name="uiRecta" xml:space="preserve">
+    <value>Ligne droite</value>
+  </data>
+  <data name="uiActuComp" xml:space="preserve">
+    <value>Interventions complémentaires</value>
+  </data>
+  <data name="uiCodigo" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="uiCorreGeo" xml:space="preserve">
+    <value>Corrections géotechniques</value>
+  </data>
+  <data name="uiCuentaTrian" xml:space="preserve">
+    <value>Fossé triangulaire</value>
+  </data>
+  <data name="uiCunetas" xml:space="preserve">
+    <value>Fossés</value>
+  </data>
+  <data name="uiCunetaTrap" xml:space="preserve">
+    <value>Fossé trapezoïdal</value>
+  </data>
+  <data name="uiDesvProv" xml:space="preserve">
+    <value>Déviations provisoires</value>
+  </data>
+  <data name="uiEmpleo" xml:space="preserve">
+    <value>Utilisation</value>
+  </data>
+  <data name="uiEsPrecioPrincpal" xml:space="preserve">
+    <value>Prix Principal</value>
+  </data>
+  <data name="uiExcavaciones" xml:space="preserve">
+    <value>Excavations</value>
+  </data>
+  <data name="uiExcDesm" xml:space="preserve">
+    <value>Excavation Déblai</value>
+  </data>
+  <data name="uiExcSaneoDes" xml:space="preserve">
+    <value>Excavation Assainissement Déblai</value>
+  </data>
+  <data name="uiExcSaneoTerr" xml:space="preserve">
+    <value>Excavation Assainissement Remblai</value>
+  </data>
+  <data name="uiKm" xml:space="preserve">
+    <value>Km</value>
+  </data>
+  <data name="uiMaterial" xml:space="preserve">
+    <value>Matériel</value>
+  </data>
+  <data name="uiMatPlanta" xml:space="preserve">
+    <value>Matériaux Centrale</value>
+  </data>
+  <data name="uiMedCorrec" xml:space="preserve">
+    <value>Mesures correctrices</value>
+  </data>
+  <data name="uiMedicion" xml:space="preserve">
+    <value>Mesure</value>
+  </data>
+  <data name="uiMedicionXPrecio" xml:space="preserve">
+    <value>Mesure x Prix</value>
+  </data>
+  <data name="uiPrecio" xml:space="preserve">
+    <value>Prix</value>
+  </data>
+  <data name="uiPrestamo" xml:space="preserve">
+    <value>Emprunt</value>
+  </data>
+  <data name="uiPuenteViaducto" xml:space="preserve">
+    <value>Ponts et viaducs</value>
+  </data>
+  <data name="uiRellBerma" xml:space="preserve">
+    <value>Remplissage Berme</value>
+  </data>
+  <data name="uiRellenos" xml:space="preserve">
+    <value>Remplissage</value>
+  </data>
+  <data name="uiRellenoSaneoTerr" xml:space="preserve">
+    <value>Remplissage Assainissement Remblai</value>
+  </data>
+  <data name="uiRellenoTerraplen" xml:space="preserve">
+    <value>Remplissage Remblai</value>
+  </data>
+  <data name="uiRellSanDes" xml:space="preserve">
+    <value>Remplissage Assainissement Déblai</value>
+  </data>
+  <data name="uiRepServicios" xml:space="preserve">
+    <value>Replacement Services</value>
+  </data>
+  <data name="uiSectorPrimario" xml:space="preserve">
+    <value>Secteur primaire</value>
+  </data>
+  <data name="uiSectorSecundario" xml:space="preserve">
+    <value>Secteur secondaire</value>
+  </data>
+  <data name="uiSectorTerciario" xml:space="preserve">
+    <value>Secteur tertiaire</value>
+  </data>
+  <data name="uiSegSalud" xml:space="preserve">
+    <value>Sécurité et Santé</value>
+  </data>
+  <data name="uiSueloNoUrbano" xml:space="preserve">
+    <value>Terrains non urbains</value>
+  </data>
+  <data name="uiSueloUrbanizable" xml:space="preserve">
+    <value>Terrains non constructibles</value>
+  </data>
+  <data name="uiSueloUrbano" xml:space="preserve">
+    <value>Terrains urbains</value>
+  </data>
+  <data name="uiTerraplenesYSaneos" xml:space="preserve">
+    <value>Déblais et remplissages</value>
+  </data>
+  <data name="uiTipo" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="uiTunel" xml:space="preserve">
+    <value>Tunnel</value>
+  </data>
+  <data name="uiUd" xml:space="preserve">
+    <value>un</value>
+  </data>
+  <data name="uiZona" xml:space="preserve">
+    <value>Zone</value>
+  </data>
+  <data name="uiPrecioTotal" xml:space="preserve">
+    <value>Prix total</value>
+  </data>
+  <data name="uiPrecioUnitario" xml:space="preserve">
+    <value>Prix unitaire </value>
+  </data>
+  <data name="uiBalanceTierras" xml:space="preserve">
+    <value>Équilibre de terrassements</value>
+  </data>
+  <data name="uiCapaAsiento" xml:space="preserve">
+    <value>Couche de sécurité</value>
+  </data>
+  <data name="uiCapaGran" xml:space="preserve">
+    <value>Couche granulaire</value>
+  </data>
+  <data name="uiCapaGranFirme" xml:space="preserve">
+    <value>Couche granulaire de revêtement</value>
+  </data>
+  <data name="uiCapaGranularArcen" xml:space="preserve">
+    <value>Couche de la bande d'arrêt</value>
+  </data>
+  <data name="uiSeñBalizam" xml:space="preserve">
+    <value>Signalisation balisage</value>
+  </data>
+  <data name="uiValProd" xml:space="preserve">
+    <value>Évaluation Production</value>
+  </data>
+  <data name="uiValSuelo" xml:space="preserve">
+    <value>Évaluation Sol</value>
+  </data>
+  <data name="uiVertedero" xml:space="preserve">
+    <value>Décharge</value>
+  </data>
+  <data name="uiCapitulo" xml:space="preserve">
+    <value>Chapitre</value>
+  </data>
+  <data name="uiOrigen" xml:space="preserve">
+    <value>Origine</value>
+  </data>
+  <data name="uiAntihorario" xml:space="preserve">
+    <value>Anti-Horaire</value>
+  </data>
+  <data name="uiClotiodeSalida" xml:space="preserve">
+    <value>Clothoïde origine</value>
+  </data>
+  <data name="uiClotoideEntrada" xml:space="preserve">
+    <value>Clothoïde destination</value>
+  </data>
+  <data name="uiGuitarraAcuerdosVerticales" xml:space="preserve">
+    <value>RACCORDS VERTICAUX</value>
+  </data>
+  <data name="uiGuitarraCotaRasante" xml:space="preserve">
+    <value>COTE-INCLINAISON</value>
+  </data>
+  <data name="uiGuitarraCotaTerreno" xml:space="preserve">
+    <value>COTE-TERRAIN</value>
+  </data>
+  <data name="uiGuitarraDiagCurvaturas" xml:space="preserve">
+    <value>DIAGRAMME DE COURBURES</value>
+  </data>
+  <data name="uiGuitarraEstructurasMay" xml:space="preserve">
+    <value>STRUCTURES</value>
+  </data>
+  <data name="uiGuitarraPeralteMay" xml:space="preserve">
+    <value>SURHAUSSEMENT</value>
+  </data>
+  <data name="uiGuitarraRojaDesmonte" xml:space="preserve">
+    <value>COTE ROUGE déblai</value>
+  </data>
+  <data name="uiGuitarraRojaTerraplen" xml:space="preserve">
+    <value>COTE ROUGE remblai</value>
+  </data>
+  <data name="uiHorario" xml:space="preserve">
+    <value>Horaire</value>
+  </data>
+  <data name="uiNoValorado" xml:space="preserve">
+    <value>Non évalué</value>
+  </data>
+  <data name="uiPRI" xml:space="preserve">
+    <value>PRI</value>
+  </data>
+  <data name="uiTIR" xml:space="preserve">
+    <value>TIR</value>
+  </data>
+  <data name="uiVAN" xml:space="preserve">
+    <value>VAN</value>
+  </data>
+</root>

@@ -1,0 +1,414 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="eAsigancionValoresMaxMin" xml:space="preserve">
+    <value>Error while Assigning Maximum {0} and Minimum {1} Scores</value>
+  </data>
+  <data name="eComboCount0" xml:space="preserve">
+    <value>Elements not Found</value>
+  </data>
+  <data name="eComboFiltroNull" xml:space="preserve">
+    <value>Search IDs not defined in the Combo {0}</value>
+  </data>
+  <data name="eErrorSaveas" xml:space="preserve">
+    <value>Error while Saving File</value>
+  </data>
+  <data name="eMaterialCodeNotlmplemted" xml:space="preserve">
+    <value>The Material Code {0} is not Implemented</value>
+  </data>
+  <data name="eMetodoNoImplementado" xml:space="preserve">
+    <value>Method not Implemented</value>
+  </data>
+  <data name="eProcesoCancelado" xml:space="preserve">
+    <value>Aborted Process</value>
+  </data>
+  <data name="eValidacion" xml:space="preserve">
+    <value>Error while Validating Form Data</value>
+  </data>
+  <data name="eValorMaxOutRango" xml:space="preserve">
+    <value>Value out of Range ; Maximum Value {0}</value>
+  </data>
+  <data name="eValorMinOutRango" xml:space="preserve">
+    <value>Value out of Range ; Minimum Value {0}</value>
+  </data>
+  <data name="eValorNoImplementado" xml:space="preserve">
+    <value>The Value {0} is not Implemented</value>
+  </data>
+  <data name="eValorObligatorio" xml:space="preserve">
+    <value>Mandatory Value</value>
+  </data>
+  <data name="eValorStrMaxOutRango" xml:space="preserve">
+    <value>The Text Length is out of range ; Maximum Value {0}</value>
+  </data>
+  <data name="ePuntoInicioFinDentroDeZonaCruce" xml:space="preserve">
+    <value>The clearance of the area {0} won't be processed ; Origin or destination point inside</value>
+  </data>
+  <data name="eAddLineaEnCapa" xml:space="preserve">
+    <value>Error while Entering Line in Layer {0}</value>
+  </data>
+  <data name="eBloqueNoExisteFichero" xml:space="preserve">
+    <value>ERROR \n Block {0} Does Not Exist in the Current File</value>
+  </data>
+  <data name="eCapaNoExiste" xml:space="preserve">
+    <value>Layer {0} Does Not Exist in Current dwg</value>
+  </data>
+  <data name="ecasoIncompatible" xml:space="preserve">
+    <value>\nIncompatible Case Roundabout with Defined Slope</value>
+  </data>
+  <data name="eCasoIncomTramoSal" xml:space="preserve">
+    <value>Incompatible Case \nAzimut and Road Stretch Length must be defined</value>
+  </data>
+  <data name="eCasoIndeterCotas" xml:space="preserve">
+    <value>Indetermined Case \n RoadLevel {0}\n LandLevel {1}</value>
+  </data>
+  <data name="eCasoIndeterTramoSal" xml:space="preserve">
+    <value>Indetermined Case in Start Point of the Road Stretch</value>
+  </data>
+  <data name="eCasoNoContemplado" xml:space="preserve">
+    <value>Not Considered Case</value>
+  </data>
+  <data name="eColeccionTramosNula" xml:space="preserve">
+    <value>Fan Road Stretches are Non-Existent</value>
+  </data>
+  <data name="eControladorAcceso" xml:space="preserve">
+    <value>Error in the controler of data access of the graphic interface</value>
+  </data>
+  <data name="eCunetaTrapezoidal" xml:space="preserve">
+    <value>Trapezoidal Ditch</value>
+  </data>
+  <data name="eDiccionarioNoContieneClave" xml:space="preserve">
+    <value>The Dictionary Does Not Contain the Key {0}</value>
+  </data>
+  <data name="eDiscretizarPol" xml:space="preserve">
+    <value>Error when discretizing the Polyline; No Points of Intersection Found</value>
+  </data>
+  <data name="eDobleAutovia" xml:space="preserve">
+    <value>Dual Carriageway</value>
+  </data>
+  <data name="eDobleAutoviaSinMediana" xml:space="preserve">
+    <value>Dual Carriageway Without Central Reservation</value>
+  </data>
+  <data name="eEntidadSolo2Vertices" xml:space="preserve">
+    <value>Entity {0} can have only two Vertex</value>
+  </data>
+  <data name="eErrorIDLic" xml:space="preserve">
+    <value>Error while Obtaining ID of Licence</value>
+  </data>
+  <data name="eErrorIDLicCampos" xml:space="preserve">
+    <value>Error in the fileds of ID of Licence</value>
+  </data>
+  <data name="eEstilosEtiquetaEje" xml:space="preserve">
+    <value>There are no Tag Styles for Axis [Define at least one]</value>
+  </data>
+  <data name="eEstiloVisualizacion" xml:space="preserve">
+    <value>"Displaying Styles are not configured</value>
+  </data>
+  <data name="eFiltroCapaEntidad" xml:space="preserve">
+    <value>Error when Creating the Filter in the Selection Entity-Layer</value>
+  </data>
+  <data name="eGenerarConjuntoSeleccion" xml:space="preserve">
+    <value>Error when Generating the Selection Ensemble</value>
+  </data>
+  <data name="eGetRegion" xml:space="preserve">
+    <value>Error when obtaining the Area</value>
+  </data>
+  <data name="eInversionPrivada" xml:space="preserve">
+    <value>Value Private Investment has not been configured</value>
+  </data>
+  <data name="eLongitudMenorAjmin" xml:space="preserve">
+    <value>Length {0} is Lower than AijMinimumStartPoint</value>
+  </data>
+  <data name="eLongSalidaMenorA" xml:space="preserve">
+    <value>Length of Start Point is Lower than AijMinimumStartPoint</value>
+  </data>
+  <data name="eMacroPreciosSeguridadSauld" xml:space="preserve">
+    <value>Macro-Prices ; Health and Safety</value>
+  </data>
+  <data name="eNoExiste" xml:space="preserve">
+    <value>Non-Existent</value>
+  </data>
+  <data name="eNoExistePuntosDeInterseccion" xml:space="preserve">
+    <value>No Intersection between Elements</value>
+  </data>
+  <data name="eNoFichLic" xml:space="preserve">
+    <value>Licence File is not Found</value>
+  </data>
+  <data name="eNoFichLicNulo" xml:space="preserve">
+    <value>Licence File is Non-Existent</value>
+  </data>
+  <data name="eNoSePuedeobtenerXdata" xml:space="preserve">
+    <value>Extended Data of the Key {0} cannot be obtained</value>
+  </data>
+  <data name="eNullSelection" xml:space="preserve">
+    <value>Selection is Non-Existent</value>
+  </data>
+  <data name="eNumInterMayor1" xml:space="preserve">
+    <value>Number of Intersections is Higher than One</value>
+  </data>
+  <data name="eOpcionNoConfig" xml:space="preserve">
+    <value>Option {0} is not Configured</value>
+  </data>
+  <data name="ePolilineaEntre2Puntos" xml:space="preserve">
+    <value>Error while obtaining the polyline between two points</value>
+  </data>
+  <data name="ePresupuesto" xml:space="preserve">
+    <value>Budget</value>
+  </data>
+  <data name="eProyectoMacroPrecios" xml:space="preserve">
+    <value>Project ; MacroPrices</value>
+  </data>
+  <data name="ePuntoNoPolilinea" xml:space="preserve">
+    <value>The point is not on the polyline</value>
+  </data>
+  <data name="eregistroTablaCalzadaUnicaNoExiste" xml:space="preserve">
+    <value>Record {0} of the table simple road does not exist</value>
+  </data>
+  <data name="eSolucionEjeTrazado" xml:space="preserve">
+    <value>Solution ; Road Axis (handle)</value>
+  </data>
+  <data name="eSolucionNoExiste" xml:space="preserve">
+    <value>Solution with ID {0}\n does not exist in current project</value>
+  </data>
+  <data name="eTablaCimentacion" xml:space="preserve">
+    <value>Table Foundations</value>
+  </data>
+  <data name="eTablaEstInfTDB" xml:space="preserve">
+    <value>Table Informative Study TDB</value>
+  </data>
+  <data name="eTablaEstructuras" xml:space="preserve">
+    <value>Table Structures</value>
+  </data>
+  <data name="eTablaKV" xml:space="preserve">
+    <value>Table Kv</value>
+  </data>
+  <data name="eTablaMovTierras" xml:space="preserve">
+    <value>Table Earthwork</value>
+  </data>
+  <data name="eTablaProyecto" xml:space="preserve">
+    <value>Table Project</value>
+  </data>
+  <data name="eTablaPuntoIniFin" xml:space="preserve">
+    <value>Table Origin and Destination Point</value>
+  </data>
+  <data name="eTablaSeccionZGenerales" xml:space="preserve">
+    <value>Table Section - General Areas</value>
+  </data>
+  <data name="eTablaSolucion" xml:space="preserve">
+    <value>Table Solution</value>
+  </data>
+  <data name="eTablaTuneles" xml:space="preserve">
+    <value>Table Tunnels</value>
+  </data>
+  <data name="eTipoCalzadaNoImpl" xml:space="preserve">
+    <value>The type of road stretch {0} is not implemented</value>
+  </data>
+  <data name="eTramosValidos" xml:space="preserve">
+    <value>ThereareValidStretchesLongShortFeedrates [Case Not Configured]</value>
+  </data>
+  <data name="eUSBNoConectado" xml:space="preserve">
+    <value>No USB connected to computer</value>
+  </data>
+  <data name="eValSeccion" xml:space="preserve">
+    <value>Error while evaluating section: \nMaximum Value: {0} \nMinimum Value: {1} \nSection Value: {3}</value>
+  </data>
+  <data name="eAnalizandoFichero" xml:space="preserve">
+    <value>Error while analysing the file :</value>
+  </data>
+  <data name="eAsignarSeccion" xml:space="preserve">
+    <value>Section cannot be assigned</value>
+  </data>
+  <data name="eCapaEliminada" xml:space="preserve">
+    <value>A required layer has been removed</value>
+  </data>
+  <data name="eCapaNoDefinida" xml:space="preserve">
+    <value>Layer {0} is not defined</value>
+  </data>
+  <data name="eCodigoSeccion" xml:space="preserve">
+    <value>The Structure Code must have 6 characters \nStructure Code: {0} </value>
+  </data>
+  <data name="eEjeVisibiliadDuplicado" xml:space="preserve">
+    <value>The Visibility Axis is doubled ; ({0} Defined Axis in the Project,</value>
+  </data>
+  <data name="eEjeVisibilidadNoExiste" xml:space="preserve">
+    <value>The Visibility Axis is not defined</value>
+  </data>
+  <data name="eEnumNoImplementada" xml:space="preserve">
+    <value>The List '{0}' is not implemented</value>
+  </data>
+  <data name="eFicheroBBDDNoExiste" xml:space="preserve">
+    <value>File Database Non-Existent</value>
+  </data>
+  <data name="eFicheroNormasNoExisteVpKv" xml:space="preserve">
+    <value>File Regulations [Vp-Kv] Non-Existent</value>
+  </data>
+  <data name="eFicheroNormasNoExisteVpRp" xml:space="preserve">
+    <value>File Regulations [Vp-Rp] Non-Existent</value>
+  </data>
+  <data name="ePropiedadLectura" xml:space="preserve">
+    <value>Property '{0}' is not Read-Only</value>
+  </data>
+  <data name="ePropiedadNula" xml:space="preserve">
+    <value>Property {0} is Non-Existent</value>
+  </data>
+  <data name="ePropiedadNulaSinValor" xml:space="preserve">
+    <value>Property is Non-Existent</value>
+  </data>
+  <data name="eRegistroNoEncontrado" xml:space="preserve">
+    <value>Record of value '{0}'\n in Table{1} not found</value>
+  </data>
+  <data name="eRegistroUnico" xml:space="preserve">
+    <value>There can be only one Record of Value '{0}'\n in Table{1}</value>
+  </data>
+  <data name="eSeccionCalzada" xml:space="preserve">
+    <value>Error Road Stretch Section</value>
+  </data>
+  <data name="eSeccionFueraCarografia" xml:space="preserve">
+    <value>The section of Pk : {0} is outside the cartography</value>
+  </data>
+  <data name="eTramoEntronque" xml:space="preserve">
+    <value>The connecting stretch fails to comply with the design criteria</value>
+  </data>
+  <data name="eTramoSalidaRotonda" xml:space="preserve">
+    <value>The starting point stretch [Roundabout] fails to comply with the design criteria</value>
+  </data>
+  <data name="eValorNoconfig" xml:space="preserve">
+    <value>Value {0}\n has not been configured</value>
+  </data>
+  <data name="ePuntoIniFinNoDef" xml:space="preserve">
+    <value>Origin point and destination point are not defined</value>
+  </data>
+  <data name="eCoincidirPtoIniFin" xml:space="preserve">
+    <value>The origin and destination points cannot coincide</value>
+  </data>
+  <data name="eEntidadNoExiste" xml:space="preserve">
+    <value>You are trying to access an entity that does not exis</value>
+  </data>
+  <data name="eZonaGeneralNP" xml:space="preserve">
+    <value>General areas cannot be banned areas</value>
+  </data>
+  <data name="eExistenPuntosFueraCartografia" xml:space="preserve">
+    <value>There are points outside the cartography</value>
+  </data>
+  <data name="eCaducado" xml:space="preserve">
+    <value> The license has expired</value>
+  </data>
+  <data name="eInternet" xml:space="preserve">
+    <value> Connect to Internet to execute TADIL</value>
+  </data>
+</root>

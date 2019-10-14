@@ -1,0 +1,364 @@
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\bin\Debug\tadLayLan.dll
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\bin\Debug\tadLayLan.pdb
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\bin\Debug\en\tadLayLan.resources.dll
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\bin\Debug\fr\tadLayLan.resources.dll
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.csprojResolveAssemblyReference.cache
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.img.imgCuneta.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.img.imgSecciones.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.strGeneralUser1.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.strSeccionesTipo.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.strUserCad.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmUnidadMonetaria.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmApp.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmAppSecciones.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmBb.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmDatosAbanico.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmDatosProyecto.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmEstilosEjePerfil.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmFiles.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisCim.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisEst.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisTun.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.strError.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisGeo.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisGeneral.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmInformes.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmKv.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmMacroPrecios.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmPresupuesto.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmSolucion.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmPtoIniFin.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmRentabilidad.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmRoadVpRadio.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmTerreno.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmValoracion.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.strGeneral.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmPrecios.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strRmr.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmSecciones.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.strGeneralUser.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdm.strFormTdm.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tds.strSimplPoli.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.img.imgCuneta.en.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.img.imgSecciones.en.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.img.imgSecciones.fr.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.img.imgCuneta.fr.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.strError.en.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.strError.fr.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.strGeneral.en.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.strGeneral.fr.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.strGeneralUser.en.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.strGeneralUser.fr.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.strGeneralUser1.en.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.strGeneralUser1.fr.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.strSeccionesTipo.en.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.strSeccionesTipo.fr.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.strUserCad.en.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.strUserCad.fr.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmUnidadMonetaria.en.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmUnidadMonetaria.fr.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmApp.en.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmApp.fr.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmAppSecciones.en.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmAppSecciones.fr.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmBb.en.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmBb.fr.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmDatosAbanico.en.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmDatosAbanico.fr.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmDatosProyecto.en.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmDatosProyecto.fr.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmEstilosEjePerfil.en.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmEstilosEjePerfil.fr.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmFiles.en.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmFiles.fr.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisCim.en.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisCim.fr.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisEst.en.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisEst.fr.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisGeneral.en.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisGeneral.fr.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisGeo.en.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisGeo.fr.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisTun.en.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisTun.fr.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmInformes.en.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmInformes.fr.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmKv.en.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmKv.fr.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmMacroPrecios.en.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmMacroPrecios.fr.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmPresupuesto.en.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmPresupuesto.fr.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmPtoIniFin.en.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmPtoIniFin.fr.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmRentabilidad.en.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmRentabilidad.fr.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmRoadVpRadio.en.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmRoadVpRadio.fr.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmSolucion.en.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmSolucion.fr.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmTerreno.en.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmTerreno.fr.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmValoracion.en.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmValoracion.fr.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmPrecios.en.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmPrecios.fr.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmSecciones.en.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmSecciones.fr.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strRmr.en.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strRmr.fr.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdm.strFormTdm.en.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdm.strFormTdm.fr.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tds.strSimplPoli.en.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tds.strSimplPoli.fr.resources
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.csproj.GenerateResource.Cache
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\en\tadLayLan.resources.dll
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\fr\tadLayLan.resources.dll
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.dll
+C:\Users\angel\Desktop\TadilVersionAnterior\trunk\TadilRoad\tadLayLan\obj\Debug\tadLayLan.pdb
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\bin\Debug\tadLayLan.dll
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\bin\Debug\tadLayLan.pdb
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\bin\Debug\en\tadLayLan.resources.dll
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\bin\Debug\fr\tadLayLan.resources.dll
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.csprojResolveAssemblyReference.cache
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.img.imgCuneta.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.img.imgSecciones.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.strGeneralUser1.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.strSeccionesTipo.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.strUserCad.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmUnidadMonetaria.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmApp.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmAppSecciones.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmBb.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmDatosAbanico.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmDatosProyecto.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmEstilosEjePerfil.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmFiles.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisCim.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisEst.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisTun.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.strError.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisGeo.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisGeneral.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmInformes.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmKv.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmMacroPrecios.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmPresupuesto.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmSolucion.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmPtoIniFin.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmRentabilidad.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmRoadVpRadio.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmTerreno.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmValoracion.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.strGeneral.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmPrecios.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strRmr.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmSecciones.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.strGeneralUser.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdm.strFormTdm.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tds.strSimplPoli.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.img.imgCuneta.en.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.img.imgSecciones.en.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.img.imgSecciones.fr.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.img.imgCuneta.fr.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.strError.en.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.strError.fr.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.strGeneral.en.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.strGeneral.fr.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.strGeneralUser.en.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.strGeneralUser.fr.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.strGeneralUser1.en.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.strGeneralUser1.fr.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.strSeccionesTipo.en.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.strSeccionesTipo.fr.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.strUserCad.en.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.strUserCad.fr.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmUnidadMonetaria.en.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmUnidadMonetaria.fr.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmApp.en.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmApp.fr.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmAppSecciones.en.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmAppSecciones.fr.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmBb.en.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmBb.fr.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmDatosAbanico.en.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmDatosAbanico.fr.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmDatosProyecto.en.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmDatosProyecto.fr.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmEstilosEjePerfil.en.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmEstilosEjePerfil.fr.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmFiles.en.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmFiles.fr.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisCim.en.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisCim.fr.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisEst.en.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisEst.fr.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisGeneral.en.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisGeneral.fr.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisGeo.en.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisGeo.fr.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisTun.en.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisTun.fr.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmInformes.en.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmInformes.fr.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmKv.en.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmKv.fr.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmMacroPrecios.en.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmMacroPrecios.fr.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmPresupuesto.en.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmPresupuesto.fr.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmPtoIniFin.en.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmPtoIniFin.fr.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmRentabilidad.en.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmRentabilidad.fr.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmRoadVpRadio.en.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmRoadVpRadio.fr.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmSolucion.en.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmSolucion.fr.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmTerreno.en.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmTerreno.fr.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmValoracion.en.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmValoracion.fr.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmPrecios.en.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmPrecios.fr.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmSecciones.en.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmSecciones.fr.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strRmr.en.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdb.strRmr.fr.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdm.strFormTdm.en.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tdm.strFormTdm.fr.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tds.strSimplPoli.en.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.Tds.strSimplPoli.fr.resources
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.csproj.GenerateResource.Cache
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.csproj.CoreCompileInputs.cache
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\en\tadLayLan.resources.dll
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\fr\tadLayLan.resources.dll
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.dll
+F:\Users\usuario\Desktop\Código TADIL Road 2013\Codigo Tadil Road 2013\TadilRoad\tadLayLan\obj\Debug\tadLayLan.pdb
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\bin\Debug\tadLayLan.dll
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\bin\Debug\tadLayLan.pdb
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\bin\Debug\en\tadLayLan.resources.dll
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\bin\Debug\fr\tadLayLan.resources.dll
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.csprojAssemblyReference.cache
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.img.imgCuneta.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.img.imgSecciones.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.strGeneralUser1.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.strSeccionesTipo.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.strUserCad.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmUnidadMonetaria.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmApp.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmAppSecciones.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmBb.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmDatosAbanico.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmDatosProyecto.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmEstilosEjePerfil.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmFiles.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisCim.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisEst.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisTun.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.strError.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisGeo.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisGeneral.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmInformes.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmKv.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmMacroPrecios.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmPresupuesto.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmSolucion.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmPtoIniFin.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmRentabilidad.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmRoadVpRadio.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmTerreno.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmValoracion.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.strGeneral.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmPrecios.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdb.strRmr.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmSecciones.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.strGeneralUser.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdm.strFormTdm.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tds.strSimplPoli.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.img.imgCuneta.en.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.img.imgSecciones.en.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.img.imgSecciones.fr.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.img.imgCuneta.fr.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.strError.en.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.strError.fr.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.strGeneral.en.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.strGeneral.fr.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.strGeneralUser.en.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.strGeneralUser.fr.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.strGeneralUser1.en.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.strGeneralUser1.fr.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.strSeccionesTipo.en.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.strSeccionesTipo.fr.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.strUserCad.en.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.strUserCad.fr.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmUnidadMonetaria.en.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmUnidadMonetaria.fr.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmApp.en.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmApp.fr.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmAppSecciones.en.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmAppSecciones.fr.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmBb.en.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmBb.fr.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmDatosAbanico.en.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmDatosAbanico.fr.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmDatosProyecto.en.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmDatosProyecto.fr.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmEstilosEjePerfil.en.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmEstilosEjePerfil.fr.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmFiles.en.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmFiles.fr.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisCim.en.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisCim.fr.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisEst.en.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisEst.fr.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisGeneral.en.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisGeneral.fr.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisGeo.en.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisGeo.fr.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisTun.en.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmGisTun.fr.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmInformes.en.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmInformes.fr.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmKv.en.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmKv.fr.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmMacroPrecios.en.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmMacroPrecios.fr.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmPresupuesto.en.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmPresupuesto.fr.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmPtoIniFin.en.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmPtoIniFin.fr.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmRentabilidad.en.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmRentabilidad.fr.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmRoadVpRadio.en.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmRoadVpRadio.fr.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmSolucion.en.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmSolucion.fr.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmTerreno.en.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmTerreno.fr.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmValoracion.en.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdi.strFrmValoracion.fr.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmPrecios.en.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmPrecios.fr.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmSecciones.en.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdb.strFrmSecciones.fr.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdb.strRmr.en.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdb.strRmr.fr.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdm.strFormTdm.en.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tdm.strFormTdm.fr.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tds.strSimplPoli.en.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.Tds.strSimplPoli.fr.resources
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.csproj.GenerateResource.cache
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.csproj.CoreCompileInputs.cache
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\en\tadLayLan.resources.dll
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\fr\tadLayLan.resources.dll
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.dll
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\tadLayLan\obj\Debug\tadLayLan.pdb
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\APLITOP\bin\Debug\tadLayLan.dll
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\APLITOP\bin\Debug\tadLayLan.pdb
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\APLITOP\bin\Debug\en\tadLayLan.resources.dll
+C:\Users\Juanma\Desktop\Juanma\aplitop\APLITOP\APLITOP\APLITOP\bin\Debug\fr\tadLayLan.resources.dll
+C:\bin\Debug\tadLayLan.dll
+C:\bin\Debug\tadLayLan.pdb
+C:\bin\Debug\en\tadLayLan.resources.dll
+C:\bin\Debug\fr\tadLayLan.resources.dll

@@ -1,0 +1,246 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="aclotoide" xml:space="preserve">
+    <value>A clothoid</value>
+  </data>
+  <data name="azimutfinal" xml:space="preserve">
+    <value>Final Azimuth</value>
+  </data>
+  <data name="centrocurvax" xml:space="preserve">
+    <value>Centre Curve X</value>
+  </data>
+  <data name="centrocurvay" xml:space="preserve">
+    <value>Centre Curve Y</value>
+  </data>
+  <data name="curva" xml:space="preserve">
+    <value>Curve</value>
+  </data>
+  <data name="descripcion" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="elemento" xml:space="preserve">
+    <value>Element</value>
+  </data>
+  <data name="espiral" xml:space="preserve">
+    <value>Clothoid</value>
+  </data>
+  <data name="linea" xml:space="preserve">
+    <value>Line</value>
+  </data>
+  <data name="longitud" xml:space="preserve">
+    <value>Length</value>
+  </data>
+  <data name="longitudTrazado" xml:space="preserve">
+    <value>Length of Route Plan</value>
+  </data>
+  <data name="margender" xml:space="preserve">
+    <value>Right Side</value>
+  </data>
+  <data name="margenizq" xml:space="preserve">
+    <value>Left Side</value>
+  </data>
+  <data name="nombre" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="peralte" xml:space="preserve">
+    <value>Banking [%]</value>
+  </data>
+  <data name="pkfin" xml:space="preserve">
+    <value>Final K.P.</value>
+  </data>
+  <data name="pkini" xml:space="preserve">
+    <value>Initial K.P.</value>
+  </data>
+  <data name="puntofinx" xml:space="preserve">
+    <value>End Point X</value>
+  </data>
+  <data name="puntofiny" xml:space="preserve">
+    <value>End Point Y</value>
+  </data>
+  <data name="puntoinix" xml:space="preserve">
+    <value>Start Point X</value>
+  </data>
+  <data name="puntoiniy" xml:space="preserve">
+    <value>Start Point Y</value>
+  </data>
+  <data name="radio" xml:space="preserve">
+    <value>Radius</value>
+  </data>
+  <data name="segmento" xml:space="preserve">
+    <value>Segment</value>
+  </data>
+  <data name="sentgiro" xml:space="preserve">
+    <value>Turn Direction</value>
+  </data>
+  <data name="solucion" xml:space="preserve">
+    <value>Solution</value>
+  </data>
+  <data name="tipo" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="varimi" xml:space="preserve">
+    <value>Variation LS</value>
+  </data>
+  <data name="varmd" xml:space="preserve">
+    <value>Variation RS</value>
+  </data>
+  <data name="vertice" xml:space="preserve">
+    <value>Vertex</value>
+  </data>
+  <data name="c2500" xml:space="preserve">
+    <value>Curve Radius 2500</value>
+  </data>
+  <data name="c5000" xml:space="preserve">
+    <value>Curve Radius 5000</value>
+  </data>
+  <data name="CNP" xml:space="preserve">
+    <value>Off Tangent Curve</value>
+  </data>
+  <data name="CNPAnguloReducido" xml:space="preserve">
+    <value>O.T.C. Reduced Angle</value>
+  </data>
+  <data name="CP" xml:space="preserve">
+    <value>Tangent Curve</value>
+  </data>
+  <data name="GiroEntrada" xml:space="preserve">
+    <value>Entrance turn</value>
+  </data>
+  <data name="GiroSalida" xml:space="preserve">
+    <value>Exit turn</value>
+  </data>
+  <data name="NoValorado" xml:space="preserve">
+    <value>Not evaluated</value>
+  </data>
+  <data name="QuedaFijo" xml:space="preserve">
+    <value>Stay firm</value>
+  </data>
+  <data name="Recta" xml:space="preserve">
+    <value>Straight Line</value>
+  </data>
+  <data name="RectaIntermediaCurvaS" xml:space="preserve">
+    <value>Intermediate Straight Line S Curve</value>
+  </data>
+  <data name="RectaIntermediaParalelismo" xml:space="preserve">
+    <value>Intermediate Straight Line Parallelism</value>
+  </data>
+  <data name="ResctaIntermedia" xml:space="preserve">
+    <value>Intermediate Straight Line</value>
+  </data>
+</root>

@@ -1,0 +1,332 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="uiBorrarRegistroListados" xml:space="preserve">
+    <value>¿Deseas Borrar el Conjunto de Registros?</value>
+  </data>
+  <data name="uiBorrarRegistroUnico" xml:space="preserve">
+    <value>¿Deseas Borrar el Registro?</value>
+  </data>
+  <data name="uiCancelarModificaciones" xml:space="preserve">
+    <value>¿Deseas Cancelar las Modificaciones?</value>
+  </data>
+  <data name="uiDatoNoValido" xml:space="preserve">
+    <value>Dato No Valido</value>
+  </data>
+  <data name="uiDatosGuardar" xml:space="preserve">
+    <value>¿Deseas Guardar los Datos?</value>
+  </data>
+  <data name="uiDatosNoGuardados" xml:space="preserve">
+    <value>Existen Datos No Guardados</value>
+  </data>
+  <data name="uiDatosNoValidos" xml:space="preserve">
+    <value>Error en la Validación de los Datos</value>
+  </data>
+  <data name="uiDatosRestaurados" xml:space="preserve">
+    <value>Datos Restaurados</value>
+  </data>
+  <data name="uiDatosSaveIsOk" xml:space="preserve">
+    <value>Datos Guardados</value>
+  </data>
+  <data name="uiDgvRowEmpty" xml:space="preserve">
+    <value>El Conjunto de Filas esta vacio</value>
+  </data>
+  <data name="uiDgvRowMultiple" xml:space="preserve">
+    <value>Solo Debes de Selecionar un Registro</value>
+  </data>
+  <data name="uiDgvRowNull" xml:space="preserve">
+    <value>Debes de Seleccionar un Registro</value>
+  </data>
+  <data name="uiEjeTrazadoCreado" xml:space="preserve">
+    <value>El Eje de Trazado ya existe</value>
+  </data>
+  <data name="uiEntidadNotFound" xml:space="preserve">
+    <value>La Entidad con Identificados {0} \No se encuentra en el actual fichero</value>
+  </data>
+  <data name="uiEntidadNotFoundRecomendacion" xml:space="preserve">
+    <value>Es recomendable borrar el registro asociada a la entidad</value>
+  </data>
+  <data name="uiFileAppSelect" xml:space="preserve">
+    <value>Selecciona un Archivo de Proyecto</value>
+  </data>
+  <data name="uiFileBbSelect" xml:space="preserve">
+    <value>Selecciona una Base Datos Tadil </value>
+  </data>
+  <data name="uiFileDataLoadOk" xml:space="preserve">
+    <value>Archivo de Datos Cargado</value>
+  </data>
+  <data name="uiFileNotFound" xml:space="preserve">
+    <value>El fichero {0} 
+No Se Encuentra</value>
+  </data>
+  <data name="uiFileNotFoundSelectOrigen" xml:space="preserve">
+    <value>El fichero {0} 
+No Se Encuentra
+Selecciona Nueva Ruta</value>
+  </data>
+  <data name="uiObraLinealCreado" xml:space="preserve">
+    <value>La Obra Lineal ya existe</value>
+  </data>
+  <data name="uiPerfilCreado" xml:space="preserve">
+    <value>El Perfil Longitudinal ya existe</value>
+  </data>
+  <data name="uiProcesoAnulado" xml:space="preserve">
+    <value>Proceso Anulado</value>
+  </data>
+  <data name="uiSalirDatosSinGuardar" xml:space="preserve">
+    <value>Formulario Cerrado Sin Guardar Datos</value>
+  </data>
+  <data name="uiSalirDatosSinModificar" xml:space="preserve">
+    <value>Datos No Modificados</value>
+  </data>
+  <data name="uiSalirPregunta" xml:space="preserve">
+    <value>¿Deseas Cerrar el Formulario?</value>
+  </data>
+  <data name="uiSelectEjeBasico" xml:space="preserve">
+    <value>Selecciona un Eje de Visibilildad</value>
+  </data>
+  <data name="uiSelectIsNull" xml:space="preserve">
+    <value>La selección es nula</value>
+  </data>
+  <data name="uiSolucionEnvolventeMaximaNotFound" xml:space="preserve">
+    <value>No existe solución envolvente máxima </value>
+  </data>
+  <data name="uiSolucionenvolventeMinimaNotFound" xml:space="preserve">
+    <value>No existe solución envolvente mínima</value>
+  </data>
+  <data name="uiSolucionPrimariaNotFound" xml:space="preserve">
+    <value>No existe solución con los parámetros de diseño inicial</value>
+  </data>
+  <data name="uiExportarEntidadesNotFound" xml:space="preserve">
+    <value>No existen entidades que exportar</value>
+  </data>
+  <data name="uiObraLinealExportarRealizado" xml:space="preserve">
+    <value>La Obra Lineal ya fue exportada</value>
+  </data>
+  <data name="uiTDBnoPerimiteInstancia" xml:space="preserve">
+    <value>No puedes abrir el formulario TDB
+Antes debes de cerrar el formulario TDI</value>
+  </data>
+  <data name="uiTDInoPermiteInstancia" xml:space="preserve">
+    <value>No puedes abrir el formulario TDI
+Antes debes de cerrar el formulario TDB</value>
+  </data>
+  <data name="uiEjeTrazadoNoExiste" xml:space="preserve">
+    <value>Primero debes generar el eje de trazado</value>
+  </data>
+  <data name="uiPerfilLongitudinalCivilNoExiste" xml:space="preserve">
+    <value>Primero debes de generar el perfil longitudinal civil3D</value>
+  </data>
+  <data name="uiPtoIniPtoFinMuyCercanos" xml:space="preserve">
+    <value>La distancia entre el punto inicio y el punto fin es menor o 2*A</value>
+  </data>
+  <data name="uiEjePerfilNoExiste" xml:space="preserve">
+    <value>Primero debes crear el perfil longitudinal</value>
+  </data>
+  <data name="uiFaltanDatosEjeBasico" xml:space="preserve">
+    <value>Primero se debe completar la tabla "Sección tipo y zonas generales"</value>
+  </data>
+  <data name="uiPolilineaAbiertaErronea" xml:space="preserve">
+    <value>No se puede vincular una polilinea abierta a una zona GIS</value>
+  </data>
+  <data name="uiFileNotFoundImg" xml:space="preserve">
+    <value>El fichero {0} no se encuentra en la carpeta img</value>
+  </data>
+  <data name="uiNombreConCaracteresEspeciales" xml:space="preserve">
+    <value>Los nombres no pueden contener carácteres especiales</value>
+  </data>
+  <data name="uiPolilinieas3dNoValidas" xml:space="preserve">
+    <value>No se pueden introducir polilíneas 3D para crear el MDT</value>
+  </data>
+  <data name="uiEntidadPolilinea" xml:space="preserve">
+    <value>El ID de la entidad polilínea es {0}</value>
+  </data>
+  <data name="uiFicheroExito" xml:space="preserve">
+    <value>Fichero generado con éxito</value>
+  </data>
+  <data name="uiSeleccionaPuntosDePolilinea" xml:space="preserve">
+    <value>\n Selecciona los puntos de la polilínea</value>
+  </data>
+  <data name="uiAnalizandoAbanico" xml:space="preserve">
+    <value>Analizando el abanico {0} ; Tramo {1} ; Posición {2}</value>
+  </data>
+  <data name="uiBorrarRegistro" xml:space="preserve">
+    <value>¿Deseas borrar el registro? </value>
+  </data>
+  <data name="uiCompletarLasPestAnteriores" xml:space="preserve">
+    <value>Se deben completar las pestañas anteriores</value>
+  </data>
+  <data name="uiListadoSeccionesError" xml:space="preserve">
+    <value>Listado secciones con errores</value>
+  </data>
+  <data name="uiNoFichSelecionado" xml:space="preserve">
+    <value>No has deleccionado ningún fichero</value>
+  </data>
+  <data name="uiNomFichNulo" xml:space="preserve">
+    <value>El nombre del fichero es nulo</value>
+  </data>
+  <data name="uiSel2Soluciones" xml:space="preserve">
+    <value>Debes seleccionar al menos 2 soluciones\n para iniciar el proceso de valoración</value>
+  </data>
+  <data name="uiSelecSolucion" xml:space="preserve">
+    <value>Debes seleccionar una solución</value>
+  </data>
+  <data name="uiSelHipotesis" xml:space="preserve">
+    <value>Debes seleccionar una hipótesis de valoración</value>
+  </data>
+  <data name="uiSelPolilineas" xml:space="preserve">
+    <value>Selecione el conjunto de polilíneas que quiere simplificar</value>
+  </data>
+  <data name="uiSumaPorcentajes" xml:space="preserve">
+    <value>La suma de porcentajes no es 100 :\n {0}</value>
+  </data>
+  <data name="uiTAGNoConfig" xml:space="preserve">
+    <value>No se ha configurado el TAG del campo {0}</value>
+  </data>
+  <data name="uiTramoLlegadaNoCumple" xml:space="preserve">
+    <value>El Tramo de Llegada no cumple con las especificaciones del diseño</value>
+  </data>
+  <data name="uiTramoSalidaNoCumple" xml:space="preserve">
+    <value>El Tramo de Salida no cumple con las especificaciones del diseño</value>
+  </data>
+  <data name="uiZonaNoPaso" xml:space="preserve">
+    <value>Se pretende pasar por una zona etiquetada como de no paso</value>
+  </data>
+  <data name="uiZonaNoPasoConNombre" xml:space="preserve">
+    <value>La zona {0} esta etiquetada como de no paso</value>
+  </data>
+  <data name="uiNoTerrenoSeleccionado" xml:space="preserve">
+    <value>No se ha seleccionado ningún terreno</value>
+  </data>
+  <data name="uiGuardaTerreno" xml:space="preserve">
+    <value>Debe guardar los datos del terreno antes de crear la envolvente</value>
+  </data>
+  <data name="uiNoBBDD" xml:space="preserve">
+    <value>No se ha cargado ninguna Base de Datos</value>
+  </data>
+  <data name="uiSelPolEnvolvente" xml:space="preserve">
+    <value>Seleccione polilinea envolvente</value>
+  </data>
+  <data name="uiInformeMediciones" xml:space="preserve">
+    <value>InformeMediciones</value>
+  </data>
+  <data name="uiInformesObraLineal" xml:space="preserve">
+    <value>InformeObraLineal</value>
+  </data>
+</root>

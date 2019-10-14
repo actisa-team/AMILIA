@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ui20BUL" xml:space="preserve">
+    <value>Bulón sistemático, (incluso solera). L = 5-6 m, S = 1-1.5 m </value>
+  </data>
+  <data name="ui20CER" xml:space="preserve">
+    <value>Pesadas y cerradas; S = 0.75 m</value>
+  </data>
+  <data name="ui20EXC" xml:space="preserve">
+    <value>Fases múltiples. Avances de 0.5-1.0 m</value>
+  </data>
+  <data name="ui20GUN" xml:space="preserve">
+    <value>15-20 cm en bóveda. 15 cm en hastiales y 5 cms en frente. Mallazo sistemático</value>
+  </data>
+  <data name="ui40BUL" xml:space="preserve">
+    <value>Bulón Sistemático. L = 4-5 m, S = 1-1.5 m </value>
+  </data>
+  <data name="ui40CER" xml:space="preserve">
+    <value>Ligeras; S = 1.5 m</value>
+  </data>
+  <data name="ui40EXC" xml:space="preserve">
+    <value>Avance y destroza. Avances de 1.0-1.5 m.</value>
+  </data>
+  <data name="ui40GUN" xml:space="preserve">
+    <value>15-20 cm en bóveda. 10 cm en hastiales. Mallazo sistemático</value>
+  </data>
+  <data name="ui60BUL" xml:space="preserve">
+    <value>Bulón sistemático,  L = 3-4 m, S = 1.5-2.0 m </value>
+  </data>
+  <data name="ui60CER" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="ui60EXC" xml:space="preserve">
+    <value>Avance y destroza. Avances de 1.5-3.0 m.</value>
+  </data>
+  <data name="ui60GUN" xml:space="preserve">
+    <value>5-10 cm en bóveda. 3 cm en hastiales. Mallazo en bóveda</value>
+  </data>
+  <data name="ui80BUL" xml:space="preserve">
+    <value>Bulón local en  bóveda,  L = 2-3 m, S = 2.0-2.5 m </value>
+  </data>
+  <data name="ui80CER" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="ui80EXC" xml:space="preserve">
+    <value>Sección completa. Avances de 1.0-1.5 m.</value>
+  </data>
+  <data name="ui80GUN" xml:space="preserve">
+    <value>5 cm en bóveda. Eventualmente mallazo</value>
+  </data>
+  <data name="ui81BUL" xml:space="preserve">
+    <value>Algún bulón ocasional</value>
+  </data>
+  <data name="ui81CER" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="ui81EXC" xml:space="preserve">
+    <value>Sección completa. Avances de 3.0 m.</value>
+  </data>
+  <data name="ui81GUN" xml:space="preserve">
+    <value>Innecesario</value>
+  </data>
+  <data name="uiBUL" xml:space="preserve">
+    <value>Bulonado</value>
+  </data>
+  <data name="uiCER" xml:space="preserve">
+    <value>Cerchas</value>
+  </data>
+  <data name="uiEXC" xml:space="preserve">
+    <value>Excavación</value>
+  </data>
+  <data name="uiGUT" xml:space="preserve">
+    <value>Gunitado</value>
+  </data>
+  <data name="uiRMR" xml:space="preserve">
+    <value>RMR</value>
+  </data>
+  <data name="uiTbName" xml:space="preserve">
+    <value>Tabla RMR (Beniawski-1989)</value>
+  </data>
+</root>

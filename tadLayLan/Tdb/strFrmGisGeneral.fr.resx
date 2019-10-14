@@ -1,0 +1,429 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="uiACUIFE" xml:space="preserve">
+    <value>Zones d'eaux souterraines</value>
+  </data>
+  <data name="uiAdminGis" xml:space="preserve">
+    <value>Administrateur SIG</value>
+  </data>
+  <data name="uiAMB" xml:space="preserve">
+    <value>Variables environnementales</value>
+  </data>
+  <data name="uiCAVIIN" xml:space="preserve">
+    <value>Champs visuels d'intérêt</value>
+  </data>
+  <data name="uiCLI" xml:space="preserve">
+    <value>Variables climatiques</value>
+  </data>
+  <data name="uiCRUINF" xml:space="preserve">
+    <value>Croisement des infrastructures linéaires</value>
+  </data>
+  <data name="uiCRVIPE" xml:space="preserve">
+    <value>Croisement des chemins de transhumance</value>
+  </data>
+  <data name="uiDEZOPR" xml:space="preserve">
+    <value>Délimitation de zones de protection</value>
+  </data>
+  <data name="uiESTCIM" xml:space="preserve">
+    <value>Fiche fondations</value>
+  </data>
+  <data name="uiESTEST" xml:space="preserve">
+    <value>Fiche structures</value>
+  </data>
+  <data name="uiGEO" xml:space="preserve">
+    <value>Variables géotechniques</value>
+  </data>
+  <data name="uiMONPUB" xml:space="preserve">
+    <value>Forêts Publiques</value>
+  </data>
+  <data name="uiOCUINF" xml:space="preserve">
+    <value>Zones d'infrastructures publiques</value>
+  </data>
+  <data name="uiOCUMIN" xml:space="preserve">
+    <value>Zones de mines et carrières</value>
+  </data>
+  <data name="uiPAT" xml:space="preserve">
+    <value>Variables patrimoniales</value>
+  </data>
+  <data name="uiPERFAU" xml:space="preserve">
+    <value>Liberté de passage de faune</value>
+  </data>
+  <data name="uiSECPRI" xml:space="preserve">
+    <value>Secteur primaire</value>
+  </data>
+  <data name="uiSECSEC" xml:space="preserve">
+    <value>Secteur secondaire</value>
+  </data>
+  <data name="uiSECTER" xml:space="preserve">
+    <value>Secteur tertiaire</value>
+  </data>
+  <data name="uiSOC" xml:space="preserve">
+    <value>Variables socioéconomiques</value>
+  </data>
+  <data name="uiTUNTUN" xml:space="preserve">
+    <value>Fiche tunnels</value>
+  </data>
+  <data name="uiURBANI" xml:space="preserve">
+    <value>Terrains constructibles</value>
+  </data>
+  <data name="uiURBANO" xml:space="preserve">
+    <value>Terrains urbains</value>
+  </data>
+  <data name="uiVALFAU" xml:space="preserve">
+    <value>Évaluation de la faune</value>
+  </data>
+  <data name="uiVALFLO" xml:space="preserve">
+    <value>Évaluation de la flore</value>
+  </data>
+  <data name="uiVALSUE" xml:space="preserve">
+    <value>Évaluation des terrains</value>
+  </data>
+  <data name="uiYACARQ" xml:space="preserve">
+    <value>Sites archéologiques</value>
+  </data>
+  <data name="uiZODOPU" xml:space="preserve">
+    <value>Zones hydrauliques de domaine public</value>
+  </data>
+  <data name="uiZOESIN" xml:space="preserve">
+    <value>Zones d'intérêt spécial</value>
+  </data>
+  <data name="uiZOFUHE" xml:space="preserve">
+    <value>Zones de grosses gelées</value>
+  </data>
+  <data name="uiZOFUVI" xml:space="preserve">
+    <value>Zones de vents forts</value>
+  </data>
+  <data name="uiZOINPA" xml:space="preserve">
+    <value>Zones d'intérêt paysager</value>
+  </data>
+  <data name="uiZOLLIN" xml:space="preserve">
+    <value>Zones de fortes pluies</value>
+  </data>
+  <data name="uiZONNEV" xml:space="preserve">
+    <value>Zone de neige</value>
+  </data>
+  <data name="uiZONIDE" xml:space="preserve">
+    <value>Zone de brouillards fréquents</value>
+  </data>
+  <data name="uiZONTOR" xml:space="preserve">
+    <value>Zone de fortes tempêtes</value>
+  </data>
+  <data name="uiZONUMB" xml:space="preserve">
+    <value>Zone d'ombres</value>
+  </data>
+  <data name="uiHeader" xml:space="preserve">
+    <value>Administrateur de zones IG</value>
+  </data>
+  <data name="uiDescripcion" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="uiGrClasificaciones" xml:space="preserve">
+    <value>Classifications</value>
+  </data>
+  <data name="uiGrItem" xml:space="preserve">
+    <value>Registre par classifications</value>
+  </data>
+  <data name="uiImagenLoad" xml:space="preserve">
+    <value>Charger image</value>
+  </data>
+  <data name="uiNombre" xml:space="preserve">
+    <value>Nom</value>
+  </data>
+  <data name="uiProhibirPaso" xml:space="preserve">
+    <value>Interdire passage</value>
+  </data>
+  <data name="uiValoracion" xml:space="preserve">
+    <value>Évaluation</value>
+  </data>
+  <data name="uiProhibir" xml:space="preserve">
+    <value>Interdire</value>
+  </data>
+  <data name="uiMOVTIE" xml:space="preserve">
+    <value>Terrassements</value>
+  </data>
+  <data name="uiListadoRegistro" xml:space="preserve">
+    <value>Liste de registres</value>
+  </data>
+  <data name="uiColor" xml:space="preserve">
+    <value>Couleur</value>
+  </data>
+  <data name="uiDatosZona" xml:space="preserve">
+    <value>Données zone</value>
+  </data>
+  <data name="uiZonaGeneral" xml:space="preserve">
+    <value>Zone générale</value>
+  </data>
+  <data name="uiDwgSeccion" xml:space="preserve">
+    <value>Nom section (*.dwg)</value>
+  </data>
+  <data name="uiTipología" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="uiGalibo" xml:space="preserve">
+    <value>Gabarit [m]</value>
+  </data>
+  <data name="uiFileImgSelect" xml:space="preserve">
+    <value>Sélectionnez une image</value>
+  </data>
+  <data name="attNombre" xml:space="preserve">
+    <value>Nom : {0}</value>
+  </data>
+  <data name="attProhibirPaso" xml:space="preserve">
+    <value>Interdire passage : {0}</value>
+  </data>
+  <data name="attValoracion" xml:space="preserve">
+    <value>Évaluation : {0}</value>
+  </data>
+  <data name="uiBtnZonaLink" xml:space="preserve">
+    <value>Lier polyligne à zone SIG</value>
+  </data>
+  <data name="uiAnguloCruceMaximo" xml:space="preserve">
+    <value>Angle maximum du croisement [Degrés]</value>
+  </data>
+  <data name="uiDatos" xml:space="preserve">
+    <value>Données</value>
+  </data>
+  <data name="uiPUE" xml:space="preserve">
+    <value>Ponts et viaducs</value>
+  </data>
+  <data name="uiPasoNivelExigir" xml:space="preserve">
+    <value>Exiger passage en dénivellement</value>
+  </data>
+  <data name="attPasoDesnivelExigir" xml:space="preserve">
+    <value>Exiger passage en dénivellement : {0}</value>
+  </data>
+  <data name="uiProhibirPasoRiesgosGeotecnicos" xml:space="preserve">
+    <value>Interdire passage. Zone de risque géotechnique</value>
+  </data>
+  <data name="uiNOURBA" xml:space="preserve">
+    <value>Terrains non constructibles</value>
+  </data>
+  <data name="uiSueloValoracionProduccionSuelo" xml:space="preserve">
+    <value>Évaluation production du terrain</value>
+  </data>
+  <data name="uiVAEXTA" xml:space="preserve">
+    <value>Évaluation méthode excavation et talus</value>
+  </data>
+  <data name="uiVALTUN" xml:space="preserve">
+    <value>Évaluation méthode tunnels</value>
+  </data>
+  <data name="uiVincularPolilineaToCauce" xml:space="preserve">
+    <value>Lier polyligne à cours d'eau</value>
+  </data>
+  <data name="uiVincularPolilineaToEjeCruce" xml:space="preserve">
+    <value>Lier polyligne à l'axe de croisement d'infrastructures</value>
+  </data>
+  <data name="uiFichaNotFound" xml:space="preserve">
+    <value>Le formulaire du fichier {0}" n'a pas été trouvé</value>
+  </data>
+  <data name="uiGrZonasEditar" xml:space="preserve">
+    <value>Éditer zones</value>
+  </data>
+  <data name="userZonaGeneralUnica" xml:space="preserve">
+    <value>Vous devez sélectionner une zone générale</value>
+  </data>
+  <data name="attPermitirEstructuras" xml:space="preserve">
+    <value>Permettre structures : {0}</value>
+  </data>
+  <data name="eESTCIMdefaultZero" xml:space="preserve">
+    <value>Zone générale fondations non définie</value>
+  </data>
+  <data name="eESTCIMgreaterOne" xml:space="preserve">
+    <value>Le nombre de zones générales de fondations est supérieur à 1</value>
+  </data>
+  <data name="eESTESTdefaultZero" xml:space="preserve">
+    <value>Zone générale structures non définie</value>
+  </data>
+  <data name="eESTESTgreaterOne" xml:space="preserve">
+    <value>Le nombre de zones générales de structures est supérieur à 1</value>
+  </data>
+  <data name="eMOVTIEdefaultZero" xml:space="preserve">
+    <value>Zone générale terrassement non définie</value>
+  </data>
+  <data name="eMOVTIEgreaterOne" xml:space="preserve">
+    <value>Le nombre de zones générales de terrassement est supérieur à 1</value>
+  </data>
+  <data name="eTUNTUNdefaultZero" xml:space="preserve">
+    <value>Zone générale tunnels non définie</value>
+  </data>
+  <data name="eTUNTUNgreaterOne" xml:space="preserve">
+    <value>Le nombre de zones générales de tunnels est supérieur à 1</value>
+  </data>
+  <data name="eZonasDefaultExceptionNumber" xml:space="preserve">
+    <value>Le nombre de zones générales ne peut pas être {0}</value>
+  </data>
+  <data name="uiSueloValoracionExpropiacionSuelo" xml:space="preserve">
+    <value>Évaluation expropriation du terrain</value>
+  </data>
+  <data name="uiClasificacionGeneral" xml:space="preserve">
+    <value>Classification générale</value>
+  </data>
+  <data name="uiVALCIM" xml:space="preserve">
+    <value>Évaluation fondation, structures et murs</value>
+  </data>
+  <data name="uiSelectCauce" xml:space="preserve">
+    <value>Sélectionnez un cours d'eau</value>
+  </data>
+  <data name="uiSelectEjeCruceInfraestructuras" xml:space="preserve">
+    <value>Sélectionnez un axe de croisement d'infrastructures</value>
+  </data>
+  <data name="uiPermitirEstructura" xml:space="preserve">
+    <value>Passer avec structure</value>
+  </data>
+  <data name="eMOVTIEcapaArcenIsCero" xml:space="preserve">
+    <value>La couche de la bande d'arrêt de la zone {0} n'a pas été définie</value>
+  </data>
+  <data name="eMOVTIEespesorArcenMayorFirme" xml:space="preserve">
+    <value>L'épaisseur de la bande d'arrêt est supérieure à celle du revêtement dans la zone {0}</value>
+  </data>
+  <data name="eMOVTIEcapaFirmeIsCero" xml:space="preserve">
+    <value>La couche de revêtement de la zone {0} n'a pas été définie</value>
+  </data>
+  <data name="eMOVTIEcapaIsCero" xml:space="preserve">
+    <value>Les couches de la voie routière {0} n'ont pas été définies</value>
+  </data>
+  <data name="eMOVTIEdesmonteCasoNull" xml:space="preserve">
+    <value>Le type remblai de la zone {0} n'a pas été défini</value>
+  </data>
+  <data name="eMOVTIEterraplenCasoNull" xml:space="preserve">
+    <value>Le type déblai de la zone {0} n'a pas été défini</value>
+  </data>
+  <data name="uiBuscarSeccion" xml:space="preserve">
+    <value>Chercher section</value>
+  </data>
+  <data name="uiValorPatrimonialSuelo" xml:space="preserve">
+    <value>Estimation économique des sols</value>
+  </data>
+  <data name="uiConfiguarcionAngulo" xml:space="preserve">
+    <value>Configuration angle</value>
+  </data>
+  <data name="uiCongifurarAngulo" xml:space="preserve">
+    <value>Configurer angle</value>
+  </data>
+  <data name="uiTramoCompleto" xml:space="preserve">
+    <value>Permettre tronçons complets</value>
+  </data>
+  <data name="uiAltMinRas" xml:space="preserve">
+    <value>Hauteur minimale d'inclinaison</value>
+  </data>
+  <data name="uiPasarEstructuraObligado" xml:space="preserve">
+    <value>Passer avec structure obligatoire</value>
+  </data>
+</root>

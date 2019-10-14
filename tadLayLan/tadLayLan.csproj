@@ -1,0 +1,587 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{63F26170-BF7A-413E-9417-FC663F706173}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>tadLayLan</RootNamespace>
+    <AssemblyName>tadLayLan</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>tadil.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="img\imgCuneta.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>imgCuneta.resx</DependentUpon>
+    </Compile>
+    <Compile Include="img\imgCuneta.en.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>imgCuneta.en.resx</DependentUpon>
+    </Compile>
+    <Compile Include="img\imgCuneta.fr.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>imgCuneta.fr.resx</DependentUpon>
+    </Compile>
+    <Compile Include="img\imgSecciones.en.Designer.cs">
+      <DependentUpon>imgSecciones.en.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="img\imgSecciones.fr.Designer.cs">
+      <DependentUpon>imgSecciones.fr.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="img\imgSecciones.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>imgSecciones.resx</DependentUpon>
+    </Compile>
+    <Compile Include="oTraductor.cs" />
+    <Compile Include="strGeneralUser1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>strGeneralUser1.resx</DependentUpon>
+    </Compile>
+    <Compile Include="strSeccionesTipo.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>strSeccionesTipo.resx</DependentUpon>
+    </Compile>
+    <Compile Include="strUserCad.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>strUserCad.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Tdb\strFrmPrecios.en.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>strFrmPrecios.en.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Tdb\strFrmUnidadMonetaria.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>strFrmUnidadMonetaria.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Tdi\strFrmApp.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>strFrmApp.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Tdi\strFrmAppSecciones.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>strFrmAppSecciones.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Tdb\strFrmBb.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>strFrmBb.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Tdi\strFrmDatosAbanico.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>strFrmDatosAbanico.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Tdi\strFrmDatosProyecto.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>strFrmDatosProyecto.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Tdi\strFrmEstilosEjePerfil.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>strFrmEstilosEjePerfil.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Tdi\strFrmFiles.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>strFrmFiles.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Tdb\strFrmGisCim.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>strFrmGisCim.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Tdb\strFrmGisEst.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>strFrmGisEst.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Tdb\strFrmGisTun.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>strFrmGisTun.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="strError.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>strError.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Tdb\strFrmGisGeo.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>strFrmGisGeo.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Tdb\strFrmGisGeneral.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>strFrmGisGeneral.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Tdi\strFrmInformes.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>strFrmInformes.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Tdi\strFrmKv.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>strFrmKv.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Tdb\strFrmMacroPrecios.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>strFrmMacroPrecios.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Tdi\strFrmPresupuesto.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>strFrmPresupuesto.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Tdi\strFrmSolucion.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>strFrmSolucion.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Tdi\strFrmPtoIniFin.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>strFrmPtoIniFin.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Tdi\strFrmRentabilidad.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>strFrmRentabilidad.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Tdi\strFrmRoadVpRadio.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>strFrmRoadVpRadio.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Tdi\strFrmTerreno.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>strFrmTerreno.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Tdi\strFrmValoracion.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>strFrmValoracion.resx</DependentUpon>
+    </Compile>
+    <Compile Include="strGeneral.Designer.cs">
+      <DependentUpon>strGeneral.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Tdb\strFrmPrecios.Designer.cs">
+      <DependentUpon>strFrmPrecios.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Tdb\strRmr.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>strRmr.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Tdb\strFrmSecciones.Designer.cs">
+      <DependentUpon>strFrmSecciones.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="strGeneralUser.Designer.cs">
+      <DependentUpon>strGeneralUser.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Tdm\strFormTdm.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>strFormTdm.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Tds\strSimplPoli.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>strSimplPoli.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="img\imgCuneta.en.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>imgCuneta.en.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="img\imgCuneta.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>imgCuneta.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="img\imgSecciones.en.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>imgSecciones.en.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="img\imgSecciones.fr.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>imgSecciones.fr.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="img\imgSecciones.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>imgSecciones.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="img\imgCuneta.fr.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>imgCuneta.fr.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="strError.en.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="strError.fr.resx" />
+    <EmbeddedResource Include="strGeneral.en.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="strGeneral.fr.resx" />
+    <EmbeddedResource Include="strGeneralUser.en.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="strGeneralUser.fr.resx" />
+    <EmbeddedResource Include="strGeneralUser1.en.resx" />
+    <EmbeddedResource Include="strGeneralUser1.fr.resx" />
+    <EmbeddedResource Include="strGeneralUser1.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>strGeneralUser1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="strSeccionesTipo.en.resx" />
+    <EmbeddedResource Include="strSeccionesTipo.fr.resx" />
+    <EmbeddedResource Include="strSeccionesTipo.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>strSeccionesTipo.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="strUserCad.en.resx" />
+    <EmbeddedResource Include="strUserCad.fr.resx" />
+    <EmbeddedResource Include="strUserCad.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>strUserCad.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tdb\strFrmUnidadMonetaria.en.resx" />
+    <EmbeddedResource Include="Tdb\strFrmUnidadMonetaria.fr.resx" />
+    <EmbeddedResource Include="Tdb\strFrmUnidadMonetaria.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>strFrmUnidadMonetaria.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tdi\strFrmApp.en.resx" />
+    <EmbeddedResource Include="Tdi\strFrmApp.fr.resx" />
+    <EmbeddedResource Include="Tdi\strFrmApp.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>strFrmApp.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tdi\strFrmAppSecciones.en.resx" />
+    <EmbeddedResource Include="Tdi\strFrmAppSecciones.fr.resx" />
+    <EmbeddedResource Include="Tdi\strFrmAppSecciones.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>strFrmAppSecciones.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tdb\strFrmBb.en.resx" />
+    <EmbeddedResource Include="Tdb\strFrmBb.fr.resx" />
+    <EmbeddedResource Include="Tdb\strFrmBb.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>strFrmBb.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tdi\strFrmDatosAbanico.en.resx" />
+    <EmbeddedResource Include="Tdi\strFrmDatosAbanico.fr.resx" />
+    <EmbeddedResource Include="Tdi\strFrmDatosAbanico.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>strFrmDatosAbanico.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tdi\strFrmDatosProyecto.en.resx" />
+    <EmbeddedResource Include="Tdi\strFrmDatosProyecto.fr.resx" />
+    <EmbeddedResource Include="Tdi\strFrmDatosProyecto.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>strFrmDatosProyecto.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tdi\strFrmEstilosEjePerfil.en.resx" />
+    <EmbeddedResource Include="Tdi\strFrmEstilosEjePerfil.fr.resx" />
+    <EmbeddedResource Include="Tdi\strFrmEstilosEjePerfil.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>strFrmEstilosEjePerfil.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tdi\strFrmFiles.en.resx" />
+    <EmbeddedResource Include="Tdi\strFrmFiles.fr.resx" />
+    <EmbeddedResource Include="Tdi\strFrmFiles.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>strFrmFiles.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tdb\strFrmGisCim.en.resx" />
+    <EmbeddedResource Include="Tdb\strFrmGisCim.fr.resx" />
+    <EmbeddedResource Include="Tdb\strFrmGisCim.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>strFrmGisCim.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tdb\strFrmGisEst.en.resx" />
+    <EmbeddedResource Include="Tdb\strFrmGisEst.fr.resx" />
+    <EmbeddedResource Include="Tdb\strFrmGisEst.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>strFrmGisEst.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tdb\strFrmGisGeneral.en.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tdb\strFrmGisGeneral.fr.resx" />
+    <EmbeddedResource Include="Tdb\strFrmGisGeo.en.resx" />
+    <EmbeddedResource Include="Tdb\strFrmGisGeo.fr.resx" />
+    <EmbeddedResource Include="Tdb\strFrmGisTun.en.resx" />
+    <EmbeddedResource Include="Tdb\strFrmGisTun.fr.resx" />
+    <EmbeddedResource Include="Tdb\strFrmGisTun.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>strFrmGisTun.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="strError.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>strError.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tdb\strFrmGisGeo.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>strFrmGisGeo.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tdb\strFrmGisGeneral.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>strFrmGisGeneral.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tdi\strFrmInformes.en.resx" />
+    <EmbeddedResource Include="Tdi\strFrmInformes.fr.resx" />
+    <EmbeddedResource Include="Tdi\strFrmInformes.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>strFrmInformes.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tdi\strFrmKv.en.resx" />
+    <EmbeddedResource Include="Tdi\strFrmKv.fr.resx" />
+    <EmbeddedResource Include="Tdi\strFrmKv.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>strFrmKv.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tdb\strFrmMacroPrecios.en.resx" />
+    <EmbeddedResource Include="Tdb\strFrmMacroPrecios.fr.resx" />
+    <EmbeddedResource Include="Tdb\strFrmMacroPrecios.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>strFrmMacroPrecios.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tdi\strFrmPresupuesto.en.resx" />
+    <EmbeddedResource Include="Tdi\strFrmPresupuesto.fr.resx" />
+    <EmbeddedResource Include="Tdi\strFrmPresupuesto.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>strFrmPresupuesto.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tdi\strFrmPtoIniFin.en.resx" />
+    <EmbeddedResource Include="Tdi\strFrmPtoIniFin.fr.resx" />
+    <EmbeddedResource Include="Tdi\strFrmRentabilidad.en.resx" />
+    <EmbeddedResource Include="Tdi\strFrmRentabilidad.fr.resx" />
+    <EmbeddedResource Include="Tdi\strFrmRoadVpRadio.en.resx" />
+    <EmbeddedResource Include="Tdi\strFrmRoadVpRadio.fr.resx" />
+    <EmbeddedResource Include="Tdi\strFrmSolucion.en.resx" />
+    <EmbeddedResource Include="Tdi\strFrmSolucion.fr.resx" />
+    <EmbeddedResource Include="Tdi\strFrmSolucion.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>strFrmSolucion.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tdi\strFrmPtoIniFin.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>strFrmPtoIniFin.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tdi\strFrmRentabilidad.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>strFrmRentabilidad.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tdi\strFrmRoadVpRadio.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>strFrmRoadVpRadio.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tdi\strFrmTerreno.en.resx" />
+    <EmbeddedResource Include="Tdi\strFrmTerreno.fr.resx" />
+    <EmbeddedResource Include="Tdi\strFrmTerreno.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>strFrmTerreno.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tdi\strFrmValoracion.en.resx" />
+    <EmbeddedResource Include="Tdi\strFrmValoracion.fr.resx" />
+    <EmbeddedResource Include="Tdi\strFrmValoracion.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>strFrmValoracion.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="strGeneral.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>strGeneral.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tdb\strFrmPrecios.en.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>strFrmPrecios.en.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tdb\strFrmPrecios.fr.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tdb\strFrmPrecios.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>strFrmPrecios.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tdb\strFrmSecciones.en.resx" />
+    <EmbeddedResource Include="Tdb\strFrmSecciones.fr.resx" />
+    <EmbeddedResource Include="Tdb\strRmr.en.resx" />
+    <EmbeddedResource Include="Tdb\strRmr.fr.resx" />
+    <EmbeddedResource Include="Tdb\strRmr.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>strRmr.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tdb\strFrmSecciones.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>strFrmSecciones.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="strGeneralUser.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>strGeneralUser.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tdm\strFormTdm.en.resx" />
+    <EmbeddedResource Include="Tdm\strFormTdm.fr.resx" />
+    <EmbeddedResource Include="Tdm\strFormTdm.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>strFormTdm.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tds\strSimplPoli.en.resx" />
+    <EmbeddedResource Include="Tds\strSimplPoli.fr.resx" />
+    <EmbeddedResource Include="Tds\strSimplPoli.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>strSimplPoli.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="img\secAutoviaConMediana.jpg" />
+    <None Include="tadil.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="img\secAutoviaSinMediana.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="img\secCalzadaUnica.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="img\secAutoviaConMediana_fr.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="img\secAutoviaSinMediana_fr.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="img\secCalzadaUnica_fr.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="img\secAutoviaConMediana_en.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="img\secAutoviaSinMediana_en.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="img\secCalzadaUnica_en.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="img\cuneta trapezoidal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="img\cuneta triangular.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="img\cuneta trapezoidal_en.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="img\cuneta triangular_en.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="img\cuneta trapezoidal_fr.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="img\cuneta triangular frances.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

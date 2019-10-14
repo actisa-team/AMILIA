@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F7B495AC-E395-4519-8723-3BA6CE2933FA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>engCadNet</RootNamespace>
+    <AssemblyName>engCadNet</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>tadil.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="accoremgd">
+      <HintPath>..\..\..\..\..\..\..\..\Program Files\Autodesk\AutoCAD 2017\accoremgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="acdbmgd">
+      <HintPath>..\..\..\..\..\..\..\..\Program Files\Autodesk\AutoCAD 2017\acdbmgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="acdbmgdbrep">
+      <HintPath>..\..\..\..\..\..\..\..\Program Files\Autodesk\AutoCAD 2017\acdbmgdbrep.dll</HintPath>
+    </Reference>
+    <Reference Include="acmgd">
+      <HintPath>..\..\..\..\..\..\..\..\Program Files\Autodesk\AutoCAD 2017\acmgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Autodesk.AutoCAD.Interop">
+      <HintPath>..\..\..\..\..\..\..\..\Program Files\Autodesk\AutoCAD 2017\Autodesk.AutoCAD.Interop.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Autodesk.AutoCAD.Interop.Common">
+      <HintPath>..\..\..\..\..\..\..\..\Program Files\Autodesk\AutoCAD 2017\Autodesk.AutoCAD.Interop.Common.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="entidades\oView.cs" />
+    <Compile Include="extension\oPoint3dCollection.cs" />
+    <Compile Include="oExport.cs" />
+    <Compile Include="entidades\oMTexto.cs" />
+    <Compile Include="entidades\oTexto.cs" />
+    <Compile Include="entidades\oComandoAsincrono.cs" />
+    <Compile Include="entidades\oLwPlus.cs" />
+    <Compile Include="exception\oCadException.cs" />
+    <Compile Include="entidades\oBlock.cs" />
+    <Compile Include="extension\oObjectIdCollectionExtension.cs" />
+    <Compile Include="oCadEnum.cs" />
+    <Compile Include="oCadRegCmd.cs" />
+    <Compile Include="oCadManager.cs" />
+    <Compile Include="entidades\oCircle.cs" />
+    <Compile Include="entidades\oHatch.cs" />
+    <Compile Include="entidades\oImage.cs" />
+    <Compile Include="oLayer.cs" />
+    <Compile Include="entidades\oLine.cs" />
+    <Compile Include="entidades\oLw.cs" />
+    <Compile Include="entidades\oRegion.cs" />
+    <Compile Include="extension\oPoint3dExtension.cs" />
+    <Compile Include="oEntidad.cs" />
+    <Compile Include="oXdata.cs" />
+    <Compile Include="oColor.cs" />
+    <Compile Include="tools\oConvexHull.cs" />
+    <Compile Include="tools\oInterseccionForward.cs" />
+    <Compile Include="tools\oPoligono.cs" />
+    <Compile Include="oSs.cs" />
+    <Compile Include="entidades\oText.cs" />
+    <Compile Include="oTools.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="oXrecord.cs" />
+    <Compile Include="tools\oSerializarEntidad.cs" />
+    <Compile Include="tools\oSistemaReferencia.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="tadil.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\engNet\engNet.csproj">
+      <Project>{5a9cda59-6441-4614-b1b3-58f83c2e2113}</Project>
+      <Name>engNet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\tadLayLan\tadLayLan.csproj">
+      <Project>{63f26170-bf7a-413e-9417-fc663f706173}</Project>
+      <Name>tadLayLan</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
