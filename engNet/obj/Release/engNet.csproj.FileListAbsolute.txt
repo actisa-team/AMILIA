@@ -1,6 +1,0 @@
-D:\VisualNet\DITEL\engNet\bin\Release\engNet.dll
-D:\VisualNet\DITEL\engNet\bin\Release\engNet.pdb
-D:\VisualNet\DITEL\engNet\obj\Release\engNet.csproj.CoreCompileInputs.cache
-D:\VisualNet\DITEL\engNet\obj\Release\engNet.dll
-D:\VisualNet\DITEL\engNet\obj\Release\engNet.pdb
-D:\VisualNet\DITEL\engNet\obj\Release\engNet.csprojResolveAssemblyReference.cache
