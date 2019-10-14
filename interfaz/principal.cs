@@ -9,6 +9,8 @@ namespace interfaz
     using Logica;
     public partial class principal : MaterialForm
     {
+        private CalculoPolilinea calculoPolilineaController;
+
         public principal()
         {
             InitializeComponent();
@@ -80,114 +82,153 @@ namespace interfaz
             }
             return comprueba;
         }
+
+        private dsApp abrirArchivoDeProyecto(){
+            int counter = 1;
+            string miFileOut = string.Empty;
+            string line;
+            OpenFileDialog miDialogo = new OpenFileDialog();
+            miDialogo.Title = "APLITOP" + " | " + "Selecciona un Archivo de Proyecto";
+            miDialogo.Filter = "Ditel Project Files (*.txt)|*.txt";
+            miDialogo.Multiselect = false;
+            if (miDialogo.ShowDialog() == DialogResult.OK) {
+                miFileOut = miDialogo.FileName;
+                System.IO.StreamReader file = new System.IO.StreamReader(@miFileOut);
+                dsApp dsApp = new dsApp();
+                while ((line = file.ReadLine()) != null)
+                {
+                    string[] separadas;
+                    separadas = line.Split(',');
+                    dsApp.Polilinea.Rows.Add(separadas[0], separadas[1], counter);
+                    counter++;
+
+                }
+                dsApp.WriteXml("prueba.aplitop");
+                file.Close();
+                return dsApp;
+            }
+            return null;
+        }
+
+        private CalculoPolilineaPreferencias obtenerParametrosCalculoPolilinea()
+        {
+            int opcion = 1;
+            double grados = 0;
+            double metros = 0;
+            double ratio = 0;
+            double t_med = 1;
+            double t_max = 1;
+            double p_cluster = 2;
+            double gran_r = 2500;
+            int n_curvas = 2;
+            int it = 2;
+
+
+            if (materialCheckBox1.Checked == true)
+            {
+                opcion = 1;
+                grados = 0;
+                metros = 0;
+                ratio = 0;
+            }
+            else if (materialCheckBox2.Checked == true)
+            {
+                opcion = 2;
+                grados = 0;
+                metros = 0;
+                ratio = 0;
+            }
+            else if (materialCheckBox3.Checked == true)
+            {
+                opcion = 3;
+                grados = double.Parse(textBox1.Text);
+                metros = double.Parse(textBox2.Text);
+                ratio = grados / metros;
+            }
+            if (materialCheckBox4.Checked == true)
+            {
+                it = 1;
+            }
+            else
+            {
+                it = 2;
+            }
+            if (materialCheckBox5.Checked == false)
+            {
+                
+                if (!string.IsNullOrEmpty(textBox5.Text))
+                {
+                    t_med = double.Parse(textBox5.Text);
+                }
+                else
+                {
+                    t_med = 1;
+                }
+                if (!string.IsNullOrEmpty(textBox6.Text))
+                {
+                    t_max = double.Parse(textBox6.Text);
+                }
+                else
+                {
+                    t_max = 1;
+                }
+                if (!string.IsNullOrEmpty(textBox7.Text))
+                {
+                    p_cluster = double.Parse(textBox7.Text);
+                }
+                else
+                {
+                    p_cluster = 2;
+                }
+                if (!string.IsNullOrEmpty(textBox8.Text))
+                {
+                    gran_r = double.Parse(textBox8.Text);
+                }
+                else
+                {
+                    gran_r = 2500;
+                }
+                if (!string.IsNullOrEmpty(textBox9.Text))
+                {
+                    n_curvas = int.Parse(textBox9.Text);
+                }
+                else
+                {
+                    n_curvas = 2;
+                }
+            }
+
+            CalculoPolilineaPreferencias ca = new CalculoPolilineaPreferencias();
+            ca.Opcion = opcion;
+            ca.Grados = grados;
+            ca.Metros = metros;
+            ca.Ratio = ratio;
+            ca.It = it;
+            ca.T_med = t_med;
+            ca.T_max = t_max;
+            ca.P_cluster = p_cluster;
+            ca.Gran_r = gran_r;
+            ca.N_curvas = n_curvas;
+           
+            return ca;
+        }
+
         private void materialFlatButton2_Click(object sender, EventArgs e)
         {
-            
-            
+            this.calculoPolilineaController = null;
+
             if (comprobar())
             {
-                int counter = 1;
-                string line;
-                string miFileOut = string.Empty;
-                int opcion = 1;
-                double grados = 0;
-                double metros = 0;
-                double ratio = 0;
-                OpenFileDialog miDialogo = new OpenFileDialog();
-                miDialogo.Title = "APLITOP" + " | " + "Selecciona un Archivo de Proyecto";
-                miDialogo.Filter = "Ditel Project Files (*.txt)|*.txt";
-                miDialogo.Multiselect = false;
-                if (miDialogo.ShowDialog() == DialogResult.OK)
-                {
-                    miFileOut = miDialogo.FileName;
-                    System.IO.StreamReader file = new System.IO.StreamReader(@miFileOut);
-                    
-                    dsApp a = new dsApp();
-                    while ((line = file.ReadLine()) != null)
-                    {
-                        string[] separadas;
-                        separadas = line.Split(',');
-                        a.Polilinea.Rows.Add(separadas[0], separadas[1], counter);
-                        counter++;
+                dsApp dsApp = this.abrirArchivoDeProyecto();
 
-                    }
-                    a.WriteXml("prueba.aplitop");
-                    file.Close();
-                    if (materialCheckBox1.Checked == true)
-                    {
-                        opcion = 1;
-                        grados = 0;
-                        metros = 0;
-                        ratio = 0;
-                    }
-                    else if (materialCheckBox2.Checked == true)
-                    {
-                        opcion = 2;
-                        grados = 0;
-                        metros = 0;
-                        ratio = 0;
-                    }
-                    else if (materialCheckBox3.Checked == true)
-                    {
-                        opcion = 3;
-                        grados = double.Parse(textBox1.Text);
-                        metros = double.Parse(textBox2.Text);
-                        ratio = grados / metros;
-                    }
-                    int it = 0;
-                    if (materialCheckBox4.Checked == true)
-                    {
-                        it = 1;
-                    }
-                    else
-                    {
-                        it = 2;
-                    }
+                if (dsApp != null)
+                {
+                    CalculoPolilineaPreferencias calculoPolilineaPreferencias = this.obtenerParametrosCalculoPolilinea();
+
                     if (materialCheckBox5.Checked == false)
                     {
-                        double t_med, t_max,p_cluster,gran_r;
-                        int n_curvas;
-                        if (!string.IsNullOrEmpty(textBox5.Text))
-                        {
-                            t_med = double.Parse(textBox5.Text);
-                        }
-                        else
-                        {
-                            t_med = 1;
-                        }
-                        if (!string.IsNullOrEmpty(textBox6.Text))
-                        {
-                            t_max = double.Parse(textBox6.Text);
-                        }
-                        else
-                        {
-                            t_max = 1;
-                        }
-                        if (!string.IsNullOrEmpty(textBox7.Text))
-                        {
-                            p_cluster = double.Parse(textBox7.Text);
-                        }
-                        else
-                        {
-                            p_cluster = 2;
-                        }
-                        if (!string.IsNullOrEmpty(textBox8.Text))
-                        {
-                            gran_r = double.Parse(textBox8.Text);
-                        }
-                        else
-                        {
-                            gran_r = 2500;
-                        }
-                        if (!string.IsNullOrEmpty(textBox9.Text))
-                        {
-                            n_curvas = int.Parse(textBox9.Text);
-                        }
-                        else
-                        {
-                            n_curvas = 2;
-                        }
-                        CalculoPolilinea calculo = new CalculoPolilinea(ref a, opcion, ratio, it);
+                        //obtener parametros de inicializacion de CalculoPolilineaController
+                        this.calculoPolilineaController = new CalculoPolilinea(ref dsApp, calculoPolilineaPreferencias.Opcion, calculoPolilineaPreferencias.Ratio, calculoPolilineaPreferencias.It);
 
                         /*
                          * 
@@ -195,44 +236,20 @@ namespace interfaz
                          * a la recta es menor suavizamos 10 veces ese tramos 
                          * 
                          */
-                        calculo.Cambios_Sentido(t_med);
-                        calculo.nueva_relacion();
-                        calculo.Set_minimos();
-                        calculo.Set_grupo();
-                        calculo.Set_recta_curva();
-                        calculo.mostrardatos();
-                        calculo.Entidades_Curvas(t_max, p_cluster);
-                        calculo.Recorrido();
-                        calculo.Combinacion(t_med,t_max, n_curvas);
-                        
-                        calculo.Dibujar_entidades(1);
-                        calculo.Comprobacion();
-                        calculo.Dibujar_entidades(2);
+                        calculoPolilineaController.Cambios_Sentido(calculoPolilineaPreferencias.T_med);
+                        calculoPolilineaController.nueva_relacion();
+                        calculoPolilineaController.Set_minimos();
+                        calculoPolilineaController.Set_grupo();
+                        calculoPolilineaController.Set_recta_curva();
 
-                        /*
-                         * Primera parte acabada
-                         */
+                        calculoPolilineaController.mostrardatos();
+                        calculoPolilineaController.Entidades_Curvas(calculoPolilineaPreferencias.T_max, calculoPolilineaPreferencias.P_cluster);
+                        calculoPolilineaController.Recorrido();
+                        calculoPolilineaController.Combinacion(calculoPolilineaPreferencias.T_med, calculoPolilineaPreferencias.T_max, calculoPolilineaPreferencias.N_curvas);
 
-                    
-                        //calculo.FiltroDeCurvas();
-                        //calculo.RecortarCurvas();
-                        //calculo.Dibujar_entidades();
-
-                       // calculo.viabilidad();
-                        //calculo.Comprobacion();
-                        //calculo.Dibujar_entidades(3);
-                        //calculo.ajuste_2();
-                        //calculo.ajuste();
-                        //calculo.Dibujar_entidades();
-                        //calculo.Enlaces(gran_r);
-                        //calculo.centro();
-                       // calculo.Dibujar_Todo();
-
-
-
-
-
-
+                        calculoPolilineaController.Dibujar_entidades(1);
+                        calculoPolilineaController.Comprobacion();
+                        calculoPolilineaController.Dibujar_entidades(2);
                     }
                     else
                     {
@@ -243,25 +260,194 @@ namespace interfaz
                         orden[0] = dis;
                         orden[1] = rad;
                         orden[2] = gir;
-                        grados = double.Parse(textBox1.Text);
-                        metros = double.Parse(textBox2.Text);
-                        ratio = grados / metros;
+                        double grados = double.Parse(textBox1.Text);
+                        double metros = double.Parse(textBox2.Text);
+                        double ratio = grados / metros;
 
+                        calculoPolilineaPreferencias.Grados = grados;
+                        calculoPolilineaPreferencias.Metros = metros;
+                        calculoPolilineaPreferencias.Ratio = ratio;
 
-                        Logica.CalculoPolilinea calculo = new CalculoPolilinea(ref a, opcion, ratio, orden, it);
+                        Logica.CalculoPolilinea calculo = new CalculoPolilinea(ref dsApp, calculoPolilineaPreferencias.Opcion, calculoPolilineaPreferencias.Ratio, orden, calculoPolilineaPreferencias.It);
                     }
-                    
                 }
                 else
                 {
-                    
+                    MessageBox.Show("Error al abrir el archivo del proyecto");
                 }
             }
-            else
-            {
-                MessageBox.Show("Error. El orden de los filtros esta repetido");
-            }
         }
+                
+            //    OpenFileDialog miDialogo = new OpenFileDialog();
+            //    miDialogo.Title = "APLITOP" + " | " + "Selecciona un Archivo de Proyecto";
+            //    miDialogo.Filter = "Ditel Project Files (*.txt)|*.txt";
+            //    miDialogo.Multiselect = false;
+            //    if (miDialogo.ShowDialog() == DialogResult.OK)
+            //    {
+            //        miFileOut = miDialogo.FileName;
+            //        System.IO.StreamReader file = new System.IO.StreamReader(@miFileOut);
+                    
+            //        dsApp a = new dsApp();
+            //        while ((line = file.ReadLine()) != null)
+            //        {
+            //            string[] separadas;
+            //            separadas = line.Split(',');
+            //            a.Polilinea.Rows.Add(separadas[0], separadas[1], counter);
+            //            counter++;
+
+            //        }
+            //        a.WriteXml("prueba.aplitop");
+            //        file.Close();
+            //        if (materialCheckBox1.Checked == true)
+            //        {
+            //            opcion = 1;
+            //            grados = 0;
+            //            metros = 0;
+            //            ratio = 0;
+            //        }
+            //        else if (materialCheckBox2.Checked == true)
+            //        {
+            //            opcion = 2;
+            //            grados = 0;
+            //            metros = 0;
+            //            ratio = 0;
+            //        }
+            //        else if (materialCheckBox3.Checked == true)
+            //        {
+            //            opcion = 3;
+            //            grados = double.Parse(textBox1.Text);
+            //            metros = double.Parse(textBox2.Text);
+            //            ratio = grados / metros;
+            //        }
+            //        int it = 0;
+            //        if (materialCheckBox4.Checked == true)
+            //        {
+            //            it = 1;
+            //        }
+            //        else
+            //        {
+            //            it = 2;
+            //        }
+            //        if (materialCheckBox5.Checked == false)
+            //        {
+            //            double t_med, t_max,p_cluster,gran_r;
+            //            int n_curvas;
+            //            if (!string.IsNullOrEmpty(textBox5.Text))
+            //            {
+            //                t_med = double.Parse(textBox5.Text);
+            //            }
+            //            else
+            //            {
+            //                t_med = 1;
+            //            }
+            //            if (!string.IsNullOrEmpty(textBox6.Text))
+            //            {
+            //                t_max = double.Parse(textBox6.Text);
+            //            }
+            //            else
+            //            {
+            //                t_max = 1;
+            //            }
+            //            if (!string.IsNullOrEmpty(textBox7.Text))
+            //            {
+            //                p_cluster = double.Parse(textBox7.Text);
+            //            }
+            //            else
+            //            {
+            //                p_cluster = 2;
+            //            }
+            //            if (!string.IsNullOrEmpty(textBox8.Text))
+            //            {
+            //                gran_r = double.Parse(textBox8.Text);
+            //            }
+            //            else
+            //            {
+            //                gran_r = 2500;
+            //            }
+            //            if (!string.IsNullOrEmpty(textBox9.Text))
+            //            {
+            //                n_curvas = int.Parse(textBox9.Text);
+            //            }
+            //            else
+            //            {
+            //                n_curvas = 2;
+            //            }
+            //            this.calculoPolilineaController = new CalculoPolilinea(ref a, opcion, ratio, it);
+
+            //            /*
+            //             * 
+            //             * Primero dividimos todos los cambios de giro y comprobamos que la tolerancia media *3
+            //             * a la recta es menor suavizamos 10 veces ese tramos 
+            //             * 
+            //             */
+            //            calculoPolilineaController.Cambios_Sentido(t_med);
+            //            calculoPolilineaController.nueva_relacion();
+            //            calculoPolilineaController.Set_minimos();
+            //            calculoPolilineaController.Set_grupo();
+            //            calculoPolilineaController.Set_recta_curva();
+
+            //            calculoPolilineaController.mostrardatos();
+            //            calculoPolilineaController.Entidades_Curvas(t_max, p_cluster);
+            //            calculoPolilineaController.Recorrido();
+            //            calculoPolilineaController.Combinacion(t_med,t_max, n_curvas);
+                        
+            //            calculoPolilineaController.Dibujar_entidades(1);
+            //            calculoPolilineaController.Comprobacion();
+            //            calculoPolilineaController.Dibujar_entidades(2);
+
+            //            /*
+            //             * Primera parte acabada
+            //             */
+
+                    
+            //            //calculo.FiltroDeCurvas();
+            //            //calculo.RecortarCurvas();
+            //            //calculo.Dibujar_entidades();
+
+            //           // calculo.viabilidad();
+            //            //calculo.Comprobacion();
+            //            //calculo.Dibujar_entidades(3);
+            //            //calculo.ajuste_2();
+            //            //calculo.ajuste();
+            //            //calculo.Dibujar_entidades();
+            //            //calculo.Enlaces(gran_r);
+            //            //calculo.centro();
+            //           // calculo.Dibujar_Todo();
+
+
+
+
+
+
+            //        }
+            //        else
+            //        {
+            //            int dis = (int)numericUpDown1.Value;
+            //            int rad = (int)numericUpDown2.Value;
+            //            int gir = (int)numericUpDown3.Value;
+            //            int[] orden = new int[3];
+            //            orden[0] = dis;
+            //            orden[1] = rad;
+            //            orden[2] = gir;
+            //            grados = double.Parse(textBox1.Text);
+            //            metros = double.Parse(textBox2.Text);
+            //            ratio = grados / metros;
+
+
+            //            Logica.CalculoPolilinea calculo = new CalculoPolilinea(ref a, opcion, ratio, orden, it);
+            //        }
+                    
+            //    }
+            //    else
+            //    {
+                    
+            //    }
+            //}
+            //else
+            //{
+            //    MessageBox.Show("Error. El orden de los filtros esta repetido");
+            //}
+        ////}
 
         private void materialFlatButton3_Click(object sender, EventArgs e)
         {
