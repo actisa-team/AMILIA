@@ -17,7 +17,6 @@ namespace interfaz
             m.Theme = MaterialSkinManager.Themes.LIGHT;
             //m.ColorScheme = new ColorScheme(Primary.Green900,Primary.Green700,Primary.Green500,Accent.LightGreen200,TextShade.WHITE);
             postcarga();
-            fasdfasdfasd
         }
         private void postcarga()
         {
