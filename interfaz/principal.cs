@@ -213,7 +213,6 @@ namespace interfaz
                          * Primera parte acabada
                          */
 
-                    fegergferg
                         //calculo.FiltroDeCurvas();
                         //calculo.RecortarCurvas();
                         //calculo.Dibujar_entidades();
