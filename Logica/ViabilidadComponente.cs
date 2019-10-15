@@ -1,5 +1,5 @@
 ﻿namespace Logica {
-    internal class ViabilidadComponente {
+    public class ViabilidadComponente {
         private Componente componente;
         private int caso;
 

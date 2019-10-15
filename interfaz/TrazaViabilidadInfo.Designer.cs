@@ -22,15 +22,20 @@
             // 
             // trazaViablidadDataGridView
             // 
+            this.trazaViablidadDataGridView.AllowUserToAddRows = false;
+            this.trazaViablidadDataGridView.AllowUserToDeleteRows = false;
+            this.trazaViablidadDataGridView.AllowUserToResizeColumns = false;
+            this.trazaViablidadDataGridView.AllowUserToResizeRows = false;
             this.trazaViablidadDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.trazaViablidadDataGridView.Location = new System.Drawing.Point(27, 165);
+            this.trazaViablidadDataGridView.Location = new System.Drawing.Point(12, 76);
             this.trazaViablidadDataGridView.Name = "trazaViablidadDataGridView";
-            this.trazaViablidadDataGridView.Size = new System.Drawing.Size(613, 150);
+            this.trazaViablidadDataGridView.ReadOnly = true;
+            this.trazaViablidadDataGridView.Size = new System.Drawing.Size(938, 651);
             this.trazaViablidadDataGridView.TabIndex = 0;
             // 
             // TrazaViabilidadInfo
             // 
-            this.ClientSize = new System.Drawing.Size(687, 491);
+            this.ClientSize = new System.Drawing.Size(962, 739);
             this.Controls.Add(this.trazaViablidadDataGridView);
             this.Name = "TrazaViabilidadInfo";
             this.Text = "Trazas de viabilidad";

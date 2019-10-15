@@ -8,9 +8,11 @@ namespace interfaz {
     public partial class TrazaViabilidadInfo : MaterialForm {
 
         private List<Logica.ViabilidadComponentesStatus> trazaViabilidadComponentes;
+        private List<Logica.Componente> componentes;
 
-        public TrazaViabilidadInfo(List<Logica.ViabilidadComponentesStatus> trazaViabilidadComponentes) {
+        public TrazaViabilidadInfo(List<Logica.ViabilidadComponentesStatus> trazaViabilidadComponentes, List<Logica.Componente> componentes) {
             this.trazaViabilidadComponentes = trazaViabilidadComponentes;
+            this.componentes = componentes;
             InitializeComponent();
             this.populateDataTable();
         }
@@ -22,8 +24,27 @@ namespace interfaz {
             dataTable.Columns.Add("Tipo");
             dataTable.Columns.Add("Caso");
             dataTable.Columns.Add("Resuelto");
+            
+            this.trazaViabilidadComponentes.ForEach(traza => {
+                int trazaIndex = this.trazaViabilidadComponentes.IndexOf(traza);
+                traza.ViabilidadComponentes.ForEach(viabilidadComponente => {
+                    int componenteIndex = this.componentes.IndexOf(viabilidadComponente.Componente);
+                    String tipo = "";
+                    if (viabilidadComponente.Componente.Tipo == 1) {
+                        tipo = "Recta";
+                    }
+                    if (viabilidadComponente.Componente.Tipo == 2) {
+                        tipo = "Curva";
+                    }
 
-            dataTable.Rows.Add("fasdf", "r3trg", "fasd", "agerge", "fera");
+                    String resuelto = "";
+                    if (traza.CasoResuelto.Equals(viabilidadComponente)) {
+                        resuelto = "SI";
+                    }
+
+                    dataTable.Rows.Add(trazaIndex, componenteIndex, tipo, viabilidadComponente.Caso, resuelto);
+                });   
+            });
 
             trazaViablidadDataGridView.DataSource = dataTable;
         }
