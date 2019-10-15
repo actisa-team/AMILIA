@@ -11,6 +11,7 @@ namespace interfaz {
     public partial class principal : MaterialForm {
         private CalculoPolilinea calculoPolilinea;
         private CalculoPolilineaPreferencias calculoPolilineaPreferencias;
+        private int pasosEjecutados = -1;
 
         public principal() {
             InitializeComponent();
@@ -205,48 +206,69 @@ namespace interfaz {
         }
 
         private void ejecutar1ButtonClick(object sender, EventArgs eventArgs) {
-            if (this.calculoPolilinea != null) {
-                /*
-                * 
-                * Primero dividimos todos los cambios de giro y comprobamos que la tolerancia media *3
-                * a la recta es menor suavizamos 10 veces ese tramos 
-                * 
-                */
-                calculoPolilinea.Cambios_Sentido(calculoPolilineaPreferencias.T_med);
-                calculoPolilinea.nueva_relacion();
-                calculoPolilinea.Set_minimos();
-                calculoPolilinea.Set_grupo();
-                calculoPolilinea.Set_recta_curva();
+            if (this.pasosEjecutados > -1) {
+                if (this.calculoPolilinea != null) {
+                    /*
+                    * 
+                    * Primero dividimos todos los cambios de giro y comprobamos que la tolerancia media *3
+                    * a la recta es menor suavizamos 10 veces ese tramos 
+                    * 
+                    */
+                    calculoPolilinea.Cambios_Sentido(calculoPolilineaPreferencias.T_med);
+                    calculoPolilinea.nueva_relacion();
+                    calculoPolilinea.Set_minimos();
+                    calculoPolilinea.Set_grupo();
+                    calculoPolilinea.Set_recta_curva();
 
-                calculoPolilinea.mostrardatos();
-                calculoPolilinea.Entidades_Curvas(calculoPolilineaPreferencias.T_max, calculoPolilineaPreferencias.P_cluster);
-                calculoPolilinea.Recorrido();
-                calculoPolilinea.Combinacion(calculoPolilineaPreferencias.T_med, calculoPolilineaPreferencias.T_max, calculoPolilineaPreferencias.N_curvas);
+                    calculoPolilinea.mostrardatos();
+                    calculoPolilinea.Entidades_Curvas(calculoPolilineaPreferencias.T_max, calculoPolilineaPreferencias.P_cluster);
+                    calculoPolilinea.Recorrido();
+                    calculoPolilinea.Combinacion(calculoPolilineaPreferencias.T_med, calculoPolilineaPreferencias.T_max, calculoPolilineaPreferencias.N_curvas);
 
-                calculoPolilinea.Dibujar_entidades(1);
-                calculoPolilinea.Comprobacion();
-                calculoPolilinea.Dibujar_entidades(2);
+                    calculoPolilinea.Dibujar_entidades(1);
+                    calculoPolilinea.Comprobacion();
+                    calculoPolilinea.Dibujar_entidades(2);
 
-                MessageBox.Show("Revise autocad para ver la salida de la etapa 1 del algoritmo");
+                    this.pasosEjecutados = 1;
+                    this.paso1EjecutadoTextView.Visible = true;
+                    MessageBox.Show("Revise autocad para ver la salida de la etapa 1 del algoritmo");
+                } else {
+                    MessageBox.Show("Calculo polilinea no inicializado");
+                }
             } else {
-                MessageBox.Show("Calculo polilinea no inicializado");
+                MessageBox.Show("Calculo polilinea no preparado");
             }
         }
 
         private void ejecutar2ButtonClick(object sender, EventArgs eventArgs) {
-            if (this.calculoPolilinea != null) {
-                List<ViabilidadComponentesStatus> trazaViabilidadComponentes = calculoPolilinea.viabilidad();
-                calculoPolilinea.Dibujar_entidades(3);
-                TrazaViabilidadInfo tvi = new TrazaViabilidadInfo(trazaViabilidadComponentes, this.calculoPolilinea.Componentes);
-                tvi.Show();
-                MessageBox.Show("Revise autocad para ver la salida de la etapa 2 del algoritmo");
+            if (pasosEjecutados > 0) {
+                if (this.calculoPolilinea != null) {
+                    List<ViabilidadComponentesStatus> trazaViabilidadComponentes = calculoPolilinea.viabilidad();
+                    calculoPolilinea.Dibujar_entidades(3);
+
+                    //mostrar panel de la traza de viabilidad de los componentes
+                    TrazaViabilidadInfo tvi = new TrazaViabilidadInfo(trazaViabilidadComponentes, this.calculoPolilinea.Componentes);
+                    tvi.Show();
+
+                    this.pasosEjecutados = 2;
+                    this.paso2EjecutadoTextView.Visible = true;
+                    MessageBox.Show("Revise autocad para ver la salida de la etapa 2 del algoritmo");
+                } else {
+                    MessageBox.Show("Calculo polilinea no inicializado");
+                }
             } else {
-                MessageBox.Show("Calculo polilinea no inicializado");
-            }
+                MessageBox.Show("El paso 1 no se ha ejecutado todavia");
+            }        
         }
 
         private void materialFlatButton2_Click(object sender, EventArgs e) {
+            //Resetear estado actual
             this.calculoPolilinea = null;
+            this.pasosEjecutados = -1;
+            this.paso1EjecutadoTextView.Visible = false;
+            this.paso2EjecutadoTextView.Visible = false;
+            this.paso3EjecutadoTextView.Visible = false;
+            this.calculoPolilineaStatusTextView.Visible = false;
 
             if (comprobar()) {
                 dsApp dsApp = this.abrirArchivoDeProyecto();
@@ -260,6 +282,10 @@ namespace interfaz {
                     } else {
                         this.calculoPolilinea = new CalculoPolilinea(ref dsApp, calculoPolilineaPreferencias.Opcion, calculoPolilineaPreferencias.Ratio, calculoPolilineaPreferencias.Orden, calculoPolilineaPreferencias.It);
                     }
+
+                    this.calculoPolilineaStatusTextView.Visible = true;
+                    this.pasosEjecutados = 0;
+                    
                     MessageBox.Show("CalculoPolilinea inicializado");
                 } else {
                     MessageBox.Show("Error al abrir el archivo del proyecto");
