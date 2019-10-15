@@ -237,6 +237,8 @@ namespace interfaz {
             if (this.calculoPolilinea != null) {
                 List<ViabilidadComponentesStatus> trazaViabilidadComponentes = calculoPolilinea.viabilidad();
                 calculoPolilinea.Dibujar_entidades(3);
+                TrazaViabilidadInfo tvi = new TrazaViabilidadInfo(trazaViabilidadComponentes);
+                tvi.Show();
                 MessageBox.Show("Revise autocad para ver la salida de la etapa 2 del algoritmo");
             } else {
                 MessageBox.Show("Calculo polilinea no inicializado");

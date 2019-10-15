@@ -1,8 +1,4 @@
-﻿using MaterialSkin;
-using MaterialSkin.Controls;
-namespace interfaz
-{
-    using MaterialSkin;
+﻿namespace interfaz {
     using MaterialSkin.Controls;
     partial class principal: MaterialForm
     {
