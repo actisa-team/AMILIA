@@ -13,6 +13,8 @@
         private double gran_r;
         private int n_curvas;
 
+        int[] orden;
+
         public int Opcion { get => opcion; set => opcion = value; }
         public double Grados { get => grados; set => grados = value; }
         public double Metros { get => metros; set => metros = value; }
@@ -23,5 +25,6 @@
         public double P_cluster { get => p_cluster; set => p_cluster = value; }
         public double Gran_r { get => gran_r; set => gran_r = value; }
         public int N_curvas { get => n_curvas; set => n_curvas = value; }
+        public int[] Orden { get => orden; set => orden = value; }
     }
 }
