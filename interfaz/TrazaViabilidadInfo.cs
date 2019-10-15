@@ -1,5 +1,7 @@
 ﻿using MaterialSkin.Controls;
+using System;
 using System.Collections.Generic;
+using System.Data;
 
 namespace interfaz {
 
@@ -8,10 +10,22 @@ namespace interfaz {
         private List<Logica.ViabilidadComponentesStatus> trazaViabilidadComponentes;
 
         public TrazaViabilidadInfo(List<Logica.ViabilidadComponentesStatus> trazaViabilidadComponentes) {
-            InitializeComponent();
             this.trazaViabilidadComponentes = trazaViabilidadComponentes;
+            InitializeComponent();
+            this.populateDataTable();
         }
 
+        private void populateDataTable() {
+            DataTable dataTable = new DataTable();
+            dataTable.Columns.Add("Iteración");
+            dataTable.Columns.Add("Componente");
+            dataTable.Columns.Add("Tipo");
+            dataTable.Columns.Add("Caso");
+            dataTable.Columns.Add("Resuelto");
 
+            dataTable.Rows.Add("fasdf", "r3trg", "fasd", "agerge", "fera");
+
+            trazaViablidadDataGridView.DataSource = dataTable;
+        }
     }
 }
