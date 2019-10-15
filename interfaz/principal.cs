@@ -6,6 +6,7 @@ namespace interfaz {
     using MaterialSkin;
     using MaterialSkin.Controls;
     using Logica;
+    using System.Collections.Generic;
 
     public partial class principal : MaterialForm {
         private CalculoPolilinea calculoPolilinea;
@@ -234,7 +235,7 @@ namespace interfaz {
 
         private void ejecutar2ButtonClick(object sender, EventArgs eventArgs) {
             if (this.calculoPolilinea != null) {
-                calculoPolilinea.viabilidad();
+                List<ViabilidadComponentesStatus> trazaViabilidadComponentes = calculoPolilinea.viabilidad();
                 calculoPolilinea.Dibujar_entidades(3);
                 MessageBox.Show("Revise autocad para ver la salida de la etapa 2 del algoritmo");
             } else {

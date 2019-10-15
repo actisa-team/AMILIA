@@ -1827,15 +1827,16 @@ namespace Logica
          * Este metodo vale para estudiar la viabilidad de las entidades antes de crear las clotoides correspondientes
          * 
          */
-        public void viabilidad()
+        public List<ViabilidadComponentesStatus> viabilidad()
         {
+            List<ViabilidadComponentesStatus> trazaViabilidadComponentes = new List<ViabilidadComponentesStatus>();
+
             //mientras que algun caso no este resuelto
             bool casos = true;
             double distancia;
             Point2d pm;
-            int contador = 0;
 
-            while (casos && contador<100000)
+            while (casos)
             {
 
                 this.Reiniciar_casos();
@@ -2049,187 +2050,81 @@ namespace Logica
                 mostrarCasos();
 
                 //Registrar el estado de la viabilidad de los componentes
-                this.populateViabilidadComponentesStatus();
+                ViabilidadComponentesStatus viabilidadComponentesStatus = this.populateViabilidadComponentesStatus();
 
-                bool hacer_caso = true;
-                for (int i = 0; i <= componentes.Count - 1; i++)
-                {
-                    if (componentes[i].caso4 == true)
-                    {
-                        //hacer caso 4
-                        Reducir_radio(i);
-                        hacer_caso = false;
-                        break;
-                    }
-                }
-                if (hacer_caso)
-                {
-                    for (int i = 0; i <= componentes.Count - 1; i++)
-                    {
-                        if (componentes[i].caso5 == true)
-                        {
-                            //hacer caso 5
-                            Reducir_radio(i);
-                            hacer_caso = false;
+                //Si hay algun componente conflictivo... caso 4,5,3,2,1
+                if (viabilidadComponentesStatus.ViabilidadComponentes.Any()) {
+                    ViabilidadComponente casoMasPrioritario = viabilidadComponentesStatus.ViabilidadComponentes.First();
+                    int componenteIndex = this.componentes.IndexOf(casoMasPrioritario.Componente);
+
+                    //Soluciona el caso mas prioritario - solo uno - segun el caso que se de en el componente
+                    switch (casoMasPrioritario.Caso) {
+                        case 4:
+                            Reducir_radio(componenteIndex);
                             break;
-                        }
-                    }
-                }
-                if (hacer_caso)
-                {
-                    for (int i = 0; i <= componentes.Count - 1; i++)
-                    {
-                        if (componentes[i].caso1 == true)
-                        {
-                            //hacer caso 1
-                            Reducir_radio(i - 1);
-                            Reducir_radio(i + 1);
-                            hacer_caso = false;
+                        case 5:
+                            Reducir_radio(componenteIndex);
                             break;
-                        }
-                    }
-                }
-                if (hacer_caso)
-                {
-                    for (int i = 0; i <= componentes.Count - 1; i++)
-                    {
-                        if (componentes[i].caso2 == true)
-                        {
-                            //hacer caso 2
-                            componentes.RemoveAt(i);
-                            hacer_caso = false;
+                        case 1:
+                            Reducir_radio(componenteIndex - 1);
+                            Reducir_radio(componenteIndex + 1);
                             break;
-                        }
-                    }
-                }
-                if (hacer_caso)
-                {
-                    for (int i = 0; i <= componentes.Count - 1; i++)
-                    {
-                        if (componentes[i].caso3 == true)
-                        {
-                            if (i>3)
-                            {
+                        case 2:
+                            componentes.RemoveAt(componenteIndex);
+                            break;
+                        case 3:
+                            if (componenteIndex > 3) {
 
                             }
                             //hacer caso 3
                             List<Punto> pv = new List<Punto>();
                             List<Punto> recta = new List<Punto>();
                             Tuple<List<Punto>, double[], int> lr = Tuple.Create(pv, new double[2], 0);
-                            for (int t = 0; t <= componentes[i].lista_puntos.Count - 1; t++)
-                            {
-                                recta.Add(componentes[i].lista_puntos[t]);
+                            for (int t = 0; t <= componentes[componenteIndex].lista_puntos.Count - 1; t++) {
+                                recta.Add(componentes[componenteIndex].lista_puntos[t]);
                             }
                             lr = ajuste_recta(recta, 0);
-                            double xc = componentes[i].lista_puntos[componentes[i].lista_puntos.Count - 2].p.X;
-                            double yc = componentes[i].lista_puntos[componentes[i].lista_puntos.Count - 2].p.Y;
+                            double xc = componentes[componenteIndex].lista_puntos[componentes[componenteIndex].lista_puntos.Count - 2].p.X;
+                            double yc = componentes[componenteIndex].lista_puntos[componentes[componenteIndex].lista_puntos.Count - 2].p.Y;
                             //xc = x_p_1;
                             //yc = y_p_1;
                             Punto p_r = new Punto();
-                            p_r = Rellenar_centro(componentes[i].lista_puntos[componentes[i].lista_puntos.Count - 1], xc, yc, 1);
-                            componentes[i].azr = p_r.Az;
+                            p_r = Rellenar_centro(componentes[componenteIndex].lista_puntos[componentes[componenteIndex].lista_puntos.Count - 1], xc, yc, 1);
+                            componentes[componenteIndex].azr = p_r.Az;
                             double giro = 0;
                             int pos = 3;
-                            if (i==0)
-                            {
+                            if (componenteIndex == 0) {
                                 pos = 1;
                             }
-                            if (i== componentes.Count - 1)
-                            {
+                            if (componenteIndex == componentes.Count - 1) {
                                 pos = 2;
                             }
-                            if (componentes[i].c_p==true)
-                            {
+                            if (componentes[componenteIndex].c_p == true) {
 
-                                giro = Girar(lr, componentes[i + 1],pos, componentes[i].azr);
-                            }
-                            else
-                            {
-                                if (componentes[i].c_a == true)
-                                {
-                                    giro = Girar(lr, componentes[i - 1],pos, componentes[i].azr);
+                                giro = Girar(lr, componentes[componenteIndex + 1], pos, componentes[componenteIndex].azr);
+                            } else {
+                                if (componentes[componenteIndex].c_a == true) {
+                                    giro = Girar(lr, componentes[componenteIndex - 1], pos, componentes[componenteIndex].azr);
                                 }
                             }
-                            
+
 
                             int contar = 0;
-                            Girar_Recta(i, giro, componentes[i].azr);
+                            Girar_Recta(componenteIndex, giro, componentes[componenteIndex].azr);
 
-                            hacer_caso = false;
                             break;
-                        }
                     }
-                }
-                if (hacer_caso)
-                {
+
+                    viabilidadComponentesStatus.CasoResuelto = casoMasPrioritario;  
+                } else {
+                    //no hay casos para resolver
                     casos = false;
                 }
-                contador++;
-                if (contador==1000)
-                {
-                    DialogResult result = MessageBox.Show("LLeva 1000 comprobaciones quiere continuar", "Continuar", MessageBoxButtons.YesNoCancel);
 
-                    if (result == DialogResult.Yes)
-                    {
-                       
-                    }
-                    else if (result == DialogResult.No)
-                    {
-                        break;
-                    }
-                    else if (result == DialogResult.Cancel)
-                    {
-                    }
-                }
-                if (contador == 2000)
-                {
-                    DialogResult result = MessageBox.Show("LLeva 2000 comprobaciones quiere continuar", "Continuar", MessageBoxButtons.YesNoCancel);
-
-                    if (result == DialogResult.Yes)
-                    {
-
-                    }
-                    else if (result == DialogResult.No)
-                    {
-                        break;
-                    }
-                    else if (result == DialogResult.Cancel)
-                    {
-                    }
-                }
-                if (contador == 3000)
-                {
-                    DialogResult result = MessageBox.Show("LLeva 3000 comprobaciones quiere continuar", "Continuar", MessageBoxButtons.YesNoCancel);
-
-                    if (result == DialogResult.Yes)
-                    {
-
-                    }
-                    else if (result == DialogResult.No)
-                    {
-                        break;
-                    }
-                    else if (result == DialogResult.Cancel)
-                    {
-                    }
-                }
-                if (contador == 95000)
-                {
-                    DialogResult result = MessageBox.Show("LLeva 45000 comprobaciones quiere continuar", "Continuar", MessageBoxButtons.YesNoCancel);
-
-                    if (result == DialogResult.Yes)
-                    {
-                        mostrarCasos();
-                    }
-                    else if (result == DialogResult.No)
-                    {
-                        break;
-                    }
-                    else if (result == DialogResult.Cancel)
-                    {
-                    }
-                }
+                //se añade la iteracion actual a la traza completa de viabilidad
+                trazaViabilidadComponentes.Add(viabilidadComponentesStatus);
             }
+            return trazaViabilidadComponentes;
         }
 
         private ViabilidadComponentesStatus populateViabilidadComponentesStatus() {
