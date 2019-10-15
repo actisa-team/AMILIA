@@ -8,6 +8,7 @@ namespace interfaz {
     using Logica;
     public partial class principal : MaterialForm {
         private CalculoPolilinea calculoPolilinea;
+        private CalculoPolilineaPreferencias calculoPolilineaPreferencias;
 
         public principal() {
             InitializeComponent();
@@ -16,6 +17,8 @@ namespace interfaz {
             m.Theme = MaterialSkinManager.Themes.LIGHT;
             //m.ColorScheme = new ColorScheme(Primary.Green900,Primary.Green700,Primary.Green500,Accent.LightGreen200,TextShade.WHITE);
             postcarga();
+
+            this.ejecutar1Button.Click += new EventHandler(this.ejecutar1ButtonClick);
         }
         private void postcarga() {
 
@@ -191,6 +194,35 @@ namespace interfaz {
             return ca;
         }
 
+        private void ejecutar1ButtonClick(object sender, EventArgs eventArgs) {
+            if (this.calculoPolilinea != null) {
+                /*
+                * 
+                * Primero dividimos todos los cambios de giro y comprobamos que la tolerancia media *3
+                * a la recta es menor suavizamos 10 veces ese tramos 
+                * 
+                */
+                calculoPolilinea.Cambios_Sentido(calculoPolilineaPreferencias.T_med);
+                calculoPolilinea.nueva_relacion();
+                calculoPolilinea.Set_minimos();
+                calculoPolilinea.Set_grupo();
+                calculoPolilinea.Set_recta_curva();
+
+                calculoPolilinea.mostrardatos();
+                calculoPolilinea.Entidades_Curvas(calculoPolilineaPreferencias.T_max, calculoPolilineaPreferencias.P_cluster);
+                calculoPolilinea.Recorrido();
+                calculoPolilinea.Combinacion(calculoPolilineaPreferencias.T_med, calculoPolilineaPreferencias.T_max, calculoPolilineaPreferencias.N_curvas);
+
+                calculoPolilinea.Dibujar_entidades(1);
+                calculoPolilinea.Comprobacion();
+                calculoPolilinea.Dibujar_entidades(2);
+
+                MessageBox.Show("Revise autocad para ver la salida de la etapa 1 del algoritmo");
+            } else {
+                MessageBox.Show("Calculo polilinea no inicializado");
+            }
+        }
+
         private void materialFlatButton2_Click(object sender, EventArgs e) {
             this.calculoPolilinea = null;
 
@@ -198,32 +230,11 @@ namespace interfaz {
                 dsApp dsApp = this.abrirArchivoDeProyecto();
 
                 if (dsApp != null) {
-                    CalculoPolilineaPreferencias calculoPolilineaPreferencias = this.obtenerParametrosCalculoPolilinea();
+                    this.calculoPolilineaPreferencias = this.obtenerParametrosCalculoPolilinea();
 
                     if (aplicarMultiplesFiltradosCheckBox.Checked == false) {
                         //obtener parametros de inicializacion de CalculoPolilineaController
                         this.calculoPolilinea = new CalculoPolilinea(ref dsApp, calculoPolilineaPreferencias.Opcion, calculoPolilineaPreferencias.Ratio, calculoPolilineaPreferencias.It);
-
-                        /*
-                         * 
-                         * Primero dividimos todos los cambios de giro y comprobamos que la tolerancia media *3
-                         * a la recta es menor suavizamos 10 veces ese tramos 
-                         * 
-                         */
-                        calculoPolilinea.Cambios_Sentido(calculoPolilineaPreferencias.T_med);
-                        calculoPolilinea.nueva_relacion();
-                        calculoPolilinea.Set_minimos();
-                        calculoPolilinea.Set_grupo();
-                        calculoPolilinea.Set_recta_curva();
-
-                        calculoPolilinea.mostrardatos();
-                        calculoPolilinea.Entidades_Curvas(calculoPolilineaPreferencias.T_max, calculoPolilineaPreferencias.P_cluster);
-                        calculoPolilinea.Recorrido();
-                        calculoPolilinea.Combinacion(calculoPolilineaPreferencias.T_med, calculoPolilineaPreferencias.T_max, calculoPolilineaPreferencias.N_curvas);
-
-                        calculoPolilinea.Dibujar_entidades(1);
-                        calculoPolilinea.Comprobacion();
-                        calculoPolilinea.Dibujar_entidades(2);
                     } else {
                         this.calculoPolilinea = new CalculoPolilinea(ref dsApp, calculoPolilineaPreferencias.Opcion, calculoPolilineaPreferencias.Ratio, calculoPolilineaPreferencias.Orden, calculoPolilineaPreferencias.It);
                     }
@@ -516,6 +527,14 @@ namespace interfaz {
             materialLabel4.Text = string.Concat(giro);
             materialLabel5.Text = string.Concat(sentido);
             materialLabel7.Text = string.Concat(gl);
+
+        }
+
+        private void tabPage2_Click(object sender, EventArgs e) {
+
+        }
+
+        private void materialFlatButton6_Click(object sender, EventArgs e) {
 
         }
     }
