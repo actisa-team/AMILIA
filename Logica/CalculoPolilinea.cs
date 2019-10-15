@@ -2047,6 +2047,10 @@ namespace Logica
                 }
                 this.casos();
                 mostrarCasos();
+
+                //Registrar el estado de la viabilidad de los componentes
+                this.populateViabilidadComponentesStatus();
+
                 bool hacer_caso = true;
                 for (int i = 0; i <= componentes.Count - 1; i++)
                 {
@@ -2227,6 +2231,45 @@ namespace Logica
                 }
             }
         }
+
+        private ViabilidadComponentesStatus populateViabilidadComponentesStatus() {
+            ViabilidadComponentesStatus viabilidadComponentesStatus = new ViabilidadComponentesStatus();
+
+            this.componentes.Where(componente => componente.caso4).ToList().ForEach(delegate (Componente componente)
+            {
+                ViabilidadComponente viabilidadComponente = new ViabilidadComponente();
+                viabilidadComponente.Componente = componente;
+                viabilidadComponente.Caso = 4;
+                viabilidadComponentesStatus.ViabilidadComponentes.Add(viabilidadComponente);
+            });
+            this.componentes.Where(componente => componente.caso5).ToList().ForEach(delegate (Componente componente) {
+                ViabilidadComponente viabilidadComponente = new ViabilidadComponente();
+                viabilidadComponente.Componente = componente;
+                viabilidadComponente.Caso = 5;
+                viabilidadComponentesStatus.ViabilidadComponentes.Add(viabilidadComponente);
+            });
+            this.componentes.Where(componente => componente.caso1).ToList().ForEach(delegate (Componente componente) {
+                ViabilidadComponente viabilidadComponente = new ViabilidadComponente();
+                viabilidadComponente.Componente = componente;
+                viabilidadComponente.Caso = 1;
+                viabilidadComponentesStatus.ViabilidadComponentes.Add(viabilidadComponente);
+            });
+            this.componentes.Where(componente => componente.caso2).ToList().ForEach(delegate (Componente componente) {
+                ViabilidadComponente viabilidadComponente = new ViabilidadComponente();
+                viabilidadComponente.Componente = componente;
+                viabilidadComponente.Caso = 2;
+                viabilidadComponentesStatus.ViabilidadComponentes.Add(viabilidadComponente);
+            });
+            this.componentes.Where(componente => componente.caso3).ToList().ForEach(delegate (Componente componente) {
+                ViabilidadComponente viabilidadComponente = new ViabilidadComponente();
+                viabilidadComponente.Componente = componente;
+                viabilidadComponente.Caso = 3;
+                viabilidadComponentesStatus.ViabilidadComponentes.Add(viabilidadComponente);
+            });
+
+            return viabilidadComponentesStatus;
+        }
+
         public void viabilidad_Extremos()
         {
             bool casos = true;

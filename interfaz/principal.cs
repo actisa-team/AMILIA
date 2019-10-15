@@ -27,6 +27,7 @@ namespace interfaz {
 
 
             this.ejecutar1Button.Click += new EventHandler(this.ejecutar1ButtonClick);
+            this.ejecutar2Button.Click += new EventHandler(this.ejecutar2ButtonClick);
         }
         private void postcarga() {
 
@@ -233,7 +234,9 @@ namespace interfaz {
 
         private void ejecutar2ButtonClick(object sender, EventArgs eventArgs) {
             if (this.calculoPolilinea != null) {
-              
+                calculoPolilinea.viabilidad();
+                calculoPolilinea.Dibujar_entidades(3);
+                MessageBox.Show("Revise autocad para ver la salida de la etapa 2 del algoritmo");
             } else {
                 MessageBox.Show("Calculo polilinea no inicializado");
             }
