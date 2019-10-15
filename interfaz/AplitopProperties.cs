@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace APLITOP {
+﻿namespace interfaz {
     class AplitopProperties {
         public const Environment environment = Environment.DEVELOPMENT;
 
-        public bool isDevelopment() {
+        public static bool isDevelopment() {
             if (environment.Equals(Environment.DEVELOPMENT)) {
                 return true;
             }

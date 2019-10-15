@@ -6,6 +6,7 @@ namespace interfaz {
     using MaterialSkin;
     using MaterialSkin.Controls;
     using Logica;
+
     public partial class principal : MaterialForm {
         private CalculoPolilinea calculoPolilinea;
         private CalculoPolilineaPreferencias calculoPolilineaPreferencias;
@@ -17,6 +18,13 @@ namespace interfaz {
             m.Theme = MaterialSkinManager.Themes.LIGHT;
             //m.ColorScheme = new ColorScheme(Primary.Green900,Primary.Green700,Primary.Green500,Accent.LightGreen200,TextShade.WHITE);
             postcarga();
+
+            if (AplitopProperties.isDevelopment()) {
+                this.debugButtonsContainer.Visible = true;
+            } else {
+                this.debugButtonsContainer.Visible = false;
+            }
+
 
             this.ejecutar1Button.Click += new EventHandler(this.ejecutar1ButtonClick);
         }
@@ -166,7 +174,7 @@ namespace interfaz {
                 int filtrado1Order = (int)filtrado1ExecuteOrderNumericField.Value;
                 int filtrado2Order = (int)filtrado2ExecuteOrderNumericField.Value;
                 int filtrado3Order = (int)filtrado3ExecuteOrderNumericField.Value;
-                
+
                 orden[0] = filtrado1Order;
                 orden[1] = filtrado2Order;
                 orden[2] = filtrado3Order;
@@ -223,6 +231,14 @@ namespace interfaz {
             }
         }
 
+        private void ejecutar2ButtonClick(object sender, EventArgs eventArgs) {
+            if (this.calculoPolilinea != null) {
+              
+            } else {
+                MessageBox.Show("Calculo polilinea no inicializado");
+            }
+        }
+
         private void materialFlatButton2_Click(object sender, EventArgs e) {
             this.calculoPolilinea = null;
 
@@ -230,14 +246,15 @@ namespace interfaz {
                 dsApp dsApp = this.abrirArchivoDeProyecto();
 
                 if (dsApp != null) {
+                    //obtener parametros de inicializacion de CalculoPolilineaController
                     this.calculoPolilineaPreferencias = this.obtenerParametrosCalculoPolilinea();
 
                     if (aplicarMultiplesFiltradosCheckBox.Checked == false) {
-                        //obtener parametros de inicializacion de CalculoPolilineaController
                         this.calculoPolilinea = new CalculoPolilinea(ref dsApp, calculoPolilineaPreferencias.Opcion, calculoPolilineaPreferencias.Ratio, calculoPolilineaPreferencias.It);
                     } else {
                         this.calculoPolilinea = new CalculoPolilinea(ref dsApp, calculoPolilineaPreferencias.Opcion, calculoPolilineaPreferencias.Ratio, calculoPolilineaPreferencias.Orden, calculoPolilineaPreferencias.It);
                     }
+                    MessageBox.Show("CalculoPolilinea inicializado");
                 } else {
                     MessageBox.Show("Error al abrir el archivo del proyecto");
                 }
@@ -261,8 +278,6 @@ namespace interfaz {
 
             }
         }
-
-
 
         private void materialCheckBox1_Click(object sender, EventArgs e) {
             filtrado1CheckBox.Checked = true;
@@ -373,11 +388,8 @@ namespace interfaz {
 
         }
 
-
-
         private void materialRaisedButton1_Click(object sender, EventArgs e) {
             MessageBox.Show("Hay que elegir el orden en el que se desea hacer la iteracion. Si es 0 no se hará esa iteración", "Información");
-
         }
 
         private void materialFlatButton4_Click(object sender, EventArgs e) {
