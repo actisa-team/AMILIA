@@ -14076,16 +14076,7 @@ namespace Logica {
                 contador++;
                 this.Reiniciar_casos_solapes();
                 this.Rellenar_Componentes();
-                //primera clotoide
-                if (contador==278)
-                {
-                    mostrar_enlaces = true;
-                    
-                }
-                if (contador == 8631)
-                {
-
-                }
+                
                 if (Componentes.Count==2)
                 {
                     if (Componentes[0].Tipo == 1 && Componentes[1].Tipo == 2)//si es recta--curva

@@ -279,6 +279,7 @@ namespace interfaz {
                     catch {
                         MessageBox.Show("Se ha detectado un error al crear la entidad. Se dibujará lo creado");
                     }
+                    MessageBox.Show("Revise autocad para ver la salida de la etapa 3 del algoritmo");
                 } else {
                     MessageBox.Show("Calculo polilinea no inicializado");
                 }

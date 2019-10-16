@@ -38,7 +38,7 @@
             this.ClientSize = new System.Drawing.Size(962, 739);
             this.Controls.Add(this.trazaViablidadDataGridView);
             this.Name = "TrazaViabilidadInfo";
-            this.Text = "Trazas de viabilidad";
+            this.Text = "Trazas de viabilidad paso 2";
             ((System.ComponentModel.ISupportInitialize)(this.trazaViablidadDataGridView)).EndInit();
             this.ResumeLayout(false);
 
