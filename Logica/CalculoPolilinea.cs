@@ -14801,7 +14801,7 @@ namespace Logica {
                 if (viabilidadEnlacesStatus.ViabilidadComponentes.Any()) {
                     ViabilidadComponente casoMasPrioritario = viabilidadEnlacesStatus.ViabilidadComponentes.First();
                 }
-                //mostrarCasos_Enlaces();
+               //mostrarCasos_Enlaces();
 
                 Modificacion();
                 ultima_clo_crc = false;

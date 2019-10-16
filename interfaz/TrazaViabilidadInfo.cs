@@ -38,7 +38,7 @@ namespace interfaz {
                     }
 
                     String resuelto = "";
-                    if (traza.CasoResuelto.Equals(viabilidadComponente)) {
+                    if (traza.CasoResuelto != null && traza.CasoResuelto.Equals(viabilidadComponente)) {
                         resuelto = "SI";
                     }
 
