@@ -14803,7 +14803,7 @@ namespace Logica {
                 }
                //mostrarCasos_Enlaces();
 
-                Modificacion();
+                Modificacion(viabilidadEnlacesStatus);
                 ultima_clo_crc = false;
 
                 //se añade la iteracion actual a la traza completa de viabilidad del enlace
@@ -15429,7 +15429,7 @@ namespace Logica {
             }
 
         }
-        private void Modificacion()
+        private void Modificacion(ViabilidadComponentesStatus viabilidadEnlacesStatus)
         {
             bool modificar = true;
             /*
@@ -15477,7 +15477,8 @@ namespace Logica {
                 {
                     if (Componentes[i].caso3_e == true)
                     {
-
+                        ViabilidadComponente via = viabilidadEnlacesStatus.ViabilidadComponentes.Where(viabilidad => viabilidad.Componente.Equals(Componentes[i]) && viabilidad.Caso == 3).FirstOrDefault();
+                        viabilidadEnlacesStatus.CasoResuelto = via;
                         if (Componentes[i].Tipo==1)
                         {
                             Girar_Recta(i, Girar_acercar_C_C(Componentes[i].lista_puntos, Componentes[i-1], Componentes[i].azr), Componentes[i].azr);
@@ -15738,6 +15739,9 @@ namespace Logica {
                 {
                     if (Componentes[i].caso4_e == true)
                     {
+                        ViabilidadComponente via = viabilidadEnlacesStatus.ViabilidadComponentes.Where(viabilidad => viabilidad.Componente.Equals(Componentes[i]) && viabilidad.Caso == 4).FirstOrDefault();
+                        viabilidadEnlacesStatus.CasoResuelto = via;
+
                         Reducir_radio(i);
                         modificar = false;
                         break;
@@ -15766,6 +15770,8 @@ namespace Logica {
                 {
                     if (Componentes[i].caso6_e == true)
                     {
+                        ViabilidadComponente via = viabilidadEnlacesStatus.ViabilidadComponentes.Where(viabilidad => viabilidad.Componente.Equals(Componentes[i]) && viabilidad.Caso == 6).FirstOrDefault();
+                        viabilidadEnlacesStatus.CasoResuelto = via;
                         if (Componentes[i].Tipo == 2 && Componentes[i + 1].Tipo == 2)
                         {
                             if (Componentes[i].radio > Componentes[i + 1].radio)
@@ -15920,6 +15926,8 @@ namespace Logica {
                 {
                     if (Componentes[i].caso7_e == true)
                     {
+                        ViabilidadComponente via = viabilidadEnlacesStatus.ViabilidadComponentes.Where(viabilidad => viabilidad.Componente.Equals(Componentes[i]) && viabilidad.Caso == 7).FirstOrDefault();
+                        viabilidadEnlacesStatus.CasoResuelto = via;
                         if (Componentes[i].Tipo == 2 && Componentes[i - 1].Tipo == 1)
                         {
                             if (Componentes[i-1].creacion!=1 && Componentes[i - 1].creacion != 2)
