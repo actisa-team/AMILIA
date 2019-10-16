@@ -14767,15 +14767,6 @@ namespace Logica {
                 Modificacion();
                 ultima_clo_crc = false;
             } while (this.Comprobar_casos_solapes() && contador< 1000);
-            try
-            {
-            Dibujar_entidades(4);
-            Crear_Trazado(gran_r);
-            }
-            catch 
-            {
-                MessageBox.Show("Se ha detectado un error al crear la entidad. Se dibujará lo creado");
-            }
 }
         public void Crear_Trazado(double gran_r)
         {
@@ -17822,7 +17813,6 @@ namespace Logica {
                     }
                     
                 }
-                cadena += Componentes[Componentes.Count - 1].azr;
                 DialogResult result = MessageBox.Show(cadena, "Continuar", MessageBoxButtons.YesNo);
 
                 if (result == DialogResult.Yes)

@@ -271,9 +271,14 @@ namespace interfaz {
             if (this.pasosEjecutados > 1) {
                 if (this.calculoPolilinea != null) {
                     calculoPolilinea.Enlaces(this.calculoPolilineaPreferencias.Gran_r);
-                    calculoPolilinea.Dibujar_entidades(4);
-                    calculoPolilinea.Crear_Trazado(this.calculoPolilineaPreferencias.Gran_r);
-                    calculoPolilinea.Dibujar_Todo();
+                    try {
+                        calculoPolilinea.Dibujar_entidades(4);
+                        calculoPolilinea.Crear_Trazado(this.calculoPolilineaPreferencias.Gran_r);
+                        calculoPolilinea.Dibujar_Todo();
+                    }
+                    catch {
+                        MessageBox.Show("Se ha detectado un error al crear la entidad. Se dibujará lo creado");
+                    }
                 } else {
                     MessageBox.Show("Calculo polilinea no inicializado");
                 }
