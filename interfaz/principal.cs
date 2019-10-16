@@ -270,7 +270,10 @@ namespace interfaz {
         private void ejecutar3ButtonClick(object sender, EventArgs eventArgs) {
             if (this.pasosEjecutados > 1) {
                 if (this.calculoPolilinea != null) {
-                        
+                    calculoPolilinea.Enlaces(this.calculoPolilineaPreferencias.Gran_r);
+                    calculoPolilinea.Dibujar_entidades(4);
+                    calculoPolilinea.Crear_Trazado(this.calculoPolilineaPreferencias.Gran_r);
+                    calculoPolilinea.Dibujar_Todo();
                 } else {
                     MessageBox.Show("Calculo polilinea no inicializado");
                 }

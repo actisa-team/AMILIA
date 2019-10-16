@@ -14777,7 +14777,7 @@ namespace Logica {
                 MessageBox.Show("Se ha detectado un error al crear la entidad. Se dibujará lo creado");
             }
 }
-        private void Crear_Trazado(double gran_r)
+        public void Crear_Trazado(double gran_r)
         {
             bool curva_gran_radio = false;
             bool continuar = true;
