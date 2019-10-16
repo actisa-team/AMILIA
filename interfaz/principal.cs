@@ -218,15 +218,15 @@ namespace interfaz
                         //calculo.RecortarCurvas();
                         //calculo.Dibujar_entidades();
 
-                       // calculo.viabilidad();
+                        calculo.viabilidad();
                         //calculo.Comprobacion();
                         //calculo.Dibujar_entidades(3);
                         //calculo.ajuste_2();
                         //calculo.ajuste();
                         //calculo.Dibujar_entidades();
-                        //calculo.Enlaces(gran_r);
+                        calculo.Enlaces(gran_r);
                         //calculo.centro();
-                       // calculo.Dibujar_Todo();
+                       calculo.Dibujar_Todo();
 
 
 
