@@ -2127,6 +2127,55 @@ namespace Logica {
             return trazaViabilidadComponentes;
         }
 
+        private ViabilidadComponentesStatus populateViabilidadEnlacesStatus() {
+            ViabilidadComponentesStatus viabilidadComponentesStatus = new ViabilidadComponentesStatus();
+
+            this.Componentes.Where(componente => componente.caso1_e).ToList().ForEach(delegate (Componente componente) {
+                ViabilidadComponente viabilidadComponente = new ViabilidadComponente();
+                viabilidadComponente.Componente = componente;
+                viabilidadComponente.Caso = 1;
+                viabilidadComponentesStatus.ViabilidadComponentes.Add(viabilidadComponente);
+            });
+            this.Componentes.Where(componente => componente.caso2_e).ToList().ForEach(delegate (Componente componente) {
+                ViabilidadComponente viabilidadComponente = new ViabilidadComponente();
+                viabilidadComponente.Componente = componente;
+                viabilidadComponente.Caso = 2;
+                viabilidadComponentesStatus.ViabilidadComponentes.Add(viabilidadComponente);
+            });
+            this.Componentes.Where(componente => componente.caso3_e).ToList().ForEach(delegate (Componente componente) {
+                ViabilidadComponente viabilidadComponente = new ViabilidadComponente();
+                viabilidadComponente.Componente = componente;
+                viabilidadComponente.Caso = 3;
+                viabilidadComponentesStatus.ViabilidadComponentes.Add(viabilidadComponente);
+            });
+            this.Componentes.Where(componente => componente.caso4_e).ToList().ForEach(delegate (Componente componente) {
+                ViabilidadComponente viabilidadComponente = new ViabilidadComponente();
+                viabilidadComponente.Componente = componente;
+                viabilidadComponente.Caso = 4;
+                viabilidadComponentesStatus.ViabilidadComponentes.Add(viabilidadComponente);
+            });
+            this.Componentes.Where(componente => componente.caso5_e).ToList().ForEach(delegate (Componente componente) {
+                ViabilidadComponente viabilidadComponente = new ViabilidadComponente();
+                viabilidadComponente.Componente = componente;
+                viabilidadComponente.Caso = 5;
+                viabilidadComponentesStatus.ViabilidadComponentes.Add(viabilidadComponente);
+            });
+            this.Componentes.Where(componente => componente.caso6_e).ToList().ForEach(delegate (Componente componente) {
+                ViabilidadComponente viabilidadComponente = new ViabilidadComponente();
+                viabilidadComponente.Componente = componente;
+                viabilidadComponente.Caso = 6;
+                viabilidadComponentesStatus.ViabilidadComponentes.Add(viabilidadComponente);
+            });
+            this.Componentes.Where(componente => componente.caso7_e).ToList().ForEach(delegate (Componente componente) {
+                ViabilidadComponente viabilidadComponente = new ViabilidadComponente();
+                viabilidadComponente.Componente = componente;
+                viabilidadComponente.Caso = 7;
+                viabilidadComponentesStatus.ViabilidadComponentes.Add(viabilidadComponente);
+            });
+
+            return viabilidadComponentesStatus;
+        }
+
         private ViabilidadComponentesStatus populateViabilidadComponentesStatus() {
             ViabilidadComponentesStatus viabilidadComponentesStatus = new ViabilidadComponentesStatus();
 
@@ -14040,22 +14089,18 @@ namespace Logica {
                 Componentes[i].Reiniciar_casos_solapes();
             }
         }
-        /*
-         * 
-         * 
-         * 
-         */
-        public void Enlaces(double gran_r)
+
+
+        public List<ViabilidadComponentesStatus> Enlaces(double gran_r)
         {
+            List<ViabilidadComponentesStatus> trazaViabilidadEnlaces = new List<ViabilidadComponentesStatus>();
+
             int contador = 0;
             List<double> azimuts = new List<double>();
             List<Point2d> Puntos_rectas = new List<Point2d>();
             List<object> entidades = new List<object>();
             bool curva_gran_radio = false;
             
-            
-
-
             do
             {
                 bool ultima_clo_crc = false;
@@ -14685,8 +14730,6 @@ namespace Logica {
                 }
                 //Clotoides intermedias
                 
-
-
                 if (ultima_clo_crc && primera_clo_crc)
                 {
                     double azfin = azimuts[2];
@@ -14753,11 +14796,21 @@ namespace Logica {
                 Casos_Solapes(azimuts, Puntos_rectas, gran_r);
                 Crear_Casos();
 
-                mostrarCasos_Enlaces();
-                
+                ViabilidadComponentesStatus viabilidadEnlacesStatus = this.populateViabilidadEnlacesStatus();
+                //Si hay algun componente conflictivo... caso 1_e, 2_e, 3_e ...
+                if (viabilidadEnlacesStatus.ViabilidadComponentes.Any()) {
+                    ViabilidadComponente casoMasPrioritario = viabilidadEnlacesStatus.ViabilidadComponentes.First();
+                }
+                //mostrarCasos_Enlaces();
+
                 Modificacion();
                 ultima_clo_crc = false;
+
+                //se añade la iteracion actual a la traza completa de viabilidad del enlace
+                trazaViabilidadEnlaces.Add(viabilidadEnlacesStatus);
+
             } while (this.Comprobar_casos_solapes() && contador< 1000);
+            return trazaViabilidadEnlaces;
 }
         public void Crear_Trazado(double gran_r)
         {
@@ -15424,6 +15477,7 @@ namespace Logica {
                 {
                     if (Componentes[i].caso3_e == true)
                     {
+
                         if (Componentes[i].Tipo==1)
                         {
                             Girar_Recta(i, Girar_acercar_C_C(Componentes[i].lista_puntos, Componentes[i-1], Componentes[i].azr), Componentes[i].azr);

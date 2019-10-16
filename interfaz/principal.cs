@@ -270,7 +270,7 @@ namespace interfaz {
         private void ejecutar3ButtonClick(object sender, EventArgs eventArgs) {
             if (this.pasosEjecutados > 1) {
                 if (this.calculoPolilinea != null) {
-                    calculoPolilinea.Enlaces(this.calculoPolilineaPreferencias.Gran_r);
+                    List<ViabilidadComponentesStatus> viabilidadEnlaces = calculoPolilinea.Enlaces(this.calculoPolilineaPreferencias.Gran_r);
                     try {
                         calculoPolilinea.Dibujar_entidades(4);
                         calculoPolilinea.Crear_Trazado(this.calculoPolilineaPreferencias.Gran_r);
@@ -279,6 +279,11 @@ namespace interfaz {
                     catch {
                         MessageBox.Show("Se ha detectado un error al crear la entidad. Se dibujará lo creado");
                     }
+
+                    //mostrar panel de la traza de viabilidad de los componentes
+                    TrazaViabilidadInfo tvi = new TrazaViabilidadInfo(viabilidadEnlaces, this.calculoPolilinea.Componentes);
+                    tvi.Show();
+
                     MessageBox.Show("Revise autocad para ver la salida de la etapa 3 del algoritmo");
                 } else {
                     MessageBox.Show("Calculo polilinea no inicializado");
