@@ -15026,10 +15026,6 @@ namespace Logica
                 
                 Casos_Solapes(azimuts, Puntos_rectas, gran_r);
                 Crear_Casos();
-                if (contador==54)
-                {
-                    //mostrar_enlaces = true;
-                }
                 mostrarCasos_Enlaces();
                 
                 Modificacion();
