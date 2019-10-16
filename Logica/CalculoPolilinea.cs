@@ -1,7 +1,5 @@
 ﻿using Datos;
 using System.Windows.Forms;
-using EjeDeTrazado.puntosDelEje;
-using EjeDeTrazado.componentes;
 namespace Logica {
     using Autodesk.AutoCAD.ApplicationServices;
     using Autodesk.AutoCAD.Colors;
@@ -18,7 +16,6 @@ namespace Logica {
     using tadLayShare.puntos;
     using EjeDeTrazado.puntosDelEje;
     using EjeDeTrazado.componentes;
-    using engCadNet.entidades;
 
     public class CalculoPolilinea {
         public enum tipoCurva { cnp, cnpAnguloReducido, cp, c5000, c2500, noValorado };
@@ -1665,6 +1662,92 @@ namespace Logica {
                 }      
             }
             return trazaViabilidadComponentes;
+        }
+
+        private ViabilidadComponentesStatus populateViabilidadEnlacesStatus() {
+            ViabilidadComponentesStatus viabilidadComponentesStatus = new ViabilidadComponentesStatus();
+
+            this.Componentes.Where(componente => componente.caso1_e).ToList().ForEach(delegate (Componente componente) {
+                ViabilidadComponente viabilidadComponente = new ViabilidadComponente();
+                viabilidadComponente.Componente = componente;
+                viabilidadComponente.Caso = 1;
+                viabilidadComponentesStatus.ViabilidadComponentes.Add(viabilidadComponente);
+            });
+            this.Componentes.Where(componente => componente.caso2_e).ToList().ForEach(delegate (Componente componente) {
+                ViabilidadComponente viabilidadComponente = new ViabilidadComponente();
+                viabilidadComponente.Componente = componente;
+                viabilidadComponente.Caso = 2;
+                viabilidadComponentesStatus.ViabilidadComponentes.Add(viabilidadComponente);
+            });
+            this.Componentes.Where(componente => componente.caso3_e).ToList().ForEach(delegate (Componente componente) {
+                ViabilidadComponente viabilidadComponente = new ViabilidadComponente();
+                viabilidadComponente.Componente = componente;
+                viabilidadComponente.Caso = 3;
+                viabilidadComponentesStatus.ViabilidadComponentes.Add(viabilidadComponente);
+            });
+            this.Componentes.Where(componente => componente.caso4_e).ToList().ForEach(delegate (Componente componente) {
+                ViabilidadComponente viabilidadComponente = new ViabilidadComponente();
+                viabilidadComponente.Componente = componente;
+                viabilidadComponente.Caso = 4;
+                viabilidadComponentesStatus.ViabilidadComponentes.Add(viabilidadComponente);
+            });
+            this.Componentes.Where(componente => componente.caso5_e).ToList().ForEach(delegate (Componente componente) {
+                ViabilidadComponente viabilidadComponente = new ViabilidadComponente();
+                viabilidadComponente.Componente = componente;
+                viabilidadComponente.Caso = 5;
+                viabilidadComponentesStatus.ViabilidadComponentes.Add(viabilidadComponente);
+            });
+            this.Componentes.Where(componente => componente.caso6_e).ToList().ForEach(delegate (Componente componente) {
+                ViabilidadComponente viabilidadComponente = new ViabilidadComponente();
+                viabilidadComponente.Componente = componente;
+                viabilidadComponente.Caso = 6;
+                viabilidadComponentesStatus.ViabilidadComponentes.Add(viabilidadComponente);
+            });
+            this.Componentes.Where(componente => componente.caso7_e).ToList().ForEach(delegate (Componente componente) {
+                ViabilidadComponente viabilidadComponente = new ViabilidadComponente();
+                viabilidadComponente.Componente = componente;
+                viabilidadComponente.Caso = 7;
+                viabilidadComponentesStatus.ViabilidadComponentes.Add(viabilidadComponente);
+            });
+
+            return viabilidadComponentesStatus;
+        }
+
+        private ViabilidadComponentesStatus populateViabilidadComponentesStatus() {
+            ViabilidadComponentesStatus viabilidadComponentesStatus = new ViabilidadComponentesStatus();
+
+            this.Componentes.Where(componente => componente.caso4).ToList().ForEach(delegate (Componente componente) {
+                ViabilidadComponente viabilidadComponente = new ViabilidadComponente();
+                viabilidadComponente.Componente = componente;
+                viabilidadComponente.Caso = 4;
+                viabilidadComponentesStatus.ViabilidadComponentes.Add(viabilidadComponente);
+            });
+            this.Componentes.Where(componente => componente.caso5).ToList().ForEach(delegate (Componente componente) {
+                ViabilidadComponente viabilidadComponente = new ViabilidadComponente();
+                viabilidadComponente.Componente = componente;
+                viabilidadComponente.Caso = 5;
+                viabilidadComponentesStatus.ViabilidadComponentes.Add(viabilidadComponente);
+            });
+            this.Componentes.Where(componente => componente.caso1).ToList().ForEach(delegate (Componente componente) {
+                ViabilidadComponente viabilidadComponente = new ViabilidadComponente();
+                viabilidadComponente.Componente = componente;
+                viabilidadComponente.Caso = 1;
+                viabilidadComponentesStatus.ViabilidadComponentes.Add(viabilidadComponente);
+            });
+            this.Componentes.Where(componente => componente.caso2).ToList().ForEach(delegate (Componente componente) {
+                ViabilidadComponente viabilidadComponente = new ViabilidadComponente();
+                viabilidadComponente.Componente = componente;
+                viabilidadComponente.Caso = 2;
+                viabilidadComponentesStatus.ViabilidadComponentes.Add(viabilidadComponente);
+            });
+            this.Componentes.Where(componente => componente.caso3).ToList().ForEach(delegate (Componente componente) {
+                ViabilidadComponente viabilidadComponente = new ViabilidadComponente();
+                viabilidadComponente.Componente = componente;
+                viabilidadComponente.Caso = 3;
+                viabilidadComponentesStatus.ViabilidadComponentes.Add(viabilidadComponente);
+            });
+
+            return viabilidadComponentesStatus;
         }
 
         private void resolverCaso3Viabilidad(int i) {
@@ -11583,15 +11666,14 @@ namespace Logica {
          * 
          * 
          */
-        public void Enlaces(double gran_r) {
+        public List<ViabilidadComponentesStatus> Enlaces(double gran_r) {
+            List<ViabilidadComponentesStatus> trazaViabilidadEnlaces = new List<ViabilidadComponentesStatus>();
+
             int contador = 0;
             List<double> azimuts = new List<double>();
             List<Point2d> Puntos_rectas = new List<Point2d>();
             List<object> entidades = new List<object>();
             bool curva_gran_radio = false;
-
-
-
 
             do {
                 bool ultima_clo_crc = false;
@@ -12132,19 +12214,22 @@ namespace Logica {
 
                 Casos_Solapes(azimuts, Puntos_rectas, gran_r);
                 Crear_Casos();
+
+                ViabilidadComponentesStatus viabilidadEnlacesStatus = this.populateViabilidadEnlacesStatus();
+
                 mostrarCasos_Enlaces();
 
-                Modificacion();
+                Modificacion(viabilidadEnlacesStatus);
                 ultima_clo_crc = false;
+
+                //se añade la iteracion actual a la traza completa de viabilidad del enlace
+                trazaViabilidadEnlaces.Add(viabilidadEnlacesStatus);
+
             } while (this.Comprobar_casos_solapes() && contador < 2000);
-            try {
-                Dibujar_entidades(4);
-                Crear_Trazado(gran_r);
-            } catch {
-                MessageBox.Show("Se ha detectado un error al crear la entidad. Se dibujará lo creado");
-            }
+
+            return trazaViabilidadEnlaces;
         }
-        private void Crear_Trazado(double gran_r) {
+        public void Crear_Trazado(double gran_r) {
             bool curva_gran_radio = false;
             bool continuar = true;
             //primera clotoide
@@ -12740,7 +12825,7 @@ namespace Logica {
             }
 
         }
-        private void Modificacion() {
+        private void Modificacion(ViabilidadComponentesStatus viabilidadEnlacesStatus) {
             bool modificar = true;
             /*
              * caso 1 
@@ -12776,6 +12861,8 @@ namespace Logica {
             if (modificar) {
                 for (int i = 1; i < componentes.Count - 1; i++) {
                     if (componentes[i].caso3_e == true) {
+                        ViabilidadComponente via = viabilidadEnlacesStatus.ViabilidadComponentes.Where(viabilidad => viabilidad.Componente.Equals(Componentes[i]) && viabilidad.Caso == 3).FirstOrDefault();
+                        viabilidadEnlacesStatus.CasoResuelto = via;
                         modificar = Resolver_caso3(i);
 
                     }
@@ -12788,6 +12875,8 @@ namespace Logica {
             if (modificar) {
                 for (int i = 1; i < componentes.Count - 1; i++) {
                     if (componentes[i].caso4_e == true) {
+                        ViabilidadComponente via = viabilidadEnlacesStatus.ViabilidadComponentes.Where(viabilidad => viabilidad.Componente.Equals(Componentes[i]) && viabilidad.Caso == 4).FirstOrDefault();
+                        viabilidadEnlacesStatus.CasoResuelto = via;
                         Reducir_radio(i);
                         modificar = false;
                         break;
@@ -12810,6 +12899,8 @@ namespace Logica {
             if (modificar) {
                 for (int i = 0; i < componentes.Count - 1; i++) {
                     if (componentes[i].caso6_e == true) {
+                        ViabilidadComponente via = viabilidadEnlacesStatus.ViabilidadComponentes.Where(viabilidad => viabilidad.Componente.Equals(Componentes[i]) && viabilidad.Caso == 6).FirstOrDefault();
+                        viabilidadEnlacesStatus.CasoResuelto = via;
                         modificar = Resolver_caso6(i);
                     }
                 }
@@ -15187,5 +15278,7 @@ namespace Logica {
             return true;
         }
     }
+
+
 
 }
