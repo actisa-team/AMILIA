@@ -1,9 +1,6 @@
 ﻿using Datos;
 using System.Windows.Forms;
-using EjeDeTrazado.puntosDelEje;
-using EjeDeTrazado.componentes;
-namespace Logica
-{
+namespace Logica {
     using Autodesk.AutoCAD.ApplicationServices;
     using Autodesk.AutoCAD.Colors;
     using Autodesk.AutoCAD.DatabaseServices;
@@ -19,7 +16,6 @@ namespace Logica
     using tadLayShare.puntos;
     using EjeDeTrazado.puntosDelEje;
     using EjeDeTrazado.componentes;
-    using engCadNet.entidades;
 
     public class CalculoPolilinea
     {
@@ -2118,14 +2114,15 @@ namespace Logica
                             break;
                     }
 
-                    viabilidadComponentesStatus.CasoResuelto = casoMasPrioritario;  
+                    viabilidadComponentesStatus.CasoResuelto = casoMasPrioritario;
+                    
+                    //se añade la iteracion actual a la traza completa de viabilidad
+                    trazaViabilidadComponentes.Add(viabilidadComponentesStatus);
+
                 } else {
                     //no hay casos para resolver
                     casos = false;
-                }
-
-                //se añade la iteracion actual a la traza completa de viabilidad
-                trazaViabilidadComponentes.Add(viabilidadComponentesStatus);
+                } 
             }
             return trazaViabilidadComponentes;
         }

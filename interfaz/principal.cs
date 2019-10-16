@@ -7,6 +7,7 @@ namespace interfaz {
     using MaterialSkin.Controls;
     using Logica;
     using System.Collections.Generic;
+    using System.Linq;
 
     public partial class principal : MaterialForm {
         private CalculoPolilinea calculoPolilinea;
@@ -30,6 +31,7 @@ namespace interfaz {
 
             this.ejecutar1Button.Click += new EventHandler(this.ejecutar1ButtonClick);
             this.ejecutar2Button.Click += new EventHandler(this.ejecutar2ButtonClick);
+            this.ejecutar3Button.Click += new EventHandler(this.ejecutar3ButtonClick);
         }
         private void postcarga() {
 
@@ -252,13 +254,29 @@ namespace interfaz {
 
                     this.pasosEjecutados = 2;
                     this.paso2EjecutadoTextView.Visible = true;
+
+                    if (!trazaViabilidadComponentes.Any()) {
+                        MessageBox.Show("No se detectan problemas de viabilidad en los componentes o se han resuelto anteriormente");
+                    }
                     MessageBox.Show("Revise autocad para ver la salida de la etapa 2 del algoritmo");
                 } else {
                     MessageBox.Show("Calculo polilinea no inicializado");
                 }
             } else {
                 MessageBox.Show("El paso 1 no se ha ejecutado todavia");
-            }        
+            }
+        }
+
+        private void ejecutar3ButtonClick(object sender, EventArgs eventArgs) {
+            if (this.pasosEjecutados > 1) {
+                if (this.calculoPolilinea != null) {
+                        
+                } else {
+                    MessageBox.Show("Calculo polilinea no inicializado");
+                }
+            } else {
+                MessageBox.Show("El paso 2 no se ha ejecutado todavia");
+            }
         }
 
         private void materialFlatButton2_Click(object sender, EventArgs e) {
@@ -285,7 +303,7 @@ namespace interfaz {
 
                     this.calculoPolilineaStatusTextView.Visible = true;
                     this.pasosEjecutados = 0;
-                    
+
                     MessageBox.Show("CalculoPolilinea inicializado");
                 } else {
                     MessageBox.Show("Error al abrir el archivo del proyecto");
