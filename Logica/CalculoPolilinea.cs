@@ -15313,7 +15313,7 @@ namespace Logica {
             return true;
         }
 
-        private void Crear_Trazado_Error(double gran_r)
+        public void Crear_Trazado_Error(double gran_r)
         {
             this.Reiniciar_casos_solapes();
             this.Rellenar_Componentes();

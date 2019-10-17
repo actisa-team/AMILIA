@@ -284,6 +284,7 @@ namespace interfaz {
                         calculoPolilinea.Dibujar_Todo();
                     }
                     catch {
+                        calculoPolilinea.Crear_Trazado_Error(this.calculoPolilineaPreferencias.Gran_r);
                         MessageBox.Show("Se ha detectado un error al crear la entidad. Se dibujará lo creado");
                     }
 
@@ -625,7 +626,7 @@ namespace interfaz {
         }
 
         public void onNewViabilidadStatus(ViabilidadComponentesStatus viabilidadComponentesStatus, List<Componente> componentes, int whileItIndex) {
-            //si no se ha activado ejecutarViabilidadSinParar o si se ha activado detenerEnIteracion y la iteracion del while coincide
+            //si no se ha activado ejecutarViabilidadSinParar o si se ha activado detenerEnIteracion y la iteracion del while coincideC
             if (!this.ejecutarViabilidadSinParar || (this.detenerEnIteracion && whileItIndex == this.iteracion)) {
                 ViabilidadComponentesStatusInfoPanel viabilidadComponentesInfoPanel = new ViabilidadComponentesStatusInfoPanel(viabilidadComponentesStatus, componentes, "Depuración viabilidad > iteracion: " + whileItIndex, whileItIndex);
                 viabilidadComponentesInfoPanel.ShowInTaskbar = false;
