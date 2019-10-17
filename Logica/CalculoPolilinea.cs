@@ -1797,10 +1797,10 @@ namespace Logica {
                     }
                     if (componentes[i].c_p == true) {
 
-                        giro = Girar(lr, componentes[i + 1], pos, componentes[i].azr);
+                        giro = -Girar(lr, componentes[i + 1], pos, componentes[i].azr);
                     } else {
                         if (componentes[i].c_a == true) {
-                            giro = Girar(lr, componentes[i - 1], pos, componentes[i].azr);
+                            giro = -Girar(lr, componentes[i - 1], pos, componentes[i].azr);
                         }
                     }
 
@@ -12876,7 +12876,7 @@ namespace Logica {
                         ViabilidadComponente via = viabilidadEnlacesStatus.ViabilidadComponentes.Where(viabilidad => viabilidad.Componente.Equals(Componentes[i]) && viabilidad.Caso == 3).FirstOrDefault();
                         viabilidadEnlacesStatus.CasoResuelto = via;
                         modificar = Resolver_caso3(i);
-
+                        if (!modificar) { break; }
                     }
                 }
                 //this.viabilidad_Extremos();
