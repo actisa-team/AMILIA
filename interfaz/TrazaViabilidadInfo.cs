@@ -10,7 +10,8 @@ namespace interfaz {
         private List<Logica.ViabilidadComponentesStatus> trazaViabilidadComponentes;
         private List<Logica.Componente> componentes;
 
-        public TrazaViabilidadInfo(List<Logica.ViabilidadComponentesStatus> trazaViabilidadComponentes, List<Logica.Componente> componentes) {
+        public TrazaViabilidadInfo(List<Logica.ViabilidadComponentesStatus> trazaViabilidadComponentes, List<Logica.Componente> componentes, String title) {
+            this.Text = title;
             this.trazaViabilidadComponentes = trazaViabilidadComponentes;
             this.componentes = componentes;
             InitializeComponent();

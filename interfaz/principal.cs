@@ -249,7 +249,7 @@ namespace interfaz {
                     calculoPolilinea.Dibujar_entidades(3);
 
                     //mostrar panel de la traza de viabilidad de los componentes
-                    TrazaViabilidadInfo tvi = new TrazaViabilidadInfo(trazaViabilidadComponentes, this.calculoPolilinea.Componentes);
+                    TrazaViabilidadInfo tvi = new TrazaViabilidadInfo(trazaViabilidadComponentes, this.calculoPolilinea.Componentes, "Trazas viabilidad etapa 2");
                     tvi.Show();
 
                     this.pasosEjecutados = 2;
@@ -281,7 +281,7 @@ namespace interfaz {
                     }
 
                     //mostrar panel de la traza de viabilidad de los componentes
-                    TrazaViabilidadInfo tvi = new TrazaViabilidadInfo(viabilidadEnlaces, this.calculoPolilinea.Componentes);
+                    TrazaViabilidadInfo tvi = new TrazaViabilidadInfo(viabilidadEnlaces, this.calculoPolilinea.Componentes, "Trazas viabilidad enlaces etapa 3");
                     tvi.Show();
 
                     MessageBox.Show("Revise autocad para ver la salida de la etapa 3 del algoritmo");
