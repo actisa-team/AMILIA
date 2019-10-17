@@ -8,7 +8,6 @@ namespace interfaz {
     using Logica;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Threading;
 
     public partial class principal : MaterialForm, IViabilidadListener {
         private CalculoPolilinea calculoPolilinea;
