@@ -8833,7 +8833,7 @@ namespace Logica {
                             for (int r = 1; r < min.Count; r++) {
                                 crear = true;
                                 for (int s = 0; s < componentes.Count; s++) {
-                                    if (minimo_final[i][min[r]] >= componentes[s].ini && minimo_final[i][min[r]] <= componentes[s].fin) {
+                                    if ((minimo_final[i][min[r]] >= componentes[s].ini && minimo_final[i][min[r]] <= componentes[s].fin)|| (maximo_final[i][min[r]] >= componentes[s].ini && maximo_final[i][min[r]] <= componentes[s].fin)) {
                                         crear = false;
                                     }
                                 }
@@ -11806,7 +11806,7 @@ namespace Logica {
                             Rellenar_Curva(componentes[1]);
                             cont++;
                             EjeDeTrazado.componentes.Clotoide Clo = Recta_Curva(componentes[0], componentes[1], 1);
-
+                            Dibujar_Clotoide(Clo);
                             if (Clo.getPuntoEntrada == Clo.getPuntoSalida || double.IsNaN(Clo.getQe())) {
                                 if (componentes[1].direccion == EjeTrazado.sentidoCurva.Antihorario) {
                                     //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
@@ -14688,7 +14688,7 @@ namespace Logica {
                     }
                 }
             }
-            for (int i = 1; i < componentes.Count - 2; i++) {
+            for (int i = 1; i < componentes.Count - 1; i++) {
                 /*
                  * segunda comprobación: si hay 2 rectas o mas entre 2 curvas en el mismo sentido se crea una sola recta 
                  */
