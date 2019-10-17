@@ -7,6 +7,6 @@ using System.Windows.Forms;
 
 namespace Logica {
     public interface IViabilidadListener {
-        DialogResult onNewViabilidadStatus(ViabilidadComponentesStatus viabilidadComponentesStatus, List<Componente> componentes, int whileItIndex); 
+        void onNewViabilidadStatus(ViabilidadComponentesStatus viabilidadComponentesStatus, List<Componente> componentes, int whileItIndex); 
     }
 }

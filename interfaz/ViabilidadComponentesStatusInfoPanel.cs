@@ -19,7 +19,13 @@ namespace interfaz {
             this.componentes = componentes;
             InitializeComponent();
             this.populateDataTable();
-            //this.CenterToScreen();
+            this.ControlBox = false;
+            this.CenterToScreen();
+
+        }
+
+        public void addEjecutarHastaFinalizar(EventHandler p) {
+            this.ejecutarHastaFinalizarButton.Click += p;
         }
 
         public ViabilidadComponentesStatus ViabilidadComponentesStatus { get => viabilidadComponentesStatus; set => viabilidadComponentesStatus = value; }
@@ -56,6 +62,10 @@ namespace interfaz {
 
             trazaViablidadDataGridView.DataSource = dataTable;
 
+        }
+
+        private void materialFlatButton1_Click(object sender, EventArgs e) {
+            this.Dispose();
         }
     }
 }

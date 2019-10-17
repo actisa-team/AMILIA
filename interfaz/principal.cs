@@ -13,6 +13,8 @@ namespace interfaz {
         private CalculoPolilinea calculoPolilinea;
         private CalculoPolilineaPreferencias calculoPolilineaPreferencias;
         private int pasosEjecutados = -1;
+        private Boolean ejecutarViabilidadSinParar = false;
+
         public principal() {
             InitializeComponent();
             MaterialSkinManager m = MaterialSkinManager.Instance;
@@ -617,13 +619,21 @@ namespace interfaz {
 
         }
 
-        public DialogResult onNewViabilidadStatus(ViabilidadComponentesStatus viabilidadComponentesStatus, List<Componente> componentes, int whileItIndex) {
-            //System.Diagnostics.Debug.WriteLine("Se abre el dialog " + whileItIndex);
-            ViabilidadComponentesStatusInfoPanel viabilidadComponentesInfoPanel = new ViabilidadComponentesStatusInfoPanel(viabilidadComponentesStatus, componentes, "viabilidad iteracion: " + whileItIndex, whileItIndex);
-            viabilidadComponentesInfoPanel.ShowInTaskbar = false;
-            DialogResult res = viabilidadComponentesInfoPanel.ShowDialog(this);
-            //MessageBox.Show("Continuar ejecución");
-            return res;
+        public void onNewViabilidadStatus(ViabilidadComponentesStatus viabilidadComponentesStatus, List<Componente> componentes, int whileItIndex) {
+            if (!this.ejecutarViabilidadSinParar) {
+                ViabilidadComponentesStatusInfoPanel viabilidadComponentesInfoPanel = new ViabilidadComponentesStatusInfoPanel(viabilidadComponentesStatus, componentes, "Depuración viabilidad > iteracion: " + whileItIndex, whileItIndex);
+                viabilidadComponentesInfoPanel.ShowInTaskbar = false;
+
+                EventHandler p = delegate (object sender, EventArgs e) {
+                    this.ejecutarViabilidadSinParar = true;
+                    viabilidadComponentesInfoPanel.Dispose();
+                };
+
+                viabilidadComponentesInfoPanel.addEjecutarHastaFinalizar(p);
+
+                DialogResult res = viabilidadComponentesInfoPanel.ShowDialog(this);
+                //MessageBox.Show("Continuar ejecución");
+            }
         }
     }
 }
