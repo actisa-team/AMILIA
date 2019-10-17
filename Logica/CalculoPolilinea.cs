@@ -14700,7 +14700,7 @@ namespace Logica {
                     }
                 }
             }
-            for (int i = 1; i < componentes.Count - 1; i++) {
+            for (int i = 0; i < componentes.Count - 1; i++) {
                 /*
                  * segunda comprobación: si hay 2 rectas o mas entre 2 curvas en el mismo sentido se crea una sola recta 
                  */
