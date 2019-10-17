@@ -19,7 +19,7 @@ namespace interfaz {
             this.componentes = componentes;
             InitializeComponent();
             this.populateDataTable();
-            this.CenterToScreen();
+            //this.CenterToScreen();
         }
 
         public ViabilidadComponentesStatus ViabilidadComponentesStatus { get => viabilidadComponentesStatus; set => viabilidadComponentesStatus = value; }
@@ -32,7 +32,7 @@ namespace interfaz {
             dataTable.Columns.Add("Componente");
             dataTable.Columns.Add("Tipo");
             dataTable.Columns.Add("Caso");
-            dataTable.Columns.Add("Resuelto");
+            dataTable.Columns.Add("¿Marcado para resolver?");
 
 
             this.viabilidadComponentesStatus.ViabilidadComponentes.ForEach(viabilidadComponente =>

@@ -621,7 +621,8 @@ namespace interfaz {
             //System.Diagnostics.Debug.WriteLine("Se abre el dialog " + whileItIndex);
             ViabilidadComponentesStatusInfoPanel viabilidadComponentesInfoPanel = new ViabilidadComponentesStatusInfoPanel(viabilidadComponentesStatus, componentes, "viabilidad iteracion: " + whileItIndex, whileItIndex);
             viabilidadComponentesInfoPanel.ShowInTaskbar = false;
-            DialogResult res = viabilidadComponentesInfoPanel.ShowDialog();
+            DialogResult res = viabilidadComponentesInfoPanel.ShowDialog(this);
+            //MessageBox.Show("Continuar ejecución");
             return res;
         }
     }
