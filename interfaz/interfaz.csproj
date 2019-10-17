@@ -89,6 +89,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="ViabilidadComponentesStatusInfoPanel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ViabilidadComponentesStatusInfoPanel.Designer.cs">
+      <DependentUpon>ViabilidadComponentesStatusInfoPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="TrazaViabilidadInfo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -103,6 +109,9 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ViabilidadComponentesStatusInfoPanel.resx">
+      <DependentUpon>ViabilidadComponentesStatusInfoPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TrazaViabilidadInfo.resx">
       <DependentUpon>TrazaViabilidadInfo.cs</DependentUpon>
