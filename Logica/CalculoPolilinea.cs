@@ -10479,7 +10479,7 @@ namespace Logica {
                     azimuts = azimut_e_s(componentes[i]);
 
 
-                    if (Math.Abs(azimuts[0] - azimuts[1]) < 1.5) {
+                    if (Math.Abs(azimuts[0] - azimuts[1]) < 2) {
                         componentes[i].Tipo = 1;
                         List<Punto> Recta_inicial = new List<Punto>();
                         foreach (Punto p in componentes[i].lista_puntos) {
@@ -10505,7 +10505,7 @@ namespace Logica {
                         if (componentes[i - 1].Tipo == 1 && componentes[i + 1].Tipo == 1) {
                             Rellenar_Recta(componentes[i - 1]);
                             Rellenar_Recta(componentes[i + 1]);
-                            if (Math.Abs(componentes[i - 1].azr - azimuts[0]) < 1.5 && Math.Abs(azimuts[0] - azimuts[1]) < 1.5 && Math.Abs(azimuts[1] - componentes[i + 1].azr) < 1.5) {
+                            if (Math.Abs(componentes[i - 1].azr - azimuts[0]) < 2 && Math.Abs(azimuts[0] - azimuts[1]) < 2 && Math.Abs(azimuts[1] - componentes[i + 1].azr) < 2) {
                                 Listas_rectas.RemoveAt(Listas_rectas.Count - 1);
                                 List<Punto> Recta_inicial = new List<Punto>();
                                 foreach (Punto p in componentes[i - 1].lista_puntos) {
@@ -10538,7 +10538,7 @@ namespace Logica {
                     if (componentes[i].Tipo == 1 && componentes[i + 1].Tipo == 1) {
                         Rellenar_Recta(componentes[i]);
                         Rellenar_Recta(componentes[i + 1]);
-                        if (Math.Abs(componentes[i].azr - componentes[i + 1].azr) < 1.5) {
+                        if (Math.Abs(componentes[i].azr - componentes[i + 1].azr) < 2) {
                             List<Punto> Recta_inicial = new List<Punto>();
                             foreach (Punto p in componentes[i].lista_puntos) {
                                 Recta_inicial.Add(p);
