@@ -17,7 +17,7 @@ namespace interfaz {
             this.whileItIndex = whileItIndex;
             this.viabilidadComponentesStatus = viabilidadComponentesStatus;
             this.componentes = componentes;
-            InitializeComponent();
+            this.InitializeComponent();
             this.populateDataTable();
             this.ControlBox = false;
             this.CenterToScreen();
