@@ -8,12 +8,12 @@ namespace interfaz {
     using Logica;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading;
 
     public partial class principal : MaterialForm, IViabilidadListener {
         private CalculoPolilinea calculoPolilinea;
         private CalculoPolilineaPreferencias calculoPolilineaPreferencias;
         private int pasosEjecutados = -1;
-
         public principal() {
             InitializeComponent();
             MaterialSkinManager m = MaterialSkinManager.Instance;
@@ -618,9 +618,12 @@ namespace interfaz {
 
         }
 
-        public void onNewViabilidadStatus(ViabilidadComponentesStatus viabilidadComponentesStatus, List<Componente> componentes, int whileItIndex) {
+        public DialogResult onNewViabilidadStatus(ViabilidadComponentesStatus viabilidadComponentesStatus, List<Componente> componentes, int whileItIndex) {
+            //System.Diagnostics.Debug.WriteLine("Se abre el dialog " + whileItIndex);
             ViabilidadComponentesStatusInfoPanel viabilidadComponentesInfoPanel = new ViabilidadComponentesStatusInfoPanel(viabilidadComponentesStatus, componentes, "viabilidad iteracion: " + whileItIndex, whileItIndex);
-            viabilidadComponentesInfoPanel.ShowDialog();
+            viabilidadComponentesInfoPanel.ShowInTaskbar = false;
+            DialogResult res = viabilidadComponentesInfoPanel.ShowDialog();
+            return res;
         }
     }
 }

@@ -33,11 +33,11 @@
             this.trazaViablidadDataGridView.Size = new System.Drawing.Size(938, 651);
             this.trazaViablidadDataGridView.TabIndex = 0;
             // 
-            // TrazaViabilidadInfo
+            // ViabilidadComponentesStatusInfoPanel
             // 
-            this.ClientSize = new System.Drawing.Size(962, 739);
+            this.ClientSize = new System.Drawing.Size(962, 745);
             this.Controls.Add(this.trazaViablidadDataGridView);
-            this.Name = "TrazaViabilidadInfo";
+            this.Name = "ViabilidadComponentesStatusInfoPanel";
             ((System.ComponentModel.ISupportInitialize)(this.trazaViablidadDataGridView)).EndInit();
             this.ResumeLayout(false);
 

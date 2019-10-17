@@ -1454,7 +1454,7 @@ namespace Logica {
             bool casos = true;
             double distancia;
             Point2d pm;
-            int whileItIndex = 0;
+            int whileItIndex = 1;
 
             while (casos) {
                 this.Reiniciar_casos();
@@ -1671,6 +1671,7 @@ namespace Logica {
                 }
 
                 whileItIndex++;
+                
             }
             return trazaViabilidadComponentes;
         }

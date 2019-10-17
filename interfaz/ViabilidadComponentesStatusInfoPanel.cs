@@ -19,9 +19,14 @@ namespace interfaz {
             this.componentes = componentes;
             InitializeComponent();
             this.populateDataTable();
+            this.CenterToScreen();
         }
 
-        private void populateDataTable() {
+        public ViabilidadComponentesStatus ViabilidadComponentesStatus { get => viabilidadComponentesStatus; set => viabilidadComponentesStatus = value; }
+        public List<Componente> Componentes { get => componentes; set => componentes = value; }
+        public int WhileItIndex { get => whileItIndex; set => whileItIndex = value; }
+
+        public void populateDataTable() {
             DataTable dataTable = new DataTable();
             dataTable.Columns.Add("Iteración");
             dataTable.Columns.Add("Componente");
