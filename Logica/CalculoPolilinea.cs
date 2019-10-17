@@ -15312,6 +15312,554 @@ namespace Logica {
             return true;
         }
 
+        private void Crear_Trazado_Error(double gran_r)
+        {
+            this.Reiniciar_casos_solapes();
+            this.Rellenar_Componentes();
+            int intermedias = 1;
+            bool curva_gran_radio = false;
+            //primera clotoide
+            if (componentes.Count == 2)
+            {
+                if (componentes[0].Tipo == 1 && componentes[1].Tipo == 2)//si es recta--curva
+                {
+
+                    int cont = 0;
+                    while (cont < 1000)//el 1000 se pone para las comprobaciones
+                    {
+                        Rellenar_Recta(componentes[0]);
+                        Rellenar_Curva(componentes[1]);
+                        cont++;
+                        EjeDeTrazado.componentes.Clotoide Clo = Recta_Curva(componentes[0], componentes[1], 1);
+
+                        if (Clo.getPuntoEntrada == Clo.getPuntoSalida || double.IsNaN(Clo.getQe()))
+                        {
+                            if (componentes[1].direccion == EjeTrazado.sentidoCurva.Antihorario)
+                            {
+                                //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
+                                Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
+                            }
+                            else
+                            {
+                                //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
+                                Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
+                            }
+                            //Dibujar_entidad(0);
+
+                        }
+                        else
+                        {
+                            if ((componentes[0].lista_puntos[0].p.X < componentes[0].lista_puntos[1].p.X && componentes[0].lista_puntos[0].p.X < Clo.getPointAtDist(0)[0]) ||
+                                (componentes[0].lista_puntos[0].p.X > componentes[0].lista_puntos[1].p.X && componentes[0].lista_puntos[0].p.X > Clo.getPointAtDist(0)[0]))
+                            {
+                                Dibujar_Clotoide(Clo);
+                                break;
+                            }
+                            else
+                            {
+                                if (componentes[1].direccion == EjeTrazado.sentidoCurva.Antihorario)
+                                {
+                                    //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
+                                    Girar_Recta(0, -0.01, componentes[0].azr);
+
+                                }
+                                else
+                                {
+                                    //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
+                                    Girar_Recta(0, 0.01, componentes[0].azr);
+                                }
+
+                            }
+                        }
+                    }
+                }
+                else if (componentes[0].Tipo == 2 && componentes[1].Tipo == 1)//curva
+                {
+                    int cont = 0;
+                    EjeDeTrazado.componentes.Clotoide Clo = null;
+                    while (cont < 1000)//el 1000 se pone para las comprobaciones
+                    {
+                        Rellenar_Recta(componentes[1]);
+                        Rellenar_Curva(componentes[0]);
+                        cont++;
+                        Clo = Curva_Recta(componentes[0], componentes[1], 1);
+
+                        if (Clo.getPuntoEntrada == Clo.getPuntoSalida || double.IsNaN(Clo.getQe()))
+                        {
+                            if (componentes[0].direccion == EjeTrazado.sentidoCurva.Antihorario)
+                            {
+                                //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
+                                Girar_Recta(1, Girar_acercar(componentes[1].lista_puntos, componentes[0], componentes[1].azr), componentes[1].azr);
+                            }
+                            else
+                            {
+                                //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
+                                Girar_Recta(1, Girar_acercar(componentes[1].lista_puntos, componentes[0], componentes[1].azr), componentes[1].azr);
+                            }
+                            //Dibujar_entidad(0);
+
+                        }
+                        else
+                        {
+                            if ((componentes[1].lista_puntos[1].p.X < componentes[1].lista_puntos[0].p.X && componentes[1].lista_puntos[1].p.X < Clo.getPointAtDist(0)[0]) ||
+                                (componentes[1].lista_puntos[1].p.X > componentes[1].lista_puntos[0].p.X && componentes[1].lista_puntos[1].p.X > Clo.getPointAtDist(0)[0]))
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                if (componentes[0].direccion == EjeTrazado.sentidoCurva.Antihorario)
+                                {
+                                    //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
+                                    Girar_Recta(1, -0.01, componentes[1].azr);
+
+                                }
+                                else
+                                {
+                                    //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
+                                    Girar_Recta(1, 0.01, componentes[1].azr);
+                                }
+
+                            }
+                        }
+                    }
+                    if (Clo!=null)
+                    {
+                        Dibujar_Clotoide(Clo);
+                    }
+                    
+
+                }
+                else//curva--curva
+                {
+                    Rellenar_Curva(componentes[0]);
+                    Rellenar_Curva(componentes[1]);
+                    EjeDeTrazado.componentes.Clotoide Clo = Curva_Curva(componentes[0], componentes[1]);
+
+                    if (Clo == null)
+                    {
+                        componentes[0].v_a_p = true;
+                    }
+                    else
+                    {
+                        if (Comprobar(Clo))
+                        {
+                            Dibujar_Clotoide(Clo);
+                            
+                        }
+                        else
+                        {
+                            componentes[0].v_a_p = true;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (componentes[0].Tipo == 1 && componentes[1].Tipo == 2)//si es recta--curva
+                {
+
+                    int cont = 0;
+                    EjeDeTrazado.componentes.Clotoide Clo = null;
+                    while (cont < 1000)//el 1000 se pone para las comprobaciones
+                    {
+                        Rellenar_Recta(componentes[0]);
+                        Rellenar_Curva(componentes[1]);
+                        cont++;
+                        Clo = Recta_Curva(componentes[0], componentes[1], 1);
+                        
+                        if (Clo.getPuntoEntrada == Clo.getPuntoSalida || double.IsNaN(Clo.getQe()))
+                        {
+                            if (componentes[1].direccion == EjeTrazado.sentidoCurva.Antihorario)
+                            {
+                                //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
+                                Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
+                            }
+                            else
+                            {
+                                //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
+                                Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
+                            }
+                            //Dibujar_entidad(0);
+
+                        }
+                        else
+                        {
+                            if ((componentes[0].lista_puntos[0].p.X < componentes[0].lista_puntos[1].p.X && componentes[0].lista_puntos[0].p.X < Clo.getPointAtDist(0)[0]) ||
+                                (componentes[0].lista_puntos[0].p.X > componentes[0].lista_puntos[1].p.X && componentes[0].lista_puntos[0].p.X > Clo.getPointAtDist(0)[0]))
+                            {
+                                //Dibujar_Clotoide(Clo);
+                                
+                                break;
+                            }
+                            else
+                            {
+                                if (componentes[1].direccion == EjeTrazado.sentidoCurva.Antihorario)
+                                {
+                                    //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
+                                    Girar_Recta(0, -0.01, componentes[0].azr);
+
+                                }
+                                else
+                                {
+                                    //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
+                                    Girar_Recta(0, 0.01, componentes[0].azr);
+                                }
+
+                            }
+                        }
+                    }
+                    if (Clo != null)
+                    {
+                        Dibujar_Clotoide(Clo);
+                    }
+                }
+                else if (componentes[0].Tipo == 2 && componentes[1].Tipo == 1 && componentes[2].Tipo == 2)//curva--recta--curva
+                {
+                    EjeDeTrazado.componentes.Clotoide[] Clotoides = new EjeDeTrazado.componentes.Clotoide[2];
+                    Clotoides = Curva_Recta_Curva(componentes[0], componentes[1], componentes[2]);
+                    if (Clotoides[0] == null)
+                    {
+                        componentes[0].v_m_g = true;
+                    }
+                    else
+                    {
+                        Dibujar_Clotoide(Clotoides[0]);
+                    }
+                    if (Clotoides[1] == null)
+                    {
+                        componentes[1].v_m_g = true;
+                    }
+                    else
+                    {
+                        Dibujar_Clotoide(Clotoides[1]);
+                    }
+                    intermedias = 2;
+                }
+                else//curva--curva
+                {
+                    Rellenar_Curva(componentes[0]);
+                    Rellenar_Curva(componentes[1]);
+                    EjeDeTrazado.componentes.Clotoide Clo = Curva_Curva(componentes[0], componentes[1]);
+
+                    if (Clo == null)
+                    {
+                        componentes[0].v_a_p = true;
+                    }
+                    else
+                    {
+                        if (Comprobar(Clo))
+                        {
+                            Dibujar_Clotoide(Clo);
+
+                        }
+                        else
+                        {
+                            componentes[0].v_a_p = true;
+                        }
+                    }
+                }
+            }
+
+            //ultima clotoide
+            if (componentes.Count > 3)
+            {
+                if (componentes[componentes.Count - 2].Tipo == 2 && componentes[componentes.Count - 1].Tipo == 1)//si es curva--recta
+                {
+
+                    int cont = 0;
+                    EjeDeTrazado.componentes.Clotoide Clo = null;
+                    while (cont < 1000)//el 1000 se pone para las comprobaciones
+                    {
+                        Rellenar_Recta(componentes[componentes.Count - 1]);
+                        Rellenar_Curva(componentes[componentes.Count - 2]);
+                        cont++;
+                        Clo = Curva_Recta(componentes[componentes.Count - 2], componentes[componentes.Count - 1], 2);
+                        if (Clo == null)
+                        {
+                            if (componentes[componentes.Count - 2].direccion == EjeTrazado.sentidoCurva.Antihorario)
+                            {
+                                //Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
+                                Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
+
+                            }
+                            else
+                            {
+                                //Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
+                                Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
+
+                            }
+                        }
+                        else
+                        {
+                            if (Clo.getPuntoEntrada == Clo.getPuntoSalida || double.IsNaN(Clo.getQe()))
+                            {
+                                if (componentes[componentes.Count - 2].direccion == EjeTrazado.sentidoCurva.Antihorario)
+                                {
+                                    //Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
+                                    Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
+
+                                }
+                                else
+                                {
+                                    //Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
+                                    Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
+
+                                }
+                                //Dibujar_entidad(componentes.Count - 1);
+                            }
+                            else
+                            {
+                                if (((componentes[componentes.Count - 1].lista_puntos[0].p.X < componentes[componentes.Count - 1].lista_puntos[1].p.X) && (Clo.getPointAtDist(Clo.getPkFinal())[0] <= componentes[componentes.Count - 1].lista_puntos[1].p.X)) ||
+                                    ((componentes[componentes.Count - 1].lista_puntos[0].p.X > componentes[componentes.Count - 1].lista_puntos[1].p.X) && (Clo.getPointAtDist(Clo.getPkFinal())[0] >= componentes[componentes.Count - 1].lista_puntos[1].p.X)))
+                                {
+                                    //Dibujar_Clotoide(Clo);
+                                    break;
+                                }
+                                /*if ((componentes[componentes.Count - 1].lista_puntos[0].p.X < Clo.getPointAtDist(Clo.getPkFinal())[0] && Clo.getPointAtDist(Clo.getPkFinal())[0] < componentes[componentes.Count - 1].lista_puntos[1].p.X) || (componentes[componentes.Count - 1].lista_puntos[0].p.X > Clo.getPointAtDist(Clo.getPkFinal())[0] && Clo.getPointAtDist(Clo.getPkFinal())[0] > componentes[componentes.Count - 1].lista_puntos[1].p.X))
+                                {
+                                    Dibujar_Clotoide(Clo);
+                                    break;
+                                }*/
+                                else
+                                {
+                                    if (componentes[componentes.Count - 2].direccion == EjeTrazado.sentidoCurva.Antihorario)
+                                    {
+                                        //Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
+                                        Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
+                                    }
+                                    else
+                                    {
+                                        //Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
+                                        Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
+                                    }
+                                    //Dibujar_entidad(componentes.Count - 1);
+                                }
+
+                            }
+                        }
+
+                    }
+                    if (Clo!=null)
+                    {
+                        Dibujar_Clotoide(Clo);
+                    }
+
+                }
+                else if (componentes[componentes.Count - 1].Tipo == 2 && componentes[componentes.Count - 2].Tipo == 1)//curva--recta--curva
+                {
+                    EjeDeTrazado.componentes.Clotoide[] Clotoides = new EjeDeTrazado.componentes.Clotoide[2];
+                    Clotoides = Curva_Recta_Curva(componentes[componentes.Count - 3], componentes[componentes.Count - 2], componentes[componentes.Count - 1]);
+                    //Dibujar_Clotoide(Clotoides[0]);
+                    //Dibujar_Clotoide(Clotoides[1]);
+                    if (Clotoides[0] == null)
+                    {
+                        componentes[componentes.Count - 3].v_m_g = true;
+                    }
+                    else
+                    {
+                        Dibujar_Clotoide(Clotoides[0]);
+                    }
+                    if (Clotoides[1] == null)
+                    {
+                        componentes[componentes.Count - 1].v_m_g = true;
+                    }
+                    else
+                    {
+                        Dibujar_Clotoide(Clotoides[1]);
+                    }
+                }
+                else//curva--curva
+                {
+                    Rellenar_Curva(componentes[componentes.Count - 2]);
+                    Rellenar_Curva(componentes[componentes.Count - 1]);
+                    EjeDeTrazado.componentes.Clotoide Clo = Curva_Curva(componentes[componentes.Count - 2], componentes[componentes.Count - 1]);
+                    if (Clo == null)
+                    {
+                        componentes[componentes.Count - 2].v_a_p = true;
+                    }
+                    else
+                    {
+                        if (Comprobar(Clo))
+                        {
+                            Dibujar_Clotoide(Clo);
+                        }
+                        else
+                        {
+                            componentes[componentes.Count - 2].v_a_p = true;
+
+                        }
+                    }
+                }
+            }
+            else if (componentes.Count == 3)
+            {
+                if (componentes[componentes.Count - 2].Tipo == 2 && componentes[componentes.Count - 1].Tipo == 1)//si es curva--recta
+                {
+
+                    int cont = 0;
+                    EjeDeTrazado.componentes.Clotoide Clo = null;
+                    while (cont < 1000)//el 1000 se pone para las comprobaciones
+                    {
+                        Rellenar_Recta(componentes[componentes.Count - 1]);
+                        Rellenar_Curva(componentes[componentes.Count - 2]);
+                        cont++;
+                        Clo = Curva_Recta(componentes[componentes.Count - 2], componentes[componentes.Count - 1], 2);
+                        if (Clo.getPuntoEntrada == Clo.getPuntoSalida || double.IsNaN(Clo.getQe()))
+                        {
+                            if (componentes[componentes.Count - 2].direccion == EjeTrazado.sentidoCurva.Antihorario)
+                            {
+                                //Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
+                                Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
+
+                            }
+                            else
+                            {
+                                //Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
+                                Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
+
+                            }
+                            //Dibujar_entidad(componentes.Count - 1);
+                        }
+                        else
+                        {
+                            if (((componentes[componentes.Count - 1].lista_puntos[0].p.X < componentes[componentes.Count - 1].lista_puntos[1].p.X) && (Clo.getPointAtDist(Clo.getPkFinal())[0] <= componentes[componentes.Count - 1].lista_puntos[1].p.X)) ||
+                                ((componentes[componentes.Count - 1].lista_puntos[0].p.X > componentes[componentes.Count - 1].lista_puntos[1].p.X) && (Clo.getPointAtDist(Clo.getPkFinal())[0] >= componentes[componentes.Count - 1].lista_puntos[1].p.X)))
+                            {
+                                //Dibujar_Clotoide(Clo);
+                                break;
+                            }
+                            /*if ((componentes[componentes.Count - 1].lista_puntos[0].p.X < Clo.getPointAtDist(Clo.getPkFinal())[0] && Clo.getPointAtDist(Clo.getPkFinal())[0] < componentes[componentes.Count - 1].lista_puntos[1].p.X) || (componentes[componentes.Count - 1].lista_puntos[0].p.X > Clo.getPointAtDist(Clo.getPkFinal())[0] && Clo.getPointAtDist(Clo.getPkFinal())[0] > componentes[componentes.Count - 1].lista_puntos[1].p.X))
+                            {
+                                Dibujar_Clotoide(Clo);
+                                break;
+                            }*/
+                            else
+                            {
+                                if (componentes[componentes.Count - 2].direccion == EjeTrazado.sentidoCurva.Antihorario)
+                                {
+                                    //Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
+                                    Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
+                                }
+                                else
+                                {
+                                    //Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
+                                    Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
+                                }
+                                //Dibujar_entidad(componentes.Count - 1);
+                            }
+
+                        }
+                    }
+                    if (Clo!=null)
+                    {
+                        Dibujar_Clotoide(Clo);
+                    }
+
+                }
+                else if (componentes[componentes.Count - 2].Tipo == 2 && componentes[componentes.Count - 1].Tipo == 2)//curva--curva
+                {
+                    Rellenar_Curva(componentes[componentes.Count - 2]);
+                    Rellenar_Curva(componentes[componentes.Count - 1]);
+                    EjeDeTrazado.componentes.Clotoide Clo = Curva_Curva(componentes[componentes.Count - 2], componentes[componentes.Count - 1]);
+                    if (Clo == null)
+                    {
+                        componentes[componentes.Count - 2].v_a_p = true;
+                    }
+                    else
+                    {
+                        if (Comprobar(Clo))
+                        {
+                            Dibujar_Clotoide(Clo);
+                        }
+                        else
+                        {
+                            componentes[componentes.Count - 2].v_a_p = true;
+                        }
+                    }
+                }
+            }
+
+            if (componentes.Count > 3)
+            {
+                for (int i = intermedias; i < componentes.Count - 2; i++)
+                {
+                    //se busca si una recta esta entre 2 curvas para crear una clotoide de entrada y otra de salida
+                    if (componentes[i - 1].Tipo == 2 && componentes[i + 1].Tipo == 2 && componentes[i].Tipo == 1)
+                    {
+                        if (curva_gran_radio)
+                        {
+                            if (componentes[i].Tipo == 1 && componentes[i + 1].Tipo == 2)
+                            {
+                                curva_gran_radio = false;
+                                EjeDeTrazado.componentes.Clotoide Clo = Recta_Curva(componentes[i], componentes[i + 1], 1);
+                                double[] pr = Clo.getPointAtDist(0);
+                                Dibujar_Clotoide(Clo);
+                            }
+                        }
+                        else
+                        {
+                            if (componentes[i].Tipo == 1 && componentes[i + 2].Tipo == 1 && (Math.Abs(componentes[i].azr - componentes[i + 2].azr) <= 2 || componentes[i + 1].radio > gran_r))
+                            {
+                                EjeDeTrazado.componentes.Clotoide Clo = Curva_Recta(componentes[i - 1], componentes[i], 2);
+                                Dibujar_Clotoide(Clo);
+                                EjeDeTrazado.componentes.Curva Curva = Curva_Gran_Radio(componentes[i], componentes[i + 1], componentes[i + 2]);
+                                curva_gran_radio = true;
+                            }
+                            else
+                            {
+                                EjeDeTrazado.componentes.Clotoide[] Clotoides = new EjeDeTrazado.componentes.Clotoide[2];
+                                Clotoides = Curva_Recta_Curva(componentes[i - 1], componentes[i], componentes[i + 1]);
+
+                                if (Clotoides[0] == null)
+                                {
+                                    componentes[i - 1].v_m_g = true;
+                                }
+                                else
+                                {
+
+                                    Dibujar_Clotoide(Clotoides[0]);
+                                }
+                                if (Clotoides[1] == null)
+                                {
+                                    componentes[i + 1].v_m_g = true;
+                                }
+                                else
+                                {
+                                    Dibujar_Clotoide(Clotoides[1]);
+                                }
+                            }
+                        }
+
+
+
+                    }
+                    if (componentes[i].Tipo == 2 && componentes[i + 1].Tipo == 2)
+                    {
+                        Rellenar_Curva(componentes[i]);
+                        Rellenar_Curva(componentes[i + 1]);
+                        EjeDeTrazado.componentes.Clotoide Clo = Curva_Curva(componentes[i], componentes[i + 1]);
+                        if (Clo == null)
+                        {
+                            componentes[i].v_a_p = true;
+                        }
+                        else
+                        {
+                            if (Comprobar(Clo))
+                            {
+                                Dibujar_Clotoide(Clo);
+                            }
+                            else
+                            {
+                                componentes[i].v_a_p = true;
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+
         public void addViabilidadListener(IViabilidadListener listener) {
             this.viabilidadListeners.Add(listener);
         }
