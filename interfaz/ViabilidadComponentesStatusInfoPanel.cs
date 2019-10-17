@@ -11,6 +11,7 @@ namespace interfaz {
         private ViabilidadComponentesStatus viabilidadComponentesStatus;
         private List<Logica.Componente> componentes;
         private int whileItIndex;
+        private List<IViabilidadStatusInfoPanelListener> listeners = new List<IViabilidadStatusInfoPanelListener>();
 
         public ViabilidadComponentesStatusInfoPanel(ViabilidadComponentesStatus viabilidadComponentesStatus, List<Componente> componentes, String title, int whileItIndex) {
             this.Text = title;
@@ -22,24 +23,39 @@ namespace interfaz {
             this.ControlBox = false;
             this.CenterToScreen();
 
+            //listener para ejecutar hasta el final sin detener
             this.ejecutarHastaFinalizarButton.Click += this.ejecutarHastaFinalizarButtonClick;
+
+            //listener para continuar depuracion paso a paso
             this.continuarDepuracionButton.Click += this.continuarDepurandoButtonClick;
+
+            //Listener para continuar hasta la iteracion indicada en el textBox
+            this.ejecutarHastaIteracionButton.Click += this.ejecutarHastaIteracionButtonClick;
+        }
+
+        public void addListener(IViabilidadStatusInfoPanelListener listener) {
+            this.listeners.Add(listener);
         }
 
         private void ejecutarHastaFinalizarButtonClick(object sender, EventArgs e) {
+            this.listeners.ForEach(listener => listener.continuarHastaElFinal());
             this.Dispose();
         }
 
         private void continuarDepurandoButtonClick(object sender, EventArgs e) {
+            this.listeners.ForEach(listener => listener.continuarPasoAPaso());
             this.Dispose();
         }
 
-        public void addEjecutarHastaFinalizar(EventHandler p) {
-            this.ejecutarHastaFinalizarButton.Click += p;
-        }
-
-        public void addDetenerEnIteracion(EventHandler p) {
-            this.ejecutarHastaIteracionButton.Click += p;
+        private void ejecutarHastaIteracionButtonClick(object sender, EventArgs e) {
+            try {
+                string detenerEnIteracion = this.DetenerEnIteracionTextBox.Text;
+                int iteracion = Int32.Parse(detenerEnIteracion);
+                this.listeners.ForEach(listener => listener.continuarHastaLaIteracion(iteracion));
+            } catch (Exception ex) {
+                Console.WriteLine(ex.ToString());
+            }
+            this.Dispose();
         }
 
         public ViabilidadComponentesStatus ViabilidadComponentesStatus { get => viabilidadComponentesStatus; set => viabilidadComponentesStatus = value; }
@@ -75,11 +91,6 @@ namespace interfaz {
             });
 
             trazaViablidadDataGridView.DataSource = dataTable;
-
-        }
-
-        private void continuarDepuracionButton_Click(object sender, EventArgs e) {
-
         }
     }
 }

@@ -1637,7 +1637,7 @@ namespace Logica {
                     //Notificar listener de viabilidad
                     if (this.viabilidadListeners.Any()) {
                         viabilidadComponentesStatus.CasoResuelto = casoMasPrioritario;
-                        this.viabilidadListeners.ForEach(listener => listener.onNewViabilidadStatus(viabilidadComponentesStatus, this.componentes, whileItIndex));
+                        this.viabilidadListeners.ForEach(listener => listener.onNewViabilidadStatus("viabilidad de componentes", viabilidadComponentesStatus, this.componentes, whileItIndex));
                     }
 
                     //Soluciona el caso mas prioritario - solo uno - segun el caso que se de en el componente
@@ -11680,6 +11680,7 @@ namespace Logica {
          */
         public List<ViabilidadComponentesStatus> Enlaces(double gran_r) {
             List<ViabilidadComponentesStatus> trazaViabilidadEnlaces = new List<ViabilidadComponentesStatus>();
+            int whileIndex = 0;
 
             int contador = 0;
             List<double> azimuts = new List<double>();
@@ -12171,8 +12172,6 @@ namespace Logica {
                 }
                 //Clotoides intermedias
 
-
-
                 if (ultima_clo_crc && primera_clo_crc) {
                     double azfin = azimuts[2];
                     double azfin2 = azimuts[3];
@@ -12229,14 +12228,20 @@ namespace Logica {
 
                 ViabilidadComponentesStatus viabilidadEnlacesStatus = this.populateViabilidadEnlacesStatus();
 
-                mostrarCasos_Enlaces();
+                if (viabilidadEnlacesStatus.ViabilidadComponentes.Any() && this.viabilidadListeners.Any()) {
+                    viabilidadEnlacesStatus.CasoResuelto = viabilidadEnlacesStatus.ViabilidadComponentes.ElementAt(0);
+                    this.viabilidadListeners.ForEach(listener => listener.onNewViabilidadStatus("enlaces", viabilidadEnlacesStatus, this.componentes, whileIndex));
+                }
 
+                //mostrarCasos_Enlaces();
                 Modificacion(viabilidadEnlacesStatus);
+
                 ultima_clo_crc = false;
 
                 //se añade la iteracion actual a la traza completa de viabilidad del enlace
                 trazaViabilidadEnlaces.Add(viabilidadEnlacesStatus);
 
+                whileIndex++;
             } while (this.Comprobar_casos_solapes() && contador < 2000);
 
             return trazaViabilidadEnlaces;
@@ -15868,6 +15873,7 @@ namespace Logica {
         public void removeAllViabilidadListener() {
             this.viabilidadListeners.Clear();
         }
+
     }
 
 

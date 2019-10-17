@@ -2,6 +2,12 @@
     using System.Windows.Forms;
     using MaterialSkin.Controls;
 
+    public interface IViabilidadStatusInfoPanelListener {
+        void continuarPasoAPaso();
+        void continuarHastaElFinal();
+        void continuarHastaLaIteracion(int iteracion);
+    }
+
     partial class ViabilidadComponentesStatusInfoPanel : MaterialForm {
 
         private System.ComponentModel.IContainer components = null;
@@ -68,7 +74,6 @@
             this.continuarDepuracionButton.TabIndex = 2;
             this.continuarDepuracionButton.Text = "Continuar depurando";
             this.continuarDepuracionButton.UseVisualStyleBackColor = true;
-            this.continuarDepuracionButton.Click += new System.EventHandler(this.continuarDepuracionButton_Click);
             // 
             // detenerEnIteracionTextBox
             // 

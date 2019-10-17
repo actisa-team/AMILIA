@@ -9,7 +9,7 @@ namespace interfaz {
     using System.Collections.Generic;
     using System.Linq;
 
-    public partial class principal : MaterialForm, IViabilidadListener {
+    public partial class principal : MaterialForm, IViabilidadListener, IViabilidadStatusInfoPanelListener {
         private CalculoPolilinea calculoPolilinea;
         private CalculoPolilineaPreferencias calculoPolilineaPreferencias;
         private int pasosEjecutados = -1;
@@ -275,6 +275,10 @@ namespace interfaz {
         }
 
         private void ejecutar3ButtonClick(object sender, EventArgs eventArgs) {
+            this.ejecutarViabilidadSinParar = false;
+            this.detenerEnIteracion = false;
+            this.iteracion = -1;
+
             if (this.pasosEjecutados > 1) {
                 if (this.calculoPolilinea != null) {
                     List<ViabilidadComponentesStatus> viabilidadEnlaces = calculoPolilinea.Enlaces(this.calculoPolilineaPreferencias.Gran_r);
@@ -625,36 +629,32 @@ namespace interfaz {
 
         }
 
-        public void onNewViabilidadStatus(ViabilidadComponentesStatus viabilidadComponentesStatus, List<Componente> componentes, int whileItIndex) {
+        public void onNewViabilidadStatus(String etapa, ViabilidadComponentesStatus viabilidadComponentesStatus, List<Componente> componentes, int whileItIndex) {
             //si no se ha activado ejecutarViabilidadSinParar o si se ha activado detenerEnIteracion y la iteracion del while coincideC
             if (!this.ejecutarViabilidadSinParar || (this.detenerEnIteracion && whileItIndex == this.iteracion)) {
-                ViabilidadComponentesStatusInfoPanel viabilidadComponentesInfoPanel = new ViabilidadComponentesStatusInfoPanel(viabilidadComponentesStatus, componentes, "Depuración viabilidad > iteracion: " + whileItIndex, whileItIndex);
+                ViabilidadComponentesStatusInfoPanel viabilidadComponentesInfoPanel = new ViabilidadComponentesStatusInfoPanel(viabilidadComponentesStatus, componentes, "Depuración " + etapa + " > iteracion: " + whileItIndex, whileItIndex);
                 viabilidadComponentesInfoPanel.ShowInTaskbar = false;
-
-                EventHandler ejecutarViabilidadHastaElFinalHandler = delegate (object sender, EventArgs e) {
-                    this.ejecutarViabilidadSinParar = true;
-                    this.detenerEnIteracion = false;
-                    this.iteracion = -1;
-                };
-
-                EventHandler ejecutarHastaIteracionHandler = delegate (object sender, EventArgs e) {
-                    try {
-                        string detenerEnIteracion = viabilidadComponentesInfoPanel.DetenerEnIteracionTextBox.Text;
-                        int iteracion = Int32.Parse(detenerEnIteracion);
-                        this.detenerEnIteracion = true;
-                        this.iteracion = iteracion;
-                        this.ejecutarViabilidadSinParar = true;
-                    } catch (Exception ex) {
-                        Console.WriteLine(ex.ToString());
-                    }
-                    viabilidadComponentesInfoPanel.Dispose();
-                };
-
-                viabilidadComponentesInfoPanel.addEjecutarHastaFinalizar(ejecutarViabilidadHastaElFinalHandler);
-                viabilidadComponentesInfoPanel.addDetenerEnIteracion(ejecutarHastaIteracionHandler);
-
-                DialogResult res = viabilidadComponentesInfoPanel.ShowDialog(this);
+                viabilidadComponentesInfoPanel.addListener(this);
+                viabilidadComponentesInfoPanel.ShowDialog(this);
             }
+        }
+
+        public void continuarHastaElFinal() {
+            this.ejecutarViabilidadSinParar = true;
+            this.detenerEnIteracion = false;
+            this.iteracion = -1;
+        }
+
+        public void continuarHastaLaIteracion(int iteracion) {
+            this.detenerEnIteracion = true;
+            this.iteracion = iteracion;
+            this.ejecutarViabilidadSinParar = true;
+        }
+
+        public void continuarPasoAPaso() {
+            this.ejecutarViabilidadSinParar = false;
+            this.detenerEnIteracion = false;
+            this.iteracion = -1;
         }
     }
 }
