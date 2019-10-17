@@ -14,6 +14,8 @@ namespace interfaz {
         private CalculoPolilineaPreferencias calculoPolilineaPreferencias;
         private int pasosEjecutados = -1;
         private Boolean ejecutarViabilidadSinParar = false;
+        private bool detenerEnIteracion = false;
+        private int iteracion = -1;
 
         public principal() {
             InitializeComponent();
@@ -306,6 +308,9 @@ namespace interfaz {
             this.paso2EjecutadoTextView.Visible = false;
             this.paso3EjecutadoTextView.Visible = false;
             this.calculoPolilineaStatusTextView.Visible = false;
+            this.ejecutarViabilidadSinParar = false;
+            this.detenerEnIteracion = false;
+            this.iteracion = -1;
 
             if (comprobar()) {
                 dsApp dsApp = this.abrirArchivoDeProyecto();
@@ -620,19 +625,34 @@ namespace interfaz {
         }
 
         public void onNewViabilidadStatus(ViabilidadComponentesStatus viabilidadComponentesStatus, List<Componente> componentes, int whileItIndex) {
-            if (!this.ejecutarViabilidadSinParar) {
+            //si no se ha activado ejecutarViabilidadSinParar o si se ha activado detenerEnIteracion y la iteracion del while coincide
+            if (!this.ejecutarViabilidadSinParar || (this.detenerEnIteracion && whileItIndex == this.iteracion)) {
                 ViabilidadComponentesStatusInfoPanel viabilidadComponentesInfoPanel = new ViabilidadComponentesStatusInfoPanel(viabilidadComponentesStatus, componentes, "Depuración viabilidad > iteracion: " + whileItIndex, whileItIndex);
                 viabilidadComponentesInfoPanel.ShowInTaskbar = false;
 
-                EventHandler p = delegate (object sender, EventArgs e) {
+                EventHandler ejecutarViabilidadHastaElFinalHandler = delegate (object sender, EventArgs e) {
                     this.ejecutarViabilidadSinParar = true;
+                    this.detenerEnIteracion = false;
+                    this.iteracion = -1;
+                };
+
+                EventHandler ejecutarHastaIteracionHandler = delegate (object sender, EventArgs e) {
+                    try {
+                        string detenerEnIteracion = viabilidadComponentesInfoPanel.DetenerEnIteracionTextBox.Text;
+                        int iteracion = Int32.Parse(detenerEnIteracion);
+                        this.detenerEnIteracion = true;
+                        this.iteracion = iteracion;
+                        this.ejecutarViabilidadSinParar = true;
+                    } catch (Exception ex) {
+                        Console.WriteLine(ex.ToString());
+                    }
                     viabilidadComponentesInfoPanel.Dispose();
                 };
 
-                viabilidadComponentesInfoPanel.addEjecutarHastaFinalizar(p);
+                viabilidadComponentesInfoPanel.addEjecutarHastaFinalizar(ejecutarViabilidadHastaElFinalHandler);
+                viabilidadComponentesInfoPanel.addDetenerEnIteracion(ejecutarHastaIteracionHandler);
 
                 DialogResult res = viabilidadComponentesInfoPanel.ShowDialog(this);
-                //MessageBox.Show("Continuar ejecución");
             }
         }
     }

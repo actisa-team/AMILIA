@@ -1454,7 +1454,7 @@ namespace Logica {
             bool casos = true;
             double distancia;
             Point2d pm;
-            int whileItIndex = 1;
+            int whileItIndex = 0;
 
             while (casos) {
                 this.Reiniciar_casos();

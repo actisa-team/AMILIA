@@ -22,10 +22,24 @@ namespace interfaz {
             this.ControlBox = false;
             this.CenterToScreen();
 
+            this.ejecutarHastaFinalizarButton.Click += this.ejecutarHastaFinalizarButtonClick;
+            this.continuarDepuracionButton.Click += this.continuarDepurandoButtonClick;
+        }
+
+        private void ejecutarHastaFinalizarButtonClick(object sender, EventArgs e) {
+            this.Dispose();
+        }
+
+        private void continuarDepurandoButtonClick(object sender, EventArgs e) {
+            this.Dispose();
         }
 
         public void addEjecutarHastaFinalizar(EventHandler p) {
             this.ejecutarHastaFinalizarButton.Click += p;
+        }
+
+        public void addDetenerEnIteracion(EventHandler p) {
+            this.ejecutarHastaIteracionButton.Click += p;
         }
 
         public ViabilidadComponentesStatus ViabilidadComponentesStatus { get => viabilidadComponentesStatus; set => viabilidadComponentesStatus = value; }
@@ -64,8 +78,8 @@ namespace interfaz {
 
         }
 
-        private void materialFlatButton1_Click(object sender, EventArgs e) {
-            this.Dispose();
+        private void continuarDepuracionButton_Click(object sender, EventArgs e) {
+
         }
     }
 }

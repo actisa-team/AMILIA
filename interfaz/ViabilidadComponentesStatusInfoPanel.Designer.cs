@@ -1,4 +1,5 @@
 ﻿namespace interfaz {
+    using System.Windows.Forms;
     using MaterialSkin.Controls;
 
     partial class ViabilidadComponentesStatusInfoPanel : MaterialForm {
@@ -18,7 +19,9 @@
         private void InitializeComponent() {
             this.trazaViablidadDataGridView = new System.Windows.Forms.DataGridView();
             this.ejecutarHastaFinalizarButton = new MaterialSkin.Controls.MaterialFlatButton();
-            this.materialFlatButton1 = new MaterialSkin.Controls.MaterialFlatButton();
+            this.continuarDepuracionButton = new MaterialSkin.Controls.MaterialFlatButton();
+            this.detenerEnIteracionTextBox = new System.Windows.Forms.TextBox();
+            this.ejecutarHastaIteracionButton = new MaterialSkin.Controls.MaterialFlatButton();
             ((System.ComponentModel.ISupportInitialize)(this.trazaViablidadDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -51,26 +54,50 @@
             this.ejecutarHastaFinalizarButton.Text = "Ejecutar hasta finalizar";
             this.ejecutarHastaFinalizarButton.UseVisualStyleBackColor = true;
             // 
-            // materialFlatButton1
+            // continuarDepuracionButton
             // 
-            this.materialFlatButton1.AutoSize = true;
-            this.materialFlatButton1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.materialFlatButton1.Depth = 0;
-            this.materialFlatButton1.Location = new System.Drawing.Point(218, 753);
-            this.materialFlatButton1.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.materialFlatButton1.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialFlatButton1.Name = "materialFlatButton1";
-            this.materialFlatButton1.Primary = false;
-            this.materialFlatButton1.Size = new System.Drawing.Size(173, 36);
-            this.materialFlatButton1.TabIndex = 2;
-            this.materialFlatButton1.Text = "Continuar depurando";
-            this.materialFlatButton1.UseVisualStyleBackColor = true;
-            this.materialFlatButton1.Click += new System.EventHandler(this.materialFlatButton1_Click);
+            this.continuarDepuracionButton.AutoSize = true;
+            this.continuarDepuracionButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.continuarDepuracionButton.Depth = 0;
+            this.continuarDepuracionButton.Location = new System.Drawing.Point(239, 753);
+            this.continuarDepuracionButton.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.continuarDepuracionButton.MouseState = MaterialSkin.MouseState.HOVER;
+            this.continuarDepuracionButton.Name = "continuarDepuracionButton";
+            this.continuarDepuracionButton.Primary = false;
+            this.continuarDepuracionButton.Size = new System.Drawing.Size(173, 36);
+            this.continuarDepuracionButton.TabIndex = 2;
+            this.continuarDepuracionButton.Text = "Continuar depurando";
+            this.continuarDepuracionButton.UseVisualStyleBackColor = true;
+            this.continuarDepuracionButton.Click += new System.EventHandler(this.continuarDepuracionButton_Click);
+            // 
+            // detenerEnIteracionTextBox
+            // 
+            this.detenerEnIteracionTextBox.Location = new System.Drawing.Point(220, 818);
+            this.detenerEnIteracionTextBox.Name = "detenerEnIteracionTextBox";
+            this.detenerEnIteracionTextBox.Size = new System.Drawing.Size(66, 20);
+            this.detenerEnIteracionTextBox.TabIndex = 4;
+            // 
+            // ejecutarHastaIteracionButton
+            // 
+            this.ejecutarHastaIteracionButton.AutoSize = true;
+            this.ejecutarHastaIteracionButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ejecutarHastaIteracionButton.Depth = 0;
+            this.ejecutarHastaIteracionButton.Location = new System.Drawing.Point(13, 809);
+            this.ejecutarHastaIteracionButton.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.ejecutarHastaIteracionButton.MouseState = MaterialSkin.MouseState.HOVER;
+            this.ejecutarHastaIteracionButton.Name = "ejecutarHastaIteracionButton";
+            this.ejecutarHastaIteracionButton.Primary = false;
+            this.ejecutarHastaIteracionButton.Size = new System.Drawing.Size(200, 36);
+            this.ejecutarHastaIteracionButton.TabIndex = 6;
+            this.ejecutarHastaIteracionButton.Text = "Ejecutar hasta iteración";
+            this.ejecutarHastaIteracionButton.UseVisualStyleBackColor = true;
             // 
             // ViabilidadComponentesStatusInfoPanel
             // 
-            this.ClientSize = new System.Drawing.Size(962, 804);
-            this.Controls.Add(this.materialFlatButton1);
+            this.ClientSize = new System.Drawing.Size(962, 885);
+            this.Controls.Add(this.ejecutarHastaIteracionButton);
+            this.Controls.Add(this.detenerEnIteracionTextBox);
+            this.Controls.Add(this.continuarDepuracionButton);
             this.Controls.Add(this.ejecutarHastaFinalizarButton);
             this.Controls.Add(this.trazaViablidadDataGridView);
             this.Name = "ViabilidadComponentesStatusInfoPanel";
@@ -84,6 +111,10 @@
 
         private System.Windows.Forms.DataGridView trazaViablidadDataGridView;
         private MaterialFlatButton ejecutarHastaFinalizarButton;
-        private MaterialFlatButton materialFlatButton1;
+        private MaterialFlatButton continuarDepuracionButton;
+        private System.Windows.Forms.TextBox detenerEnIteracionTextBox;
+        private MaterialFlatButton ejecutarHastaIteracionButton;
+
+        public TextBox DetenerEnIteracionTextBox { get => detenerEnIteracionTextBox; set => detenerEnIteracionTextBox = value; }
     }
 }
