@@ -1454,6 +1454,7 @@ namespace Logica {
             bool casos = true;
             double distancia;
             Point2d pm;
+            int whileItIndex = 0;
 
             while (casos) {
                 this.Reiniciar_casos();
@@ -1629,13 +1630,15 @@ namespace Logica {
                 ViabilidadComponentesStatus viabilidadComponentesStatus = this.populateViabilidadComponentesStatus();
 
                 //Si hay algun componente conflictivo... caso 4,5,3,2,1
-                if (viabilidadComponentesStatus.ViabilidadComponentes.Any()) {
-                    //Notificar listener de viabilidad
-                    if (this.viabilidadListeners.Any()) {
-                        this.viabilidadListeners.ForEach(listener => listener.onNewViabilidadStatus(viabilidadComponentesStatus, this.componentes));
-                    }
+                if (viabilidadComponentesStatus.ViabilidadComponentes.Any()) {     
                     ViabilidadComponente casoMasPrioritario = viabilidadComponentesStatus.ViabilidadComponentes.First();
                     int componenteIndex = this.Componentes.IndexOf(casoMasPrioritario.Componente);
+
+                    //Notificar listener de viabilidad
+                    if (this.viabilidadListeners.Any()) {
+                        viabilidadComponentesStatus.CasoResuelto = casoMasPrioritario;
+                        this.viabilidadListeners.ForEach(listener => listener.onNewViabilidadStatus(viabilidadComponentesStatus, this.componentes, whileItIndex));
+                    }
 
                     //Soluciona el caso mas prioritario - solo uno - segun el caso que se de en el componente
                     switch (casoMasPrioritario.Caso) {
@@ -1665,7 +1668,9 @@ namespace Logica {
                 } else {
                     //no hay casos para resolver
                     casos = false;
-                }      
+                }
+
+                whileItIndex++;
             }
             return trazaViabilidadComponentes;
         }

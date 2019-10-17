@@ -1,4 +1,5 @@
-﻿using MaterialSkin.Controls;
+﻿using Logica;
+using MaterialSkin.Controls;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -7,12 +8,14 @@ namespace interfaz {
 
     public partial class ViabilidadComponentesStatusInfoPanel : MaterialForm {
 
-        private List<Logica.ViabilidadComponentesStatus> trazaViabilidadComponentes;
+        private ViabilidadComponentesStatus viabilidadComponentesStatus;
         private List<Logica.Componente> componentes;
+        private int whileItIndex;
 
-        public ViabilidadComponentesStatusInfoPanel(List<Logica.ViabilidadComponentesStatus> trazaViabilidadComponentes, List<Logica.Componente> componentes, String title) {
+        public ViabilidadComponentesStatusInfoPanel(ViabilidadComponentesStatus viabilidadComponentesStatus, List<Componente> componentes, String title, int whileItIndex) {
             this.Text = title;
-            this.trazaViabilidadComponentes = trazaViabilidadComponentes;
+            this.whileItIndex = whileItIndex;
+            this.viabilidadComponentesStatus = viabilidadComponentesStatus;
             this.componentes = componentes;
             InitializeComponent();
             this.populateDataTable();
@@ -25,29 +28,29 @@ namespace interfaz {
             dataTable.Columns.Add("Tipo");
             dataTable.Columns.Add("Caso");
             dataTable.Columns.Add("Resuelto");
-            
-            this.trazaViabilidadComponentes.ForEach(traza => {
-                int trazaIndex = this.trazaViabilidadComponentes.IndexOf(traza);
-                traza.ViabilidadComponentes.ForEach(viabilidadComponente => {
-                    int componenteIndex = this.componentes.IndexOf(viabilidadComponente.Componente);
-                    String tipo = "";
-                    if (viabilidadComponente.Componente.Tipo == 1) {
-                        tipo = "Recta";
-                    }
-                    if (viabilidadComponente.Componente.Tipo == 2) {
-                        tipo = "Curva";
-                    }
 
-                    String resuelto = "";
-                    if (traza.CasoResuelto != null && traza.CasoResuelto.Equals(viabilidadComponente)) {
-                        resuelto = "SI";
-                    }
 
-                    dataTable.Rows.Add(trazaIndex, componenteIndex, tipo, viabilidadComponente.Caso, resuelto);
-                });   
+            this.viabilidadComponentesStatus.ViabilidadComponentes.ForEach(viabilidadComponente =>
+            {
+                int componenteIndex = this.componentes.IndexOf(viabilidadComponente.Componente);
+                String tipo = "";
+                if (viabilidadComponente.Componente.Tipo == 1) {
+                    tipo = "Recta";
+                }
+                if (viabilidadComponente.Componente.Tipo == 2) {
+                    tipo = "Curva";
+                }
+
+                String resuelto = "";
+                if (this.viabilidadComponentesStatus.CasoResuelto != null && this.viabilidadComponentesStatus.CasoResuelto.Equals(viabilidadComponente)) {
+                    resuelto = "SI";
+                }
+
+                dataTable.Rows.Add(this.whileItIndex, componenteIndex, tipo, viabilidadComponente.Caso, resuelto);
             });
 
             trazaViablidadDataGridView.DataSource = dataTable;
+
         }
     }
 }

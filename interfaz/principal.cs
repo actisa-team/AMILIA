@@ -249,7 +249,6 @@ namespace interfaz {
                     this.calculoPolilinea.removeAllViabilidadListener();
                     this.calculoPolilinea.addViabilidadListener(this);
 
-
                     List<ViabilidadComponentesStatus> trazaViabilidadComponentes = calculoPolilinea.viabilidad();
                     calculoPolilinea.Dibujar_entidades(3);
 
@@ -619,8 +618,9 @@ namespace interfaz {
 
         }
 
-        public void onNewViabilidadStatus(ViabilidadComponentesStatus viabilidadComponentesStatus, List<Componente> componentes) {
-            throw new NotImplementedException();
+        public void onNewViabilidadStatus(ViabilidadComponentesStatus viabilidadComponentesStatus, List<Componente> componentes, int whileItIndex) {
+            ViabilidadComponentesStatusInfoPanel viabilidadComponentesInfoPanel = new ViabilidadComponentesStatusInfoPanel(viabilidadComponentesStatus, componentes, "viabilidad iteracion: " + whileItIndex, whileItIndex);
+            viabilidadComponentesInfoPanel.ShowDialog();
         }
     }
 }

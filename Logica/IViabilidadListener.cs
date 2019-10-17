@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 
 namespace Logica {
     public interface IViabilidadListener {
-        void onNewViabilidadStatus(ViabilidadComponentesStatus viabilidadComponentesStatus, List<Componente> componentes); 
+        void onNewViabilidadStatus(ViabilidadComponentesStatus viabilidadComponentesStatus, List<Componente> componentes, int whileItIndex); 
     }
 }
