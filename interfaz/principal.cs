@@ -9,7 +9,7 @@ namespace interfaz {
     using System.Collections.Generic;
     using System.Linq;
 
-    public partial class principal : MaterialForm {
+    public partial class principal : MaterialForm, IViabilidadListener {
         private CalculoPolilinea calculoPolilinea;
         private CalculoPolilineaPreferencias calculoPolilineaPreferencias;
         private int pasosEjecutados = -1;
@@ -242,9 +242,14 @@ namespace interfaz {
             }
         }
 
+
         private void ejecutar2ButtonClick(object sender, EventArgs eventArgs) {
             if (pasosEjecutados > 0) {
                 if (this.calculoPolilinea != null) {
+                    this.calculoPolilinea.removeAllViabilidadListener();
+                    this.calculoPolilinea.addViabilidadListener(this);
+
+
                     List<ViabilidadComponentesStatus> trazaViabilidadComponentes = calculoPolilinea.viabilidad();
                     calculoPolilinea.Dibujar_entidades(3);
 
@@ -612,6 +617,10 @@ namespace interfaz {
 
         private void materialFlatButton6_Click(object sender, EventArgs e) {
 
+        }
+
+        public void onNewViabilidadStatus(ViabilidadComponentesStatus viabilidadComponentesStatus, List<Componente> componentes) {
+            throw new NotImplementedException();
         }
     }
 }

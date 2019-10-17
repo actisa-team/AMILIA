@@ -52,6 +52,8 @@ namespace Logica {
         bool mostrar_enlaces = true;
         bool mostrar_casos = true;
 
+        List<IViabilidadListener> viabilidadListeners = new List<IViabilidadListener>();
+
         public List<Componente> Componentes { get => componentes; set => componentes = value; }
 
         public CalculoPolilinea() {
@@ -1628,6 +1630,10 @@ namespace Logica {
 
                 //Si hay algun componente conflictivo... caso 4,5,3,2,1
                 if (viabilidadComponentesStatus.ViabilidadComponentes.Any()) {
+                    //Notificar listener de viabilidad
+                    if (this.viabilidadListeners.Any()) {
+                        this.viabilidadListeners.ForEach(listener => listener.onNewViabilidadStatus(viabilidadComponentesStatus, this.componentes));
+                    }
                     ViabilidadComponente casoMasPrioritario = viabilidadComponentesStatus.ViabilidadComponentes.First();
                     int componenteIndex = this.Componentes.IndexOf(casoMasPrioritario.Componente);
 
@@ -15299,6 +15305,14 @@ namespace Logica {
                 }
             }
             return true;
+        }
+
+        public void addViabilidadListener(IViabilidadListener listener) {
+            this.viabilidadListeners.Add(listener);
+        }
+
+        public void removeAllViabilidadListener() {
+            this.viabilidadListeners.Clear();
         }
     }
 
