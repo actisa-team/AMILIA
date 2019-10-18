@@ -12786,9 +12786,6 @@ namespace Logica {
                             } else {
 
                                 if (az_temp_1 < (az_temp_2 + 0.2)) {
-                                    if (componentes[i + 1].Tipo == 1 && componentes[i + 1].azr < (az_temp_2 + 0.2)) {
-
-                                    } else {
                                         if (i < componentes.Count - 2 && i > 1) {
                                             if (az_temp_1 > 0 && az_temp_2 == -1) {
 
@@ -12808,7 +12805,7 @@ namespace Logica {
                                         if (componentes[i - 1].Tipo == 2) {
                                             componentes[i - 1].v_a_p = true;
                                         }
-                                    }
+                                    
 
                                 }
                             }
