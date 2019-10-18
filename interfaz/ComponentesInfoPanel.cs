@@ -25,9 +25,24 @@ namespace interfaz {
                 if (!this.verificacionComponentesStatus.VerificacionDeCurvas.Any() && !this.verificacionComponentesStatus.VerificacionDeRectas.Any()) {
                     this.showValidacionComponentesCorrecta();
                 } else {
-
+                    if (this.verificacionComponentesStatus.VerificacionDeCurvas.Any()) {
+                        this.showErrorValidacionCurva();
+                    }
+                    if (this.verificacionComponentesStatus.VerificacionDeRectas.Any()) {
+                        this.showErrorValidacionRecta();
+                    }
                 }
             }       
+        }
+
+        private void showErrorValidacionCurva() {
+            this.errorValidationPanel.Visible = true;
+            this.errorValidacionCurvasLabel.Visible = true;
+        }
+
+        private void showErrorValidacionRecta() {
+            this.errorValidationPanel.Visible = true;
+            this.errorValidacionRectasLabel.Visible = true;
         }
 
         private void showValidacionComponentesCorrecta() {
