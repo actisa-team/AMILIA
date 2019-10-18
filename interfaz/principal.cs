@@ -234,6 +234,9 @@ namespace interfaz {
                     calculoPolilinea.Comprobacion();
                     calculoPolilinea.Dibujar_entidades(2);
 
+                    ComponentesInfoPanel componentesInfoPanel = new ComponentesInfoPanel(calculoPolilinea.Componentes);
+                    componentesInfoPanel.Show();
+
                     this.pasosEjecutados = 1;
                     this.paso1EjecutadoTextView.Visible = true;
                     MessageBox.Show("Revise autocad para ver la salida de la etapa 1 del algoritmo");

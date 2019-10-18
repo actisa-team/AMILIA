@@ -77,6 +77,13 @@
   <ItemGroup>
     <Compile Include="AplitopProperties.cs" />
     <Compile Include="CalculoPolilineaPreferencias.cs" />
+    <Compile Include="Class1.cs" />
+    <Compile Include="ComponentesInfoPanel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ComponentesInfoPanel.Designer.cs">
+      <DependentUpon>ComponentesInfoPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="principal.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -103,6 +110,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ComponentesInfoPanel.resx">
+      <DependentUpon>ComponentesInfoPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="principal.resx">
       <DependentUpon>principal.cs</DependentUpon>
     </EmbeddedResource>
