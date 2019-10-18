@@ -18,6 +18,7 @@ namespace interfaz {
             this.whileItIndex = whileItIndex;
             this.viabilidadComponentesStatus = viabilidadComponentesStatus;
             this.componentes = componentes;
+            this.ShowInTaskbar = false;
             this.InitializeComponent();
             this.populateDataTable();
             this.ControlBox = false;
@@ -54,6 +55,7 @@ namespace interfaz {
                 this.listeners.ForEach(listener => listener.continuarHastaLaIteracion(iteracion));
             } catch (Exception ex) {
                 Console.WriteLine(ex.ToString());
+                this.listeners.ForEach(listener => listener.continuarPasoAPaso());
             }
             this.Dispose();
         }

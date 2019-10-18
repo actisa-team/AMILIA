@@ -247,6 +247,9 @@ namespace interfaz {
 
 
         private void ejecutar2ButtonClick(object sender, EventArgs eventArgs) {
+            this.ejecutarViabilidadSinParar = false;
+            this.detenerEnIteracion = false;
+            this.iteracion = -1;
             if (pasosEjecutados > 0) {
                 if (this.calculoPolilinea != null) {
                     this.calculoPolilinea.removeAllViabilidadListener();
@@ -633,7 +636,6 @@ namespace interfaz {
             //si no se ha activado ejecutarViabilidadSinParar o si se ha activado detenerEnIteracion y la iteracion del while coincideC
             if (!this.ejecutarViabilidadSinParar || (this.detenerEnIteracion && whileItIndex == this.iteracion)) {
                 ViabilidadComponentesStatusInfoPanel viabilidadComponentesInfoPanel = new ViabilidadComponentesStatusInfoPanel(viabilidadComponentesStatus, componentes, "Depuración " + etapa + " > iteracion: " + whileItIndex, whileItIndex);
-                viabilidadComponentesInfoPanel.ShowInTaskbar = false;
                 viabilidadComponentesInfoPanel.addListener(this);
                 viabilidadComponentesInfoPanel.ShowDialog(this);
             }
