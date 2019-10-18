@@ -15655,6 +15655,18 @@ namespace Logica {
             }
         }
 
+        public void verificarComponentes() {
+            //this.comprobar        
+        }
+
+        private void comprobarSiDosRectasSeguidas() {
+
+        }
+
+        private List<Componente> filtrarComponentesPorTipo(int tipo) {
+            return this.componentes.Where(componente => componente.Tipo == tipo).ToList();
+        }
+
         public void addViabilidadListener(IViabilidadListener listener) {
             this.viabilidadListeners.Add(listener);
         }

@@ -1,14 +1,9 @@
-﻿using Logica;
+﻿using EjeDeTrazado.puntosDelEje;
+using Logica;
 using MaterialSkin.Controls;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace interfaz {
     public partial class ComponentesInfoPanel : MaterialForm {
@@ -33,6 +28,28 @@ namespace interfaz {
             dataTable.Columns.Add("ini");
             dataTable.Columns.Add("fin");
 
+            this.componentes.ForEach(componente => {
+                int componenteIndex = this.componentes.IndexOf(componente);
+
+                String tipo = "";
+                if (componente.Tipo ==  1) {
+                    tipo = "Recta";
+                }
+                if (componente.Tipo == 2) {
+                    tipo = "Curva";
+                }
+
+                String sentidoDeLaCurva = "";
+                if (componente.direccion.Equals(EjeTrazado.sentidoCurva.Horario)) {
+                    sentidoDeLaCurva = "Horario";
+                }
+                if (componente.direccion.Equals(EjeTrazado.sentidoCurva.Antihorario)) {
+                    sentidoDeLaCurva = "Antihorario";
+                }
+
+                dataTable.Rows.Add(componenteIndex, tipo, sentidoDeLaCurva, componente.xc, componente.yc, componente.azte, componente.azts, componente.azr, componente.radio,componente.ini, componente.fin);
+
+            });
 
             componentesInfoDataGridView.DataSource = dataTable;
         }

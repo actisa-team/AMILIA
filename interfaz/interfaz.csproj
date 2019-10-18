@@ -77,7 +77,6 @@
   <ItemGroup>
     <Compile Include="AplitopProperties.cs" />
     <Compile Include="CalculoPolilineaPreferencias.cs" />
-    <Compile Include="Class1.cs" />
     <Compile Include="ComponentesInfoPanel.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -131,6 +130,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EjeDeTrazado\EjeDeTrazado.csproj">
+      <Project>{caf3e36e-1a68-4a90-bd3f-0b039f70496a}</Project>
+      <Name>EjeDeTrazado</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Logica\Logica.csproj">
       <Project>{a6e7dde8-c736-4ce0-9891-6dd7542128d5}</Project>
       <Name>Logica</Name>
