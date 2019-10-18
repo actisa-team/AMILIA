@@ -15659,6 +15659,68 @@ namespace Logica {
         public void removeAllViabilidadListener() {
             this.viabilidadListeners.Clear();
         }
+        private void Viabilidad_Clusterizacion(int comp)
+        {
+            if (comp>1 && comp<componentes.Count-2)
+            {
+                /*
+                 * Para componentes anteiores
+                 */
+                if (componentes[comp-1].Tipo==1 && componentes[comp - 1].creacion!=2)
+                {
+                    if (componentes[comp].direccion!= componentes[comp-2].direccion)
+                    {
+                        double[] lr;
+                        lr = ajuste_recta(componentes[comp - 1].lista_puntos, 0).Item2;
+                        double dis = Distancia_P_R(lr[0], lr[1], componentes[comp].xc, componentes[comp].yc);
+
+                        double dis2 = Distancia_P_R(lr[0], lr[1], componentes[comp - 2].xc, componentes[comp - 2].yc);
+                        if (dis < componentes[comp].radio && dis2 > componentes[comp - 2].radio)
+                        {
+                            while (dis < componentes[comp].radio && dis2 > componentes[comp - 2].radio)
+                            {
+                                if (componentes[comp].direccion == EjeDeTrazado.puntosDelEje.EjeTrazado.sentidoCurva.Antihorario)
+                                {
+                                    Girar_Recta(comp - 1, 0.01, componentes[comp - 1].azr);
+                                }
+                                else
+                                {
+                                    Girar_Recta(comp - 1, -0.01, componentes[comp - 1].azr);
+                                }
+                            }
+                        }
+                    }
+                }
+                /*
+                 * Para componentes posteriores
+                 */
+                if (componentes[comp + 1].Tipo == 1 && componentes[comp + 1].creacion != 2)
+                {
+                    if (componentes[comp].direccion != componentes[comp + 2].direccion)
+                    {
+                        double[] lr;
+                        lr = ajuste_recta(componentes[comp + 1].lista_puntos, 0).Item2;
+                        double dis = Distancia_P_R(lr[0], lr[1], componentes[comp].xc, componentes[comp].yc);
+
+                        double dis2 = Distancia_P_R(lr[0], lr[1], componentes[comp + 2].xc, componentes[comp - 2].yc);
+                        if (dis < componentes[comp].radio && dis2 > componentes[comp + 2].radio)
+                        {
+                            while (dis < componentes[comp].radio && dis2 > componentes[comp + 2].radio)
+                            {
+                                if (componentes[comp].direccion == EjeDeTrazado.puntosDelEje.EjeTrazado.sentidoCurva.Antihorario)
+                                {
+                                    Girar_Recta(comp + 1, 0.01, componentes[comp + 1].azr);
+                                }
+                                else
+                                {
+                                    Girar_Recta(comp + 1, -0.01, componentes[comp + 1].azr);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
     }
 
