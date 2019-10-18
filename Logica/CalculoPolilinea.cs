@@ -960,20 +960,20 @@ namespace Logica {
               */
 
                 if ((az >= 0) && (az < 90)) {
-                    xx += 0.01;
-                    yy += 0.01;
-                    xx2 += 0.01;
-                    yy2 += 0.01;
+                    xx += 0.001;
+                    yy += 0.001;
+                    xx2 += 0.001;
+                    yy2 += 0.001;
                 } else if (az >= 90 && az < 180) {
-                    xx += 0.01;
-                    yy -= 0.01;
-                    xx2 += 0.01;
-                    yy2 -= 0.01;
+                    xx += 0.001;
+                    yy -= 0.001;
+                    xx2 += 0.001;
+                    yy2 -= 0.001;
                 } else if (az >= 180 && az < 270) {
-                    xx -= 0.01;
-                    yy -= 0.01;
-                    xx2 -= 0.01;
-                    yy2 -= 0.01;
+                    xx -= 0.001;
+                    yy -= 0.001;
+                    xx2 -= 0.001;
+                    yy2 -= 0.001;
                 } else {
                     xx -= 0.01;
                     yy += 0.01;
@@ -1630,7 +1630,7 @@ namespace Logica {
                 ViabilidadComponentesStatus viabilidadComponentesStatus = this.populateViabilidadComponentesStatus();
 
                 //Si hay algun componente conflictivo... caso 4,5,3,2,1
-                if (viabilidadComponentesStatus.ViabilidadComponentes.Any()) {     
+                if (viabilidadComponentesStatus.ViabilidadComponentes.Any()) {
                     ViabilidadComponente casoMasPrioritario = viabilidadComponentesStatus.ViabilidadComponentes.First();
                     int componenteIndex = this.Componentes.IndexOf(casoMasPrioritario.Componente);
 
@@ -1671,7 +1671,7 @@ namespace Logica {
                 }
 
                 whileItIndex++;
-                
+
             }
             return trazaViabilidadComponentes;
         }
@@ -8845,7 +8845,7 @@ namespace Logica {
                             for (int r = 1; r < min.Count; r++) {
                                 crear = true;
                                 for (int s = 0; s < componentes.Count; s++) {
-                                    if ((minimo_final[i][min[r]] >= componentes[s].ini && minimo_final[i][min[r]] <= componentes[s].fin)|| (maximo_final[i][min[r]] >= componentes[s].ini && maximo_final[i][min[r]] <= componentes[s].fin)) {
+                                    if ((minimo_final[i][min[r]] >= componentes[s].ini && minimo_final[i][min[r]] <= componentes[s].fin) || (maximo_final[i][min[r]] >= componentes[s].ini && maximo_final[i][min[r]] <= componentes[s].fin)) {
                                         crear = false;
                                     }
                                 }
@@ -12639,6 +12639,7 @@ namespace Logica {
             }
 
         }
+
         private void Casos_Solapes(List<double> azimuts, List<Point2d> Puntos_rectas, double gran_r) {
             int conta_az = 0;
             int conta_puntos = 0;
@@ -12687,7 +12688,12 @@ namespace Logica {
                             }
                             if (az_temp_1 > az_temp_2) {
                                 if (i < componentes.Count - 2 && i > 1) {
-                                    componentes[i].v_s_c = true;
+                                    if (az_temp_1 > 0 && az_temp_2 == -1) {
+
+                                    } else {
+                                        componentes[i].v_s_c = true;
+                                    }
+
                                 }
 
                                 if (i == 1) {
@@ -12711,7 +12717,11 @@ namespace Logica {
                             } else {
                                 if ((az_temp_1 + 0.2) > az_temp_2) {
                                     if (i < componentes.Count - 2 && i > 1) {
-                                        componentes[i].v_s_c = true;
+                                        if (az_temp_1 > 0 && az_temp_2 == -1) {
+
+                                        } else {
+                                            componentes[i].v_s_c = true;
+                                        }
                                     }
 
                                     if (i == 1) {
@@ -12748,7 +12758,11 @@ namespace Logica {
                             } else {
                                 if (az_temp_1 < az_temp_2) {
                                     if (i < componentes.Count - 2 && i > 1) {
-                                        componentes[i].v_s_c = true;
+                                        if (az_temp_1 > 0 && az_temp_2 == -1) {
+
+                                        } else {
+                                            componentes[i].v_s_c = true;
+                                        }
                                     }
                                     if (i == 1) {
                                         componentes[i].v_p_r = true;
@@ -12776,7 +12790,11 @@ namespace Logica {
 
                                     } else {
                                         if (i < componentes.Count - 2 && i > 1) {
-                                            componentes[i].v_s_c = true;
+                                            if (az_temp_1 > 0 && az_temp_2 == -1) {
+
+                                            } else {
+                                                componentes[i].v_s_c = true;
+                                            }
                                         }
                                         if (i == 1) {
                                             componentes[i].v_p_r = true;
@@ -12816,6 +12834,8 @@ namespace Logica {
                 }
             }
         }
+
+
         private void Crear_Casos() {
             for (int i = 0; i < componentes.Count; i++) {
                 if (componentes[i].v_p_c == true) {
@@ -14941,45 +14961,35 @@ namespace Logica {
             Dibujar_entidad(i);
         }
 
-        private bool Resolver_caso3(int i)
-        {
-            if (componentes[i].Tipo == 1)
-            {
+        private bool Resolver_caso3(int i) {
+            if (componentes[i].Tipo == 1) {
                 Girar_Recta(i, Girar_acercar_C_C(componentes[i].lista_puntos, componentes[i - 1], componentes[i].azr), componentes[i].azr);
                 double[] l = new double[2];
                 l = ajuste_recta(componentes[i].lista_puntos, 0).Item2;
                 double d1 = Distancia_P_R(l[0], l[1], componentes[i - 1].xc, componentes[i - 1].yc);
                 double d2 = Distancia_P_R(l[0], l[1], componentes[i + 1].xc, componentes[i + 1].yc);
                 if (d1 < componentes[i - 1].radio ||
-                    d2 < componentes[i + 1].radio)
-                {
-                    if (componentes[i].creacion == 2)
-                    {
+                    d2 < componentes[i + 1].radio) {
+                    if (componentes[i].creacion == 2) {
                         componentes.RemoveAt(i);
-                        if (componentes[i].radio > componentes[i - 1].radio)
-                        {
+                        if (componentes[i].radio > componentes[i - 1].radio) {
                             List<Punto> lista = new List<Punto>();
-                            for (int r = componentes[i - 1].ini; r <= componentes[i].fin; r++)
-                            {
+                            for (int r = componentes[i - 1].ini; r <= componentes[i].fin; r++) {
                                 lista.Add(new Punto(polilinea[r].p));
                             }
                             Tuple<double, double, double> Curva = this.Clusterizacion(lista);
                             Crear_Curva(componentes[i - 1].ini, componentes[i].fin, Curva.Item1, Curva.Item2, Curva.Item3, i - 1);
                             componentes.RemoveAt(i);
                             componentes.RemoveAt(i);
-                            if (i < componentes.Count)
-                            {
-                                if (componentes[i].creacion == 2)
-                                {
+                            if (i < componentes.Count) {
+                                if (componentes[i].creacion == 2) {
                                     componentes.RemoveAt(i);
                                 }
                             }
 
                             componentes[0].caso6_e = true;
-                            if (i - 2 > 0)
-                            {
-                                if (componentes[i - 2].creacion == 2)
-                                {
+                            if (i - 2 > 0) {
+                                if (componentes[i - 2].creacion == 2) {
                                     componentes.RemoveAt(i - 2);
                                 }
                             }
@@ -14990,23 +15000,18 @@ namespace Logica {
 
                             i = i - 1;
                             //}
-                        }
-                        else
-                        {
+                        } else {
 
                             List<Punto> lista = new List<Punto>();
-                            for (int r = componentes[i - 1].ini; r <= componentes[i].fin; r++)
-                            {
+                            for (int r = componentes[i - 1].ini; r <= componentes[i].fin; r++) {
                                 lista.Add(new Punto(polilinea[r].p));
                             }
                             Tuple<double, double, double> Curva = this.Clusterizacion(lista);
                             Crear_Curva(componentes[i - 1].ini, componentes[i].fin, Curva.Item1, Curva.Item2, Curva.Item3, i - 1);
                             componentes.RemoveAt(i);
                             componentes.RemoveAt(i);
-                            if (i - 1 > 1)
-                            {
-                                if (componentes[i - 2].creacion == 2)
-                                {
+                            if (i - 1 > 1) {
+                                if (componentes[i - 2].creacion == 2) {
                                     componentes.RemoveAt(i - 2);
                                 }
                             }
@@ -15020,49 +15025,32 @@ namespace Logica {
                             i = i - 1;
                             // }
                         }
-                    }
-                    else
-                    {
+                    } else {
                         componentes.RemoveAt(i);
-                        if (Distancia(new Point2d(componentes[i - 1].xc, componentes[i - 1].yc), new Point2d(componentes[i].xc, componentes[i].yc)) < (componentes[i - 1].radio + componentes[i].radio))
-                        {
-                            while (Distancia(new Point2d(componentes[i - 1].xc, componentes[i - 1].yc), new Point2d(componentes[i].xc, componentes[i].yc)) < (componentes[i - 1].radio + componentes[i].radio))
-                            {
-                                if (i - 1 == 0)
-                                {
-                                    if (i == componentes.Count - 1)
-                                    {
+                        if (Distancia(new Point2d(componentes[i - 1].xc, componentes[i - 1].yc), new Point2d(componentes[i].xc, componentes[i].yc)) < (componentes[i - 1].radio + componentes[i].radio)) {
+                            while (Distancia(new Point2d(componentes[i - 1].xc, componentes[i - 1].yc), new Point2d(componentes[i].xc, componentes[i].yc)) < (componentes[i - 1].radio + componentes[i].radio)) {
+                                if (i - 1 == 0) {
+                                    if (i == componentes.Count - 1) {
                                         Reducir_radio_inicial(i - 1);
                                         Reducir_radio_final(i);
-                                    }
-                                    else
-                                    {
+                                    } else {
                                         Reducir_radio(i);
                                     }
-                                }
-                                else if (i == componentes.Count - 1)
-                                {
-                                    if (i - 1 == 0)
-                                    {
+                                } else if (i == componentes.Count - 1) {
+                                    if (i - 1 == 0) {
                                         Reducir_radio_inicial(i - 1);
                                         Reducir_radio_final(i);
-                                    }
-                                    else
-                                    {
+                                    } else {
                                         Reducir_radio(i - 1);
                                     }
-                                }
-                                else
-                                {
+                                } else {
                                     Reducir_radio(i);
                                     Reducir_radio(i - 1);
                                 }
                                 Rellenar_Recta(componentes[i]);
                                 Rellenar_Recta(componentes[i - 1]);
                             }
-                        }
-                        else
-                        {
+                        } else {
                             Crear_RECT(i - 1);//crea una recta entre 2 circunferencias que no se cortan
                         }
 
@@ -15078,55 +15066,40 @@ namespace Logica {
                 return false;
 
             }
-            if (i < componentes.Count - 2)
-            {
-                if (componentes[i].Tipo == 2 && componentes[i - 1].Tipo == 1 && componentes[i + 1].Tipo == 1 && componentes[i + 2].Tipo == 2)
-                {
-                    if (componentes[i - 1].creacion != 2)
-                    {
+            if (i < componentes.Count - 2) {
+                if (componentes[i].Tipo == 2 && componentes[i - 1].Tipo == 1 && componentes[i + 1].Tipo == 1 && componentes[i + 2].Tipo == 2) {
+                    if (componentes[i - 1].creacion != 2) {
                         Girar_Recta(i - 1, Girar_acercar_C_C(componentes[i - 1].lista_puntos, componentes[i - 2], componentes[i - 1].azr), componentes[i - 1].azr);
                         double[] l = new double[2];
                         l = ajuste_recta(componentes[i - 1].lista_puntos, 0).Item2;
-                        if (i > 1)
-                        {
+                        if (i > 1) {
                             if (Distancia_P_R(l[0], l[1], componentes[i - 2].xc, componentes[i - 2].yc) < componentes[i - 2].radio ||
-                                Distancia_P_R(l[0], l[1], componentes[i].xc, componentes[i].yc) < componentes[i].radio)
-                            {
+                                Distancia_P_R(l[0], l[1], componentes[i].xc, componentes[i].yc) < componentes[i].radio) {
                                 componentes.RemoveAt(i - 1);
                                 Crear_RECT(i - 2);//crea una recta entre 2 circunferencias que no se cortan
                                 Rellenar_Recta(componentes[i - 1]);
                             }
-                        }
-                        else
-                        {
-                            if (Distancia_P_R(l[0], l[1], componentes[i].xc, componentes[i].yc) < componentes[i].radio)
-                            {
+                        } else {
+                            if (Distancia_P_R(l[0], l[1], componentes[i].xc, componentes[i].yc) < componentes[i].radio) {
                                 componentes.RemoveAt(i - 1);
                             }
                         }
                         componentes[i].caso3_e = true;
                         return false;
 
-                    }
-                    else if (componentes[i + 1].creacion != 2)
-                    {
+                    } else if (componentes[i + 1].creacion != 2) {
                         Girar_Recta(i + 1, Girar_acercar_C_C(componentes[i + 1].lista_puntos, componentes[i], componentes[i + 1].azr), componentes[i + 1].azr);
                         double[] l = new double[2];
                         l = ajuste_recta(componentes[i + 1].lista_puntos, 0).Item2;
-                        if (i > 1)
-                        {
+                        if (i > 1) {
                             if (Distancia_P_R(l[0], l[1], componentes[i].xc, componentes[i].yc) < componentes[i].radio ||
-                                Distancia_P_R(l[0], l[1], componentes[i + 2].xc, componentes[i + 2].yc) < componentes[i + 2].radio)
-                            {
+                                Distancia_P_R(l[0], l[1], componentes[i + 2].xc, componentes[i + 2].yc) < componentes[i + 2].radio) {
                                 componentes.RemoveAt(i + 1);
                                 Crear_RECT(i);//crea una recta entre 2 circunferencias que no se cortan
                                 Rellenar_Recta(componentes[i + 1]);
                             }
-                        }
-                        else
-                        {
-                            if (Distancia_P_R(l[0], l[1], componentes[i].xc, componentes[i].yc) < componentes[i].radio)
-                            {
+                        } else {
+                            if (Distancia_P_R(l[0], l[1], componentes[i].xc, componentes[i].yc) < componentes[i].radio) {
                                 componentes.RemoveAt(i + 1);
                             }
                         }
@@ -15135,52 +15108,38 @@ namespace Logica {
                         return false;
 
                     }
-                }
-                else if (componentes[i].Tipo == 2 && componentes[i - 1].Tipo == 1)
-                {
+                } else if (componentes[i].Tipo == 2 && componentes[i - 1].Tipo == 1) {
                     Girar_Recta(i - 1, Girar_acercar_C_C(componentes[i - 1].lista_puntos, componentes[i - 2], componentes[i - 1].azr), componentes[i - 1].azr);
                     double[] l = new double[2];
                     l = ajuste_recta(componentes[i - 1].lista_puntos, 0).Item2;
-                    if (i > 1)
-                    {
+                    if (i > 1) {
                         if (Distancia_P_R(l[0], l[1], componentes[i - 2].xc, componentes[i - 2].yc) < componentes[i - 2].radio ||
-                            Distancia_P_R(l[0], l[1], componentes[i].xc, componentes[i].yc) < componentes[i].radio)
-                        {
+                            Distancia_P_R(l[0], l[1], componentes[i].xc, componentes[i].yc) < componentes[i].radio) {
                             componentes.RemoveAt(i - 1);
                             Crear_RECT(i - 2);//crea una recta entre 2 circunferencias que no se cortan
                             Rellenar_Recta(componentes[i - 1]);
                         }
-                    }
-                    else
-                    {
-                        if (Distancia_P_R(l[0], l[1], componentes[i].xc, componentes[i].yc) < componentes[i].radio)
-                        {
+                    } else {
+                        if (Distancia_P_R(l[0], l[1], componentes[i].xc, componentes[i].yc) < componentes[i].radio) {
                             componentes.RemoveAt(i - 1);
                         }
                     }
                     componentes[i].caso3_e = true;
                     return false;
                 }
-            }
-            else if (componentes[i].Tipo == 2 && componentes[i - 1].Tipo == 1)
-            {
+            } else if (componentes[i].Tipo == 2 && componentes[i - 1].Tipo == 1) {
                 Girar_Recta(i - 1, Girar_acercar_C_C(componentes[i - 1].lista_puntos, componentes[i - 2], componentes[i - 1].azr), componentes[i - 1].azr);
                 double[] l = new double[2];
                 l = ajuste_recta(componentes[i - 1].lista_puntos, 0).Item2;
-                if (i > 1)
-                {
+                if (i > 1) {
                     if (Distancia_P_R(l[0], l[1], componentes[i - 2].xc, componentes[i - 2].yc) < componentes[i - 2].radio ||
-                        Distancia_P_R(l[0], l[1], componentes[i].xc, componentes[i].yc) < componentes[i].radio)
-                    {
+                        Distancia_P_R(l[0], l[1], componentes[i].xc, componentes[i].yc) < componentes[i].radio) {
                         componentes.RemoveAt(i - 1);
                         Crear_RECT(i - 2);//crea una recta entre 2 circunferencias que no se cortan
                         Rellenar_Recta(componentes[i - 1]);
                     }
-                }
-                else
-                {
-                    if (Distancia_P_R(l[0], l[1], componentes[i].xc, componentes[i].yc) < componentes[i].radio)
-                    {
+                } else {
+                    if (Distancia_P_R(l[0], l[1], componentes[i].xc, componentes[i].yc) < componentes[i].radio) {
                         componentes.RemoveAt(i - 1);
                     }
                 }
@@ -15189,18 +15148,13 @@ namespace Logica {
             }
             return true;
         }
-        private bool Resolver_caso6(int i)
-        {
-            if (componentes[i].Tipo == 2 && componentes[i + 1].Tipo == 2)
-            {
-                if (componentes[i].radio > componentes[i + 1].radio)
-                {
+        private bool Resolver_caso6(int i) {
+            if (componentes[i].Tipo == 2 && componentes[i + 1].Tipo == 2) {
+                if (componentes[i].radio > componentes[i + 1].radio) {
                     //caso en el que una curva esta dentro de otra
-                    if ((componentes[i + 1].radio + Distancia(new Point2d(componentes[i].xc, componentes[i].yc), new Point2d(componentes[i + 1].xc, componentes[i + 1].yc))) < componentes[i].radio)
-                    {
+                    if ((componentes[i + 1].radio + Distancia(new Point2d(componentes[i].xc, componentes[i].yc), new Point2d(componentes[i + 1].xc, componentes[i + 1].yc))) < componentes[i].radio) {
                         List<Punto> lista = new List<Punto>();
-                        for (int r = componentes[i].ini; r <= componentes[i + 1].fin; r++)
-                        {
+                        for (int r = componentes[i].ini; r <= componentes[i + 1].fin; r++) {
                             lista.Add(new Punto(polilinea[r].p));
                         }
                         Tuple<double, double, double> Curva = this.Clusterizacion(lista);
@@ -15208,26 +15162,19 @@ namespace Logica {
                         componentes.RemoveAt(i + 1);
                         componentes.RemoveAt(i + 1);
                         componentes[i].caso6_e = true;
-                        if (i > 1)
-                        {
-                            if (componentes[i - 1].creacion == 2)
-                            {
+                        if (i > 1) {
+                            if (componentes[i - 1].creacion == 2) {
                                 componentes.RemoveAt(i - 1);
                             }
                         }
                         return false;
                         i = i - 1;
                         //}
-                    }
-                    else
-                    {
-                        if (componentes[i].direccion == componentes[i + 1].direccion)
-                        {
+                    } else {
+                        if (componentes[i].direccion == componentes[i + 1].direccion) {
                             Crear_RECM(i);
                             componentes[i].caso6_e = true;
-                        }
-                        else
-                        {
+                        } else {
                             Crear_RECT(i);
                             componentes[i].caso6_e = true;
                         }
@@ -15236,40 +15183,30 @@ namespace Logica {
                     }
 
 
-                }
-                else
-                {
+                } else {
                     //caso en el que una curva esta dentro de otra
-                    if ((componentes[i].radio + Distancia(new Point2d(componentes[i].xc, componentes[i].yc), new Point2d(componentes[i + 1].xc, componentes[i + 1].yc))) < componentes[i + 1].radio)
-                    {
+                    if ((componentes[i].radio + Distancia(new Point2d(componentes[i].xc, componentes[i].yc), new Point2d(componentes[i + 1].xc, componentes[i + 1].yc))) < componentes[i + 1].radio) {
 
                         List<Punto> lista = new List<Punto>();
-                        for (int r = componentes[i].ini; r <= componentes[i + 1].fin; r++)
-                        {
+                        for (int r = componentes[i].ini; r <= componentes[i + 1].fin; r++) {
                             lista.Add(new Punto(polilinea[r].p));
                         }
                         Tuple<double, double, double> Curva = this.Clusterizacion(lista);
                         Crear_Curva(componentes[i].ini, componentes[i + 1].fin, Curva.Item1, Curva.Item2, Curva.Item3, i);
                         componentes.RemoveAt(i + 1);
                         componentes.RemoveAt(i + 1);
-                        if (componentes[i - 1].creacion == 2)
-                        {
+                        if (componentes[i - 1].creacion == 2) {
                             componentes.RemoveAt(i - 1);
                         }
                         componentes[i - 1].caso6_e = true;
                         return false;
                         i = i - 1;
                         //}
-                    }
-                    else
-                    {
-                        if (componentes[i].direccion == componentes[i + 1].direccion)
-                        {
+                    } else {
+                        if (componentes[i].direccion == componentes[i + 1].direccion) {
                             Crear_RECM(i);
                             componentes[i].caso6_e = true;
-                        }
-                        else
-                        {
+                        } else {
                             Crear_RECT(i);
                             componentes[i].caso6_e = true;
                         }
@@ -15279,18 +15216,14 @@ namespace Logica {
             }
             return true;
         }
-        private bool Resolver_caso7(int i)
-        {
-            if (componentes[i].Tipo == 2 && componentes[i - 1].Tipo == 1)
-            {
-                if (componentes[i - 1].creacion != 1 && componentes[i - 1].creacion != 2)
-                {
+        private bool Resolver_caso7(int i) {
+            if (componentes[i].Tipo == 2 && componentes[i - 1].Tipo == 1) {
+                if (componentes[i - 1].creacion != 1 && componentes[i - 1].creacion != 2) {
                     Girar_Recta(i - 1, Girar_acercar_C_C(componentes[i - 1].lista_puntos, componentes[i], componentes[i - 1].azr), componentes[i - 1].azr);
                     double[] l = new double[2];
                     l = ajuste_recta(componentes[i].lista_puntos, 0).Item2;
                     if (Distancia_P_R(l[0], l[1], componentes[i - 2].xc, componentes[i - 2].yc) < componentes[i - 2].radio ||
-                       Distancia_P_R(l[0], l[1], componentes[i].xc, componentes[i].yc) < componentes[i].radio)
-                    {
+                       Distancia_P_R(l[0], l[1], componentes[i].xc, componentes[i].yc) < componentes[i].radio) {
                         componentes.RemoveAt(i - 1);
                         Crear_RECT(i - 2);//crea una recta entre 2 circunferencias que no se cortan
                         Rellenar_Recta(componentes[i - 1]);
@@ -15299,14 +15232,11 @@ namespace Logica {
                     //Dibujar_entidad(i);
                     componentes[i].caso7_e = true;
                     return false;
-                }
-                else
-                {
+                } else {
                     Girar_Recta(i + 1, Girar_acercar_C_C(componentes[i + 1].lista_puntos, componentes[i], componentes[i + 1].azr), componentes[i + 1].azr);
                     double[] l = new double[2];
                     l = ajuste_recta(componentes[i + 1].lista_puntos, 0).Item2;
-                    if (Distancia_P_R(l[0], l[1], componentes[i].xc, componentes[i].yc) < componentes[i].radio)
-                    {
+                    if (Distancia_P_R(l[0], l[1], componentes[i].xc, componentes[i].yc) < componentes[i].radio) {
                         //hay que mirar que se hace en el caso de que no funcione
                     }
                     Rellenar_Recta(componentes[i + 1]);
@@ -15318,15 +15248,13 @@ namespace Logica {
             return true;
         }
 
-        public void Crear_Trazado_Error(double gran_r)
-        {
+        public void Crear_Trazado_Error(double gran_r) {
             this.Reiniciar_casos_solapes();
             this.Rellenar_Componentes();
             int intermedias = 1;
             bool curva_gran_radio = false;
             //primera clotoide
-            if (componentes.Count == 2)
-            {
+            if (componentes.Count == 2) {
                 if (componentes[0].Tipo == 1 && componentes[1].Tipo == 2)//si es recta--curva
                 {
 
@@ -15338,39 +15266,27 @@ namespace Logica {
                         cont++;
                         EjeDeTrazado.componentes.Clotoide Clo = Recta_Curva(componentes[0], componentes[1], 1);
 
-                        if (Clo.getPuntoEntrada == Clo.getPuntoSalida || double.IsNaN(Clo.getQe()))
-                        {
-                            if (componentes[1].direccion == EjeTrazado.sentidoCurva.Antihorario)
-                            {
+                        if (Clo.getPuntoEntrada == Clo.getPuntoSalida || double.IsNaN(Clo.getQe())) {
+                            if (componentes[1].direccion == EjeTrazado.sentidoCurva.Antihorario) {
                                 //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
                                 Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
-                            }
-                            else
-                            {
+                            } else {
                                 //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
                                 Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
                             }
                             //Dibujar_entidad(0);
 
-                        }
-                        else
-                        {
+                        } else {
                             if ((componentes[0].lista_puntos[0].p.X < componentes[0].lista_puntos[1].p.X && componentes[0].lista_puntos[0].p.X < Clo.getPointAtDist(0)[0]) ||
-                                (componentes[0].lista_puntos[0].p.X > componentes[0].lista_puntos[1].p.X && componentes[0].lista_puntos[0].p.X > Clo.getPointAtDist(0)[0]))
-                            {
+                                (componentes[0].lista_puntos[0].p.X > componentes[0].lista_puntos[1].p.X && componentes[0].lista_puntos[0].p.X > Clo.getPointAtDist(0)[0])) {
                                 Dibujar_Clotoide(Clo);
                                 break;
-                            }
-                            else
-                            {
-                                if (componentes[1].direccion == EjeTrazado.sentidoCurva.Antihorario)
-                                {
+                            } else {
+                                if (componentes[1].direccion == EjeTrazado.sentidoCurva.Antihorario) {
                                     //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
                                     Girar_Recta(0, -0.01, componentes[0].azr);
 
-                                }
-                                else
-                                {
+                                } else {
                                     //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
                                     Girar_Recta(0, 0.01, componentes[0].azr);
                                 }
@@ -15378,9 +15294,8 @@ namespace Logica {
                             }
                         }
                     }
-                }
-                else if (componentes[0].Tipo == 2 && componentes[1].Tipo == 1)//curva
-                {
+                } else if (componentes[0].Tipo == 2 && componentes[1].Tipo == 1)//curva
+                  {
                     int cont = 0;
                     EjeDeTrazado.componentes.Clotoide Clo = null;
                     while (cont < 1000)//el 1000 se pone para las comprobaciones
@@ -15390,38 +15305,26 @@ namespace Logica {
                         cont++;
                         Clo = Curva_Recta(componentes[0], componentes[1], 1);
 
-                        if (Clo.getPuntoEntrada == Clo.getPuntoSalida || double.IsNaN(Clo.getQe()))
-                        {
-                            if (componentes[0].direccion == EjeTrazado.sentidoCurva.Antihorario)
-                            {
+                        if (Clo.getPuntoEntrada == Clo.getPuntoSalida || double.IsNaN(Clo.getQe())) {
+                            if (componentes[0].direccion == EjeTrazado.sentidoCurva.Antihorario) {
                                 //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
                                 Girar_Recta(1, Girar_acercar(componentes[1].lista_puntos, componentes[0], componentes[1].azr), componentes[1].azr);
-                            }
-                            else
-                            {
+                            } else {
                                 //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
                                 Girar_Recta(1, Girar_acercar(componentes[1].lista_puntos, componentes[0], componentes[1].azr), componentes[1].azr);
                             }
                             //Dibujar_entidad(0);
 
-                        }
-                        else
-                        {
+                        } else {
                             if ((componentes[1].lista_puntos[1].p.X < componentes[1].lista_puntos[0].p.X && componentes[1].lista_puntos[1].p.X < Clo.getPointAtDist(0)[0]) ||
-                                (componentes[1].lista_puntos[1].p.X > componentes[1].lista_puntos[0].p.X && componentes[1].lista_puntos[1].p.X > Clo.getPointAtDist(0)[0]))
-                            {
+                                (componentes[1].lista_puntos[1].p.X > componentes[1].lista_puntos[0].p.X && componentes[1].lista_puntos[1].p.X > Clo.getPointAtDist(0)[0])) {
                                 break;
-                            }
-                            else
-                            {
-                                if (componentes[0].direccion == EjeTrazado.sentidoCurva.Antihorario)
-                                {
+                            } else {
+                                if (componentes[0].direccion == EjeTrazado.sentidoCurva.Antihorario) {
                                     //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
                                     Girar_Recta(1, -0.01, componentes[1].azr);
 
-                                }
-                                else
-                                {
+                                } else {
                                     //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
                                     Girar_Recta(1, 0.01, componentes[1].azr);
                                 }
@@ -15429,39 +15332,29 @@ namespace Logica {
                             }
                         }
                     }
-                    if (Clo!=null)
-                    {
+                    if (Clo != null) {
                         Dibujar_Clotoide(Clo);
                     }
-                    
 
-                }
-                else//curva--curva
-                {
+
+                } else//curva--curva
+                  {
                     Rellenar_Curva(componentes[0]);
                     Rellenar_Curva(componentes[1]);
                     EjeDeTrazado.componentes.Clotoide Clo = Curva_Curva(componentes[0], componentes[1]);
 
-                    if (Clo == null)
-                    {
+                    if (Clo == null) {
                         componentes[0].v_a_p = true;
-                    }
-                    else
-                    {
-                        if (Comprobar(Clo))
-                        {
+                    } else {
+                        if (Comprobar(Clo)) {
                             Dibujar_Clotoide(Clo);
-                            
-                        }
-                        else
-                        {
+
+                        } else {
                             componentes[0].v_a_p = true;
                         }
                     }
                 }
-            }
-            else
-            {
+            } else {
                 if (componentes[0].Tipo == 1 && componentes[1].Tipo == 2)//si es recta--curva
                 {
 
@@ -15473,41 +15366,29 @@ namespace Logica {
                         Rellenar_Curva(componentes[1]);
                         cont++;
                         Clo = Recta_Curva(componentes[0], componentes[1], 1);
-                        
-                        if (Clo.getPuntoEntrada == Clo.getPuntoSalida || double.IsNaN(Clo.getQe()))
-                        {
-                            if (componentes[1].direccion == EjeTrazado.sentidoCurva.Antihorario)
-                            {
+
+                        if (Clo.getPuntoEntrada == Clo.getPuntoSalida || double.IsNaN(Clo.getQe())) {
+                            if (componentes[1].direccion == EjeTrazado.sentidoCurva.Antihorario) {
                                 //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
                                 Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
-                            }
-                            else
-                            {
+                            } else {
                                 //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
                                 Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
                             }
                             //Dibujar_entidad(0);
 
-                        }
-                        else
-                        {
+                        } else {
                             if ((componentes[0].lista_puntos[0].p.X < componentes[0].lista_puntos[1].p.X && componentes[0].lista_puntos[0].p.X < Clo.getPointAtDist(0)[0]) ||
-                                (componentes[0].lista_puntos[0].p.X > componentes[0].lista_puntos[1].p.X && componentes[0].lista_puntos[0].p.X > Clo.getPointAtDist(0)[0]))
-                            {
+                                (componentes[0].lista_puntos[0].p.X > componentes[0].lista_puntos[1].p.X && componentes[0].lista_puntos[0].p.X > Clo.getPointAtDist(0)[0])) {
                                 //Dibujar_Clotoide(Clo);
-                                
+
                                 break;
-                            }
-                            else
-                            {
-                                if (componentes[1].direccion == EjeTrazado.sentidoCurva.Antihorario)
-                                {
+                            } else {
+                                if (componentes[1].direccion == EjeTrazado.sentidoCurva.Antihorario) {
                                     //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
                                     Girar_Recta(0, -0.01, componentes[0].azr);
 
-                                }
-                                else
-                                {
+                                } else {
                                     //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
                                     Girar_Recta(0, 0.01, componentes[0].azr);
                                 }
@@ -15515,52 +15396,37 @@ namespace Logica {
                             }
                         }
                     }
-                    if (Clo != null)
-                    {
+                    if (Clo != null) {
                         Dibujar_Clotoide(Clo);
                     }
-                }
-                else if (componentes[0].Tipo == 2 && componentes[1].Tipo == 1 && componentes[2].Tipo == 2)//curva--recta--curva
-                {
+                } else if (componentes[0].Tipo == 2 && componentes[1].Tipo == 1 && componentes[2].Tipo == 2)//curva--recta--curva
+                  {
                     EjeDeTrazado.componentes.Clotoide[] Clotoides = new EjeDeTrazado.componentes.Clotoide[2];
                     Clotoides = Curva_Recta_Curva(componentes[0], componentes[1], componentes[2]);
-                    if (Clotoides[0] == null)
-                    {
+                    if (Clotoides[0] == null) {
                         componentes[0].v_m_g = true;
-                    }
-                    else
-                    {
+                    } else {
                         Dibujar_Clotoide(Clotoides[0]);
                     }
-                    if (Clotoides[1] == null)
-                    {
+                    if (Clotoides[1] == null) {
                         componentes[1].v_m_g = true;
-                    }
-                    else
-                    {
+                    } else {
                         Dibujar_Clotoide(Clotoides[1]);
                     }
                     intermedias = 2;
-                }
-                else//curva--curva
-                {
+                } else//curva--curva
+                  {
                     Rellenar_Curva(componentes[0]);
                     Rellenar_Curva(componentes[1]);
                     EjeDeTrazado.componentes.Clotoide Clo = Curva_Curva(componentes[0], componentes[1]);
 
-                    if (Clo == null)
-                    {
+                    if (Clo == null) {
                         componentes[0].v_a_p = true;
-                    }
-                    else
-                    {
-                        if (Comprobar(Clo))
-                        {
+                    } else {
+                        if (Comprobar(Clo)) {
                             Dibujar_Clotoide(Clo);
 
-                        }
-                        else
-                        {
+                        } else {
                             componentes[0].v_a_p = true;
                         }
                     }
@@ -15568,8 +15434,7 @@ namespace Logica {
             }
 
             //ultima clotoide
-            if (componentes.Count > 3)
-            {
+            if (componentes.Count > 3) {
                 if (componentes[componentes.Count - 2].Tipo == 2 && componentes[componentes.Count - 1].Tipo == 1)//si es curva--recta
                 {
 
@@ -15581,44 +15446,31 @@ namespace Logica {
                         Rellenar_Curva(componentes[componentes.Count - 2]);
                         cont++;
                         Clo = Curva_Recta(componentes[componentes.Count - 2], componentes[componentes.Count - 1], 2);
-                        if (Clo == null)
-                        {
-                            if (componentes[componentes.Count - 2].direccion == EjeTrazado.sentidoCurva.Antihorario)
-                            {
+                        if (Clo == null) {
+                            if (componentes[componentes.Count - 2].direccion == EjeTrazado.sentidoCurva.Antihorario) {
+                                //Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
+                                Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
+
+                            } else {
                                 //Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
                                 Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
 
                             }
-                            else
-                            {
-                                //Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
-                                Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
-
-                            }
-                        }
-                        else
-                        {
-                            if (Clo.getPuntoEntrada == Clo.getPuntoSalida || double.IsNaN(Clo.getQe()))
-                            {
-                                if (componentes[componentes.Count - 2].direccion == EjeTrazado.sentidoCurva.Antihorario)
-                                {
+                        } else {
+                            if (Clo.getPuntoEntrada == Clo.getPuntoSalida || double.IsNaN(Clo.getQe())) {
+                                if (componentes[componentes.Count - 2].direccion == EjeTrazado.sentidoCurva.Antihorario) {
                                     //Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
                                     Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
 
-                                }
-                                else
-                                {
+                                } else {
                                     //Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
                                     Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
 
                                 }
                                 //Dibujar_entidad(componentes.Count - 1);
-                            }
-                            else
-                            {
+                            } else {
                                 if (((componentes[componentes.Count - 1].lista_puntos[0].p.X < componentes[componentes.Count - 1].lista_puntos[1].p.X) && (Clo.getPointAtDist(Clo.getPkFinal())[0] <= componentes[componentes.Count - 1].lista_puntos[1].p.X)) ||
-                                    ((componentes[componentes.Count - 1].lista_puntos[0].p.X > componentes[componentes.Count - 1].lista_puntos[1].p.X) && (Clo.getPointAtDist(Clo.getPkFinal())[0] >= componentes[componentes.Count - 1].lista_puntos[1].p.X)))
-                                {
+                                    ((componentes[componentes.Count - 1].lista_puntos[0].p.X > componentes[componentes.Count - 1].lista_puntos[1].p.X) && (Clo.getPointAtDist(Clo.getPkFinal())[0] >= componentes[componentes.Count - 1].lista_puntos[1].p.X))) {
                                     //Dibujar_Clotoide(Clo);
                                     break;
                                 }
@@ -15627,15 +15479,11 @@ namespace Logica {
                                     Dibujar_Clotoide(Clo);
                                     break;
                                 }*/
-                                else
-                                {
-                                    if (componentes[componentes.Count - 2].direccion == EjeTrazado.sentidoCurva.Antihorario)
-                                    {
+                                else {
+                                    if (componentes[componentes.Count - 2].direccion == EjeTrazado.sentidoCurva.Antihorario) {
                                         //Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
                                         Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
-                                    }
-                                    else
-                                    {
+                                    } else {
                                         //Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
                                         Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
                                     }
@@ -15646,60 +15494,43 @@ namespace Logica {
                         }
 
                     }
-                    if (Clo!=null)
-                    {
+                    if (Clo != null) {
                         Dibujar_Clotoide(Clo);
                     }
 
-                }
-                else if (componentes[componentes.Count - 1].Tipo == 2 && componentes[componentes.Count - 2].Tipo == 1)//curva--recta--curva
-                {
+                } else if (componentes[componentes.Count - 1].Tipo == 2 && componentes[componentes.Count - 2].Tipo == 1)//curva--recta--curva
+                  {
                     EjeDeTrazado.componentes.Clotoide[] Clotoides = new EjeDeTrazado.componentes.Clotoide[2];
                     Clotoides = Curva_Recta_Curva(componentes[componentes.Count - 3], componentes[componentes.Count - 2], componentes[componentes.Count - 1]);
                     //Dibujar_Clotoide(Clotoides[0]);
                     //Dibujar_Clotoide(Clotoides[1]);
-                    if (Clotoides[0] == null)
-                    {
+                    if (Clotoides[0] == null) {
                         componentes[componentes.Count - 3].v_m_g = true;
-                    }
-                    else
-                    {
+                    } else {
                         Dibujar_Clotoide(Clotoides[0]);
                     }
-                    if (Clotoides[1] == null)
-                    {
+                    if (Clotoides[1] == null) {
                         componentes[componentes.Count - 1].v_m_g = true;
-                    }
-                    else
-                    {
+                    } else {
                         Dibujar_Clotoide(Clotoides[1]);
                     }
-                }
-                else//curva--curva
-                {
+                } else//curva--curva
+                  {
                     Rellenar_Curva(componentes[componentes.Count - 2]);
                     Rellenar_Curva(componentes[componentes.Count - 1]);
                     EjeDeTrazado.componentes.Clotoide Clo = Curva_Curva(componentes[componentes.Count - 2], componentes[componentes.Count - 1]);
-                    if (Clo == null)
-                    {
+                    if (Clo == null) {
                         componentes[componentes.Count - 2].v_a_p = true;
-                    }
-                    else
-                    {
-                        if (Comprobar(Clo))
-                        {
+                    } else {
+                        if (Comprobar(Clo)) {
                             Dibujar_Clotoide(Clo);
-                        }
-                        else
-                        {
+                        } else {
                             componentes[componentes.Count - 2].v_a_p = true;
 
                         }
                     }
                 }
-            }
-            else if (componentes.Count == 3)
-            {
+            } else if (componentes.Count == 3) {
                 if (componentes[componentes.Count - 2].Tipo == 2 && componentes[componentes.Count - 1].Tipo == 1)//si es curva--recta
                 {
 
@@ -15711,27 +15542,20 @@ namespace Logica {
                         Rellenar_Curva(componentes[componentes.Count - 2]);
                         cont++;
                         Clo = Curva_Recta(componentes[componentes.Count - 2], componentes[componentes.Count - 1], 2);
-                        if (Clo.getPuntoEntrada == Clo.getPuntoSalida || double.IsNaN(Clo.getQe()))
-                        {
-                            if (componentes[componentes.Count - 2].direccion == EjeTrazado.sentidoCurva.Antihorario)
-                            {
+                        if (Clo.getPuntoEntrada == Clo.getPuntoSalida || double.IsNaN(Clo.getQe())) {
+                            if (componentes[componentes.Count - 2].direccion == EjeTrazado.sentidoCurva.Antihorario) {
                                 //Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
                                 Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
 
-                            }
-                            else
-                            {
+                            } else {
                                 //Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
                                 Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
 
                             }
                             //Dibujar_entidad(componentes.Count - 1);
-                        }
-                        else
-                        {
+                        } else {
                             if (((componentes[componentes.Count - 1].lista_puntos[0].p.X < componentes[componentes.Count - 1].lista_puntos[1].p.X) && (Clo.getPointAtDist(Clo.getPkFinal())[0] <= componentes[componentes.Count - 1].lista_puntos[1].p.X)) ||
-                                ((componentes[componentes.Count - 1].lista_puntos[0].p.X > componentes[componentes.Count - 1].lista_puntos[1].p.X) && (Clo.getPointAtDist(Clo.getPkFinal())[0] >= componentes[componentes.Count - 1].lista_puntos[1].p.X)))
-                            {
+                                ((componentes[componentes.Count - 1].lista_puntos[0].p.X > componentes[componentes.Count - 1].lista_puntos[1].p.X) && (Clo.getPointAtDist(Clo.getPkFinal())[0] >= componentes[componentes.Count - 1].lista_puntos[1].p.X))) {
                                 //Dibujar_Clotoide(Clo);
                                 break;
                             }
@@ -15740,15 +15564,11 @@ namespace Logica {
                                 Dibujar_Clotoide(Clo);
                                 break;
                             }*/
-                            else
-                            {
-                                if (componentes[componentes.Count - 2].direccion == EjeTrazado.sentidoCurva.Antihorario)
-                                {
+                            else {
+                                if (componentes[componentes.Count - 2].direccion == EjeTrazado.sentidoCurva.Antihorario) {
                                     //Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
                                     Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
-                                }
-                                else
-                                {
+                                } else {
                                     //Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
                                     Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
                                 }
@@ -15757,81 +15577,57 @@ namespace Logica {
 
                         }
                     }
-                    if (Clo!=null)
-                    {
+                    if (Clo != null) {
                         Dibujar_Clotoide(Clo);
                     }
 
-                }
-                else if (componentes[componentes.Count - 2].Tipo == 2 && componentes[componentes.Count - 1].Tipo == 2)//curva--curva
-                {
+                } else if (componentes[componentes.Count - 2].Tipo == 2 && componentes[componentes.Count - 1].Tipo == 2)//curva--curva
+                  {
                     Rellenar_Curva(componentes[componentes.Count - 2]);
                     Rellenar_Curva(componentes[componentes.Count - 1]);
                     EjeDeTrazado.componentes.Clotoide Clo = Curva_Curva(componentes[componentes.Count - 2], componentes[componentes.Count - 1]);
-                    if (Clo == null)
-                    {
+                    if (Clo == null) {
                         componentes[componentes.Count - 2].v_a_p = true;
-                    }
-                    else
-                    {
-                        if (Comprobar(Clo))
-                        {
+                    } else {
+                        if (Comprobar(Clo)) {
                             Dibujar_Clotoide(Clo);
-                        }
-                        else
-                        {
+                        } else {
                             componentes[componentes.Count - 2].v_a_p = true;
                         }
                     }
                 }
             }
 
-            if (componentes.Count > 3)
-            {
-                for (int i = intermedias; i < componentes.Count - 2; i++)
-                {
+            if (componentes.Count > 3) {
+                for (int i = intermedias; i < componentes.Count - 2; i++) {
                     //se busca si una recta esta entre 2 curvas para crear una clotoide de entrada y otra de salida
-                    if (componentes[i - 1].Tipo == 2 && componentes[i + 1].Tipo == 2 && componentes[i].Tipo == 1)
-                    {
-                        if (curva_gran_radio)
-                        {
-                            if (componentes[i].Tipo == 1 && componentes[i + 1].Tipo == 2)
-                            {
+                    if (componentes[i - 1].Tipo == 2 && componentes[i + 1].Tipo == 2 && componentes[i].Tipo == 1) {
+                        if (curva_gran_radio) {
+                            if (componentes[i].Tipo == 1 && componentes[i + 1].Tipo == 2) {
                                 curva_gran_radio = false;
                                 EjeDeTrazado.componentes.Clotoide Clo = Recta_Curva(componentes[i], componentes[i + 1], 1);
                                 double[] pr = Clo.getPointAtDist(0);
                                 Dibujar_Clotoide(Clo);
                             }
-                        }
-                        else
-                        {
-                            if (componentes[i].Tipo == 1 && componentes[i + 2].Tipo == 1 && (Math.Abs(componentes[i].azr - componentes[i + 2].azr) <= 2 || componentes[i + 1].radio > gran_r))
-                            {
+                        } else {
+                            if (componentes[i].Tipo == 1 && componentes[i + 2].Tipo == 1 && (Math.Abs(componentes[i].azr - componentes[i + 2].azr) <= 2 || componentes[i + 1].radio > gran_r)) {
                                 EjeDeTrazado.componentes.Clotoide Clo = Curva_Recta(componentes[i - 1], componentes[i], 2);
                                 Dibujar_Clotoide(Clo);
                                 EjeDeTrazado.componentes.Curva Curva = Curva_Gran_Radio(componentes[i], componentes[i + 1], componentes[i + 2]);
                                 curva_gran_radio = true;
-                            }
-                            else
-                            {
+                            } else {
                                 EjeDeTrazado.componentes.Clotoide[] Clotoides = new EjeDeTrazado.componentes.Clotoide[2];
                                 Clotoides = Curva_Recta_Curva(componentes[i - 1], componentes[i], componentes[i + 1]);
 
-                                if (Clotoides[0] == null)
-                                {
+                                if (Clotoides[0] == null) {
                                     componentes[i - 1].v_m_g = true;
-                                }
-                                else
-                                {
+                                } else {
 
                                     Dibujar_Clotoide(Clotoides[0]);
                                 }
-                                if (Clotoides[1] == null)
-                                {
+                                if (Clotoides[1] == null) {
                                     componentes[i + 1].v_m_g = true;
-                                }
-                                else
-                                {
+                                } else {
                                     Dibujar_Clotoide(Clotoides[1]);
                                 }
                             }
@@ -15840,23 +15636,16 @@ namespace Logica {
 
 
                     }
-                    if (componentes[i].Tipo == 2 && componentes[i + 1].Tipo == 2)
-                    {
+                    if (componentes[i].Tipo == 2 && componentes[i + 1].Tipo == 2) {
                         Rellenar_Curva(componentes[i]);
                         Rellenar_Curva(componentes[i + 1]);
                         EjeDeTrazado.componentes.Clotoide Clo = Curva_Curva(componentes[i], componentes[i + 1]);
-                        if (Clo == null)
-                        {
+                        if (Clo == null) {
                             componentes[i].v_a_p = true;
-                        }
-                        else
-                        {
-                            if (Comprobar(Clo))
-                            {
+                        } else {
+                            if (Comprobar(Clo)) {
                                 Dibujar_Clotoide(Clo);
-                            }
-                            else
-                            {
+                            } else {
                                 componentes[i].v_a_p = true;
                             }
                         }
