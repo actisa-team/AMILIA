@@ -8,6 +8,7 @@ namespace interfaz {
     using Logica;
     using System.Collections.Generic;
     using System.Linq;
+    using Logica.verificacion;
 
     public partial class principal : MaterialForm, IViabilidadListener, IViabilidadStatusInfoPanelListener {
         private CalculoPolilinea calculoPolilinea;
@@ -234,7 +235,9 @@ namespace interfaz {
                     calculoPolilinea.Comprobacion();
                     calculoPolilinea.Dibujar_entidades(2);
 
-                    ComponentesInfoPanel componentesInfoPanel = new ComponentesInfoPanel(calculoPolilinea.Componentes);
+                    VerificacionComponentesStatus verificacionComponentesStatus = calculoPolilinea.obtenerEstadoVerificacionDeComponentes();
+                    
+                    ComponentesInfoPanel componentesInfoPanel = new ComponentesInfoPanel(calculoPolilinea.Componentes, verificacionComponentesStatus);
                     componentesInfoPanel.Show();
 
                     this.pasosEjecutados = 1;

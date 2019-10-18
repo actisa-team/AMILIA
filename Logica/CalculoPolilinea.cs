@@ -16,6 +16,7 @@ namespace Logica {
     using tadLayShare.puntos;
     using EjeDeTrazado.puntosDelEje;
     using EjeDeTrazado.componentes;
+    using Logica.verificacion;
 
     public class CalculoPolilinea {
         public enum tipoCurva { cnp, cnpAnguloReducido, cp, c5000, c2500, noValorado };
@@ -15652,12 +15653,73 @@ namespace Logica {
             }
         }
 
-        public void verificarComponentes() {
-            //this.comprobar        
+        public bool isComponentesVerificados() {
+            bool hayDosRectasSeguidas = this.comprobarSiDosRectasSeguidas();
+            bool hayDosCurvasSeguidasConDistintoSentido = this.comprobarSiDosCurvasSeguidasYDistintoSentido();
+            return !hayDosRectasSeguidas || !hayDosCurvasSeguidasConDistintoSentido;
         }
 
-        private void comprobarSiDosRectasSeguidas() {
+        public VerificacionComponentesStatus obtenerEstadoVerificacionDeComponentes() {
+            VerificacionComponentesStatus verificacionComponentesStatus = new VerificacionComponentesStatus();
+            verificacionComponentesStatus.VerificacionDeCurvas = this.obtenerCurvasSeguidasyDistintoSentido();
+            verificacionComponentesStatus.VerificacionDeRectas = this.obtenerRectasSeguidas();
+            return verificacionComponentesStatus;
+        }
 
+        private bool comprobarSiDosCurvasSeguidasYDistintoSentido() {
+            List<ComponentesCurvasSeguidasYDistintoSentido> componentesCurvasSeguidasYDistintoSentidos = this.obtenerCurvasSeguidasyDistintoSentido();
+            return componentesCurvasSeguidasYDistintoSentidos.Any();  
+        }
+
+        private List<ComponentesCurvasSeguidasYDistintoSentido> obtenerCurvasSeguidasyDistintoSentido() {
+            List<Componente> componentesCurvas = this.filtrarComponentesPorTipo(2);
+            List<ComponentesCurvasSeguidasYDistintoSentido> componentesCurvasSeguidasYDistintoSentidos = new List<ComponentesCurvasSeguidasYDistintoSentido>();
+
+            componentesCurvas.ForEach(componente1 => {
+                int componenteCurvaIndex = this.componentes.IndexOf(componente1);
+                int siguienteComponenteIndex = componenteCurvaIndex + 1;
+                try {
+                    Componente componente2 = this.componentes.ElementAt(siguienteComponenteIndex);
+                    //si es del mismo tipo que el componente 1 y ademas la direccion es distinta
+                    if (componente1.Tipo == componente2.Tipo) {
+                        if (!componente1.direccion.Equals(componente2.direccion)) {
+                            //error de verificacon
+                            componentesCurvasSeguidasYDistintoSentidos.Add(new ComponentesCurvasSeguidasYDistintoSentido(componente1, componente2));
+                        }
+                    }
+                } catch { }     
+            });
+
+            return componentesCurvasSeguidasYDistintoSentidos;
+        }
+
+        private bool comprobarSiDosRectasSeguidas() {
+            List<ComponentesRectasSeguidas> rectasSeguidas = this.obtenerRectasSeguidas();
+            return rectasSeguidas.Any();
+        }
+
+        private List<ComponentesRectasSeguidas> obtenerRectasSeguidas() {
+            List<Componente> componentesRectas = this.filtrarComponentesPorTipo(1);
+            List<ComponentesRectasSeguidas> rectasSeguidas = new List<ComponentesRectasSeguidas>();
+
+            //Para cada componente recta encontrada se realiza la comprobacion de si el siguiente elemento
+            //tambien es una recta
+            componentesRectas.ForEach(componente1 =>
+            {
+                //indice del componente recta
+                int componenteRectaIndex = this.componentes.IndexOf(componente1);
+                //siguiente componente a la recta 
+                int siguienteComponenteIndex = componenteRectaIndex + 1;
+
+                try {
+                    Componente componente2 = this.componentes.ElementAt(siguienteComponenteIndex);
+                    if (componente1.Tipo == componente2.Tipo) {
+                        rectasSeguidas.Add(new ComponentesRectasSeguidas(componente1, componente2));
+                    }
+                } catch { } 
+            });
+
+            return rectasSeguidas;
         }
 
         private List<Componente> filtrarComponentesPorTipo(int tipo) {

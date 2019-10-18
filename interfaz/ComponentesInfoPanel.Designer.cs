@@ -26,7 +26,15 @@ namespace interfaz {
         /// </summary>
         private void InitializeComponent() {
             this.componentesInfoDataGridView = new System.Windows.Forms.DataGridView();
+            this.label1 = new System.Windows.Forms.Label();
+            this.errorValidationPanel = new System.Windows.Forms.Panel();
+            this.errorValidacionRectasLabel = new System.Windows.Forms.Label();
+            this.errorValidacionCurvasLabel = new System.Windows.Forms.Label();
+            this.successValidationPanel = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.componentesInfoDataGridView)).BeginInit();
+            this.errorValidationPanel.SuspendLayout();
+            this.successValidationPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // componentesInfoDataGridView
@@ -39,21 +47,95 @@ namespace interfaz {
             this.componentesInfoDataGridView.Size = new System.Drawing.Size(1266, 508);
             this.componentesInfoDataGridView.TabIndex = 0;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(13, 600);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(221, 13);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Estado de la verificación de los componentes";
+            // 
+            // errorValidationPanel
+            // 
+            this.errorValidationPanel.Controls.Add(this.errorValidacionRectasLabel);
+            this.errorValidationPanel.Controls.Add(this.errorValidacionCurvasLabel);
+            this.errorValidationPanel.Location = new System.Drawing.Point(16, 616);
+            this.errorValidationPanel.Name = "errorValidationPanel";
+            this.errorValidationPanel.Size = new System.Drawing.Size(372, 66);
+            this.errorValidationPanel.TabIndex = 2;
+            this.errorValidationPanel.Visible = false;
+            // 
+            // errorValidacionRectasLabel
+            // 
+            this.errorValidacionRectasLabel.AutoSize = true;
+            this.errorValidacionRectasLabel.ForeColor = System.Drawing.Color.Red;
+            this.errorValidacionRectasLabel.Location = new System.Drawing.Point(14, 35);
+            this.errorValidacionRectasLabel.Name = "errorValidacionRectasLabel";
+            this.errorValidacionRectasLabel.Size = new System.Drawing.Size(142, 13);
+            this.errorValidacionRectasLabel.TabIndex = 1;
+            this.errorValidacionRectasLabel.Text = "Error de validacion de rectas";
+            // 
+            // errorValidacionCurvasLabel
+            // 
+            this.errorValidacionCurvasLabel.AutoSize = true;
+            this.errorValidacionCurvasLabel.ForeColor = System.Drawing.Color.Red;
+            this.errorValidacionCurvasLabel.Location = new System.Drawing.Point(14, 12);
+            this.errorValidacionCurvasLabel.Name = "errorValidacionCurvasLabel";
+            this.errorValidacionCurvasLabel.Size = new System.Drawing.Size(145, 13);
+            this.errorValidacionCurvasLabel.TabIndex = 0;
+            this.errorValidacionCurvasLabel.Text = "Error de validacion de curvas";
+            // 
+            // successValidationPanel
+            // 
+            this.successValidationPanel.BackColor = System.Drawing.Color.White;
+            this.successValidationPanel.Controls.Add(this.label2);
+            this.successValidationPanel.Location = new System.Drawing.Point(16, 616);
+            this.successValidationPanel.Name = "successValidationPanel";
+            this.successValidationPanel.Size = new System.Drawing.Size(372, 66);
+            this.successValidationPanel.TabIndex = 3;
+            this.successValidationPanel.Visible = false;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.ForeColor = System.Drawing.Color.Green;
+            this.label2.Location = new System.Drawing.Point(18, 12);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(180, 13);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Validacion de componentes correcta";
+            // 
             // ComponentesInfoPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1290, 596);
+            this.ClientSize = new System.Drawing.Size(1290, 694);
+            this.Controls.Add(this.successValidationPanel);
+            this.Controls.Add(this.errorValidationPanel);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.componentesInfoDataGridView);
             this.Name = "ComponentesInfoPanel";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.componentesInfoDataGridView)).EndInit();
+            this.errorValidationPanel.ResumeLayout(false);
+            this.errorValidationPanel.PerformLayout();
+            this.successValidationPanel.ResumeLayout(false);
+            this.successValidationPanel.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.DataGridView componentesInfoDataGridView;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Panel errorValidationPanel;
+        private System.Windows.Forms.Panel successValidationPanel;
+        private System.Windows.Forms.Label errorValidacionRectasLabel;
+        private System.Windows.Forms.Label errorValidacionCurvasLabel;
+        private System.Windows.Forms.Label label2;
     }
 }

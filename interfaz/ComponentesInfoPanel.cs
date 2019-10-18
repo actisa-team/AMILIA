@@ -1,17 +1,41 @@
 ﻿using EjeDeTrazado.puntosDelEje;
 using Logica;
+using Logica.verificacion;
 using MaterialSkin.Controls;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 
 namespace interfaz {
     public partial class ComponentesInfoPanel : MaterialForm {
         private List<Componente> componentes;
-        public ComponentesInfoPanel(List<Componente> componentes) {
+        VerificacionComponentesStatus verificacionComponentesStatus;
+
+        public ComponentesInfoPanel(List<Componente> componentes, VerificacionComponentesStatus verificacionComponentesStatus) {
             InitializeComponent();
             this.componentes = componentes;
+            this.verificacionComponentesStatus = verificacionComponentesStatus;
             this.populateDataTable();
+            this.populateVerificacionComponentesStatus();
+        }
+
+        public void populateVerificacionComponentesStatus() {
+            if (this.verificacionComponentesStatus != null) {
+                if (!this.verificacionComponentesStatus.VerificacionDeCurvas.Any() && !this.verificacionComponentesStatus.VerificacionDeRectas.Any()) {
+                    this.showValidacionComponentesCorrecta();
+                } else {
+
+                }
+            }       
+        }
+
+        private void showValidacionComponentesCorrecta() {
+            this.successValidationPanel.Visible = true;
+        }
+
+        private void hideValidacionComponentesCorrecta() {
+            this.successValidationPanel.Visible = false;
         }
 
         public void populateDataTable() {
