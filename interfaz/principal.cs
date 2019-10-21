@@ -264,12 +264,12 @@ namespace interfaz {
                     List<ViabilidadComponentesStatus> trazaViabilidadComponentes = calculoPolilinea.viabilidad();
                     calculoPolilinea.Dibujar_entidades(3);
 
+                    this.pasosEjecutados = 2;
+                    this.paso2EjecutadoTextView.Visible = true;
+
                     //mostrar panel de la traza de viabilidad de los componentes
                     TrazaViabilidadInfo tvi = new TrazaViabilidadInfo(trazaViabilidadComponentes, this.calculoPolilinea.Componentes, "Trazas viabilidad etapa 2");
                     tvi.Show();
-
-                    this.pasosEjecutados = 2;
-                    this.paso2EjecutadoTextView.Visible = true;
 
                     if (!trazaViabilidadComponentes.Any()) {
                         MessageBox.Show("No se detectan problemas de viabilidad en los componentes o se han resuelto anteriormente");
@@ -300,6 +300,9 @@ namespace interfaz {
                         calculoPolilinea.Crear_Trazado_Error(this.calculoPolilineaPreferencias.Gran_r);
                         MessageBox.Show("Se ha detectado un error al crear la entidad. Se dibujará lo creado");
                     }
+
+                    this.pasosEjecutados = 3;
+                    this.paso3EjecutadoTextView.Visible = true;
 
                     //mostrar panel de la traza de viabilidad de los componentes
                     TrazaViabilidadInfo tvi = new TrazaViabilidadInfo(viabilidadEnlaces, this.calculoPolilinea.Componentes, "Trazas viabilidad enlaces etapa 3");

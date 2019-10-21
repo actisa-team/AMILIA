@@ -62,7 +62,7 @@ namespace interfaz {
             this.errorValidationPanel.BackColor = System.Drawing.Color.White;
             this.errorValidationPanel.Controls.Add(this.errorValidacionRectasLabel);
             this.errorValidationPanel.Controls.Add(this.errorValidacionCurvasLabel);
-            this.errorValidationPanel.Location = new System.Drawing.Point(16, 616);
+            this.errorValidationPanel.Location = new System.Drawing.Point(0, 0);
             this.errorValidationPanel.Name = "errorValidationPanel";
             this.errorValidationPanel.Size = new System.Drawing.Size(372, 66);
             this.errorValidationPanel.TabIndex = 2;
@@ -72,7 +72,7 @@ namespace interfaz {
             // 
             this.errorValidacionRectasLabel.AutoSize = true;
             this.errorValidacionRectasLabel.ForeColor = System.Drawing.Color.Red;
-            this.errorValidacionRectasLabel.Location = new System.Drawing.Point(14, 35);
+            this.errorValidacionRectasLabel.Location = new System.Drawing.Point(3, 21);
             this.errorValidacionRectasLabel.Name = "errorValidacionRectasLabel";
             this.errorValidacionRectasLabel.Size = new System.Drawing.Size(142, 13);
             this.errorValidacionRectasLabel.TabIndex = 1;
@@ -83,7 +83,7 @@ namespace interfaz {
             // 
             this.errorValidacionCurvasLabel.AutoSize = true;
             this.errorValidacionCurvasLabel.ForeColor = System.Drawing.Color.Red;
-            this.errorValidacionCurvasLabel.Location = new System.Drawing.Point(14, 12);
+            this.errorValidacionCurvasLabel.Location = new System.Drawing.Point(3, 3);
             this.errorValidacionCurvasLabel.Name = "errorValidacionCurvasLabel";
             this.errorValidacionCurvasLabel.Size = new System.Drawing.Size(145, 13);
             this.errorValidacionCurvasLabel.TabIndex = 0;
@@ -94,6 +94,7 @@ namespace interfaz {
             // 
             this.successValidationPanel.BackColor = System.Drawing.Color.White;
             this.successValidationPanel.Controls.Add(this.label2);
+            this.successValidationPanel.Controls.Add(this.errorValidationPanel);
             this.successValidationPanel.Location = new System.Drawing.Point(16, 616);
             this.successValidationPanel.Name = "successValidationPanel";
             this.successValidationPanel.Size = new System.Drawing.Size(372, 66);
@@ -104,7 +105,7 @@ namespace interfaz {
             // 
             this.label2.AutoSize = true;
             this.label2.ForeColor = System.Drawing.Color.Green;
-            this.label2.Location = new System.Drawing.Point(18, 12);
+            this.label2.Location = new System.Drawing.Point(3, 3);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(180, 13);
             this.label2.TabIndex = 0;
@@ -115,12 +116,11 @@ namespace interfaz {
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1290, 694);
-            this.Controls.Add(this.errorValidationPanel);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.componentesInfoDataGridView);
             this.Controls.Add(this.successValidationPanel);
             this.Name = "ComponentesInfoPanel";
-            this.Text = "Form1";
+            this.Text = "Informe de componentes > etapa 1";
             ((System.ComponentModel.ISupportInitialize)(this.componentesInfoDataGridView)).EndInit();
             this.errorValidationPanel.ResumeLayout(false);
             this.errorValidationPanel.PerformLayout();
