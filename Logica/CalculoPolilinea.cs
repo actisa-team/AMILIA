@@ -1002,6 +1002,7 @@ namespace Logica {
                 Crear_Curva(componentes[i].ini, componentes[i + 1].fin, Curva.Item1, Curva.Item2, Curva.Item3, i);
                 componentes.RemoveAt(i + 1);
                 componentes.RemoveAt(i + 1);
+                Viabilidad_Clusterizacion(i);
             }
 
 
@@ -12243,7 +12244,7 @@ namespace Logica {
                 trazaViabilidadEnlaces.Add(viabilidadEnlacesStatus);
 
                 whileIndex++;
-            } while (this.Comprobar_casos_solapes() && contador < 2000);
+            } while (this.Comprobar_casos_solapes() && contador < 272);
 
             return trazaViabilidadEnlaces;
         }
@@ -14979,6 +14980,7 @@ namespace Logica {
                             Crear_Curva(componentes[i - 1].ini, componentes[i].fin, Curva.Item1, Curva.Item2, Curva.Item3, i - 1);
                             componentes.RemoveAt(i);
                             componentes.RemoveAt(i);
+                            Viabilidad_Clusterizacion(i-1);
                             if (i < componentes.Count) {
                                 if (componentes[i].creacion == 2) {
                                     componentes.RemoveAt(i);
@@ -15008,6 +15010,7 @@ namespace Logica {
                             Crear_Curva(componentes[i - 1].ini, componentes[i].fin, Curva.Item1, Curva.Item2, Curva.Item3, i - 1);
                             componentes.RemoveAt(i);
                             componentes.RemoveAt(i);
+                            Viabilidad_Clusterizacion(i-1);
                             if (i - 1 > 1) {
                                 if (componentes[i - 2].creacion == 2) {
                                     componentes.RemoveAt(i - 2);
@@ -15159,6 +15162,7 @@ namespace Logica {
                         Crear_Curva(componentes[i].ini, componentes[i + 1].fin, Curva.Item1, Curva.Item2, Curva.Item3, i);
                         componentes.RemoveAt(i + 1);
                         componentes.RemoveAt(i + 1);
+                        Viabilidad_Clusterizacion(i);
                         componentes[i].caso6_e = true;
                         if (i > 1) {
                             if (componentes[i - 1].creacion == 2) {
@@ -15193,6 +15197,7 @@ namespace Logica {
                         Crear_Curva(componentes[i].ini, componentes[i + 1].fin, Curva.Item1, Curva.Item2, Curva.Item3, i);
                         componentes.RemoveAt(i + 1);
                         componentes.RemoveAt(i + 1);
+                        Viabilidad_Clusterizacion(i);
                         if (componentes[i - 1].creacion == 2) {
                             componentes.RemoveAt(i - 1);
                         }
@@ -15732,6 +15737,79 @@ namespace Logica {
 
         public void removeAllViabilidadListener() {
             this.viabilidadListeners.Clear();
+        }
+        private void Viabilidad_Clusterizacion(int comp)
+        {
+            Rellenar_Curva(componentes[comp]);
+            if (comp>1 && comp<componentes.Count-2)
+            {
+                /*
+                 * Para componentes anteiores
+                 */
+                if (componentes[comp-1].Tipo==1 && componentes[comp - 1].creacion!=2)
+                {
+                    if (componentes[comp].direccion!= componentes[comp-2].direccion)
+                    {
+                        double[] lr;
+                        lr = ajuste_recta(componentes[comp - 1].lista_puntos, 0).Item2;
+                        double dis = Distancia_P_R(lr[0], lr[1], componentes[comp].xc, componentes[comp].yc);
+
+                        double dis2 = Distancia_P_R(lr[0], lr[1], componentes[comp - 2].xc, componentes[comp - 2].yc);
+                        if (dis < componentes[comp].radio && dis2 > componentes[comp - 2].radio)
+                        {
+                            while (dis < componentes[comp].radio && dis2 > componentes[comp - 2].radio)
+                            {
+                                if (componentes[comp].direccion == EjeDeTrazado.puntosDelEje.EjeTrazado.sentidoCurva.Antihorario)
+                                {
+                                    Girar_Recta(comp - 1, 0.01, componentes[comp - 1].azr);
+                                }
+                                else
+                                {
+                                    Girar_Recta(comp - 1, -0.01, componentes[comp - 1].azr);
+                                }
+                                Rellenar_Recta(componentes[comp - 1]);
+                                lr = ajuste_recta(componentes[comp - 1].lista_puntos, 0).Item2;
+                                dis = Distancia_P_R(lr[0], lr[1], componentes[comp].xc, componentes[comp].yc);
+
+                                dis2 = Distancia_P_R(lr[0], lr[1], componentes[comp - 2].xc, componentes[comp - 2].yc);
+                            }
+                        }
+                    }
+                }
+                /*
+                 * Para componentes posteriores
+                 */
+                if (componentes[comp + 1].Tipo == 1 && componentes[comp + 1].creacion != 2)
+                {
+                    if (componentes[comp].direccion != componentes[comp + 2].direccion)
+                    {
+                        double[] lr;
+                        lr = ajuste_recta(componentes[comp + 1].lista_puntos, 0).Item2;
+                        double dis = Distancia_P_R(lr[0], lr[1], componentes[comp].xc, componentes[comp].yc);
+
+                        double dis2 = Distancia_P_R(lr[0], lr[1], componentes[comp + 2].xc, componentes[comp - 2].yc);
+                        if (dis < componentes[comp].radio && dis2 > componentes[comp + 2].radio)
+                        {
+                            while (dis < componentes[comp].radio && dis2 > componentes[comp + 2].radio)
+                            {
+                                if (componentes[comp].direccion == EjeDeTrazado.puntosDelEje.EjeTrazado.sentidoCurva.Antihorario)
+                                {
+                                    Girar_Recta(comp + 1, 0.01, componentes[comp + 1].azr);
+                                }
+                                else
+                                {
+                                    Girar_Recta(comp + 1, -0.01, componentes[comp + 1].azr);
+                                }
+                                Rellenar_Recta(componentes[comp+1]);
+                                lr = ajuste_recta(componentes[comp + 1].lista_puntos, 0).Item2;
+                                dis = Distancia_P_R(lr[0], lr[1], componentes[comp].xc, componentes[comp].yc);
+
+                                dis2 = Distancia_P_R(lr[0], lr[1], componentes[comp + 2].xc, componentes[comp - 2].yc);
+                            }
+                        }
+                    }
+                }
+            }
         }
 
     }

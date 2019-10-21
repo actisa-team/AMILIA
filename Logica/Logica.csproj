@@ -49,11 +49,11 @@
       <HintPath>E:\Program Files\Autodesk\AutoCAD 2017\acmgd.dll</HintPath>
     </Reference>
     <Reference Include="Autodesk.AutoCAD.Interop">
-      <HintPath>E:\Program Files\Autodesk\AutoCAD 2017\Autodesk.AutoCAD.Interop.dll</HintPath>
+      <HintPath>..\..\..\..\..\Program Files\Autodesk\AutoCAD 2017\Autodesk.AutoCAD.Interop.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Autodesk.AutoCAD.Interop.Common">
-      <HintPath>E:\Program Files\Autodesk\AutoCAD 2017\Autodesk.AutoCAD.Interop.Common.dll</HintPath>
+      <HintPath>..\..\..\..\..\Program Files\Autodesk\AutoCAD 2017\Autodesk.AutoCAD.Interop.Common.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="MaterialSkin">
