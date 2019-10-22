@@ -275,6 +275,9 @@ namespace interfaz {
                         MessageBox.Show("No se detectan problemas de viabilidad en los componentes o se han resuelto anteriormente");
                     }
                     MessageBox.Show("Revise autocad para ver la salida de la etapa 2 del algoritmo");
+                    VerificacionComponentesStatus verificacionComponentesStatus = calculoPolilinea.obtenerEstadoVerificacionDeComponentes();
+                    ComponentesInfoPanel componentesInfoPanel = new ComponentesInfoPanel(calculoPolilinea.Componentes, verificacionComponentesStatus);
+                    componentesInfoPanel.Show();
                 } else {
                     MessageBox.Show("Calculo polilinea no inicializado");
                 }

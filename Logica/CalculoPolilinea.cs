@@ -8753,7 +8753,7 @@ namespace Logica {
                     }
                 }
                 if (!dentro) {
-                    MessageBox.Show("No se cumplen las tolerancias en la curva " + curva + ". Se utilizará el que menos error tiene.");
+                    //MessageBox.Show("No se cumplen las tolerancias en la curva " + curva + ". Se utilizará el que menos error tiene.");
                     tolerancia.Add(true);
                     //ajuste_curva(curva, posicion);
                     //Listas_curvas.Add(Tuple.Create(errores[curva], Lista_x_centro[curva], Lista_y_centro[curva], Lista_radios[curva], Posicion_curvas[curva]));
@@ -11689,11 +11689,13 @@ namespace Logica {
             List<Point2d> Puntos_rectas = new List<Point2d>();
             List<object> entidades = new List<object>();
             bool curva_gran_radio = false;
-
+            bool puntos_ultimos = false;
             do {
                 bool ultima_clo_crc = false;
                 bool primera_clo_crc = false;
                 int intermedias = 1;
+                puntos_ultimos = false;
+                int puntos_rectas_ultimos = -1;
                 while (azimuts.Count > 0) {
                     azimuts.RemoveAt(0);
                 }
@@ -11976,10 +11978,11 @@ namespace Logica {
                         //Dibujar_Clotoide(Clotoides[1]);
                         if (Clotoides[0] == null) {
                             componentes[componentes.Count - 3].v_m_g = true;
-                            azimuts.Add(-1);
+                            azimuts.Add(-1);        
                             Puntos_rectas.Add(new Point2d());
                         } else {
                             azimuts.Add(Az_Clotoide(Clotoides[0]));
+                            puntos_rectas_ultimos = Puntos_rectas.Count;
                             double[] pr1 = Clotoides[0].getPointAtDist(Clotoides[0].getPkFinal());
                             Puntos_rectas.Add(new Point2d(pr1[0], pr1[1]));
                         }
@@ -11992,6 +11995,7 @@ namespace Logica {
                             Puntos_rectas.Add(new Point2d(pr2[0], pr2[1]));
                             azimuts.Add(Az_Clotoide(Clotoides[1]));
                         }
+                        puntos_ultimos = true;
                         ultima_clo_crc = true;
                     } else//curva--curva
                       {
@@ -12182,12 +12186,20 @@ namespace Logica {
                     azimuts.RemoveAt(2);
                     azimuts.Add(azfin2);
                     if (Puntos_rectas.Count > 2) {
-                        Point2d punto1 = new Point2d(Puntos_rectas[2].X, Puntos_rectas[2].Y);
-                        Point2d punto2 = new Point2d(Puntos_rectas[3].X, Puntos_rectas[3].Y);
-                        Puntos_rectas.RemoveAt(2);
-                        Puntos_rectas.RemoveAt(2);
-                        Puntos_rectas.Add(punto1);
-                        Puntos_rectas.Add(punto2);
+                        if (puntos_ultimos)
+                        {
+                            if (puntos_rectas_ultimos >= 0)
+                            {
+                                Point2d punto1 = new Point2d(Puntos_rectas[puntos_rectas_ultimos].X, Puntos_rectas[puntos_rectas_ultimos].Y);
+                                Point2d punto2 = new Point2d(Puntos_rectas[puntos_rectas_ultimos+1].X, Puntos_rectas[puntos_rectas_ultimos+1].Y);
+                                Puntos_rectas.RemoveAt(puntos_rectas_ultimos);
+                                Puntos_rectas.RemoveAt(puntos_rectas_ultimos);
+                                Puntos_rectas.Add(punto1);
+                                Puntos_rectas.Add(punto2);
+                            }
+                            
+                        }
+                        
                     }
 
                 } else if (ultima_clo_crc) {
@@ -12198,12 +12210,18 @@ namespace Logica {
                     azimuts.RemoveAt(1);
                     azimuts.Add(azfin2);
                     if (Puntos_rectas.Count > 1) {
-                        Point2d punto1 = new Point2d(Puntos_rectas[0].X, Puntos_rectas[0].Y);
-                        Point2d punto2 = new Point2d(Puntos_rectas[1].X, Puntos_rectas[1].Y);
-                        Puntos_rectas.RemoveAt(0);
-                        Puntos_rectas.RemoveAt(0);
-                        Puntos_rectas.Add(punto1);
-                        Puntos_rectas.Add(punto2);
+                        if (puntos_ultimos)
+                        {
+                            if (puntos_rectas_ultimos >= 0)
+                            {
+                                Point2d punto1 = new Point2d(Puntos_rectas[puntos_rectas_ultimos].X, Puntos_rectas[puntos_rectas_ultimos].Y);
+                                Point2d punto2 = new Point2d(Puntos_rectas[puntos_rectas_ultimos + 1].X, Puntos_rectas[puntos_rectas_ultimos + 1].Y);
+                                Puntos_rectas.RemoveAt(puntos_rectas_ultimos);
+                                Puntos_rectas.RemoveAt(puntos_rectas_ultimos);
+                                Puntos_rectas.Add(punto1);
+                                Puntos_rectas.Add(punto2);
+                            }
+                        }
                     }
 
                 } else {
@@ -12234,7 +12252,7 @@ namespace Logica {
                     viabilidadEnlacesStatus.CasoResuelto = viabilidadEnlacesStatus.ViabilidadComponentes.ElementAt(0);
                     this.viabilidadListeners.ForEach(listener => listener.onNewViabilidadStatus("enlaces", viabilidadEnlacesStatus, this.componentes, whileIndex));
                 }
-
+                
                 //mostrarCasos_Enlaces();
                 Modificacion(viabilidadEnlacesStatus);
 
@@ -12244,7 +12262,7 @@ namespace Logica {
                 trazaViabilidadEnlaces.Add(viabilidadEnlacesStatus);
 
                 whileIndex++;
-            } while (this.Comprobar_casos_solapes() && contador < 272);
+            } while (this.Comprobar_casos_solapes() && contador < 600);
 
             return trazaViabilidadEnlaces;
         }
@@ -12789,7 +12807,7 @@ namespace Logica {
 
                                 if (az_temp_1 < (az_temp_2 + 0.2)) {
                                         if (i < componentes.Count - 2 && i > 1) {
-                                            if (az_temp_1 > 0 && az_temp_2 == -1) {
+                                            if ((az_temp_1 > 0 && az_temp_2 == -1)|| (az_temp_1 == -1 && az_temp_2 >0)) {
 
                                             } else {
                                                 componentes[i].v_s_c = true;
@@ -14713,13 +14731,26 @@ namespace Logica {
                  * Primera comprobación: si hay 2 curvas en diferente sentido sin recta intermedia se crea una recta tangente a las 2
                  */
                 if (componentes[i].Tipo == 2 && componentes[i + 1].Tipo == 2) {
-                    if ((componentes[i].direccion == EjeDeTrazado.puntosDelEje.EjeTrazado.sentidoCurva.Antihorario && componentes[i + 1].direccion == EjeDeTrazado.puntosDelEje.EjeTrazado.sentidoCurva.Horario) ||
-                        (componentes[i].direccion == EjeDeTrazado.puntosDelEje.EjeTrazado.sentidoCurva.Horario && componentes[i + 1].direccion == EjeDeTrazado.puntosDelEje.EjeTrazado.sentidoCurva.Antihorario)) {
+                    if ((componentes[i].direccion != componentes[i + 1].direccion)) {
                         Rellenar_Curva(componentes[i]);
                         Rellenar_Curva(componentes[i + 1]);
-                        if (Distancia(new Point2d(componentes[i].xc, componentes[i].yc), new Point2d(componentes[i + 1].xc, componentes[i + 1].yc)) > (componentes[i].radio + componentes[i + 1].radio)) {
+                        double d = Distancia(new Point2d(componentes[i].xc, componentes[i].yc), new Point2d(componentes[i + 1].xc, componentes[i + 1].yc));
+                        if ( d > (componentes[i].radio + componentes[i + 1].radio)) {
                             Crear_RECT(i);//crea una recta entre curvas para que al guirarla se haga tangente
                         }
+                        else
+                        {
+                            while (d < (componentes[i].radio + componentes[i + 1].radio))
+                            {
+                                Reducir_radio(i);
+                                Reducir_radio(i+1);
+                                Rellenar_Curva(componentes[i]);
+                                Rellenar_Curva(componentes[i+1]);
+                                d = Distancia(new Point2d(componentes[i].xc, componentes[i].yc), new Point2d(componentes[i + 1].xc, componentes[i + 1].yc));
+                            }
+                            Crear_RECT(i);//crea una recta entre curvas para que al guirarla se haga tangente
+                        }
+
 
                     }
                 }
@@ -14752,7 +14783,7 @@ namespace Logica {
                     i--;
                 }
             }
-
+            this.Rellenar_Componentes();
         }
         public void Crear_RECT(int i) {
             double primer_x, primer_y, segundo_x, segundo_y;
@@ -15051,6 +15082,10 @@ namespace Logica {
                                 Rellenar_Recta(componentes[i]);
                                 Rellenar_Recta(componentes[i - 1]);
                             }
+                            if (componentes[i-1].direccion!= componentes[i].direccion)
+                            {
+                                Crear_RECT(i - 1);//crea una recta entre 2 circunferencias que no se cortan
+                            }
                         } else {
                             Crear_RECT(i - 1);//crea una recta entre 2 circunferencias que no se cortan
                         }
@@ -15069,6 +15104,53 @@ namespace Logica {
             }
             if (i < componentes.Count - 2) {
                 if (componentes[i].Tipo == 2 && componentes[i - 1].Tipo == 1 && componentes[i + 1].Tipo == 1 && componentes[i + 2].Tipo == 2) {
+                    if (componentes[i - 1].creacion == 2 || componentes[i + 1].creacion == 2)
+                    {
+                        if (componentes[i - 1].creacion == 2)
+                        {
+                            componentes.RemoveAt(i - 1);
+                            List<Punto> lista = new List<Punto>();
+                            for (int r = componentes[i-1].ini; r <= componentes[i].fin; r++)
+                            {
+                                lista.Add(new Punto(polilinea[r].p));
+                            }
+                            Tuple<double, double, double> Curva = this.Clusterizacion(lista);
+                            Crear_Curva(componentes[i-1].ini, componentes[i].fin, Curva.Item1, Curva.Item2, Curva.Item3, i-1);
+                            componentes.RemoveAt(i);
+                            componentes.RemoveAt(i);
+                            Viabilidad_Clusterizacion(i-1);
+                            if (componentes[i - 2].creacion == 2)
+                            {
+                                componentes.RemoveAt(i - 2);
+                            }
+                            componentes[i - 1].caso6_e = true;
+                            return false;
+                        }
+                        if (componentes[i + 1].creacion == 2)
+                        {
+                            componentes.RemoveAt(i + 1);
+                            List<Punto> lista = new List<Punto>();
+                            for (int r = componentes[i].ini; r <= componentes[i + 1].fin; r++)
+                            {
+                                lista.Add(new Punto(polilinea[r].p));
+                            }
+                            Tuple<double, double, double> Curva = this.Clusterizacion(lista);
+                            Crear_Curva(componentes[i].ini, componentes[i + 1].fin, Curva.Item1, Curva.Item2, Curva.Item3, i);
+                            componentes.RemoveAt(i + 1);
+                            componentes.RemoveAt(i + 1);
+                            Viabilidad_Clusterizacion(i);
+                            componentes[i].caso6_e = true;
+                            if (i > 1)
+                            {
+                                if (componentes[i - 1].creacion == 2)
+                                {
+                                    componentes.RemoveAt(i - 1);
+                                }
+                            }
+                            return false;
+                        }
+                    }
+                    
                     if (componentes[i - 1].creacion != 2) {
                         Girar_Recta(i - 1, Girar_acercar_C_C(componentes[i - 1].lista_puntos, componentes[i - 2], componentes[i - 1].azr), componentes[i - 1].azr);
                         double[] l = new double[2];
