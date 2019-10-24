@@ -300,8 +300,11 @@ namespace interfaz {
                         calculoPolilinea.Dibujar_Todo();
                     }
                     catch {
-                        calculoPolilinea.Crear_Trazado_Error(this.calculoPolilineaPreferencias.Gran_r);
                         MessageBox.Show("Se ha detectado un error al crear la entidad. Se dibujará lo creado");
+                    }
+                    finally
+                    {
+                        calculoPolilinea.Crear_Trazado_Error(this.calculoPolilineaPreferencias.Gran_r);
                     }
 
                     this.pasosEjecutados = 3;

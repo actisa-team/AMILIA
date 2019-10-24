@@ -832,7 +832,26 @@ namespace Logica {
                 }
 
                 if (aze < az_temp && az_temp < azs2) {
-
+                    if (((aze + aze2) / 2) > az)
+                    {
+                        az1_temp = ((aze + aze2) / 2) - az;
+                    }
+                    if (((aze + aze2) / 2) < az)
+                    {
+                        az1_temp = az - ((aze + aze2) / 2);
+                    }
+                    if (((aze + aze2) / 2) > az2)
+                    {
+                        az2_temp = ((aze + aze2) / 2) - az2;
+                    }
+                    if (((aze + aze2) / 2) < az2)
+                    {
+                        az2_temp = az2 - ((aze + aze2) / 2);
+                    }
+                    if (az1_temp > az2_temp)
+                    {
+                        az = az2;
+                    }
                 } else {
                     if (aze < az2 && az2 < azs2) {
                         az = az2;
@@ -883,17 +902,17 @@ namespace Logica {
                     aze += 360;
                 }
                 if (aze > az_temp && az_temp > azs2) {
-                    if (((aze + azs2) / 2) > az) {
-                        az1_temp = ((aze + azs2) / 2) - az;
+                    if (((aze + aze2) / 2) > az) {
+                        az1_temp = ((aze + aze2) / 2) - az;
                     }
-                    if (((aze + azs2) / 2) < az) {
-                        az1_temp = az - ((aze + azs2) / 2);
+                    if (((aze + aze2) / 2) < az) {
+                        az1_temp = az - ((aze + aze2) / 2);
                     }
-                    if (((aze + azs2) / 2) > az2) {
-                        az2_temp = ((aze + azs2) / 2) - az2;
+                    if (((aze + aze2) / 2) > az2) {
+                        az2_temp = ((aze + aze2) / 2) - az2;
                     }
-                    if (((aze + azs2) / 2) < az2) {
-                        az2_temp = az2 - ((aze + azs2) / 2);
+                    if (((aze + aze2) / 2) < az2) {
+                        az2_temp = az2 - ((aze + aze2) / 2);
                     }
                     if (az1_temp > az2_temp) {
                         az = az2;
@@ -12333,7 +12352,7 @@ namespace Logica {
                 trazaViabilidadEnlaces.Add(viabilidadEnlacesStatus);
 
                 whileIndex++;
-            } while (this.Comprobar_casos_solapes() && contador < 600);
+            } while (this.Comprobar_casos_solapes() && contador < 321);
 
             return trazaViabilidadEnlaces;
         }
@@ -12735,174 +12754,375 @@ namespace Logica {
             int conta_az = 0;
             int conta_puntos = 0;
             double az_temp_1, az_temp_2;
+            double azte_temp, azts_temp;
             //Solape de clotoides en la curva intermedia
             if (componentes[0].Tipo == 2) {
                 conta_az++;
             }
-            for (int i = 1; i < componentes.Count - 1; i++) {
-                if (componentes[i - 1].Tipo == 2 && componentes[i].Tipo == 1 && componentes[i + 1].Tipo == 2) {
+            for (int i = 1; i < componentes.Count - 1; i++)
+            {
+                if (componentes[i - 1].Tipo == 2 && componentes[i].Tipo == 1 && componentes[i + 1].Tipo == 2)
+                {
                     double x1 = componentes[i].lista_puntos[0].p.X;
                     double x2 = componentes[i].lista_puntos[1].p.X;
                     double p1 = Puntos_rectas[conta_puntos].X;
                     double p2 = Puntos_rectas[conta_puntos + 1].X;
-                    if (x1 < x2 && p1 > p2 || x1 > x2 && p1 < p2) {
-                        if (i < componentes.Count - 2) {
-                            if (componentes[i].Tipo == 1 && componentes[i + 2].Tipo == 1 && (Math.Abs(componentes[i].azr - componentes[i + 2].azr) <= 2 || componentes[i + 1].radio > gran_r)) {
+                    if (x1 < x2 && p1 > p2 || x1 > x2 && p1 < p2)
+                    {
+                        if (i < componentes.Count - 2)
+                        {
+                            if (componentes[i].Tipo == 1 && componentes[i + 2].Tipo == 1 && (Math.Abs(componentes[i].azr - componentes[i + 2].azr) <= 2 || componentes[i + 1].radio > gran_r))
+                            {
                                 componentes[i + 1].v_c_gr = true;
-                            } else {
+                            }
+                            else
+                            {
                                 componentes[i].v_s_c = true;
                             }
-                        } else {
+                        }
+                        else
+                        {
                             componentes[i].v_s_c = true;
                         }
 
-                    } else {
-                        if (azimuts[conta_az - 1] == -1 || azimuts[conta_az] == -1) {
+                    }
+                    else
+                    {
+                        if (azimuts[conta_az - 1] == -1 || azimuts[conta_az] == -1)
+                        {
                             componentes[i].v_s_c = true;
                         }
                     }
                     conta_puntos++;
                     conta_puntos++;
                 }
-                if (componentes[i].Tipo == 2) {
-                    if (componentes[i].direccion == EjeTrazado.sentidoCurva.Horario) {
-                        if (componentes[i].azte > componentes[i].azts) {
-                            if (azimuts[conta_az] > 0 && azimuts[conta_az] < componentes[i].azts) {
+                if (componentes[i].Tipo == 2)
+                {
+                    if (componentes[i].direccion == EjeTrazado.sentidoCurva.Horario)
+                    {
+
+                        if (componentes[i].azte > componentes[i].azts)
+                        {
+                            if (azimuts[conta_az] > 0 && azimuts[conta_az] < componentes[i].azts)
+                            {
                                 az_temp_1 = azimuts[conta_az] + 360;
-                            } else {
+                            }
+                            else
+                            {
                                 az_temp_1 = azimuts[conta_az];
                             }
-                            if (azimuts[conta_az + 1] > 0 && azimuts[conta_az + 1] < componentes[i].azte) {
+                            if (azimuts[conta_az + 1] > 0 && azimuts[conta_az + 1] < componentes[i].azte)
+                            {
                                 az_temp_2 = azimuts[conta_az + 1] + 360;
-                            } else {
+                            }
+                            else
+                            {
                                 az_temp_2 = azimuts[conta_az + 1];
                             }
-                            if (az_temp_1 > az_temp_2) {
-                                if (i < componentes.Count - 2 && i > 1) {
-                                    if (az_temp_1 > 0 && az_temp_2 == -1) {
+                            if (az_temp_1 > az_temp_2)
+                            {
+                                if (i < componentes.Count - 2 && i > 1)
+                                {
+                                    if (az_temp_1 > 0 && az_temp_2 == -1)
+                                    {
 
-                                    } else {
+                                    }
+                                    else
+                                    {
                                         componentes[i].v_s_c = true;
                                     }
 
                                 }
 
-                                if (i == 1) {
+                                if (i == 1)
+                                {
                                     componentes[i].v_p_r = true;
                                 }
-                                if (i == componentes.Count - 2) {
+                                if (i == componentes.Count - 2)
+                                {
                                     componentes[i].v_u_r = true;
                                 }
-                                if (componentes[i + 1].Tipo == 2) {
+                                if (componentes[i + 1].Tipo == 2)
+                                {
                                     componentes[i + 1].v_a_p = true;
                                 }
-                                if (componentes[i - 1].Tipo == 2) {
+                                if (componentes[i - 1].Tipo == 2)
+                                {
                                     componentes[i - 1].v_a_p = true;
                                 }
                             }
-                        } else {
-                            az_temp_1 = azimuts[conta_az];
-                            az_temp_2 = azimuts[conta_az + 1];
-                            if (az_temp_1 == -1 && az_temp_2 == -1) {
-
-                            } else {
-                                if ((az_temp_1 + 0.2) > az_temp_2) {
-                                    if (i < componentes.Count - 2 && i > 1) {
-                                        if (az_temp_1 > 0 && az_temp_2 == -1) {
-
-                                        } else {
-                                            componentes[i].v_s_c = true;
-                                        }
-                                    }
-
-                                    if (i == 1) {
-                                        componentes[i].v_p_r = true;
-                                    }
-                                    if (i == componentes.Count - 2) {
-                                        componentes[i].v_u_r = true;
-                                    }
-                                    if (componentes[i + 1].Tipo == 2) {
-                                        componentes[i + 1].v_a_p = true;
-                                    }
-                                    if (componentes[i - 1].Tipo == 2) {
-                                        componentes[i - 1].v_a_p = true;
-                                    }
-                                }
-                            }
-
-
                         }
-                    } else {
-                        if (componentes[i].azte < componentes[i].azts) {
-                            if (azimuts[conta_az] > 0 && azimuts[conta_az] < componentes[i].azte) {
-                                az_temp_1 = azimuts[conta_az] + 360;
-                            } else {
-                                az_temp_1 = azimuts[conta_az];
-                            }
-                            if (azimuts[conta_az + 1] > 0 && azimuts[conta_az + 1] < componentes[i].azte) {
-                                az_temp_2 = azimuts[conta_az + 1] + 360;
-                            } else {
-                                az_temp_2 = azimuts[conta_az + 1];
-                            }
-                            if (az_temp_1 == -1 || az_temp_2 == -1) {
+                        else
+                        {
+                            az_temp_1 = azimuts[conta_az];
+                            az_temp_2 = azimuts[conta_az + 1];
+                            if (az_temp_1 == -1 && az_temp_2 == -1)
+                            {
 
-                            } else {
-                                if (az_temp_1 < az_temp_2) {
-                                    if (i < componentes.Count - 2 && i > 1) {
-                                        if (az_temp_1 > 0 && az_temp_2 == -1) {
+                            }
+                            else
+                            {
+                                if ((az_temp_1 + 0.2) > az_temp_2)
+                                {
+                                    if (i < componentes.Count - 2 && i > 1)
+                                    {
+                                        if (az_temp_1 > 0 && az_temp_2 == -1)
+                                        {
 
-                                        } else {
+                                        }
+                                        else
+                                        {
                                             componentes[i].v_s_c = true;
                                         }
                                     }
-                                    if (i == 1) {
+
+                                    if (i == 1)
+                                    {
                                         componentes[i].v_p_r = true;
                                     }
-                                    if (i == componentes.Count - 2) {
+                                    if (i == componentes.Count - 2)
+                                    {
                                         componentes[i].v_u_r = true;
                                     }
-                                    if (componentes[i + 1].Tipo == 2) {
+                                    if (componentes[i + 1].Tipo == 2)
+                                    {
                                         componentes[i + 1].v_a_p = true;
                                     }
-                                    if (componentes[i - 1].Tipo == 2) {
+                                    if (componentes[i - 1].Tipo == 2)
+                                    {
                                         componentes[i - 1].v_a_p = true;
                                     }
                                 }
                             }
-                        } else {
-                            az_temp_1 = azimuts[conta_az];
-                            az_temp_2 = azimuts[conta_az + 1];
-                            if (az_temp_1 == -1 && az_temp_2 == -1) {
 
-                            } else {
 
-                                if (az_temp_1 < (az_temp_2 + 0.2)) {
-                                        if (i < componentes.Count - 2 && i > 1) {
-                                            if ((az_temp_1 > 0 && az_temp_2 == -1)|| (az_temp_1 == -1 && az_temp_2 >0)) {
-
-                                            } else {
-                                                componentes[i].v_s_c = true;
-                                            }
-                                        }
-                                        if (i == 1) {
-                                            componentes[i].v_p_r = true;
-                                        }
-                                        if (i == componentes.Count - 2) {
-                                            componentes[i].v_u_r = true;
-                                        }
-                                        if (componentes[i + 1].Tipo == 2) {
-                                            componentes[i + 1].v_a_p = true;
-                                        }
-                                        if (componentes[i - 1].Tipo == 2) {
-                                            componentes[i - 1].v_a_p = true;
-                                        }
-                                    
-
-                                }
-                            }
                         }
                     }
+                    else
+                    {
+                        if (componentes[i].azte < componentes[i].azts)
+                        {
+                            if (azimuts[conta_az] > 0 && azimuts[conta_az] < componentes[i].azte)
+                            {
+                                az_temp_1 = azimuts[conta_az] + 360;
+                            }
+                            else
+                            {
+                                az_temp_1 = azimuts[conta_az];
+                            }
+                            if (azimuts[conta_az + 1] > 0 && azimuts[conta_az + 1] < componentes[i].azte)
+                            {
+                                az_temp_2 = azimuts[conta_az + 1] + 360;
+                            }
+                            else
+                            {
+                                az_temp_2 = azimuts[conta_az + 1];
+                            }
+                            if (az_temp_1 == -1 || az_temp_2 == -1)
+                            {
 
+                            }
+                            else
+                            {
+                                if (az_temp_1 < az_temp_2)
+                                {
+                                    if (i < componentes.Count - 2 && i > 1)
+                                    {
+                                        if (az_temp_1 > 0 && az_temp_2 == -1)
+                                        {
+
+                                        }
+                                        else
+                                        {
+                                            componentes[i].v_s_c = true;
+                                        }
+                                    }
+                                    if (i == 1)
+                                    {
+                                        componentes[i].v_p_r = true;
+                                    }
+                                    if (i == componentes.Count - 2)
+                                    {
+                                        componentes[i].v_u_r = true;
+                                    }
+                                    if (componentes[i + 1].Tipo == 2)
+                                    {
+                                        componentes[i + 1].v_a_p = true;
+                                    }
+                                    if (componentes[i - 1].Tipo == 2)
+                                    {
+                                        componentes[i - 1].v_a_p = true;
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            az_temp_1 = azimuts[conta_az];
+                            az_temp_2 = azimuts[conta_az + 1];
+                            if (az_temp_1 == -1 && az_temp_2 == -1)
+                            {
+
+                            }
+                            else
+                            {
+
+                                if (az_temp_1 < (az_temp_2 + 0.2))
+                                {
+                                    if (i < componentes.Count - 2 && i > 1)
+                                    {
+                                        if ((az_temp_1 > 0 && az_temp_2 == -1) || (az_temp_1 == -1 && az_temp_2 > 0))
+                                        {
+
+                                        }
+                                        else
+                                        {
+                                            componentes[i].v_s_c = true;
+                                        }
+                                    }
+                                    if (i == 1)
+                                    {
+                                        componentes[i].v_p_r = true;
+                                    }
+                                    if (i == componentes.Count - 2)
+                                    {
+                                        componentes[i].v_u_r = true;
+                                    }
+                                    if (componentes[i + 1].Tipo == 2)
+                                    {
+                                        componentes[i + 1].v_a_p = true;
+                                    }
+                                    if (componentes[i - 1].Tipo == 2)
+                                    {
+                                        componentes[i - 1].v_a_p = true;
+                                    }
+
+
+                                }
+                            }
+                        }
+
+                    }
+                    /*   if (componentes[i].Tipo == 2)
+                       {
+                           if (componentes[i].direccion == EjeTrazado.sentidoCurva.Horario)
+                           {
+                               if (azimuts[conta_az] == -1)
+                               {
+                                   az_temp_1 = -1;
+                               }
+                               else
+                               {
+                                   az_temp_1 = azimuts[conta_az] - 90;
+                               }
+                               if (azimuts[conta_az + 1] == -1)
+                               {
+                                   az_temp_2 = -1;
+                               }
+                               else
+                               {
+                                   az_temp_2 = azimuts[conta_az + 1] - 90;
+                               }
+
+                               if (az_temp_1 == -1 || az_temp_2 == -1)
+                               {
+
+                               }
+                               else
+                               {
+                                   if ((az_temp_1 + 0.2) > az_temp_2)
+                                   {
+                                       if (i < componentes.Count - 2 && i > 1)
+                                       {
+                                           if (az_temp_1 > 0 && az_temp_2 == -1)
+                                           {
+
+                                           }
+                                           else
+                                           {
+                                               componentes[i].v_s_c = true;
+                                           }
+                                       }
+                                       if (i == 1)
+                                       {
+                                           componentes[i].v_p_r = true;
+                                       }
+                                       if (i == componentes.Count - 2)
+                                       {
+                                           componentes[i].v_u_r = true;
+                                       }
+                                       if (componentes[i + 1].Tipo == 2)
+                                       {
+                                           componentes[i + 1].v_a_p = true;
+                                       }
+                                       if (componentes[i - 1].Tipo == 2)
+                                       {
+                                           componentes[i - 1].v_a_p = true;
+                                       }
+                                   }
+                               }
+                           }
+                           else
+                           {
+                               if (azimuts[conta_az] == -1)
+                               {
+                                   az_temp_1 = -1;
+                               }
+                               else
+                               {
+                                   az_temp_1 = azimuts[conta_az] + 90;
+                               }
+                               if (azimuts[conta_az + 1] == -1)
+                               {
+                                   az_temp_2 = -1;
+                               }
+                               else
+                               {
+                                   az_temp_2 = azimuts[conta_az + 1] + 90;
+                               }
+                               if (az_temp_1 == -1 || az_temp_2 == -1)
+                               {
+
+                               }
+                               else
+                               {
+                                   if (az_temp_1 < az_temp_2)
+                                   {
+                                       if (i < componentes.Count - 2 && i > 1)
+                                       {
+                                           if (az_temp_1 > 0 && az_temp_2 == -1)
+                                           {
+
+                                           }
+                                           else
+                                           {
+                                               componentes[i].v_s_c = true;
+                                           }
+                                       }
+                                       if (i == 1)
+                                       {
+                                           componentes[i].v_p_r = true;
+                                       }
+                                       if (i == componentes.Count - 2)
+                                       {
+                                           componentes[i].v_u_r = true;
+                                       }
+                                       if (componentes[i + 1].Tipo == 2)
+                                       {
+                                           componentes[i + 1].v_a_p = true;
+                                       }
+                                       if (componentes[i - 1].Tipo == 2)
+                                       {
+                                           componentes[i - 1].v_a_p = true;
+                                       }
+                                   }
+                               }
+                           }
+
+                           conta_az++;
+                           conta_az++;
+                       }
+                       */
                     conta_az++;
                     conta_az++;
                 }
@@ -13141,6 +13361,25 @@ namespace Logica {
 
         }
         private EjeDeTrazado.componentes.Clotoide Curva_Curva(Componente c1, Componente c2) {
+
+            if (c1.radio > c2.radio)
+            {
+                //caso en el que una curva esta dentro de otra
+                if ((c2.radio + Distancia(new Point2d(c1.xc, c1.yc), new Point2d(c2.xc, c2.yc))) > c1.radio)
+                {
+                    EjeDeTrazado.componentes.Clotoide C = null;
+                    return C;
+                }
+            }
+            else
+            {
+                //caso en el que una curva esta dentro de otra
+                if ((c1.radio + Distancia(new Point2d(c1.xc, c1.yc), new Point2d(c2.xc, c2.yc))) > c2.radio)
+                {
+                    EjeDeTrazado.componentes.Clotoide C = null;
+                    return C;
+                }
+            }
             double azt2 = c2.azte;
             double azt1 = 0;
             double azte = c1.azte;
@@ -13681,7 +13920,7 @@ namespace Logica {
             tadLayShare.puntos.Punto3d p2 = new tadLayShare.puntos.Punto3d(xm_1, ym_1, 0);
             tadLayShare.puntos.Punto3d p3 = new tadLayShare.puntos.Punto3d(xm_0, ym_0, 0);
 
-            //    Dibujar_r(p3, p2);
+               // Dibujar_r(p3, p2);
             //azimut recta
             Punto p_az = new Punto();
             //xc = x_p_1;
@@ -13716,14 +13955,15 @@ namespace Logica {
                         Clo = new EjeDeTrazado.componentes.Clotoide(p3, p2, r2, 0, getSentidoCurva(azt1, azte2), 2, 2, false, EjeDeTrazado.puntosDelEje.EjeTrazado.tipoClotoide.entrada, az_r, false, 0, true, le2, a2, le1);
                     }
                 }
+                /*Dibujar_Clotoide(Clo, le1);
+                Dibujar_Clotoide(Clo, le2);
+
+                Dibujar_Clotoide(Clo);*/
             }
 
 
 
-            //Dibujar_Clotoide(Clo, le1);
-            //    Dibujar_Clotoide(Clo, le2);
-
-            //Dibujar_Clotoide(Clo);
+           
             return Clo;
         }
         private EjeDeTrazado.componentes.Clotoide Recta_Curva(Componente c1, Componente c2, int p)//p es si es recta curva o es una curva recta --1 primero recta 2 primero curva
@@ -15243,6 +15483,7 @@ namespace Logica {
                                         Reducir_radio_inicial(i - 1);
                                         Reducir_radio_final(i);
                                     } else {
+                                        Reducir_radio_inicial(i - 1);
                                         Reducir_radio(i);
                                     }
                                 } else if (i == componentes.Count - 1) {
@@ -15251,6 +15492,7 @@ namespace Logica {
                                         Reducir_radio_final(i);
                                     } else {
                                         Reducir_radio(i - 1);
+                                        Reducir_radio_final(i);
                                     }
                                 } else {
                                     Reducir_radio(i);
@@ -15286,6 +15528,7 @@ namespace Logica {
                         if (componentes[i - 1].creacion == 2)
                         {
                             componentes.RemoveAt(i - 1);
+                            i = i - 1;
                             List<Punto> lista = new List<Punto>();
                             for (int r = componentes[i-1].ini; r <= componentes[i].fin; r++)
                             {
