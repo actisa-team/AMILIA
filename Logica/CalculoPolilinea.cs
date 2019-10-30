@@ -25,12 +25,13 @@ namespace Logica {
         public enum tipoClotoide { entrada, salida };
         public enum ladoCalzada { Derecha, Izquierda };
         List<Punto> polilinea = new List<Punto>();
+        List<List<Punto>> Listas_Polilineas = new List<List<Punto>>();
         dsApp.PolilineaDataTable dato = new dsApp.PolilineaDataTable();
         dsApp datoApp = new dsApp();
         List<Componente> componentes = new List<Componente>();
+        List<Componente> componentes_temp = new List<Componente>();
         List<EjeDeTrazado.componentes.Componente> mcomponenetes = new List<EjeDeTrazado.componentes.Componente>();
         double ratio;
-
         //Para curvas
 
         List<int> lista = new List<int>();//intervalo de curvas
@@ -56,7 +57,7 @@ namespace Logica {
         List<IViabilidadListener> viabilidadListeners = new List<IViabilidadListener>();
 
         public List<Componente> Componentes { get => componentes; set => componentes = value; }
-
+        public List<Punto> Polilinea { get => polilinea; set => polilinea = value; }
         public CalculoPolilinea() {
 
         }
@@ -8175,7 +8176,67 @@ namespace Logica {
             return p;
         }
         #endregion
+        #region dividir polilinea
+        public int Dividir_Polilinea()
+        {
+            
+            int contador = 0;
+            int pol=0;
+            Listas_Polilineas.Add(new List<Punto>());
+            for (int i=0;i<polilinea.Count;i++)
+            {
+                if (polilinea[i].secuenciagiro==1 && contador >2000)
+                {
+                    pol++;
+                    contador = 0;
+                    Listas_Polilineas.Add(new List<Punto>());
+                }
+                contador++;
+                Listas_Polilineas[pol].Add(polilinea[i]);
+            }
+            return pol;
+        }
+        #endregion
+
         #region última actialización para curvas
+        public void Seleccionar_Polilinea(int i)
+        {
+            polilinea = Listas_Polilineas[i];
+        }
+        public void Limpiar(int pol)
+        {
+            lista = new List<int>();//intervalo de curvas
+
+            minimos = new List<List<int>>();
+            maximos = new List<List<int>>();
+            recorrido = new List<List<int>>();
+            recorrido2 = new List<List<int>>();
+            afines = new List<List<int>>();
+
+            minimos_p = new List<List<int>>();
+            maximos_p = new List<List<int>>();
+            recorrido_p = new List<List<int>>();
+            recorrido2_p = new List<List<int>>();
+            afines_p = new List<List<int>>();
+
+            radios = new List<List<double>>();
+            radios_p = new List<List<double>>();
+            foreach (Componente c in componentes)
+            {
+                componentes_temp.Add(c);
+            }
+            componentes.Clear();
+
+                for (int i=0;i<Listas_Polilineas[pol].Count;i++)
+                {
+                    Listas_Polilineas[pol][i].diferencia_r.Clear();
+                    Listas_Polilineas[pol][i].diferencia_r_p.Clear();
+                    Listas_Polilineas[pol][i].distancia_c_p.Clear();
+                    Listas_Polilineas[pol][i].distancia_c_p_p.Clear();
+                    Listas_Polilineas[pol][i].Min_diferencia.Clear();
+                    Listas_Polilineas[pol][i].Min_diferencia_p.Clear();
+                }
+        }
         public void Entidades_Curvas(double t_max, double p_cluster) {
             //Primero xc yc y xc_p yc_p
             double distancia;
@@ -8538,7 +8599,7 @@ namespace Logica {
 
             }
         }
-        public void Combinacion(double t_med, double t_max, int n_curvas) {
+        public void Combinacion(double t_med, double t_max, int n_curvas,int puntos_cluster) {
 
             List<List<double>> radios_finales = new List<List<double>>();
             List<List<int>> minimo_final = new List<List<int>>();
@@ -8566,11 +8627,12 @@ namespace Logica {
                 int s_recorrido_total = s_recorrido + s_recorrido_p;
                 double s_afines_total2 = s_afines_total / (2 * afines[t].Count - 1);
                 double s_recorrido_total2 = s_recorrido_total / (2 * afines[t].Count - 1);
+                int poli_larga = puntos_cluster;
                 puntos = false;
                 puntos_p = false;
 
                 for (int i = 0; i < afines[t].Count; i++) {
-                    if (afines[t][i] > s_afines_total2 && recorrido[t][i] > s_recorrido_total2 && recorrido[t][i] > 1) {
+                    if ((afines[t][i] > s_afines_total2 && recorrido[t][i] > s_recorrido_total2 && recorrido[t][i] > 1)|| (afines[t][i] > poli_larga && recorrido[t][i] > poli_larga && recorrido[t][i] > 1)) {
 
                     } else {
                         if (afines[t].Count == 3 && i == 1) {
@@ -8586,7 +8648,7 @@ namespace Logica {
                         }
 
                     }
-                    if (afines_p[t][i] > s_afines_total2 && recorrido_p[t][i] > s_recorrido_total2 && recorrido_p[t][i] > 1) {
+                    if ((afines_p[t][i] > s_afines_total2 && recorrido_p[t][i] > s_recorrido_total2 && recorrido_p[t][i] > 1)|| (afines_p[t][i] > poli_larga && recorrido_p[t][i] > poli_larga && recorrido_p[t][i] > 1)) {
 
                     } else {
                         if (afines[t].Count == 5 && i == 2) {
@@ -9130,74 +9192,88 @@ namespace Logica {
                                             lc = lcp;
                                         }
                                     }*/
-                                Punto p1 = new Punto();
+                                if (Listas_curvas[i].Item4[min[0]] < 50000)
+                                {
+                                    Punto p1 = new Punto();
 
-                                p1 = Rellenar_centro(polilinea[min_p + min[0]], Listas_curvas[i].Item2[min[0]], Listas_curvas[i].Item3[min[0]], 1);//primer punto
-                                az1 = p1.Az + 180;
+                                    p1 = Rellenar_centro(polilinea[min_p + min[0]], Listas_curvas[i].Item2[min[0]], Listas_curvas[i].Item3[min[0]], 1);//primer punto
+                                    az1 = p1.Az + 180;
 
-                                xx1 = Listas_curvas[i].Item2[min[0]] - (Listas_curvas[i].Item4[min[0]]) * Math.Sin((az1) * Math.PI / 180);
-                                yy1 = Listas_curvas[i].Item3[min[0]] - (Listas_curvas[i].Item4[min[0]]) * Math.Cos((az1) * Math.PI / 180);
-                                p1 = new Punto(new Point2d(xx1, yy1));
-                                tadLayShare.puntos.Punto3d pp2 = new tadLayShare.puntos.Punto3d(xx1, yy1, 0);
-                                tadLayShare.puntos.Punto3d pp3 = new tadLayShare.puntos.Punto3d(Listas_curvas[i].Item2[min[0]], Listas_curvas[i].Item3[min[0]], 0);
-                                //Dibujar_r(pp2, pp3);
-                                Punto p2 = new Punto();
-                                int punto_medio = 0;
-                                if (!puntos_s) {
-                                    punto_medio = min_p + min[0] + 1;
-                                } else {
-                                    punto_medio = (max_p - (min[0] - lc.Item4.Count + 1) + min_p + min[0]) / 2;
-                                }
-
-                                p2 = Rellenar_centro(polilinea[punto_medio], Listas_curvas[i].Item2[min[0]], Listas_curvas[i].Item3[min[0]], 1);//punto intermedio
-
-                                az2 = p2.Az + 180;
-                                xx2 = Listas_curvas[i].Item2[min[0]] - (Listas_curvas[i].Item4[min[0]]) * Math.Sin((az2) * Math.PI / 180);
-                                yy2 = Listas_curvas[i].Item3[min[0]] - (Listas_curvas[i].Item4[min[0]]) * Math.Cos((az2) * Math.PI / 180);
-                                p2 = new Punto(new Point2d(xx2, yy2));
-                                pp2 = new tadLayShare.puntos.Punto3d(xx2, yy2, 0);
-                                //Dibujar_r(pp2, pp3);
-                                Punto p3 = new Punto();
-                                int punto_final = 0;
-                                if (!puntos_s) {
-                                    punto_final = min_p + min[0] + 2;
-                                } else {
-                                    punto_final = max_p - (min[0] - lc.Item4.Count + 1) - 1;
-                                }
-                                for (int h = 0; h < Listas_rectas.Count; h++) {
-                                    if (Listas_rectas[h].Item1[1].p == polilinea[max_p - (min[0] - lc.Item4.Count + 1)].p) {
-                                        p3 = Rellenar_centro(polilinea[punto_final], Listas_curvas[i].Item2[min[0]], Listas_curvas[i].Item3[min[0]], 1);//ultimo punto
-                                        p_ant = true;
-                                        break;
+                                    xx1 = Listas_curvas[i].Item2[min[0]] - (Listas_curvas[i].Item4[min[0]]) * Math.Sin((az1) * Math.PI / 180);
+                                    yy1 = Listas_curvas[i].Item3[min[0]] - (Listas_curvas[i].Item4[min[0]]) * Math.Cos((az1) * Math.PI / 180);
+                                    p1 = new Punto(new Point2d(xx1, yy1));
+                                    tadLayShare.puntos.Punto3d pp2 = new tadLayShare.puntos.Punto3d(xx1, yy1, 0);
+                                    tadLayShare.puntos.Punto3d pp3 = new tadLayShare.puntos.Punto3d(Listas_curvas[i].Item2[min[0]], Listas_curvas[i].Item3[min[0]], 0);
+                                    //Dibujar_r(pp2, pp3);
+                                    Punto p2 = new Punto();
+                                    int punto_medio = 0;
+                                    if (!puntos_s)
+                                    {
+                                        punto_medio = min_p + min[0] + 1;
                                     }
-                                }
-                                if (!p_ant) {
-                                    if ((max_p - (min[0] - lc.Item4.Count + 1)) > polilinea.Count - 1) {
-                                        p3 = Rellenar_centro(polilinea[polilinea.Count - 1], Listas_curvas[i].Item2[min[0]], Listas_curvas[i].Item3[min[0]], 1);//ultimo punto
-
-                                    } else {
-                                        p3 = Rellenar_centro(polilinea[punto_final], Listas_curvas[i].Item2[min[0]], Listas_curvas[i].Item3[min[0]], 1);//ultimo punto
-
+                                    else
+                                    {
+                                        punto_medio = (max_p - (min[0] - lc.Item4.Count + 1) + min_p + min[0]) / 2;
                                     }
+
+                                    p2 = Rellenar_centro(polilinea[punto_medio], Listas_curvas[i].Item2[min[0]], Listas_curvas[i].Item3[min[0]], 1);//punto intermedio
+
+                                    az2 = p2.Az + 180;
+                                    xx2 = Listas_curvas[i].Item2[min[0]] - (Listas_curvas[i].Item4[min[0]]) * Math.Sin((az2) * Math.PI / 180);
+                                    yy2 = Listas_curvas[i].Item3[min[0]] - (Listas_curvas[i].Item4[min[0]]) * Math.Cos((az2) * Math.PI / 180);
+                                    p2 = new Punto(new Point2d(xx2, yy2));
+                                    pp2 = new tadLayShare.puntos.Punto3d(xx2, yy2, 0);
+                                    //Dibujar_r(pp2, pp3);
+                                    Punto p3 = new Punto();
+                                    int punto_final = 0;
+                                    if (!puntos_s)
+                                    {
+                                        punto_final = min_p + min[0] + 2;
+                                    }
+                                    else
+                                    {
+                                        punto_final = max_p - (min[0] - lc.Item4.Count + 1) - 1;
+                                    }
+                                    for (int h = 0; h < Listas_rectas.Count; h++)
+                                    {
+                                        if (Listas_rectas[h].Item1[1].p == polilinea[max_p - (min[0] - lc.Item4.Count + 1)].p)
+                                        {
+                                            p3 = Rellenar_centro(polilinea[punto_final], Listas_curvas[i].Item2[min[0]], Listas_curvas[i].Item3[min[0]], 1);//ultimo punto
+                                            p_ant = true;
+                                            break;
+                                        }
+                                    }
+                                    if (!p_ant)
+                                    {
+                                        if ((max_p - (min[0] - lc.Item4.Count + 1)) > polilinea.Count - 1)
+                                        {
+                                            p3 = Rellenar_centro(polilinea[polilinea.Count - 1], Listas_curvas[i].Item2[min[0]], Listas_curvas[i].Item3[min[0]], 1);//ultimo punto
+
+                                        }
+                                        else
+                                        {
+                                            p3 = Rellenar_centro(polilinea[punto_final], Listas_curvas[i].Item2[min[0]], Listas_curvas[i].Item3[min[0]], 1);//ultimo punto
+
+                                        }
+                                    }
+                                    az3 = p3.Az + 180;
+                                    xx3 = Listas_curvas[i].Item2[min[0]] - (Listas_curvas[i].Item4[min[0]]) * Math.Sin((az3) * Math.PI / 180);
+                                    yy3 = Listas_curvas[i].Item3[min[0]] - (Listas_curvas[i].Item4[min[0]]) * Math.Cos((az3) * Math.PI / 180);
+                                    p3 = new Punto(new Point2d(xx3, yy3));
+                                    pp2 = new tadLayShare.puntos.Punto3d(xx3, yy3, 0);
+                                    //Dibujar_r(pp2, pp3);
+
+                                    //                               Dibujar_c(Listas_curvas[t].Item2[cr[0]], Listas_curvas[t].Item3[cr[0]], Listas_curvas[t].Item4[cr[0]]);
+                                    componentes.Add(new Componente(p1, 2));
+                                    componentes[componentes.Count - 1].add(p2);
+                                    componentes[componentes.Count - 1].add(p3);
+                                    componentes[componentes.Count - 1].radio = Listas_curvas[i].Item4[min[0]];
+                                    componentes[componentes.Count - 1].xc = Listas_curvas[i].Item2[min[0]];
+                                    componentes[componentes.Count - 1].yc = Listas_curvas[i].Item3[min[0]];
+                                    componentes[componentes.Count - 1].ini = min_p + min[0];
+
+                                    componentes[componentes.Count - 1].fin = punto_final;
                                 }
-                                az3 = p3.Az + 180;
-                                xx3 = Listas_curvas[i].Item2[min[0]] - (Listas_curvas[i].Item4[min[0]]) * Math.Sin((az3) * Math.PI / 180);
-                                yy3 = Listas_curvas[i].Item3[min[0]] - (Listas_curvas[i].Item4[min[0]]) * Math.Cos((az3) * Math.PI / 180);
-                                p3 = new Punto(new Point2d(xx3, yy3));
-                                pp2 = new tadLayShare.puntos.Punto3d(xx3, yy3, 0);
-                                //Dibujar_r(pp2, pp3);
-
-                                //                               Dibujar_c(Listas_curvas[t].Item2[cr[0]], Listas_curvas[t].Item3[cr[0]], Listas_curvas[t].Item4[cr[0]]);
-                                componentes.Add(new Componente(p1, 2));
-                                componentes[componentes.Count - 1].add(p2);
-                                componentes[componentes.Count - 1].add(p3);
-                                componentes[componentes.Count - 1].radio = Listas_curvas[i].Item4[min[0]];
-                                componentes[componentes.Count - 1].xc = Listas_curvas[i].Item2[min[0]];
-                                componentes[componentes.Count - 1].yc = Listas_curvas[i].Item3[min[0]];
-                                componentes[componentes.Count - 1].ini = min_p + min[0];
-
-                                componentes[componentes.Count - 1].fin = punto_final;
-
 
                             } else {
 
@@ -9864,9 +9940,13 @@ namespace Logica {
                             }
 
                         }
-                        if (componentes[contador].ini <= i && componentes[contador].fin > i) {
+                        if (componentes.Count>0) 
+                        {
+                            if (componentes[contador].ini <= i && componentes[contador].fin > i) {
                             incluir_recta = false;
+                            }
                         }
+                        
                         if (incluir_recta) {
                             Punto p = new Punto(polilinea[i]);
                             recta.Add(p);
@@ -10194,342 +10274,451 @@ namespace Logica {
             List<int> rc = new List<int>();
             List<int> cr = new List<int>();
             List<int> cc = new List<int>();
-            if (componentes[0].ini > 0) {
-                List<Punto> Recta_inicial = new List<Punto>();
-                List<Tuple<List<Punto>, double[], int>> Lista_recta_inicial = new List<Tuple<List<Punto>, double[], int>>();//para rectas
-                Recta_inicial.Add(new Punto(polilinea[0]));
-                Recta_inicial.Add(new Punto(polilinea[1]));
-                Recta_inicial.Add(new Punto(polilinea[2]));
-                for (int i = 0; i < Listas_rectas.Count; i++) {
-                    Listas_rectas[i] = Tuple.Create(Listas_rectas[i].Item1, Listas_rectas[i].Item2, Listas_rectas[i].Item3 + 1);
-                }
-                Listas_rectas.Add(ajuste_recta(Recta_inicial, 0));
-                //Crear_Polilinea();//esto hay que acabarlo para que detecte mas cluster
-                if (Listas_rectas[Listas_rectas.Count - 1].Item2[1] == 0) {
-                    if (Math.Sqrt(Math.Pow(componentes[0].radio, 2) - Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[0] - componentes[0].xc, 2)) > 0) {
-                        Listas_rectas.RemoveAt(Listas_rectas.Count - 1);
-                        Recta_inicial = new List<Punto>();
-                        Recta_inicial.Add(polilinea[polilinea.Count - 2]);
-                        Recta_inicial.Add(polilinea[polilinea.Count - 1]);
-                        Listas_rectas.Add(ajuste_recta(Recta_inicial, 0));
-                        if (Distancia(new Point2d(Listas_rectas[Listas_rectas.Count - 1].Item1[Listas_rectas[Listas_rectas.Count - 1].Item1.Count - 1].p.X, Listas_rectas[Listas_rectas.Count - 1].Item1[Listas_rectas[Listas_rectas.Count - 1].Item1.Count - 1].p.Y), new Point2d(componentes[0].xc, componentes[0].yc)) < componentes[0].radio) {
-                            while (true) {
-                                //punto de rotura para no reducir el radio
-                                break;
-                                Point2d a = new Point2d(componentes[0].xc, componentes[0].yc);
-                                double v_x_1 = (componentes[0].lista_puntos[1].p.X - componentes[0].xc) / componentes[0].radio;
-                                double v_y_1 = (componentes[0].lista_puntos[1].p.Y - componentes[0].yc) / componentes[0].radio;
-
-                                componentes[0].xc = componentes[0].xc + (componentes[0].radio * 10 / 100) * v_x_1;
-                                componentes[0].yc = componentes[0].yc + (componentes[0].radio * 10 / 100) * v_y_1;
-                                componentes[0].radio = Math.Sqrt(Math.Pow(componentes[0].xc - componentes[0].lista_puntos[1].p.X, 2) + Math.Pow(componentes[0].yc - componentes[0].lista_puntos[1].p.Y, 2));
-
-                                //Dibujar_c(componentes[i].xc, componentes[i].yc, componentes[i].radio);
-                                //Dibujar_c(componentes[i+1].xc, componentes[i+1].yc, componentes[i+1].radio);
-                                if (Distancia(new Point2d(Listas_rectas[Listas_rectas.Count - 1].Item1[Listas_rectas[Listas_rectas.Count - 1].Item1.Count - 1].p.X, Listas_rectas[Listas_rectas.Count - 1].Item1[Listas_rectas[Listas_rectas.Count - 1].Item1.Count - 1].p.Y), new Point2d(componentes[0].xc, componentes[0].yc)) < componentes[0].radio) {
-
-                                } else {
-                                    break;
-                                }
-                                if (contador == 5) {
-                                    break;
-                                }
-                                contador++;
-                            }
-                        }
-                        if (Listas_rectas[Listas_rectas.Count - 1].Item2[1] == 0) {
-                            if (Math.Sqrt(Math.Pow(componentes[0].radio, 2) - Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[0] - componentes[0].xc, 2)) > 0) {
-                                double giro = Girar(Listas_rectas[Listas_rectas.Count - 1], componentes[0]);
-                                Listas_rectas.RemoveAt(Listas_rectas.Count - 1);
-                                Recta_inicial = Girar_Recta_2(Recta_inicial, -giro, 2);
-                                Listas_rectas.Add(ajuste_recta(Recta_inicial, 0));
-                                while (true) {
+            if (componentes.Count > 0)
+            {
+                if (componentes[0].ini > 0)
+                {
+                    List<Punto> Recta_inicial = new List<Punto>();
+                    List<Tuple<List<Punto>, double[], int>> Lista_recta_inicial = new List<Tuple<List<Punto>, double[], int>>();//para rectas
+                    Recta_inicial.Add(new Punto(polilinea[0]));
+                    Recta_inicial.Add(new Punto(polilinea[1]));
+                    Recta_inicial.Add(new Punto(polilinea[2]));
+                    for (int i = 0; i < Listas_rectas.Count; i++)
+                    {
+                        Listas_rectas[i] = Tuple.Create(Listas_rectas[i].Item1, Listas_rectas[i].Item2, Listas_rectas[i].Item3 + 1);
+                    }
+                    Listas_rectas.Add(ajuste_recta(Recta_inicial, 0));
+                    //Crear_Polilinea();//esto hay que acabarlo para que detecte mas cluster
+                    if (Listas_rectas[Listas_rectas.Count - 1].Item2[1] == 0)
+                    {
+                        if (Math.Sqrt(Math.Pow(componentes[0].radio, 2) - Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[0] - componentes[0].xc, 2)) > 0)
+                        {
+                            Listas_rectas.RemoveAt(Listas_rectas.Count - 1);
+                            Recta_inicial = new List<Punto>();
+                            Recta_inicial.Add(polilinea[polilinea.Count - 2]);
+                            Recta_inicial.Add(polilinea[polilinea.Count - 1]);
+                            Listas_rectas.Add(ajuste_recta(Recta_inicial, 0));
+                            if (Distancia(new Point2d(Listas_rectas[Listas_rectas.Count - 1].Item1[Listas_rectas[Listas_rectas.Count - 1].Item1.Count - 1].p.X, Listas_rectas[Listas_rectas.Count - 1].Item1[Listas_rectas[Listas_rectas.Count - 1].Item1.Count - 1].p.Y), new Point2d(componentes[0].xc, componentes[0].yc)) < componentes[0].radio)
+                            {
+                                while (true)
+                                {
                                     //punto de rotura para no reducir el radio
                                     break;
-                                    if (Listas_rectas[Listas_rectas.Count - 1].Item2[1] == 0) {
-                                        if ((Math.Sqrt(Math.Pow(componentes[0].radio, 2) - Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[0] - componentes[0].xc, 2)) > 0)) {
+                                    Point2d a = new Point2d(componentes[0].xc, componentes[0].yc);
+                                    double v_x_1 = (componentes[0].lista_puntos[1].p.X - componentes[0].xc) / componentes[0].radio;
+                                    double v_y_1 = (componentes[0].lista_puntos[1].p.Y - componentes[0].yc) / componentes[0].radio;
 
-                                        } else {
-                                            break;
-                                        }
-                                    } else {
-                                        if (Math.Pow(2 * Listas_rectas[Listas_rectas.Count - 1].Item2[0] * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - 2 * componentes[0].xc - 2 * componentes[0].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2) - 4 * (1 + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2)) * (Math.Pow(componentes[0].xc, 2) + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[1], 2) + Math.Pow(componentes[0].yc, 2) - 2 * componentes[0].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - Math.Pow(componentes[0].radio, 2)) > 0) {
+                                    componentes[0].xc = componentes[0].xc + (componentes[0].radio * 10 / 100) * v_x_1;
+                                    componentes[0].yc = componentes[0].yc + (componentes[0].radio * 10 / 100) * v_y_1;
+                                    componentes[0].radio = Math.Sqrt(Math.Pow(componentes[0].xc - componentes[0].lista_puntos[1].p.X, 2) + Math.Pow(componentes[0].yc - componentes[0].lista_puntos[1].p.Y, 2));
 
-                                        } else {
-                                            break;
-                                        }
+                                    //Dibujar_c(componentes[i].xc, componentes[i].yc, componentes[i].radio);
+                                    //Dibujar_c(componentes[i+1].xc, componentes[i+1].yc, componentes[i+1].radio);
+                                    if (Distancia(new Point2d(Listas_rectas[Listas_rectas.Count - 1].Item1[Listas_rectas[Listas_rectas.Count - 1].Item1.Count - 1].p.X, Listas_rectas[Listas_rectas.Count - 1].Item1[Listas_rectas[Listas_rectas.Count - 1].Item1.Count - 1].p.Y), new Point2d(componentes[0].xc, componentes[0].yc)) < componentes[0].radio)
+                                    {
+
                                     }
-                                    giro = Girar(Listas_rectas[Listas_rectas.Count - 1], componentes[0]);
-                                    Listas_rectas.RemoveAt(Listas_rectas.Count - 1);
-                                    Recta_inicial = Girar_Recta_2(Recta_inicial, giro, 2);
-                                    Listas_rectas.Add(ajuste_recta(Recta_inicial, 0));
+                                    else
+                                    {
+                                        break;
+                                    }
+                                    if (contador == 5)
+                                    {
+                                        break;
+                                    }
+                                    contador++;
                                 }
                             }
-                        } else {
-                            if (Math.Pow(2 * Listas_rectas[Listas_rectas.Count - 1].Item2[0] * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - 2 * componentes[0].xc - 2 * componentes[0].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2) - 4 * (1 + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2)) * (Math.Pow(componentes[0].xc, 2) + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[1], 2) + Math.Pow(componentes[0].yc, 2) - 2 * componentes[0].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - Math.Pow(componentes[0].radio, 2)) > 0) {
-                                while (true) {
-                                    //punto de rotura para no reducir el radio
-                                    break;
+                            if (Listas_rectas[Listas_rectas.Count - 1].Item2[1] == 0)
+                            {
+                                if (Math.Sqrt(Math.Pow(componentes[0].radio, 2) - Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[0] - componentes[0].xc, 2)) > 0)
+                                {
                                     double giro = Girar(Listas_rectas[Listas_rectas.Count - 1], componentes[0]);
                                     Listas_rectas.RemoveAt(Listas_rectas.Count - 1);
-                                    Recta_inicial = Girar_Recta_2(Recta_inicial, giro, 2);
+                                    Recta_inicial = Girar_Recta_2(Recta_inicial, -giro, 2);
                                     Listas_rectas.Add(ajuste_recta(Recta_inicial, 0));
-                                    if (Math.Pow(2 * Listas_rectas[Listas_rectas.Count - 1].Item2[0] * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - 2 * componentes[0].xc - 2 * componentes[0].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2) - 4 * (1 + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2)) * (Math.Pow(componentes[0].xc, 2) + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[1], 2) + Math.Pow(componentes[0].yc, 2) - 2 * componentes[0].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - Math.Pow(componentes[0].radio, 2)) > 0) {
+                                    while (true)
+                                    {
+                                        //punto de rotura para no reducir el radio
                                         break;
-                                    } else {
-                                        break;
+                                        if (Listas_rectas[Listas_rectas.Count - 1].Item2[1] == 0)
+                                        {
+                                            if ((Math.Sqrt(Math.Pow(componentes[0].radio, 2) - Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[0] - componentes[0].xc, 2)) > 0))
+                                            {
+
+                                            }
+                                            else
+                                            {
+                                                break;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (Math.Pow(2 * Listas_rectas[Listas_rectas.Count - 1].Item2[0] * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - 2 * componentes[0].xc - 2 * componentes[0].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2) - 4 * (1 + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2)) * (Math.Pow(componentes[0].xc, 2) + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[1], 2) + Math.Pow(componentes[0].yc, 2) - 2 * componentes[0].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - Math.Pow(componentes[0].radio, 2)) > 0)
+                                            {
+
+                                            }
+                                            else
+                                            {
+                                                break;
+                                            }
+                                        }
+                                        giro = Girar(Listas_rectas[Listas_rectas.Count - 1], componentes[0]);
+                                        Listas_rectas.RemoveAt(Listas_rectas.Count - 1);
+                                        Recta_inicial = Girar_Recta_2(Recta_inicial, giro, 2);
+                                        Listas_rectas.Add(ajuste_recta(Recta_inicial, 0));
                                     }
                                 }
-                            } else {
+                            }
+                            else
+                            {
+                                if (Math.Pow(2 * Listas_rectas[Listas_rectas.Count - 1].Item2[0] * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - 2 * componentes[0].xc - 2 * componentes[0].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2) - 4 * (1 + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2)) * (Math.Pow(componentes[0].xc, 2) + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[1], 2) + Math.Pow(componentes[0].yc, 2) - 2 * componentes[0].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - Math.Pow(componentes[0].radio, 2)) > 0)
+                                {
+                                    while (true)
+                                    {
+                                        //punto de rotura para no reducir el radio
+                                        break;
+                                        double giro = Girar(Listas_rectas[Listas_rectas.Count - 1], componentes[0]);
+                                        Listas_rectas.RemoveAt(Listas_rectas.Count - 1);
+                                        Recta_inicial = Girar_Recta_2(Recta_inicial, giro, 2);
+                                        Listas_rectas.Add(ajuste_recta(Recta_inicial, 0));
+                                        if (Math.Pow(2 * Listas_rectas[Listas_rectas.Count - 1].Item2[0] * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - 2 * componentes[0].xc - 2 * componentes[0].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2) - 4 * (1 + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2)) * (Math.Pow(componentes[0].xc, 2) + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[1], 2) + Math.Pow(componentes[0].yc, 2) - 2 * componentes[0].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - Math.Pow(componentes[0].radio, 2)) > 0)
+                                        {
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            break;
+                                        }
+                                    }
+                                }
+                                else
+                                {
 
+                                }
                             }
                         }
-                    } else {
+                        else
+                        {
+
+                        }
 
                     }
-
-                } else {
-                    if (Math.Pow(2 * Listas_rectas[Listas_rectas.Count - 1].Item2[0] * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - 2 * componentes[0].xc - 2 * componentes[0].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2) - 4 * (1 + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2)) * (Math.Pow(componentes[0].xc, 2) + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[1], 2) + Math.Pow(componentes[0].yc, 2) - 2 * componentes[0].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - Math.Pow(componentes[0].radio, 2)) > 0) {
-                        Listas_rectas.RemoveAt(Listas_rectas.Count - 1);
-                        Recta_inicial = new List<Punto>();
-                        Recta_inicial.Add(new Punto(polilinea[0]));
-                        Recta_inicial.Add(new Punto(polilinea[1]));
-                        Listas_rectas.Add(ajuste_recta(Recta_inicial, 0));
-                        /*
-                         * Se comprueba que no esta el punto inicial dentro de la curva
-                         */
-                        if (Distancia(new Point2d(Listas_rectas[Listas_rectas.Count - 1].Item1[0].p.X, Listas_rectas[Listas_rectas.Count - 1].Item1[0].p.Y), new Point2d(componentes[0].xc, componentes[0].yc)) < componentes[0].radio) {
-                            while (true) {
-                                //punto de rotura para no reducir el radio
-                                break;
-                                Point2d a = new Point2d(componentes[0].xc, componentes[0].yc);
-                                double v_x_1 = (componentes[0].lista_puntos[1].p.X - componentes[0].xc) / componentes[0].radio;
-                                double v_y_1 = (componentes[0].lista_puntos[1].p.Y - componentes[0].yc) / componentes[0].radio;
-
-                                componentes[0].xc = componentes[0].xc + (componentes[0].radio * 10 / 100) * v_x_1;
-                                componentes[0].yc = componentes[0].yc + (componentes[0].radio * 10 / 100) * v_y_1;
-                                componentes[0].radio = Math.Sqrt(Math.Pow(componentes[0].xc - componentes[0].lista_puntos[1].p.X, 2) + Math.Pow(componentes[0].yc - componentes[0].lista_puntos[1].p.Y, 2));
-
-                                //Dibujar_c(componentes[i].xc, componentes[i].yc, componentes[i].radio);
-                                //Dibujar_c(componentes[i+1].xc, componentes[i+1].yc, componentes[i+1].radio);
-                                if (Distancia(new Point2d(Listas_rectas[Listas_rectas.Count - 1].Item1[0].p.X, Listas_rectas[Listas_rectas.Count - 1].Item1[0].p.Y), new Point2d(componentes[0].xc, componentes[0].yc)) < componentes[0].radio) {
-
-                                } else {
-                                    break;
-                                }
-                                if (contador == 5) {
-                                    break;
-                                }
-                                contador++;
-                            }
-                        }
-                        if (Math.Pow(2 * Listas_rectas[Listas_rectas.Count - 1].Item2[0] * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - 2 * componentes[0].xc - 2 * componentes[0].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2) - 4 * (1 + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2)) * (Math.Pow(componentes[0].xc, 2) + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[1], 2) + Math.Pow(componentes[0].yc, 2) - 2 * componentes[0].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - Math.Pow(componentes[0].radio, 2)) > 0) {
-                            double giro = Girar(Listas_rectas[Listas_rectas.Count - 1], componentes[0]);
-                            int contar = 0;
-                            while (true) {
-                                //punto de rotura para no reducir el radio
-                                break;
-                                Listas_rectas.RemoveAt(Listas_rectas.Count - 1);
-                                Recta_inicial = Girar_Recta_2(Recta_inicial, giro, 1);
-                                Listas_rectas.Add(ajuste_recta(Recta_inicial, 0));
-                                double result = Math.Pow(2 * Listas_rectas[Listas_rectas.Count - 1].Item2[0] * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - 2 * componentes[0].xc - 2 * componentes[0].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2) - 4 * (1 + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2)) * (Math.Pow(componentes[0].xc, 2) + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[1], 2) + Math.Pow(componentes[0].yc, 2) - 2 * componentes[0].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - Math.Pow(componentes[0].radio, 2));
-                                if (result > 0) {
-
-                                } else {
-                                    break;
-                                }
-                            }
-
-                        } else {
-
-                        }
-                    } else {
-
-                    }
-                }
-                if (componentes[0].Tipo == 2) {
-                    componentes.Insert(0, new Componente(Listas_rectas[Listas_rectas.Count - 1].Item1[0], 1));
-                    componentes[0].add(Listas_rectas[Listas_rectas.Count - 1].Item1[1]);
-                    if (Listas_rectas[Listas_rectas.Count - 1].Item1.Count == 3) {
-                        componentes[0].add(Listas_rectas[Listas_rectas.Count - 1].Item1[2]);
-                    }
-                }
-
-            }
-            if (componentes[componentes.Count - 1].fin < polilinea.Count - 1) {
-                List<Punto> Recta_inicial = new List<Punto>();
-                List<Tuple<List<Punto>, double[], int>> Lista_recta_inicial = new List<Tuple<List<Punto>, double[], int>>();//para rectas
-                Recta_inicial.Add(polilinea[polilinea.Count - 3]);
-                Recta_inicial.Add(polilinea[polilinea.Count - 2]);
-                Recta_inicial.Add(polilinea[polilinea.Count - 1]);
-                Listas_rectas.Add(ajuste_recta(Recta_inicial, 0));
-                if (Listas_rectas[Listas_rectas.Count - 1].Item2[1] == 0) {
-                    if (Math.Sqrt(Math.Pow(componentes[componentes.Count - 1].radio, 2) - Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[0] - componentes[componentes.Count - 1].xc, 2)) > 0) {
-                        Listas_rectas.RemoveAt(Listas_rectas.Count - 1);
-                        Recta_inicial = new List<Punto>();
-                        Recta_inicial.Add(polilinea[polilinea.Count - 2]);
-                        Recta_inicial.Add(polilinea[polilinea.Count - 1]);
-                        Listas_rectas.Add(ajuste_recta(Recta_inicial, 0));
-                        if (Distancia(new Point2d(Listas_rectas[Listas_rectas.Count - 1].Item1[Listas_rectas[Listas_rectas.Count - 1].Item1.Count - 1].p.X, Listas_rectas[Listas_rectas.Count - 1].Item1[Listas_rectas[Listas_rectas.Count - 1].Item1.Count - 1].p.Y), new Point2d(componentes[componentes.Count - 1].xc, componentes[componentes.Count - 1].yc)) < componentes[componentes.Count - 1].radio) {
-                            while (true) {
-                                //punto de rotura para no reducir el radio
-                                break;
-                                Point2d a = new Point2d(componentes[componentes.Count - 1].xc, componentes[componentes.Count - 1].yc);
-                                double v_x_1 = (componentes[componentes.Count - 1].lista_puntos[1].p.X - componentes[componentes.Count - 1].xc) / componentes[componentes.Count - 1].radio;
-                                double v_y_1 = (componentes[componentes.Count - 1].lista_puntos[1].p.Y - componentes[componentes.Count - 1].yc) / componentes[componentes.Count - 1].radio;
-
-                                componentes[componentes.Count - 1].xc = componentes[componentes.Count - 1].xc + (componentes[componentes.Count - 1].radio * 10 / 100) * v_x_1;
-                                componentes[componentes.Count - 1].yc = componentes[componentes.Count - 1].yc + (componentes[componentes.Count - 1].radio * 10 / 100) * v_y_1;
-                                componentes[componentes.Count - 1].radio = Math.Sqrt(Math.Pow(componentes[componentes.Count - 1].xc - componentes[componentes.Count - 1].lista_puntos[1].p.X, 2) + Math.Pow(componentes[componentes.Count - 1].yc - componentes[componentes.Count - 1].lista_puntos[1].p.Y, 2));
-
-                                //Dibujar_c(componentes[i].xc, componentes[i].yc, componentes[i].radio);
-                                //Dibujar_c(componentes[i+1].xc, componentes[i+1].yc, componentes[i+1].radio);
-                                if (Distancia(new Point2d(Listas_rectas[Listas_rectas.Count - 1].Item1[Listas_rectas[Listas_rectas.Count - 1].Item1.Count - 1].p.X, Listas_rectas[Listas_rectas.Count - 1].Item1[Listas_rectas[Listas_rectas.Count - 1].Item1.Count - 1].p.Y), new Point2d(componentes[componentes.Count - 1].xc, componentes[componentes.Count - 1].yc)) < componentes[componentes.Count - 1].radio) {
-
-                                } else {
-                                    break;
-                                }
-                                if (contador == 5) {
-                                    break;
-                                }
-                                contador++;
-                            }
-                        }
-                        if (Listas_rectas[Listas_rectas.Count - 1].Item2[1] == 0) {
-                            if (Math.Sqrt(Math.Pow(componentes[componentes.Count - 1].radio, 2) - Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[0] - componentes[componentes.Count - 1].xc, 2)) > 0) {
-                                double giro = Girar(Listas_rectas[Listas_rectas.Count - 1], componentes[componentes.Count - 1]);
-                                Listas_rectas.RemoveAt(Listas_rectas.Count - 1);
-                                Recta_inicial = Girar_Recta_2(Recta_inicial, -giro, 2);
-                                Listas_rectas.Add(ajuste_recta(Recta_inicial, 0));
-                                while (true) {
+                    else
+                    {
+                        if (Math.Pow(2 * Listas_rectas[Listas_rectas.Count - 1].Item2[0] * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - 2 * componentes[0].xc - 2 * componentes[0].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2) - 4 * (1 + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2)) * (Math.Pow(componentes[0].xc, 2) + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[1], 2) + Math.Pow(componentes[0].yc, 2) - 2 * componentes[0].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - Math.Pow(componentes[0].radio, 2)) > 0)
+                        {
+                            Listas_rectas.RemoveAt(Listas_rectas.Count - 1);
+                            Recta_inicial = new List<Punto>();
+                            Recta_inicial.Add(new Punto(polilinea[0]));
+                            Recta_inicial.Add(new Punto(polilinea[1]));
+                            Listas_rectas.Add(ajuste_recta(Recta_inicial, 0));
+                            /*
+                             * Se comprueba que no esta el punto inicial dentro de la curva
+                             */
+                            if (Distancia(new Point2d(Listas_rectas[Listas_rectas.Count - 1].Item1[0].p.X, Listas_rectas[Listas_rectas.Count - 1].Item1[0].p.Y), new Point2d(componentes[0].xc, componentes[0].yc)) < componentes[0].radio)
+                            {
+                                while (true)
+                                {
                                     //punto de rotura para no reducir el radio
                                     break;
-                                    if (Listas_rectas[Listas_rectas.Count - 1].Item2[1] == 0) {
-                                        if ((Math.Sqrt(Math.Pow(componentes[componentes.Count - 1].radio, 2) - Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[0] - componentes[componentes.Count - 1].xc, 2)) > 0)) {
+                                    Point2d a = new Point2d(componentes[0].xc, componentes[0].yc);
+                                    double v_x_1 = (componentes[0].lista_puntos[1].p.X - componentes[0].xc) / componentes[0].radio;
+                                    double v_y_1 = (componentes[0].lista_puntos[1].p.Y - componentes[0].yc) / componentes[0].radio;
 
-                                        } else {
+                                    componentes[0].xc = componentes[0].xc + (componentes[0].radio * 10 / 100) * v_x_1;
+                                    componentes[0].yc = componentes[0].yc + (componentes[0].radio * 10 / 100) * v_y_1;
+                                    componentes[0].radio = Math.Sqrt(Math.Pow(componentes[0].xc - componentes[0].lista_puntos[1].p.X, 2) + Math.Pow(componentes[0].yc - componentes[0].lista_puntos[1].p.Y, 2));
+
+                                    //Dibujar_c(componentes[i].xc, componentes[i].yc, componentes[i].radio);
+                                    //Dibujar_c(componentes[i+1].xc, componentes[i+1].yc, componentes[i+1].radio);
+                                    if (Distancia(new Point2d(Listas_rectas[Listas_rectas.Count - 1].Item1[0].p.X, Listas_rectas[Listas_rectas.Count - 1].Item1[0].p.Y), new Point2d(componentes[0].xc, componentes[0].yc)) < componentes[0].radio)
+                                    {
+
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
+                                    if (contador == 5)
+                                    {
+                                        break;
+                                    }
+                                    contador++;
+                                }
+                            }
+                            if (Math.Pow(2 * Listas_rectas[Listas_rectas.Count - 1].Item2[0] * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - 2 * componentes[0].xc - 2 * componentes[0].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2) - 4 * (1 + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2)) * (Math.Pow(componentes[0].xc, 2) + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[1], 2) + Math.Pow(componentes[0].yc, 2) - 2 * componentes[0].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - Math.Pow(componentes[0].radio, 2)) > 0)
+                            {
+                                double giro = Girar(Listas_rectas[Listas_rectas.Count - 1], componentes[0]);
+                                int contar = 0;
+                                while (true)
+                                {
+                                    //punto de rotura para no reducir el radio
+                                    break;
+                                    Listas_rectas.RemoveAt(Listas_rectas.Count - 1);
+                                    Recta_inicial = Girar_Recta_2(Recta_inicial, giro, 1);
+                                    Listas_rectas.Add(ajuste_recta(Recta_inicial, 0));
+                                    double result = Math.Pow(2 * Listas_rectas[Listas_rectas.Count - 1].Item2[0] * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - 2 * componentes[0].xc - 2 * componentes[0].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2) - 4 * (1 + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2)) * (Math.Pow(componentes[0].xc, 2) + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[1], 2) + Math.Pow(componentes[0].yc, 2) - 2 * componentes[0].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - Math.Pow(componentes[0].radio, 2));
+                                    if (result > 0)
+                                    {
+
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
+                                }
+
+                            }
+                            else
+                            {
+
+                            }
+                        }
+                        else
+                        {
+
+                        }
+                    }
+                    if (componentes[0].Tipo == 2)
+                    {
+                        componentes.Insert(0, new Componente(Listas_rectas[Listas_rectas.Count - 1].Item1[0], 1));
+                        componentes[0].add(Listas_rectas[Listas_rectas.Count - 1].Item1[1]);
+                        if (Listas_rectas[Listas_rectas.Count - 1].Item1.Count == 3)
+                        {
+                            componentes[0].add(Listas_rectas[Listas_rectas.Count - 1].Item1[2]);
+                        }
+                    }
+
+                }
+                if (componentes[componentes.Count - 1].fin < polilinea.Count - 1)
+                {
+                    List<Punto> Recta_inicial = new List<Punto>();
+                    List<Tuple<List<Punto>, double[], int>> Lista_recta_inicial = new List<Tuple<List<Punto>, double[], int>>();//para rectas
+                    Recta_inicial.Add(polilinea[polilinea.Count - 3]);
+                    Recta_inicial.Add(polilinea[polilinea.Count - 2]);
+                    Recta_inicial.Add(polilinea[polilinea.Count - 1]);
+                    Listas_rectas.Add(ajuste_recta(Recta_inicial, 0));
+                    if (Listas_rectas[Listas_rectas.Count - 1].Item2[1] == 0)
+                    {
+                        if (Math.Sqrt(Math.Pow(componentes[componentes.Count - 1].radio, 2) - Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[0] - componentes[componentes.Count - 1].xc, 2)) > 0)
+                        {
+                            Listas_rectas.RemoveAt(Listas_rectas.Count - 1);
+                            Recta_inicial = new List<Punto>();
+                            Recta_inicial.Add(polilinea[polilinea.Count - 2]);
+                            Recta_inicial.Add(polilinea[polilinea.Count - 1]);
+                            Listas_rectas.Add(ajuste_recta(Recta_inicial, 0));
+                            if (Distancia(new Point2d(Listas_rectas[Listas_rectas.Count - 1].Item1[Listas_rectas[Listas_rectas.Count - 1].Item1.Count - 1].p.X, Listas_rectas[Listas_rectas.Count - 1].Item1[Listas_rectas[Listas_rectas.Count - 1].Item1.Count - 1].p.Y), new Point2d(componentes[componentes.Count - 1].xc, componentes[componentes.Count - 1].yc)) < componentes[componentes.Count - 1].radio)
+                            {
+                                while (true)
+                                {
+                                    //punto de rotura para no reducir el radio
+                                    break;
+                                    Point2d a = new Point2d(componentes[componentes.Count - 1].xc, componentes[componentes.Count - 1].yc);
+                                    double v_x_1 = (componentes[componentes.Count - 1].lista_puntos[1].p.X - componentes[componentes.Count - 1].xc) / componentes[componentes.Count - 1].radio;
+                                    double v_y_1 = (componentes[componentes.Count - 1].lista_puntos[1].p.Y - componentes[componentes.Count - 1].yc) / componentes[componentes.Count - 1].radio;
+
+                                    componentes[componentes.Count - 1].xc = componentes[componentes.Count - 1].xc + (componentes[componentes.Count - 1].radio * 10 / 100) * v_x_1;
+                                    componentes[componentes.Count - 1].yc = componentes[componentes.Count - 1].yc + (componentes[componentes.Count - 1].radio * 10 / 100) * v_y_1;
+                                    componentes[componentes.Count - 1].radio = Math.Sqrt(Math.Pow(componentes[componentes.Count - 1].xc - componentes[componentes.Count - 1].lista_puntos[1].p.X, 2) + Math.Pow(componentes[componentes.Count - 1].yc - componentes[componentes.Count - 1].lista_puntos[1].p.Y, 2));
+
+                                    //Dibujar_c(componentes[i].xc, componentes[i].yc, componentes[i].radio);
+                                    //Dibujar_c(componentes[i+1].xc, componentes[i+1].yc, componentes[i+1].radio);
+                                    if (Distancia(new Point2d(Listas_rectas[Listas_rectas.Count - 1].Item1[Listas_rectas[Listas_rectas.Count - 1].Item1.Count - 1].p.X, Listas_rectas[Listas_rectas.Count - 1].Item1[Listas_rectas[Listas_rectas.Count - 1].Item1.Count - 1].p.Y), new Point2d(componentes[componentes.Count - 1].xc, componentes[componentes.Count - 1].yc)) < componentes[componentes.Count - 1].radio)
+                                    {
+
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
+                                    if (contador == 5)
+                                    {
+                                        break;
+                                    }
+                                    contador++;
+                                }
+                            }
+                            if (Listas_rectas[Listas_rectas.Count - 1].Item2[1] == 0)
+                            {
+                                if (Math.Sqrt(Math.Pow(componentes[componentes.Count - 1].radio, 2) - Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[0] - componentes[componentes.Count - 1].xc, 2)) > 0)
+                                {
+                                    double giro = Girar(Listas_rectas[Listas_rectas.Count - 1], componentes[componentes.Count - 1]);
+                                    Listas_rectas.RemoveAt(Listas_rectas.Count - 1);
+                                    Recta_inicial = Girar_Recta_2(Recta_inicial, -giro, 2);
+                                    Listas_rectas.Add(ajuste_recta(Recta_inicial, 0));
+                                    while (true)
+                                    {
+                                        //punto de rotura para no reducir el radio
+                                        break;
+                                        if (Listas_rectas[Listas_rectas.Count - 1].Item2[1] == 0)
+                                        {
+                                            if ((Math.Sqrt(Math.Pow(componentes[componentes.Count - 1].radio, 2) - Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[0] - componentes[componentes.Count - 1].xc, 2)) > 0))
+                                            {
+
+                                            }
+                                            else
+                                            {
+                                                break;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (Math.Pow(2 * Listas_rectas[Listas_rectas.Count - 1].Item2[0] * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - 2 * componentes[componentes.Count - 1].xc - 2 * componentes[componentes.Count - 1].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2) - 4 * (1 + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2)) * (Math.Pow(componentes[componentes.Count - 1].xc, 2) + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[1], 2) + Math.Pow(componentes[componentes.Count - 1].yc, 2) - 2 * componentes[componentes.Count - 1].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - Math.Pow(componentes[componentes.Count - 1].radio, 2)) > 0)
+                                            {
+
+                                            }
+                                            else
+                                            {
+                                                break;
+                                            }
+                                        }
+                                        giro = Girar(Listas_rectas[Listas_rectas.Count - 1], componentes[componentes.Count - 1]);
+                                        Listas_rectas.RemoveAt(Listas_rectas.Count - 1);
+                                        Recta_inicial = Girar_Recta_2(Recta_inicial, giro, 2);
+                                        Listas_rectas.Add(ajuste_recta(Recta_inicial, 0));
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (Math.Pow(2 * Listas_rectas[Listas_rectas.Count - 1].Item2[0] * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - 2 * componentes[componentes.Count - 1].xc - 2 * componentes[componentes.Count - 1].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2) - 4 * (1 + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2)) * (Math.Pow(componentes[componentes.Count - 1].xc, 2) + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[1], 2) + Math.Pow(componentes[componentes.Count - 1].yc, 2) - 2 * componentes[componentes.Count - 1].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - Math.Pow(componentes[componentes.Count - 1].radio, 2)) > 0)
+                                {
+                                    while (true)
+                                    {
+                                        //punto de rotura para no reducir el radio
+                                        break;
+                                        double giro = Girar(Listas_rectas[Listas_rectas.Count - 1], componentes[componentes.Count - 1]);
+                                        Listas_rectas.RemoveAt(Listas_rectas.Count - 1);
+                                        Recta_inicial = Girar_Recta_2(Recta_inicial, giro, 2);
+                                        Listas_rectas.Add(ajuste_recta(Recta_inicial, 0));
+                                        if (Math.Pow(2 * Listas_rectas[Listas_rectas.Count - 1].Item2[0] * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - 2 * componentes[componentes.Count - 1].xc - 2 * componentes[componentes.Count - 1].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2) - 4 * (1 + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2)) * (Math.Pow(componentes[componentes.Count - 1].xc, 2) + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[1], 2) + Math.Pow(componentes[componentes.Count - 1].yc, 2) - 2 * componentes[componentes.Count - 1].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - Math.Pow(componentes[componentes.Count - 1].radio, 2)) > 0)
+                                        {
                                             break;
                                         }
-                                    } else {
-                                        if (Math.Pow(2 * Listas_rectas[Listas_rectas.Count - 1].Item2[0] * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - 2 * componentes[componentes.Count - 1].xc - 2 * componentes[componentes.Count - 1].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2) - 4 * (1 + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2)) * (Math.Pow(componentes[componentes.Count - 1].xc, 2) + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[1], 2) + Math.Pow(componentes[componentes.Count - 1].yc, 2) - 2 * componentes[componentes.Count - 1].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - Math.Pow(componentes[componentes.Count - 1].radio, 2)) > 0) {
-
-                                        } else {
+                                        else
+                                        {
                                             break;
                                         }
                                     }
-                                    giro = Girar(Listas_rectas[Listas_rectas.Count - 1], componentes[componentes.Count - 1]);
-                                    Listas_rectas.RemoveAt(Listas_rectas.Count - 1);
-                                    Recta_inicial = Girar_Recta_2(Recta_inicial, giro, 2);
-                                    Listas_rectas.Add(ajuste_recta(Recta_inicial, 0));
+                                }
+                                else
+                                {
+
                                 }
                             }
-                        } else {
-                            if (Math.Pow(2 * Listas_rectas[Listas_rectas.Count - 1].Item2[0] * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - 2 * componentes[componentes.Count - 1].xc - 2 * componentes[componentes.Count - 1].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2) - 4 * (1 + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2)) * (Math.Pow(componentes[componentes.Count - 1].xc, 2) + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[1], 2) + Math.Pow(componentes[componentes.Count - 1].yc, 2) - 2 * componentes[componentes.Count - 1].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - Math.Pow(componentes[componentes.Count - 1].radio, 2)) > 0) {
-                                while (true) {
+                        }
+                        else
+                        {
+
+                        }
+
+                    }
+                    else
+                    {
+                        if (Math.Pow(2 * Listas_rectas[Listas_rectas.Count - 1].Item2[0] * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - 2 * componentes[componentes.Count - 1].xc - 2 * componentes[componentes.Count - 1].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2) - 4 * (1 + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2)) * (Math.Pow(componentes[componentes.Count - 1].xc, 2) + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[1], 2) + Math.Pow(componentes[componentes.Count - 1].yc, 2) - 2 * componentes[componentes.Count - 1].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - Math.Pow(componentes[componentes.Count - 1].radio, 2)) > 0)
+                        {
+                            Listas_rectas.RemoveAt(Listas_rectas.Count - 1);
+                            Recta_inicial = new List<Punto>();
+                            Recta_inicial.Add(polilinea[polilinea.Count - 2]);
+                            Recta_inicial.Add(polilinea[polilinea.Count - 1]);
+                            Listas_rectas.Add(ajuste_recta(Recta_inicial, 0));
+                            if (Distancia(new Point2d(Listas_rectas[Listas_rectas.Count - 1].Item1[Listas_rectas[Listas_rectas.Count - 1].Item1.Count - 1].p.X, Listas_rectas[Listas_rectas.Count - 1].Item1[Listas_rectas[Listas_rectas.Count - 1].Item1.Count - 1].p.Y), new Point2d(componentes[componentes.Count - 1].xc, componentes[componentes.Count - 1].yc)) < componentes[componentes.Count - 1].radio)
+                            {
+                                while (true)
+                                {
+                                    //punto de rotura para no reducir el radio
+                                    break;
+                                    Point2d a = new Point2d(componentes[componentes.Count - 1].xc, componentes[componentes.Count - 1].yc);
+                                    double v_x_1 = (componentes[componentes.Count - 1].lista_puntos[1].p.X - componentes[componentes.Count - 1].xc) / componentes[componentes.Count - 1].radio;
+                                    double v_y_1 = (componentes[componentes.Count - 1].lista_puntos[1].p.Y - componentes[componentes.Count - 1].yc) / componentes[componentes.Count - 1].radio;
+
+                                    componentes[componentes.Count - 1].xc = componentes[componentes.Count - 1].xc + (componentes[componentes.Count - 1].radio * 10 / 100) * v_x_1;
+                                    componentes[componentes.Count - 1].yc = componentes[componentes.Count - 1].yc + (componentes[componentes.Count - 1].radio * 10 / 100) * v_y_1;
+                                    componentes[componentes.Count - 1].radio = Math.Sqrt(Math.Pow(componentes[componentes.Count - 1].xc - componentes[componentes.Count - 1].lista_puntos[1].p.X, 2) + Math.Pow(componentes[componentes.Count - 1].yc - componentes[componentes.Count - 1].lista_puntos[1].p.Y, 2));
+
+                                    //Dibujar_c(componentes[i].xc, componentes[i].yc, componentes[i].radio);
+                                    //Dibujar_c(componentes[i+1].xc, componentes[i+1].yc, componentes[i+1].radio);
+                                    if (Distancia(new Point2d(Listas_rectas[Listas_rectas.Count - 1].Item1[Listas_rectas[Listas_rectas.Count - 1].Item1.Count - 1].p.X, Listas_rectas[Listas_rectas.Count - 1].Item1[Listas_rectas[Listas_rectas.Count - 1].Item1.Count - 1].p.Y), new Point2d(componentes[componentes.Count - 1].xc, componentes[componentes.Count - 1].yc)) < componentes[componentes.Count - 1].radio)
+                                    {
+
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
+                                    if (contador == 5)
+                                    {
+                                        break;
+                                    }
+                                    contador++;
+                                }
+                            }
+                            if (Math.Pow(2 * Listas_rectas[Listas_rectas.Count - 1].Item2[0] * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - 2 * componentes[componentes.Count - 1].xc - 2 * componentes[componentes.Count - 1].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2) - 4 * (1 + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2)) * (Math.Pow(componentes[componentes.Count - 1].xc, 2) + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[1], 2) + Math.Pow(componentes[componentes.Count - 1].yc, 2) - 2 * componentes[componentes.Count - 1].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - Math.Pow(componentes[componentes.Count - 1].radio, 2)) > 0)
+                            {
+                                while (true)
+                                {
                                     //punto de rotura para no reducir el radio
                                     break;
                                     double giro = Girar(Listas_rectas[Listas_rectas.Count - 1], componentes[componentes.Count - 1]);
                                     Listas_rectas.RemoveAt(Listas_rectas.Count - 1);
                                     Recta_inicial = Girar_Recta_2(Recta_inicial, giro, 2);
                                     Listas_rectas.Add(ajuste_recta(Recta_inicial, 0));
-                                    if (Math.Pow(2 * Listas_rectas[Listas_rectas.Count - 1].Item2[0] * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - 2 * componentes[componentes.Count - 1].xc - 2 * componentes[componentes.Count - 1].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2) - 4 * (1 + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2)) * (Math.Pow(componentes[componentes.Count - 1].xc, 2) + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[1], 2) + Math.Pow(componentes[componentes.Count - 1].yc, 2) - 2 * componentes[componentes.Count - 1].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - Math.Pow(componentes[componentes.Count - 1].radio, 2)) > 0) {
+                                    if (Math.Pow(2 * Listas_rectas[Listas_rectas.Count - 1].Item2[0] * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - 2 * componentes[componentes.Count - 1].xc - 2 * componentes[componentes.Count - 1].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2) - 4 * (1 + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2)) * (Math.Pow(componentes[componentes.Count - 1].xc, 2) + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[1], 2) + Math.Pow(componentes[componentes.Count - 1].yc, 2) - 2 * componentes[componentes.Count - 1].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - Math.Pow(componentes[componentes.Count - 1].radio, 2)) > 0)
+                                    {
                                         break;
-                                    } else {
+                                    }
+                                    else
+                                    {
                                         break;
                                     }
                                 }
-                            } else {
+                            }
+                            else
+                            {
 
                             }
                         }
-                    } else {
+                        else
+                        {
 
+                        }
                     }
 
-                } else {
-                    if (Math.Pow(2 * Listas_rectas[Listas_rectas.Count - 1].Item2[0] * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - 2 * componentes[componentes.Count - 1].xc - 2 * componentes[componentes.Count - 1].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2) - 4 * (1 + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2)) * (Math.Pow(componentes[componentes.Count - 1].xc, 2) + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[1], 2) + Math.Pow(componentes[componentes.Count - 1].yc, 2) - 2 * componentes[componentes.Count - 1].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - Math.Pow(componentes[componentes.Count - 1].radio, 2)) > 0) {
-                        Listas_rectas.RemoveAt(Listas_rectas.Count - 1);
-                        Recta_inicial = new List<Punto>();
-                        Recta_inicial.Add(polilinea[polilinea.Count - 2]);
-                        Recta_inicial.Add(polilinea[polilinea.Count - 1]);
-                        Listas_rectas.Add(ajuste_recta(Recta_inicial, 0));
-                        if (Distancia(new Point2d(Listas_rectas[Listas_rectas.Count - 1].Item1[Listas_rectas[Listas_rectas.Count - 1].Item1.Count - 1].p.X, Listas_rectas[Listas_rectas.Count - 1].Item1[Listas_rectas[Listas_rectas.Count - 1].Item1.Count - 1].p.Y), new Point2d(componentes[componentes.Count - 1].xc, componentes[componentes.Count - 1].yc)) < componentes[componentes.Count - 1].radio) {
-                            while (true) {
-                                //punto de rotura para no reducir el radio
-                                break;
-                                Point2d a = new Point2d(componentes[componentes.Count - 1].xc, componentes[componentes.Count - 1].yc);
-                                double v_x_1 = (componentes[componentes.Count - 1].lista_puntos[1].p.X - componentes[componentes.Count - 1].xc) / componentes[componentes.Count - 1].radio;
-                                double v_y_1 = (componentes[componentes.Count - 1].lista_puntos[1].p.Y - componentes[componentes.Count - 1].yc) / componentes[componentes.Count - 1].radio;
-
-                                componentes[componentes.Count - 1].xc = componentes[componentes.Count - 1].xc + (componentes[componentes.Count - 1].radio * 10 / 100) * v_x_1;
-                                componentes[componentes.Count - 1].yc = componentes[componentes.Count - 1].yc + (componentes[componentes.Count - 1].radio * 10 / 100) * v_y_1;
-                                componentes[componentes.Count - 1].radio = Math.Sqrt(Math.Pow(componentes[componentes.Count - 1].xc - componentes[componentes.Count - 1].lista_puntos[1].p.X, 2) + Math.Pow(componentes[componentes.Count - 1].yc - componentes[componentes.Count - 1].lista_puntos[1].p.Y, 2));
-
-                                //Dibujar_c(componentes[i].xc, componentes[i].yc, componentes[i].radio);
-                                //Dibujar_c(componentes[i+1].xc, componentes[i+1].yc, componentes[i+1].radio);
-                                if (Distancia(new Point2d(Listas_rectas[Listas_rectas.Count - 1].Item1[Listas_rectas[Listas_rectas.Count - 1].Item1.Count - 1].p.X, Listas_rectas[Listas_rectas.Count - 1].Item1[Listas_rectas[Listas_rectas.Count - 1].Item1.Count - 1].p.Y), new Point2d(componentes[componentes.Count - 1].xc, componentes[componentes.Count - 1].yc)) < componentes[componentes.Count - 1].radio) {
-
-                                } else {
-                                    break;
-                                }
-                                if (contador == 5) {
-                                    break;
-                                }
-                                contador++;
-                            }
+                    //
+                    if (componentes[componentes.Count - 1].Tipo == 2)
+                    {
+                        componentes.Add(new Componente(Listas_rectas[Listas_rectas.Count - 1].Item1[0], 1));
+                        componentes[componentes.Count - 1].add(Listas_rectas[Listas_rectas.Count - 1].Item1[1]);
+                        if (Listas_rectas[Listas_rectas.Count - 1].Item1.Count == 3)
+                        {
+                            componentes[componentes.Count - 1].add(Listas_rectas[Listas_rectas.Count - 1].Item1[2]);
                         }
-                        if (Math.Pow(2 * Listas_rectas[Listas_rectas.Count - 1].Item2[0] * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - 2 * componentes[componentes.Count - 1].xc - 2 * componentes[componentes.Count - 1].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2) - 4 * (1 + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2)) * (Math.Pow(componentes[componentes.Count - 1].xc, 2) + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[1], 2) + Math.Pow(componentes[componentes.Count - 1].yc, 2) - 2 * componentes[componentes.Count - 1].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - Math.Pow(componentes[componentes.Count - 1].radio, 2)) > 0) {
-                            while (true) {
-                                //punto de rotura para no reducir el radio
-                                break;
-                                double giro = Girar(Listas_rectas[Listas_rectas.Count - 1], componentes[componentes.Count - 1]);
-                                Listas_rectas.RemoveAt(Listas_rectas.Count - 1);
-                                Recta_inicial = Girar_Recta_2(Recta_inicial, giro, 2);
-                                Listas_rectas.Add(ajuste_recta(Recta_inicial, 0));
-                                if (Math.Pow(2 * Listas_rectas[Listas_rectas.Count - 1].Item2[0] * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - 2 * componentes[componentes.Count - 1].xc - 2 * componentes[componentes.Count - 1].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2) - 4 * (1 + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[0], 2)) * (Math.Pow(componentes[componentes.Count - 1].xc, 2) + Math.Pow(Listas_rectas[Listas_rectas.Count - 1].Item2[1], 2) + Math.Pow(componentes[componentes.Count - 1].yc, 2) - 2 * componentes[componentes.Count - 1].yc * Listas_rectas[Listas_rectas.Count - 1].Item2[1] - Math.Pow(componentes[componentes.Count - 1].radio, 2)) > 0) {
-                                    break;
-                                } else {
-                                    break;
-                                }
-                            }
-                        } else {
-
-                        }
-                    } else {
-
                     }
+
+
                 }
-
-                //
-                if (componentes[componentes.Count - 1].Tipo == 2) {
-                    componentes.Add(new Componente(Listas_rectas[Listas_rectas.Count - 1].Item1[0], 1));
-                    componentes[componentes.Count - 1].add(Listas_rectas[Listas_rectas.Count - 1].Item1[1]);
-                    if (Listas_rectas[Listas_rectas.Count - 1].Item1.Count == 3) {
-                        componentes[componentes.Count - 1].add(Listas_rectas[Listas_rectas.Count - 1].Item1[2]);
-                    }
-                }
-
-
-            }
-            if (componentes[componentes.Count - 1].Tipo == 2) {
-                Rellenar_Componente_Curva(componentes[componentes.Count - 1]);
-                if (Math.Abs(componentes[componentes.Count - 1].azte - componentes[componentes.Count - 1].azts) < 1)//Convertimos la curva en recta y eliminamos la recta anterior si hay
+                if (componentes[componentes.Count - 1].Tipo == 2)
                 {
-                    List<Punto> Recta_final = new List<Punto>();
-                    List<Tuple<List<Punto>, double[], int>> Lista_recta_inicial = new List<Tuple<List<Punto>, double[], int>>();
-                    Recta_final.Add(componentes[componentes.Count - 1].lista_puntos[0]);
-                    Recta_final.Add(componentes[componentes.Count - 1].lista_puntos[1]);
-                    Recta_final.Add(componentes[componentes.Count - 1].lista_puntos[2]);
-                    Listas_rectas.Add(ajuste_recta(Recta_final, 0));
-                    if (componentes[componentes.Count - 2].Tipo == 1) {
-                        componentes.RemoveAt(componentes.Count - 1);
-                        componentes.RemoveAt(componentes.Count - 1);
-                        componentes.Add(new Componente(Listas_rectas[Listas_rectas.Count - 1].Item1[Listas_rectas[Listas_rectas.Count - 1].Item1.Count - 2], 1));
-                        componentes[componentes.Count - 1].add(Listas_rectas[Listas_rectas.Count - 1].Item1[Listas_rectas[Listas_rectas.Count - 1].Item1.Count - 1]);
+                    Rellenar_Componente_Curva(componentes[componentes.Count - 1]);
+                    if (Math.Abs(componentes[componentes.Count - 1].azte - componentes[componentes.Count - 1].azts) < 1.5 && componentes[componentes.Count - 1].radio>5300)//Convertimos la curva en recta y eliminamos la recta anterior si hay
+                    {
+                        List<Punto> Recta_final = new List<Punto>();
+                        List<Tuple<List<Punto>, double[], int>> Lista_recta_inicial = new List<Tuple<List<Punto>, double[], int>>();
+                        Recta_final.Add(componentes[componentes.Count - 1].lista_puntos[0]);
+                        Recta_final.Add(componentes[componentes.Count - 1].lista_puntos[1]);
+                        Recta_final.Add(componentes[componentes.Count - 1].lista_puntos[2]);
+                        Listas_rectas.Add(ajuste_recta(Recta_final, 0));
+                        if (componentes[componentes.Count - 2].Tipo == 1)
+                        {
+                            componentes.RemoveAt(componentes.Count - 1);
+                            componentes.RemoveAt(componentes.Count - 1);
+                            componentes.Add(new Componente(Listas_rectas[Listas_rectas.Count - 1].Item1[Listas_rectas[Listas_rectas.Count - 1].Item1.Count - 2], 1));
+                            componentes[componentes.Count - 1].add(Listas_rectas[Listas_rectas.Count - 1].Item1[Listas_rectas[Listas_rectas.Count - 1].Item1.Count - 1]);
+                        }
                     }
                 }
             }
-
             /*
              * 
              * cambiar curva por recta
@@ -10539,8 +10728,8 @@ namespace Logica {
                     double[] azimuts = new double[2];
                     azimuts = azimut_e_s(componentes[i]);
 
-
-                    if (Math.Abs(azimuts[0] - azimuts[1]) < 2) {
+                    Rellenar_Curva(componentes[i]);
+                    if (Math.Abs(azimuts[0] - azimuts[1]) < 1.5 && componentes[i].radio>5300) {
                         componentes[i].Tipo = 1;
                         List<Punto> Recta_inicial = new List<Punto>();
                         foreach (Punto p in componentes[i].lista_puntos) {
@@ -10556,7 +10745,7 @@ namespace Logica {
                         componentes[i].fin = fin;
                     }
                 }
-            }
+            }/*
             for (int i = 0; i < componentes.Count; i++) {
                 if (componentes[i].Tipo == 2) {
                     double[] azimuts = new double[2];
@@ -10593,7 +10782,7 @@ namespace Logica {
                         }
                     }
                 }
-            }
+            }*/
             for (int i = 0; i < componentes.Count; i++) {
                 if (i < componentes.Count - 1) {
                     if (componentes[i].Tipo == 1 && componentes[i + 1].Tipo == 1) {
@@ -11602,7 +11791,15 @@ namespace Logica {
             }
             suma = suma / lista_giro.Count;
             if (t_med * 3 > suma) {
-                return 1;
+                if (Math.Truncate(suma*1000)==0)
+                {
+                    return 2;
+                }
+                else
+                {
+                    return 1;
+                }
+                
             } else {
                 return 2;
             }
@@ -11638,75 +11835,99 @@ namespace Logica {
                 xc = ((l[i + 1].p.Y + l[i].p.Y) * 0.5 + ((l[i + 1].p.X - l[i].p.X) * (l[i + 1].p.X + l[i].p.X) * 0.5 / (l[i + 1].p.Y - l[i].p.Y)) - (l[i].p.Y + l[i - 1].p.Y) * 0.5 - ((l[i].p.X - l[i - 1].p.X) * (l[i].p.X + l[i - 1].p.X) * 0.5 / (l[i].p.Y - l[i - 1].p.Y))) / (((l[i + 1].p.X - l[i].p.X) / (l[i + 1].p.Y - l[i].p.Y)) - ((l[i].p.X - l[i - 1].p.X) / (l[i].p.Y - l[i - 1].p.Y)));
                 yc = (l[i].p.Y + l[i - 1].p.Y) * 0.5 + (l[i].p.X - l[i - 1].p.X) * 0.5 * (l[i].p.X + l[i - 1].p.X) * Math.Pow(l[i].p.Y - l[i - 1].p.Y, -1) - xc * (l[i].p.X - l[i - 1].p.X) * Math.Pow(l[i].p.Y - l[i - 1].p.Y, -1);
                 r = l[i].R;
-                az1 = Rellenar_centro(l[i - 1].p.X, l[i - 1].p.Y, xc, yc, 1).Az;
-                az2 = Rellenar_centro(l[i].p.X, l[i].p.Y, xc, yc, 1).Az;
+                if (r>0 && r<50000)
+                {
+                    az1 = Rellenar_centro(l[i - 1].p.X, l[i - 1].p.Y, xc, yc, 1).Az;
+                    az2 = Rellenar_centro(l[i].p.X, l[i].p.Y, xc, yc, 1).Az;
 
-                if (l[i].Tipogiro == 1) {
-                    if (az1 > az2) {
-                        az1 -= 360;
+                    if (l[i].Tipogiro == 1)
+                    {
+                        if (az1 > az2)
+                        {
+                            az1 -= 360;
+                        }
+                        az_final = (az2 + az1) / 2;
+                        if (az_final > 360)
+                        {
+                            az_final -= 360;
+                        }
+                        if (az_final < 0)
+                        {
+                            az_final += 360;
+                        }
+                        xx = xc + (r) * Math.Sin((az_final) * Math.PI / 180);
+                        yy = yc + (r) * Math.Cos((az_final) * Math.PI / 180);
                     }
-                    az_final = (az2 + az1) / 2;
-                    if (az_final > 360) {
-                        az_final -= 360;
+                    else
+                    {
+                        if (az1 < az2)
+                        {
+                            az2 -= 360;
+                        }
+                        az_final = (az2 + az1) / 2;
+                        if (az_final > 360)
+                        {
+                            az_final -= 360;
+                        }
+                        if (az_final < 0)
+                        {
+                            az_final += 360;
+                        }
+                        xx = xc + (r) * Math.Sin((az_final) * Math.PI / 180);
+                        yy = yc + (r) * Math.Cos((az_final) * Math.PI / 180);
                     }
-                    if (az_final < 0) {
-                        az_final += 360;
-                    }
-                    xx = xc + (r) * Math.Sin((az_final) * Math.PI / 180);
-                    yy = yc + (r) * Math.Cos((az_final) * Math.PI / 180);
-                } else {
-                    if (az1 < az2) {
-                        az2 -= 360;
-                    }
-                    az_final = (az2 + az1) / 2;
-                    if (az_final > 360) {
-                        az_final -= 360;
-                    }
-                    if (az_final < 0) {
-                        az_final += 360;
-                    }
-                    xx = xc + (r) * Math.Sin((az_final) * Math.PI / 180);
-                    yy = yc + (r) * Math.Cos((az_final) * Math.PI / 180);
+                    aux.Add(new Punto(new Point2d(xx, yy)));
+                    aux.Add(l[i]);
                 }
-                aux.Add(new Punto(new Point2d(xx, yy)));
-                aux.Add(l[i]);
 
             }
             i = l.Count - 2;
             xc = ((l[i + 1].p.Y + l[i].p.Y) * 0.5 + ((l[i + 1].p.X - l[i].p.X) * (l[i + 1].p.X + l[i].p.X) * 0.5 / (l[i + 1].p.Y - l[i].p.Y)) - (l[i].p.Y + l[i - 1].p.Y) * 0.5 - ((l[i].p.X - l[i - 1].p.X) * (l[i].p.X + l[i - 1].p.X) * 0.5 / (l[i].p.Y - l[i - 1].p.Y))) / (((l[i + 1].p.X - l[i].p.X) / (l[i + 1].p.Y - l[i].p.Y)) - ((l[i].p.X - l[i - 1].p.X) / (l[i].p.Y - l[i - 1].p.Y)));
             yc = (l[i].p.Y + l[i - 1].p.Y) * 0.5 + (l[i].p.X - l[i - 1].p.X) * 0.5 * (l[i].p.X + l[i - 1].p.X) * Math.Pow(l[i].p.Y - l[i - 1].p.Y, -1) - xc * (l[i].p.X - l[i - 1].p.X) * Math.Pow(l[i].p.Y - l[i - 1].p.Y, -1);
             r = l[i].R;
-            az2 = Rellenar_centro(l[i + 1].p.X, l[i + 1].p.Y, xc, yc, 1).Az;
-            az1 = Rellenar_centro(l[i].p.X, l[i].p.Y, xc, yc, 1).Az;
+            if (r > 0 && r < 50000)
+            {
+                az2 = Rellenar_centro(l[i + 1].p.X, l[i + 1].p.Y, xc, yc, 1).Az;
+                az1 = Rellenar_centro(l[i].p.X, l[i].p.Y, xc, yc, 1).Az;
 
-            if (l[i].Tipogiro == 1) {
-                if (az1 > az2) {
-                    az1 -= 360;
+                if (l[i].Tipogiro == 1)
+                {
+                    if (az1 > az2)
+                    {
+                        az1 -= 360;
+                    }
+                    az_final = (az2 + az1) / 2;
+                    if (az_final > 360)
+                    {
+                        az_final -= 360;
+                    }
+                    if (az_final < 0)
+                    {
+                        az_final += 360;
+                    }
+                    xx = xc + (r) * Math.Sin((az_final) * Math.PI / 180);
+                    yy = yc + (r) * Math.Cos((az_final) * Math.PI / 180);
                 }
-                az_final = (az2 + az1) / 2;
-                if (az_final > 360) {
-                    az_final -= 360;
+                else
+                {
+                    if (az1 < az2)
+                    {
+                        az2 -= 360;
+                    }
+                    az_final = (az2 + az1) / 2;
+                    if (az_final > 360)
+                    {
+                        az_final -= 360;
+                    }
+                    if (az_final < 0)
+                    {
+                        az_final += 360;
+                    }
+                    xx = xc + (r) * Math.Sin((az_final) * Math.PI / 180);
+                    yy = yc + (r) * Math.Cos((az_final) * Math.PI / 180);
                 }
-                if (az_final < 0) {
-                    az_final += 360;
-                }
-                xx = xc + (r) * Math.Sin((az_final) * Math.PI / 180);
-                yy = yc + (r) * Math.Cos((az_final) * Math.PI / 180);
-            } else {
-                if (az1 < az2) {
-                    az2 -= 360;
-                }
-                az_final = (az2 + az1) / 2;
-                if (az_final > 360) {
-                    az_final -= 360;
-                }
-                if (az_final < 0) {
-                    az_final += 360;
-                }
-                xx = xc + (r) * Math.Sin((az_final) * Math.PI / 180);
-                yy = yc + (r) * Math.Cos((az_final) * Math.PI / 180);
+                aux.Add(new Punto(new Point2d(xx, yy)));
             }
-            aux.Add(new Punto(new Point2d(xx, yy)));
             aux.Add(l[l.Count - 1]);
             return aux;
         }
@@ -14993,11 +15214,11 @@ namespace Logica {
         }
         public void mostrardatos() {
             string cadena = "";
-            for (int i = 0; i < polilinea.Count; i++) {
+            for (int i = 2000; i < 2100; i++) {
                 if (i < 10) {
-                    cadena += "n=" + i + "  ->C:" + polilinea[i].Curva + "->R:" + polilinea[i].Recta + "-->SG:" + polilinea[i].secuenciagiro + "-->TG:" + polilinea[i].Tipogiro + "-->M:" + polilinea[i].minimo + "-->MP:" + polilinea[i].minimop + "\n";
+                    cadena += "n=" + i + "  ->C:" + polilinea[i].Curva + "->R:" + polilinea[i].Recta + "-->SG:" + polilinea[i].secuenciagiro + "-->TG:" + polilinea[i].Tipogiro + "-->M:" + polilinea[i].minimo + "-->MP:" + polilinea[i].minimop+ "-->R:" + polilinea[i].R+ "-->Rp:" + polilinea[i].Rp + "\n";
                 } else {
-                    cadena += "n=" + i + "->C:" + polilinea[i].Curva + "->R:" + polilinea[i].Recta + "-->SG:" + polilinea[i].secuenciagiro + "-->TG:" + polilinea[i].Tipogiro + "-->M:" + polilinea[i].minimo + "-->MP:" + polilinea[i].minimop + "\n";
+                    cadena += "n=" + i + "->C:" + polilinea[i].Curva + "->R:" + polilinea[i].Recta + "-->SG:" + polilinea[i].secuenciagiro + "-->TG:" + polilinea[i].Tipogiro + "-->M:" + polilinea[i].minimo + "-->MP:" + polilinea[i].minimop + "-->R:" + polilinea[i].R + "-->Rp:" + polilinea[i].Rp + "\n";
                 }
 
             }
@@ -15543,6 +15764,159 @@ namespace Logica {
             }
             if (i < componentes.Count - 2) {
                 if (componentes[i].Tipo == 2 && componentes[i - 1].Tipo == 1 && componentes[i + 1].Tipo == 1 && componentes[i + 2].Tipo == 2) {
+                    
+                    if (componentes[i - 1].creacion == 2 && componentes[i + 1].creacion == 2)
+                    {
+                        componentes.RemoveAt(i - 1);
+                        i = i - 1;
+                        List<Punto> lista = new List<Punto>();
+                        for (int r = componentes[i - 1].ini; r <= componentes[i].fin; r++)
+                        {
+                            lista.Add(new Punto(polilinea[r].p));
+                        }
+                        Tuple<double, double, double> Curva = this.Clusterizacion(lista);
+                        Crear_Curva(componentes[i - 1].ini, componentes[i].fin, Curva.Item1, Curva.Item2, Curva.Item3, i - 1);
+                        componentes[i - 1].direccion = componentes[i].direccion;
+                        componentes.RemoveAt(i);
+                        componentes.RemoveAt(i);
+                        Viabilidad_Clusterizacion(i - 1);
+                        if (i - 2 > 0)
+                        {
+                            if (componentes[i - 2].creacion == 2)
+                            {
+                                componentes.RemoveAt(i - 2);
+                            }
+                        }
+
+                        componentes[i - 1].caso6_e = true;
+                        return false;
+                    }
+                    if (componentes[i - 1].creacion != 2 && componentes[i + 1].creacion == 2)
+                    {
+                        double giro = Girar_acercar_C_C(componentes[i - 1].lista_puntos, componentes[i - 2], componentes[i - 1].azr);
+                        Girar_Recta(i - 1, giro, componentes[i - 1].azr);
+                        double[] l = new double[2];
+                        l = ajuste_recta(componentes[i - 1].lista_puntos, 0).Item2;
+                        if (i > 1)
+                        {
+                            if (Distancia_P_R(l[0], l[1], componentes[i - 2].xc, componentes[i - 2].yc) < componentes[i - 2].radio ||
+                                Distancia_P_R(l[0], l[1], componentes[i].xc, componentes[i].yc) < componentes[i].radio)
+                            {
+                                if (componentes[i-1].creacion!=1)
+                                {
+                                    componentes.RemoveAt(i - 1);
+                                    Crear_RECT(i - 2);//crea una recta entre 2 circunferencias que no se cortan
+                                    Rellenar_Recta(componentes[i - 1]);
+                                    return false;
+                                }
+                                    
+                            }
+                            return false;
+                        }
+                        else
+                        {
+                            if (Distancia_P_R(l[0], l[1], componentes[i].xc, componentes[i].yc) < componentes[i].radio)
+                            {
+                                componentes.RemoveAt(i - 1);
+                                return false;
+                            }
+                        }
+                        componentes[i].caso3_e = true;
+                    }
+                    if (componentes[i - 1].creacion == 2 && componentes[i + 1].creacion != 2)
+                    {
+                        Girar_Recta(i + 1, Girar_acercar_C_C(componentes[i + 1].lista_puntos, componentes[i], componentes[i + 1].azr), componentes[i + 1].azr);
+                        double[] l = new double[2];
+                        l = ajuste_recta(componentes[i + 1].lista_puntos, 0).Item2;
+                        if (i > 1)
+                        {
+                            if (Distancia_P_R(l[0], l[1], componentes[i].xc, componentes[i].yc) < componentes[i].radio ||
+                                Distancia_P_R(l[0], l[1], componentes[i + 2].xc, componentes[i + 2].yc) < componentes[i + 2].radio)
+                            {
+                                if (componentes[i + 1].creacion != 1)
+                                {
+                                    componentes.RemoveAt(i + 1);
+                                    Crear_RECT(i);//crea una recta entre 2 circunferencias que no se cortan
+                                    Rellenar_Recta(componentes[i + 1]);
+                                    return false;
+                                }
+                            }
+                            return false;
+                        }
+                        else
+                        {
+                            if (Distancia_P_R(l[0], l[1], componentes[i].xc, componentes[i].yc) < componentes[i].radio)
+                            {
+                                componentes.RemoveAt(i + 1);
+                            }
+                        }
+
+                        componentes[i].caso3_e = true;
+                        
+                    }
+                    
+                    if (componentes[i - 1].creacion != 2 && componentes[i + 1].creacion != 2)
+                    {
+                        double giro = Girar_acercar_C_C(componentes[i - 1].lista_puntos, componentes[i - 2], componentes[i - 1].azr);
+                        Girar_Recta(i - 1, giro, componentes[i - 1].azr);
+                        double[] l = new double[2];
+                        l = ajuste_recta(componentes[i - 1].lista_puntos, 0).Item2;
+                        if (i > 1)
+                        {
+                            if (Distancia_P_R(l[0], l[1], componentes[i - 2].xc, componentes[i - 2].yc) < componentes[i - 2].radio ||
+                                Distancia_P_R(l[0], l[1], componentes[i].xc, componentes[i].yc) < componentes[i].radio)
+                            {
+                                if (componentes[i - 1].creacion == 1)
+                                {
+                                    Rellenar_Recta(componentes[i - 1]);
+                                    Girar_Recta(i - 1, -giro, componentes[i - 1].azr);
+                                    Rellenar_Recta(componentes[i - 1]);
+
+                                    Girar_Recta(i + 1, Girar_acercar_C_C(componentes[i + 1].lista_puntos, componentes[i], componentes[i + 1].azr), componentes[i + 1].azr);
+                                    l = new double[2];
+                                    l = ajuste_recta(componentes[i + 1].lista_puntos, 0).Item2;
+                                    if (i > 1)
+                                    {
+                                        if (Distancia_P_R(l[0], l[1], componentes[i].xc, componentes[i].yc) < componentes[i].radio ||
+                                            Distancia_P_R(l[0], l[1], componentes[i + 2].xc, componentes[i + 2].yc) < componentes[i + 2].radio)
+                                        {
+                                            if (componentes[i + 1].creacion != 1)
+                                            {
+                                                componentes.RemoveAt(i + 1);
+                                                Crear_RECT(i);//crea una recta entre 2 circunferencias que no se cortan
+                                                Rellenar_Recta(componentes[i + 1]);
+                                                return false;
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (Distancia_P_R(l[0], l[1], componentes[i].xc, componentes[i].yc) < componentes[i].radio)
+                                        {
+                                            componentes.RemoveAt(i + 1);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    componentes.RemoveAt(i - 1);
+                                    Crear_RECT(i - 2);//crea una recta entre 2 circunferencias que no se cortan
+                                    Rellenar_Recta(componentes[i - 1]);
+                                    return false;
+                                }
+
+                            }
+                        }
+                        else
+                        {
+                            if (Distancia_P_R(l[0], l[1], componentes[i].xc, componentes[i].yc) < componentes[i].radio)
+                            {
+                                componentes.RemoveAt(i - 1);
+                                return false;
+                            }
+                        }
+                        componentes[i].caso3_e = true;
+                    }
                     if (componentes[i - 1].creacion == 2 || componentes[i + 1].creacion == 2)
                     {
                         if (componentes[i - 1].creacion == 2)
@@ -15596,6 +15970,8 @@ namespace Logica {
                             return false;
                         }
                     }
+                    
+                    /*
                     if (componentes[i - 1].creacion != 2)
                     {
                         double giro = Girar_acercar_C_C(componentes[i - 1].lista_puntos, componentes[i - 2], componentes[i - 1].azr);
@@ -15662,7 +16038,7 @@ namespace Logica {
                     return false;
 
                 }
-                        
+                       */ 
                 } else if (componentes[i].Tipo == 2 && componentes[i - 1].Tipo == 1) {
                     Girar_Recta(i - 1, Girar_acercar_C_C(componentes[i - 1].lista_puntos, componentes[i - 2], componentes[i - 1].azr), componentes[i - 1].azr);
                     double[] l = new double[2];
@@ -16367,7 +16743,14 @@ namespace Logica {
                 }
             }
         }
-
+        public void Unir_Componentes()
+        {
+            componentes.Clear();
+            foreach (Componente c in componentes_temp)
+            {
+                componentes.Add(c);
+            }
+        }
     }
 
 

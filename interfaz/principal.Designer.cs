@@ -47,6 +47,10 @@
             this.materialLabel7 = new MaterialSkin.Controls.MaterialLabel();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.debugButtonsContainer = new System.Windows.Forms.Panel();
+            this.calculoPolilineaStatusTextView = new System.Windows.Forms.Label();
+            this.paso3EjecutadoTextView = new System.Windows.Forms.Label();
+            this.paso2EjecutadoTextView = new System.Windows.Forms.Label();
+            this.paso1EjecutadoTextView = new System.Windows.Forms.Label();
             this.ejecutar1Button = new MaterialSkin.Controls.MaterialFlatButton();
             this.ejecutar3Button = new MaterialSkin.Controls.MaterialFlatButton();
             this.materialFlatButton2 = new MaterialSkin.Controls.MaterialFlatButton();
@@ -80,10 +84,8 @@
             this.materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel2 = new MaterialSkin.Controls.MaterialLabel();
             this.materialDivider1 = new MaterialSkin.Controls.MaterialDivider();
-            this.paso1EjecutadoTextView = new System.Windows.Forms.Label();
-            this.paso2EjecutadoTextView = new System.Windows.Forms.Label();
-            this.paso3EjecutadoTextView = new System.Windows.Forms.Label();
-            this.calculoPolilineaStatusTextView = new System.Windows.Forms.Label();
+            this.pclusterizacionTextField = new System.Windows.Forms.TextBox();
+            this.materialLabel20 = new MaterialSkin.Controls.MaterialLabel();
             this.materialTabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -308,6 +310,8 @@
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.Color.White;
+            this.tabPage2.Controls.Add(this.pclusterizacionTextField);
+            this.tabPage2.Controls.Add(this.materialLabel20);
             this.tabPage2.Controls.Add(this.debugButtonsContainer);
             this.tabPage2.Controls.Add(this.nCurvasMaxTextField);
             this.tabPage2.Controls.Add(this.materialLabel19);
@@ -362,6 +366,50 @@
             this.debugButtonsContainer.Size = new System.Drawing.Size(768, 167);
             this.debugButtonsContainer.TabIndex = 35;
             this.debugButtonsContainer.Visible = false;
+            // 
+            // calculoPolilineaStatusTextView
+            // 
+            this.calculoPolilineaStatusTextView.AutoSize = true;
+            this.calculoPolilineaStatusTextView.ForeColor = System.Drawing.Color.Red;
+            this.calculoPolilineaStatusTextView.Location = new System.Drawing.Point(424, 18);
+            this.calculoPolilineaStatusTextView.Name = "calculoPolilineaStatusTextView";
+            this.calculoPolilineaStatusTextView.Size = new System.Drawing.Size(97, 13);
+            this.calculoPolilineaStatusTextView.TabIndex = 41;
+            this.calculoPolilineaStatusTextView.Text = "Calculo Inicializado";
+            this.calculoPolilineaStatusTextView.Visible = false;
+            // 
+            // paso3EjecutadoTextView
+            // 
+            this.paso3EjecutadoTextView.AutoSize = true;
+            this.paso3EjecutadoTextView.ForeColor = System.Drawing.Color.Red;
+            this.paso3EjecutadoTextView.Location = new System.Drawing.Point(160, 122);
+            this.paso3EjecutadoTextView.Name = "paso3EjecutadoTextView";
+            this.paso3EjecutadoTextView.Size = new System.Drawing.Size(91, 13);
+            this.paso3EjecutadoTextView.TabIndex = 40;
+            this.paso3EjecutadoTextView.Text = "Paso 3 Ejecutado";
+            this.paso3EjecutadoTextView.Visible = false;
+            // 
+            // paso2EjecutadoTextView
+            // 
+            this.paso2EjecutadoTextView.AutoSize = true;
+            this.paso2EjecutadoTextView.ForeColor = System.Drawing.Color.Red;
+            this.paso2EjecutadoTextView.Location = new System.Drawing.Point(160, 83);
+            this.paso2EjecutadoTextView.Name = "paso2EjecutadoTextView";
+            this.paso2EjecutadoTextView.Size = new System.Drawing.Size(91, 13);
+            this.paso2EjecutadoTextView.TabIndex = 39;
+            this.paso2EjecutadoTextView.Text = "Paso 2 Ejecutado";
+            this.paso2EjecutadoTextView.Visible = false;
+            // 
+            // paso1EjecutadoTextView
+            // 
+            this.paso1EjecutadoTextView.AutoSize = true;
+            this.paso1EjecutadoTextView.ForeColor = System.Drawing.Color.Red;
+            this.paso1EjecutadoTextView.Location = new System.Drawing.Point(160, 52);
+            this.paso1EjecutadoTextView.Name = "paso1EjecutadoTextView";
+            this.paso1EjecutadoTextView.Size = new System.Drawing.Size(91, 13);
+            this.paso1EjecutadoTextView.TabIndex = 38;
+            this.paso1EjecutadoTextView.Text = "Paso 1 Ejecutado";
+            this.paso1EjecutadoTextView.Visible = false;
             // 
             // ejecutar1Button
             // 
@@ -469,7 +517,7 @@
             // 
             // clusterizacionTextField
             // 
-            this.clusterizacionTextField.Location = new System.Drawing.Point(650, 458);
+            this.clusterizacionTextField.Location = new System.Drawing.Point(669, 458);
             this.clusterizacionTextField.Name = "clusterizacionTextField";
             this.clusterizacionTextField.Size = new System.Drawing.Size(100, 20);
             this.clusterizacionTextField.TabIndex = 27;
@@ -792,49 +840,26 @@
             this.materialDivider1.TabIndex = 11;
             this.materialDivider1.Text = "materialDivider1";
             // 
-            // paso1EjecutadoTextView
+            // pclusterizacionTextField
             // 
-            this.paso1EjecutadoTextView.AutoSize = true;
-            this.paso1EjecutadoTextView.ForeColor = System.Drawing.Color.Red;
-            this.paso1EjecutadoTextView.Location = new System.Drawing.Point(160, 52);
-            this.paso1EjecutadoTextView.Name = "paso1EjecutadoTextView";
-            this.paso1EjecutadoTextView.Size = new System.Drawing.Size(91, 13);
-            this.paso1EjecutadoTextView.TabIndex = 38;
-            this.paso1EjecutadoTextView.Text = "Paso 1 Ejecutado";
-            this.paso1EjecutadoTextView.Visible = false;
+            this.pclusterizacionTextField.Location = new System.Drawing.Point(668, 401);
+            this.pclusterizacionTextField.Name = "pclusterizacionTextField";
+            this.pclusterizacionTextField.Size = new System.Drawing.Size(100, 20);
+            this.pclusterizacionTextField.TabIndex = 37;
+            this.pclusterizacionTextField.Text = "50";
             // 
-            // paso2EjecutadoTextView
+            // materialLabel20
             // 
-            this.paso2EjecutadoTextView.AutoSize = true;
-            this.paso2EjecutadoTextView.ForeColor = System.Drawing.Color.Red;
-            this.paso2EjecutadoTextView.Location = new System.Drawing.Point(160, 83);
-            this.paso2EjecutadoTextView.Name = "paso2EjecutadoTextView";
-            this.paso2EjecutadoTextView.Size = new System.Drawing.Size(91, 13);
-            this.paso2EjecutadoTextView.TabIndex = 39;
-            this.paso2EjecutadoTextView.Text = "Paso 2 Ejecutado";
-            this.paso2EjecutadoTextView.Visible = false;
-            // 
-            // paso3EjecutadoTextView
-            // 
-            this.paso3EjecutadoTextView.AutoSize = true;
-            this.paso3EjecutadoTextView.ForeColor = System.Drawing.Color.Red;
-            this.paso3EjecutadoTextView.Location = new System.Drawing.Point(160, 122);
-            this.paso3EjecutadoTextView.Name = "paso3EjecutadoTextView";
-            this.paso3EjecutadoTextView.Size = new System.Drawing.Size(91, 13);
-            this.paso3EjecutadoTextView.TabIndex = 40;
-            this.paso3EjecutadoTextView.Text = "Paso 3 Ejecutado";
-            this.paso3EjecutadoTextView.Visible = false;
-            // 
-            // calculoPolilineaStatusTextView
-            // 
-            this.calculoPolilineaStatusTextView.AutoSize = true;
-            this.calculoPolilineaStatusTextView.ForeColor = System.Drawing.Color.Red;
-            this.calculoPolilineaStatusTextView.Location = new System.Drawing.Point(424, 18);
-            this.calculoPolilineaStatusTextView.Name = "calculoPolilineaStatusTextView";
-            this.calculoPolilineaStatusTextView.Size = new System.Drawing.Size(97, 13);
-            this.calculoPolilineaStatusTextView.TabIndex = 41;
-            this.calculoPolilineaStatusTextView.Text = "Calculo Inicializado";
-            this.calculoPolilineaStatusTextView.Visible = false;
+            this.materialLabel20.AutoSize = true;
+            this.materialLabel20.Depth = 0;
+            this.materialLabel20.Font = new System.Drawing.Font("Roboto", 11F);
+            this.materialLabel20.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialLabel20.Location = new System.Drawing.Point(509, 401);
+            this.materialLabel20.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel20.Name = "materialLabel20";
+            this.materialLabel20.Size = new System.Drawing.Size(156, 19);
+            this.materialLabel20.TabIndex = 36;
+            this.materialLabel20.Text = "Puntos Clusterización";
             // 
             // principal
             // 
@@ -921,5 +946,7 @@
         private System.Windows.Forms.Label calculoPolilineaStatusTextView;
         private System.Windows.Forms.Label paso3EjecutadoTextView;
         private System.Windows.Forms.Label paso2EjecutadoTextView;
+        private System.Windows.Forms.TextBox pclusterizacionTextField;
+        private MaterialLabel materialLabel20;
     }
 }

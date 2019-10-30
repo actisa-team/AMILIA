@@ -83,6 +83,12 @@
     <Compile Include="ComponentesInfoPanel.Designer.cs">
       <DependentUpon>ComponentesInfoPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="PolilineaInfoPanel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PolilineaInfoPanel.Designer.cs">
+      <DependentUpon>PolilineaInfoPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="principal.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -111,6 +117,9 @@
   <ItemGroup>
     <EmbeddedResource Include="ComponentesInfoPanel.resx">
       <DependentUpon>ComponentesInfoPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PolilineaInfoPanel.resx">
+      <DependentUpon>PolilineaInfoPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="principal.resx">
       <DependentUpon>principal.cs</DependentUpon>

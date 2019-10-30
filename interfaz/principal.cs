@@ -126,6 +126,7 @@ namespace interfaz {
             double p_cluster = 2;
             double gran_r = 2500;
             int n_curvas = 2;
+            int puntos_cluster = 50;
             int it = 2;
             int[] orden = new int[3];
 
@@ -179,7 +180,14 @@ namespace interfaz {
                 } else {
                     n_curvas = 2;
                 }
-
+                if (!string.IsNullOrEmpty(pclusterizacionTextField.Text))
+                {
+                    puntos_cluster = int.Parse(pclusterizacionTextField.Text);
+                }
+                else
+                {
+                    puntos_cluster = 50;
+                }
                 int filtrado1Order = (int)filtrado1ExecuteOrderNumericField.Value;
                 int filtrado2Order = (int)filtrado2ExecuteOrderNumericField.Value;
                 int filtrado3Order = (int)filtrado3ExecuteOrderNumericField.Value;
@@ -205,6 +213,7 @@ namespace interfaz {
             ca.P_cluster = p_cluster;
             ca.Gran_r = gran_r;
             ca.N_curvas = n_curvas;
+            ca.Puntos_cluster = puntos_cluster;
 
             ca.Orden = orden;
 
@@ -225,16 +234,23 @@ namespace interfaz {
                     calculoPolilinea.Set_minimos();
                     calculoPolilinea.Set_grupo();
                     calculoPolilinea.Set_recta_curva();
+                    int pol=calculoPolilinea.Dividir_Polilinea();
+                    PolilineaInfoPanel polilineaInfoPanel = new PolilineaInfoPanel(calculoPolilinea.Polilinea);
+                    polilineaInfoPanel.Show();
+                    for (int i=0;i<=pol;i++)
+                    {
+                        calculoPolilinea.Seleccionar_Polilinea(i);
+                        calculoPolilinea.Entidades_Curvas(calculoPolilineaPreferencias.T_max, calculoPolilineaPreferencias.P_cluster);
+                        calculoPolilinea.Recorrido();
+                        calculoPolilinea.Combinacion(calculoPolilineaPreferencias.T_med, calculoPolilineaPreferencias.T_max, calculoPolilineaPreferencias.N_curvas, calculoPolilineaPreferencias.Puntos_cluster);
+                        calculoPolilinea.Limpiar(i);
 
-                    calculoPolilinea.mostrardatos();
-                    calculoPolilinea.Entidades_Curvas(calculoPolilineaPreferencias.T_max, calculoPolilineaPreferencias.P_cluster);
-                    calculoPolilinea.Recorrido();
-                    calculoPolilinea.Combinacion(calculoPolilineaPreferencias.T_med, calculoPolilineaPreferencias.T_max, calculoPolilineaPreferencias.N_curvas);
-
+                    }
+                    calculoPolilinea.Unir_Componentes();
                     calculoPolilinea.Dibujar_entidades(1);
                     calculoPolilinea.Comprobacion();
                     calculoPolilinea.Dibujar_entidades(2);
-
+                    
                     VerificacionComponentesStatus verificacionComponentesStatus = calculoPolilinea.obtenerEstadoVerificacionDeComponentes();
                     
                     ComponentesInfoPanel componentesInfoPanel = new ComponentesInfoPanel(calculoPolilinea.Componentes, verificacionComponentesStatus);
@@ -541,6 +557,15 @@ namespace interfaz {
                     } else {
                         n_curvas = 2;
                     }
+                    int puntos_cluster;
+                    if (!string.IsNullOrEmpty(pclusterizacionTextField.Text))
+                    {
+                        puntos_cluster = int.Parse(pclusterizacionTextField.Text);
+                    }
+                    else
+                    {
+                        puntos_cluster = 50;
+                    }
                     Logica.CalculoPolilinea calculo = new CalculoPolilinea(ref a, opcion, ratio, it);
                     if (a.Polilinea.Count > 0) {
                         calculo.Cambios_Sentido(t_med);
@@ -550,7 +575,7 @@ namespace interfaz {
                         calculo.Set_recta_curva();
                         calculo.Entidades_Curvas(t_max, p_cluster);
                         calculo.Recorrido();
-                        calculo.Combinacion(t_med, t_max, n_curvas);
+                        calculo.Combinacion(t_med, t_max, n_curvas,puntos_cluster);
                         calculo.Dibujar_entidades(1);
                     }
 
@@ -594,6 +619,15 @@ namespace interfaz {
                     } else {
                         n_curvas = 2;
                     }
+                    int puntos_cluster;
+                    if (!string.IsNullOrEmpty(pclusterizacionTextField.Text))
+                    {
+                        puntos_cluster = int.Parse(pclusterizacionTextField.Text);
+                    }
+                    else
+                    {
+                        puntos_cluster = 50;
+                    }
                     Logica.CalculoPolilinea calculo = new CalculoPolilinea(ref a, opcion, ratio, orden, it);
                     if (a.Polilinea.Count > 0) {
                         calculo.Cambios_Sentido(t_med);
@@ -603,7 +637,7 @@ namespace interfaz {
                         calculo.Set_recta_curva();
                         calculo.Entidades_Curvas(t_max, p_cluster);
                         calculo.Recorrido();
-                        calculo.Combinacion(t_med, t_max, n_curvas);
+                        calculo.Combinacion(t_med, t_max, n_curvas, puntos_cluster);
                     }
 
                     /*

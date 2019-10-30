@@ -12,6 +12,7 @@
         private double p_cluster;
         private double gran_r;
         private int n_curvas;
+        private int puntos_cluster;
 
         int[] orden;
 
@@ -25,6 +26,7 @@
         public double P_cluster { get => p_cluster; set => p_cluster = value; }
         public double Gran_r { get => gran_r; set => gran_r = value; }
         public int N_curvas { get => n_curvas; set => n_curvas = value; }
+        public int Puntos_cluster { get => puntos_cluster; set => puntos_cluster = value; }
         public int[] Orden { get => orden; set => orden = value; }
     }
 }
