@@ -242,7 +242,7 @@ namespace interfaz {
                         calculoPolilinea.Seleccionar_Polilinea(i);
                         calculoPolilinea.Entidades_Curvas(calculoPolilineaPreferencias.T_max, calculoPolilineaPreferencias.P_cluster);
                         calculoPolilinea.Recorrido();
-                        calculoPolilinea.Combinacion(calculoPolilineaPreferencias.T_med, calculoPolilineaPreferencias.T_max, calculoPolilineaPreferencias.N_curvas, calculoPolilineaPreferencias.Puntos_cluster);
+                        calculoPolilinea.Combinacion(calculoPolilineaPreferencias.T_med, calculoPolilineaPreferencias.T_max, calculoPolilineaPreferencias.N_curvas, calculoPolilineaPreferencias.Puntos_cluster, calculoPolilineaPreferencias.Gran_r);
                         calculoPolilinea.Limpiar(i);
 
                     }
@@ -278,6 +278,7 @@ namespace interfaz {
                     this.calculoPolilinea.addViabilidadListener(this);
 
                     List<ViabilidadComponentesStatus> trazaViabilidadComponentes = calculoPolilinea.viabilidad();
+
                     calculoPolilinea.Dibujar_entidades(3);
 
                     this.pasosEjecutados = 2;
@@ -329,7 +330,9 @@ namespace interfaz {
                     //mostrar panel de la traza de viabilidad de los componentes
                     TrazaViabilidadInfo tvi = new TrazaViabilidadInfo(viabilidadEnlaces, this.calculoPolilinea.Componentes, "Trazas viabilidad enlaces etapa 3");
                     tvi.Show();
-
+                    VerificacionComponentesStatus verificacionComponentesStatus = calculoPolilinea.obtenerEstadoVerificacionDeComponentes();
+                    ComponentesInfoPanel componentesInfoPanel = new ComponentesInfoPanel(calculoPolilinea.Componentes, verificacionComponentesStatus);
+                    componentesInfoPanel.Show();
                     MessageBox.Show("Revise autocad para ver la salida de la etapa 3 del algoritmo");
                 } else {
                     MessageBox.Show("Calculo polilinea no inicializado");
@@ -551,6 +554,15 @@ namespace interfaz {
                     } else {
                         p_cluster = 10;
                     }
+                    double curva_g;
+                    if (!string.IsNullOrEmpty(curvaGranRadioTextField.Text))
+                    {
+                        curva_g = int.Parse(curvaGranRadioTextField.Text);
+                    }
+                    else
+                    {
+                        curva_g = 2500;
+                    }
                     int n_curvas;
                     if (!string.IsNullOrEmpty(nCurvasMaxTextField.Text)) {
                         n_curvas = int.Parse(nCurvasMaxTextField.Text);
@@ -567,16 +579,17 @@ namespace interfaz {
                         puntos_cluster = 50;
                     }
                     Logica.CalculoPolilinea calculo = new CalculoPolilinea(ref a, opcion, ratio, it);
+                    
                     if (a.Polilinea.Count > 0) {
-                        calculo.Cambios_Sentido(t_med);
+                     /*   calculo.Cambios_Sentido(t_med);
                         calculo.nueva_relacion();
                         calculo.Set_minimos();
                         calculo.Set_grupo();
                         calculo.Set_recta_curva();
                         calculo.Entidades_Curvas(t_max, p_cluster);
                         calculo.Recorrido();
-                        calculo.Combinacion(t_med, t_max, n_curvas,puntos_cluster);
-                        calculo.Dibujar_entidades(1);
+                        calculo.Combinacion(t_med, t_max, n_curvas,puntos_cluster,curva_g);
+                        calculo.Dibujar_entidades(1);*/
                     }
 
                     /*
@@ -613,6 +626,15 @@ namespace interfaz {
                     } else {
                         p_cluster = 10;
                     }
+                    double curva_g;
+                    if (!string.IsNullOrEmpty(curvaGranRadioTextField.Text))
+                    {
+                        curva_g = int.Parse(curvaGranRadioTextField.Text);
+                    }
+                    else
+                    {
+                        curva_g = 2500;
+                    }
                     int n_curvas;
                     if (!string.IsNullOrEmpty(nCurvasMaxTextField.Text)) {
                         n_curvas = int.Parse(nCurvasMaxTextField.Text);
@@ -630,14 +652,14 @@ namespace interfaz {
                     }
                     Logica.CalculoPolilinea calculo = new CalculoPolilinea(ref a, opcion, ratio, orden, it);
                     if (a.Polilinea.Count > 0) {
-                        calculo.Cambios_Sentido(t_med);
+                      /*  calculo.Cambios_Sentido(t_med);
                         calculo.nueva_relacion();
                         calculo.Set_minimos();
                         calculo.Set_grupo();
                         calculo.Set_recta_curva();
                         calculo.Entidades_Curvas(t_max, p_cluster);
                         calculo.Recorrido();
-                        calculo.Combinacion(t_med, t_max, n_curvas, puntos_cluster);
+                        calculo.Combinacion(t_med, t_max, n_curvas, puntos_cluster,curva_g);*/
                     }
 
                     /*

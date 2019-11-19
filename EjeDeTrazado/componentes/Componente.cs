@@ -115,6 +115,7 @@ namespace EjeDeTrazado.componentes
         }
         abstract public List<double[]> getComponentPoints();
         abstract public List<double[]> getComponentPoints(double pk);
+        abstract public List<double[]> getComponentPoints(double pk,double pk_fin);
 
     }
 }

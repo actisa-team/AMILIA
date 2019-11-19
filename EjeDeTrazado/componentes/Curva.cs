@@ -757,6 +757,35 @@ namespace EjeDeTrazado.componentes
             return puntos;
 
         }
+        public override List<double[]> getComponentPoints(double pk,double pk_fin)
+        {
+            var puntos = new List<double[]>();
+            double i = 0;
+
+            while ((getPkIni + i) < getPkFinal())
+            {
+                puntos.Add(getPointAtDist(getPkIni + i));
+                if (getLongitud() < 50)
+                {
+                    i += 0.1;
+                }
+                else
+                {
+                    if (getLongitud() > 5000)
+                    {
+                        i += 10;
+                    }
+                    else
+                    {
+                        i++;
+                    }
+                }
+
+            }
+            puntos.Add(new double[] { getPuntoSalida.coordenadaX, getPuntoSalida.coordenadaY });
+            return puntos;
+
+        }
     }
     
 }

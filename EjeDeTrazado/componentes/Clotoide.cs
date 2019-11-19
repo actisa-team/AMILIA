@@ -336,6 +336,17 @@ namespace EjeDeTrazado.componentes
             res = 0.5 * Math.Pow((getLongitud() / mA), 2);
             return res; 
         }
+        private double Get_re(double q1, int n)
+        {
+            return Math.Pow(q1, n) / ((n + n + 1) * factorial(n));
+        }
+        private double factorial(double n)
+        {
+            if (n == 1)
+                return 1;
+            else
+                return n * factorial(n - 1);
+        }
 
         public override double[] getPointAtDist(double iDistancia)
         {
@@ -344,45 +355,48 @@ namespace EjeDeTrazado.componentes
             double miPK = iDistancia - getPkIni;
             miLe = mA * mA / mRc;
             double miLi, miXo, miYo;
-            if (mTipo == puntosDelEje.EjeTrazado.tipoClotoide.entrada)
-            {
-                miLi = miPK;
-                miXo = getPuntoEntrada.coordenadaX;
-                miYo = getPuntoEntrada.coordenadaY;
-            }
-            else
-            {
-                miLi = getPkFinal() - iDistancia;
-                miXo = getPuntoSalida.coordenadaX;  //salida?!
-                miYo = getPuntoSalida.coordenadaY;
-
-            }
-            double miQi = 0.5 * Math.Pow((miLi / mA), 2);
-            double miRi = Math.Pow(mA, 2) / miLi;
-            double miXe = (1 - Math.Pow(miQi, 2) / 10 + Math.Pow(miQi, 4) / 216 - Math.Pow(miQi, 6) / 9360 + Math.Pow(miQi, 8) / 685440) * miLi;
-            double miYe = ((miQi / 3) - (Math.Pow(miQi, 3) / 42) + (Math.Pow(miQi, 5) / 1320) - (Math.Pow(miQi, 7) / 75600)) * miLi;
+            
 
             double miXi, miYi;
-            if ((mTipo == puntosDelEje.EjeTrazado.tipoClotoide.entrada) && (mSentCurva == puntosDelEje.EjeTrazado.sentidoCurva.Horario))
-            {
-                miXi = miXo + miXe * Math.Sin(mAzimut * Math.PI / 180) + miYe * Math.Cos(mAzimut * Math.PI / 180);
-                miYi = miYo + miXe * Math.Cos(mAzimut * Math.PI / 180) - miYe * Math.Sin(mAzimut * Math.PI / 180);
-            }
-            else if ((mTipo == puntosDelEje.EjeTrazado.tipoClotoide.salida) && (mSentCurva == puntosDelEje.EjeTrazado.sentidoCurva.Horario))
-            {
-                miXi = miXo - miXe * Math.Sin(mAzimut * Math.PI / 180) + miYe * Math.Cos(mAzimut * Math.PI / 180);
-                miYi = miYo - miXe * Math.Cos(mAzimut * Math.PI / 180) - miYe * Math.Sin(mAzimut * Math.PI / 180);
-            }
-            else if ((mTipo == puntosDelEje.EjeTrazado.tipoClotoide.entrada) && (mSentCurva == puntosDelEje.EjeTrazado.sentidoCurva.Antihorario))
-            {
-                miXi = miXo + miXe * Math.Sin(mAzimut * Math.PI / 180) - miYe * Math.Cos(mAzimut * Math.PI / 180);
-                miYi = miYo + miXe * Math.Cos(mAzimut * Math.PI / 180) + miYe * Math.Sin(mAzimut * Math.PI / 180);
-            }
-            else
-            {
-                miXi = miXo - miXe * Math.Sin(mAzimut * Math.PI / 180) - miYe * Math.Cos(mAzimut * Math.PI / 180);
-                miYi = miYo - miXe * Math.Cos(mAzimut * Math.PI / 180) + miYe * Math.Sin(mAzimut * Math.PI / 180);
-            }
+                if (mTipo == puntosDelEje.EjeTrazado.tipoClotoide.entrada)
+                {
+                    miLi = miPK;
+                    miXo = getPuntoEntrada.coordenadaX;
+                    miYo = getPuntoEntrada.coordenadaY;
+                }
+                else
+                {
+                    miLi = getPkFinal() - iDistancia;
+                    miXo = getPuntoSalida.coordenadaX;  //salida?!
+                    miYo = getPuntoSalida.coordenadaY;
+
+                }
+                double miQi = 0.5 * Math.Pow((miLi / mA), 2);
+                double miRi = Math.Pow(mA, 2) / miLi;
+                double miXe = (1 - Math.Pow(miQi, 2) / 10 + Math.Pow(miQi, 4) / 216 - Math.Pow(miQi, 6) / 9360 + Math.Pow(miQi, 8) / 685440
+                    - Get_re(miQi, 10) + Get_re(miQi, 12) - Get_re(miQi, 14) + Get_re(miQi, 16) - Get_re(miQi, 18) + Get_re(miQi, 20) - Get_re(miQi, 22)) * miLi;
+                double miYe = ((miQi / 3) - (Math.Pow(miQi, 3) / 42) + (Math.Pow(miQi, 5) / 1320) - (Math.Pow(miQi, 7) / 75600)
+                     + Get_re(miQi, 9) - Get_re(miQi, 11) + Get_re(miQi, 13) - Get_re(miQi, 15) + Get_re(miQi, 17) - Get_re(miQi, 19) + Get_re(miQi, 21) - Get_re(miQi, 23)) * miLi;
+                if ((mTipo == puntosDelEje.EjeTrazado.tipoClotoide.entrada) && (mSentCurva == puntosDelEje.EjeTrazado.sentidoCurva.Horario))
+                {
+                    miXi = miXo + miXe * Math.Sin(mAzimut * Math.PI / 180) + miYe * Math.Cos(mAzimut * Math.PI / 180);
+                    miYi = miYo + miXe * Math.Cos(mAzimut * Math.PI / 180) - miYe * Math.Sin(mAzimut * Math.PI / 180);
+                }
+                else if ((mTipo == puntosDelEje.EjeTrazado.tipoClotoide.salida) && (mSentCurva == puntosDelEje.EjeTrazado.sentidoCurva.Horario))
+                {
+                    miXi = miXo - miXe * Math.Sin(mAzimut * Math.PI / 180) + miYe * Math.Cos(mAzimut * Math.PI / 180);
+                    miYi = miYo - miXe * Math.Cos(mAzimut * Math.PI / 180) - miYe * Math.Sin(mAzimut * Math.PI / 180);
+                }
+                else if ((mTipo == puntosDelEje.EjeTrazado.tipoClotoide.entrada) && (mSentCurva == puntosDelEje.EjeTrazado.sentidoCurva.Antihorario))
+                {
+                    miXi = miXo + miXe * Math.Sin(mAzimut * Math.PI / 180) - miYe * Math.Cos(mAzimut * Math.PI / 180);
+                    miYi = miYo + miXe * Math.Cos(mAzimut * Math.PI / 180) + miYe * Math.Sin(mAzimut * Math.PI / 180);
+                }
+                else
+                {
+                    miXi = miXo - miXe * Math.Sin(mAzimut * Math.PI / 180) - miYe * Math.Cos(mAzimut * Math.PI / 180);
+                    miYi = miYo - miXe * Math.Cos(mAzimut * Math.PI / 180) + miYe * Math.Sin(mAzimut * Math.PI / 180);
+                }
 
             miPunto[0] = miXi;
             miPunto[1] = miYi;
@@ -679,6 +693,10 @@ namespace EjeDeTrazado.componentes
             double i = 0;
             if (le_r>0)
             {
+                if (this.mTipo== EjeDeTrazado.puntosDelEje.EjeTrazado.tipoClotoide.salida)
+                {
+                    return (getComponentPoints(0,le_r));
+                }
                return (getComponentPoints(le_r));
             }
             else
@@ -740,6 +758,41 @@ namespace EjeDeTrazado.componentes
 
             }
             puntos.Add(new double[] { getPuntoSalida.coordenadaX, getPuntoSalida.coordenadaY });
+            return puntos;
+
+        }
+        public override List<double[]> getComponentPoints(double pk,double pk_fin)
+        {
+            var puntos = new List<double[]>();
+            double i = 0;
+
+            while ((getPkIni + i) < pk_fin)
+            {
+                if (getPkIni + i >= pk)
+                {
+                    puntos.Add(getPointAtDist(getPkIni + i));
+                }
+
+                if (getLongitud() < 50)
+                {
+                    i += 0.1;
+                }
+                else
+                {
+                    if (getLongitud() > 5000)
+                    {
+                        i += 10;
+                    }
+                    else
+                    {
+                        i++;
+                    }
+
+                }
+
+            }
+            //base.setPuntoSalida=new Punto3d(puntos[puntos.Count-1][0], puntos[puntos.Count - 1][1],0);
+            //puntos.Add(new double[] { getPuntoSalida.coordenadaX, getPuntoSalida.coordenadaY });
             return puntos;
 
         }

@@ -21,8 +21,7 @@ namespace Logica
         public double radio { get; set; }
         public int ini { get; set; }
         public int fin { get; set; }
-
-
+        public bool cluster { get; set; }
 
 
         /*

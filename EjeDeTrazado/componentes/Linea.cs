@@ -335,5 +335,13 @@ namespace EjeDeTrazado.componentes
             return puntos;
 
         }
+        public override List<double[]> getComponentPoints(double pk,double pk_fin)
+        {
+            var puntos = new List<double[]>();
+            puntos.Add(new double[] { getPuntoEntrada.coordenadaX, getPuntoEntrada.coordenadaY });
+            puntos.Add(new double[] { getPuntoSalida.coordenadaX, getPuntoSalida.coordenadaY });
+            return puntos;
+
+        }
     }
 }
