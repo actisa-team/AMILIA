@@ -12,6 +12,7 @@ namespace interfaz {
 
     public partial class principal : MaterialForm, IViabilidadListener, IViabilidadStatusInfoPanelListener {
         private CalculoPolilinea calculoPolilinea;
+        private CalculoPolilinea calculoPolilinea_prueba;
         private CalculoPolilineaPreferencias calculoPolilineaPreferencias;
         private int pasosEjecutados = -1;
         private Boolean ejecutarViabilidadSinParar = false;
@@ -230,13 +231,15 @@ namespace interfaz {
                     * 
                     */
                     calculoPolilinea.Cambios_Sentido(calculoPolilineaPreferencias.T_med);
+                    PolilineaInfoPanel polilineaInfoPanel = new PolilineaInfoPanel(calculoPolilinea.Polilinea);
+                    polilineaInfoPanel.Show();
                     calculoPolilinea.nueva_relacion();
                     calculoPolilinea.Set_minimos();
                     calculoPolilinea.Set_grupo();
                     calculoPolilinea.Set_recta_curva();
                     int pol=calculoPolilinea.Dividir_Polilinea();
-                    PolilineaInfoPanel polilineaInfoPanel = new PolilineaInfoPanel(calculoPolilinea.Polilinea);
-                    polilineaInfoPanel.Show();
+                    PolilineaInfoPanel polilineaInfoPanel2 = new PolilineaInfoPanel(calculoPolilinea.Polilinea);
+                    polilineaInfoPanel2.Show();
                     for (int i=0;i<=pol;i++)
                     {
                         calculoPolilinea.Seleccionar_Polilinea(i);

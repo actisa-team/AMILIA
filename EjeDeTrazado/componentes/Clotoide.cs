@@ -288,7 +288,6 @@ namespace EjeDeTrazado.componentes
         public override double getPkFinal()
         {
             return getPkIni + getLongitud();
-
         }
 
         public override double getMargenIzq(double iPk)

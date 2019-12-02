@@ -22,8 +22,9 @@ namespace Logica
         public int ini { get; set; }
         public int fin { get; set; }
         public bool cluster { get; set; }
-
-
+        public bool bloqueo { get; set; }
+        public double dif_az {get;set;}
+        public bool curva_creada { get; set; }
         /*
          * Viabilidad
          */
