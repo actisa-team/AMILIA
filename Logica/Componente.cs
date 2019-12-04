@@ -50,6 +50,7 @@ namespace Logica
         public bool caso5 { get; set; }//caso5
         public bool caso6 { get; set; }//caso6
         public int prioridad { get; set; }//prioridad
+        public int giros { get; set; }//para ver que tipo de giro hizo anteriormente 1-->giro positivo 2-->giro negativo 0--> no ha girado
         /*
          * 
          * esto nos sirve para saver si ha sido creado posteriormente para segun que casos
