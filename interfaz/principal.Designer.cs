@@ -46,6 +46,8 @@
             this.materialLabel8 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel7 = new MaterialSkin.Controls.MaterialLabel();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.pclusterizacionTextField = new System.Windows.Forms.TextBox();
+            this.materialLabel20 = new MaterialSkin.Controls.MaterialLabel();
             this.debugButtonsContainer = new System.Windows.Forms.Panel();
             this.calculoPolilineaStatusTextView = new System.Windows.Forms.Label();
             this.paso3EjecutadoTextView = new System.Windows.Forms.Label();
@@ -84,8 +86,8 @@
             this.materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel2 = new MaterialSkin.Controls.MaterialLabel();
             this.materialDivider1 = new MaterialSkin.Controls.MaterialDivider();
-            this.pclusterizacionTextField = new System.Windows.Forms.TextBox();
-            this.materialLabel20 = new MaterialSkin.Controls.MaterialLabel();
+            this.SolapesTextField = new System.Windows.Forms.TextBox();
+            this.materialLabel21 = new MaterialSkin.Controls.MaterialLabel();
             this.materialTabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -310,6 +312,8 @@
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.Color.White;
+            this.tabPage2.Controls.Add(this.SolapesTextField);
+            this.tabPage2.Controls.Add(this.materialLabel21);
             this.tabPage2.Controls.Add(this.pclusterizacionTextField);
             this.tabPage2.Controls.Add(this.materialLabel20);
             this.tabPage2.Controls.Add(this.debugButtonsContainer);
@@ -349,6 +353,27 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.Click += new System.EventHandler(this.tabPage2_Click);
+            // 
+            // pclusterizacionTextField
+            // 
+            this.pclusterizacionTextField.Location = new System.Drawing.Point(668, 401);
+            this.pclusterizacionTextField.Name = "pclusterizacionTextField";
+            this.pclusterizacionTextField.Size = new System.Drawing.Size(100, 20);
+            this.pclusterizacionTextField.TabIndex = 37;
+            this.pclusterizacionTextField.Text = "50";
+            // 
+            // materialLabel20
+            // 
+            this.materialLabel20.AutoSize = true;
+            this.materialLabel20.Depth = 0;
+            this.materialLabel20.Font = new System.Drawing.Font("Roboto", 11F);
+            this.materialLabel20.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialLabel20.Location = new System.Drawing.Point(509, 401);
+            this.materialLabel20.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel20.Name = "materialLabel20";
+            this.materialLabel20.Size = new System.Drawing.Size(156, 19);
+            this.materialLabel20.TabIndex = 36;
+            this.materialLabel20.Text = "Puntos Clusterización";
             // 
             // debugButtonsContainer
             // 
@@ -840,26 +865,26 @@
             this.materialDivider1.TabIndex = 11;
             this.materialDivider1.Text = "materialDivider1";
             // 
-            // pclusterizacionTextField
+            // SolapesTextField
             // 
-            this.pclusterizacionTextField.Location = new System.Drawing.Point(668, 401);
-            this.pclusterizacionTextField.Name = "pclusterizacionTextField";
-            this.pclusterizacionTextField.Size = new System.Drawing.Size(100, 20);
-            this.pclusterizacionTextField.TabIndex = 37;
-            this.pclusterizacionTextField.Text = "50";
+            this.SolapesTextField.Location = new System.Drawing.Point(160, 514);
+            this.SolapesTextField.Name = "SolapesTextField";
+            this.SolapesTextField.Size = new System.Drawing.Size(100, 20);
+            this.SolapesTextField.TabIndex = 39;
+            this.SolapesTextField.Text = "2000";
             // 
-            // materialLabel20
+            // materialLabel21
             // 
-            this.materialLabel20.AutoSize = true;
-            this.materialLabel20.Depth = 0;
-            this.materialLabel20.Font = new System.Drawing.Font("Roboto", 11F);
-            this.materialLabel20.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialLabel20.Location = new System.Drawing.Point(509, 401);
-            this.materialLabel20.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel20.Name = "materialLabel20";
-            this.materialLabel20.Size = new System.Drawing.Size(156, 19);
-            this.materialLabel20.TabIndex = 36;
-            this.materialLabel20.Text = "Puntos Clusterización";
+            this.materialLabel21.AutoSize = true;
+            this.materialLabel21.Depth = 0;
+            this.materialLabel21.Font = new System.Drawing.Font("Roboto", 11F);
+            this.materialLabel21.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialLabel21.Location = new System.Drawing.Point(20, 513);
+            this.materialLabel21.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel21.Name = "materialLabel21";
+            this.materialLabel21.Size = new System.Drawing.Size(139, 19);
+            this.materialLabel21.TabIndex = 38;
+            this.materialLabel21.Text = "Solapes permitidos";
             // 
             // principal
             // 
@@ -948,5 +973,7 @@
         private System.Windows.Forms.Label paso2EjecutadoTextView;
         private System.Windows.Forms.TextBox pclusterizacionTextField;
         private MaterialLabel materialLabel20;
+        private System.Windows.Forms.TextBox SolapesTextField;
+        private MaterialLabel materialLabel21;
     }
 }

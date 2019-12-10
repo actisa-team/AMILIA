@@ -130,7 +130,7 @@ namespace interfaz {
             int puntos_cluster = 50;
             int it = 2;
             int[] orden = new int[3];
-
+            int solapes = 2000;
 
             if (filtrado1CheckBox.Checked == true) {
                 opcion = 1;
@@ -189,6 +189,14 @@ namespace interfaz {
                 {
                     puntos_cluster = 50;
                 }
+                if (!string.IsNullOrEmpty(SolapesTextField.Text))
+                {
+                    solapes = int.Parse(SolapesTextField.Text);
+                }
+                else
+                {
+                    solapes = 2000;
+                }
                 int filtrado1Order = (int)filtrado1ExecuteOrderNumericField.Value;
                 int filtrado2Order = (int)filtrado2ExecuteOrderNumericField.Value;
                 int filtrado3Order = (int)filtrado3ExecuteOrderNumericField.Value;
@@ -215,6 +223,7 @@ namespace interfaz {
             ca.Gran_r = gran_r;
             ca.N_curvas = n_curvas;
             ca.Puntos_cluster = puntos_cluster;
+            ca.Solapes = solapes;
 
             ca.Orden = orden;
 
@@ -313,7 +322,7 @@ namespace interfaz {
 
             if (this.pasosEjecutados > 1) {
                 if (this.calculoPolilinea != null) {
-                    List<ViabilidadComponentesStatus> viabilidadEnlaces = calculoPolilinea.Enlaces(this.calculoPolilineaPreferencias.Gran_r);
+                    List<ViabilidadComponentesStatus> viabilidadEnlaces = calculoPolilinea.Enlaces(this.calculoPolilineaPreferencias.Gran_r, calculoPolilineaPreferencias.Solapes);
                     try {
                         calculoPolilinea.Dibujar_entidades(4);
                         calculoPolilinea.Crear_Trazado(this.calculoPolilineaPreferencias.Gran_r);
@@ -336,6 +345,8 @@ namespace interfaz {
                     VerificacionComponentesStatus verificacionComponentesStatus = calculoPolilinea.obtenerEstadoVerificacionDeComponentes();
                     ComponentesInfoPanel componentesInfoPanel = new ComponentesInfoPanel(calculoPolilinea.Componentes, verificacionComponentesStatus);
                     componentesInfoPanel.Show();
+                    ComponentesInfoPanel componentesInfoPanel2 = new ComponentesInfoPanel(calculoPolilinea.Componentes_iniciales);
+                    componentesInfoPanel2.Show();
                     MessageBox.Show("Revise autocad para ver la salida de la etapa 3 del algoritmo");
                 } else {
                     MessageBox.Show("Calculo polilinea no inicializado");

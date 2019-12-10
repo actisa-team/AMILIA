@@ -17,6 +17,14 @@ namespace interfaz {
             this.componentes = componentes;
             this.verificacionComponentesStatus = verificacionComponentesStatus;
             this.populateDataTable();
+            this.populateVerificacionComponentesStatus2();
+        }
+        public ComponentesInfoPanel(List<Componente> componentes)
+        {
+            InitializeComponent();
+            this.componentes = componentes;
+            
+            this.populateDataTable();
             this.populateVerificacionComponentesStatus();
         }
 
@@ -33,6 +41,13 @@ namespace interfaz {
                     }
                 }
             }       
+        }
+        public void populateVerificacionComponentesStatus2()
+        {
+            if (this.verificacionComponentesStatus != null)
+            {
+                this.showValidacionComponentesCorrecta();
+            }
         }
 
         private void showErrorValidacionCurva() {

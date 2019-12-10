@@ -9,9 +9,13 @@ namespace Logica
     public class Componente
     {
         public List<Punto> lista_puntos = new List<Punto>();
+        public List<Punto> lista_puntos_i = new List<Punto>();
+        public int index { get; set; }//identificador
         public int Tipo { get; set; }//recta==1  // curva==2  //clotoide==3
         public double xc { get; set; }
         public double yc { get; set; }
+        public double xc_i { get; set; }
+        public double yc_i { get; set; }
         //para clotide
         public double azte { get; set; }
         public double azts { get; set; }
@@ -19,11 +23,13 @@ namespace Logica
         public double azmax { get; set; }
         public double azr { get; set; }
         public double radio { get; set; }
+        public double radio_i { get; set; }
         public int ini { get; set; }
         public int fin { get; set; }
         public bool cluster { get; set; }
         public bool bloqueo { get; set; }
         public double dif_az {get;set;}
+        public double dif_az_i { get; set; }
         public bool curva_creada { get; set; }
         /*
          * Viabilidad
@@ -61,8 +67,9 @@ namespace Logica
          * 
          */
         public int creacion { get; set; }
-
-
+        public double L_Arco { get; set; }
+        public double L_Arco_i { get; set; }
+        public int solape { get; set; }
         /*
          * Casos de enlaces
          */
@@ -85,7 +92,7 @@ namespace Logica
         public bool caso6_e { get; set; }
         public bool caso7_e { get; set; }
         
-
+        
         public EjeDeTrazado.puntosDelEje.EjeTrazado.sentidoCurva direccion { get; set; }
         public Componente()
         {
@@ -99,6 +106,10 @@ namespace Logica
         public void add(Punto p)
         {
             lista_puntos.Add(p);
+        }
+        public void add_i(Punto p)
+        {
+            lista_puntos_i.Add(p);
         }
         public void Reiniciar_casos_solapes()
         {
@@ -121,5 +132,6 @@ namespace Logica
             caso6_e = false;
             caso7_e = false;
         }
+
     }
 }
