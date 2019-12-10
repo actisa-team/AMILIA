@@ -22,12 +22,15 @@ namespace EjeDeTrazado
 
         public InfoComponentes(List<Componente> misComponentes, List<Vertice> misVertices)
         {
-            int i = 1;
+            int i = 0;
             foreach (Componente miComponente in misComponentes)
             {
                 if (miComponente.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.curva)
                 {
                     InfoComponente miNewComp = new InfoComponente(miComponente.draw() as double[], miComponente.getPkIni, miComponente.getPkFinal(), miComponente.getLongitud(), miComponente.getPuntoEntrada, miComponente.getPuntoSalida);
+                    Curva miCurva = (Curva)misComponentes.ElementAt(i);
+                    miNewComp.setSentGiro= miCurva.getSentCurva;
+                   // miNewComp.setTipoCurva = EjeDeTrazado.puntosDelEje.EjeTrazado.tipoCurva.c;
                    // miNewComp.setSentGiro = misVertices[i].getSentCurva;
                    // miNewComp.setTipoCurva = misVertices[i].getTipocurva;
                     miNewComp.setPeralte = miComponente.getPeralte();
@@ -41,7 +44,9 @@ namespace EjeDeTrazado
                     InfoComponente miNewComp = new InfoComponente(miComponente.getTipoComponente(), miComponente.draw() as List<Punto3d>, miComponente.getPkIni, miComponente.getPkFinal(), miComponente.getLongitud(), miComponente.getPuntoEntrada, miComponente.getPuntoSalida);
                    // miNewComp.setTipoRecta = misVertices[i - 1].getTipoSeg;
                     miNewComp.setPeralte = miComponente.getPeralte();
-                   // miNewComp.setAzimutFinal = misVertices[i - 1].getAzimut;
+                    //miNewComp.setAzimutFinal = misVertices[i - 1].getAzimut;
+                    Linea miRecta = (Linea)misComponentes.ElementAt(i);
+                    miNewComp.setAzimutFinal = miRecta.AzimutFinal;
                     miNewComp.setMargenD = miComponente.getMargenDer(0);
                     miNewComp.setMargenI = miComponente.getMargenIzq(0);
                     mComponentes.Add(miNewComp);
@@ -49,9 +54,45 @@ namespace EjeDeTrazado
                 else
                 {
                     Clotoide miClo = miComponente as Clotoide;
+                    Punto3d Punto_Entrada;
+                    Punto3d Punto_Salida;
+                    if (miClo.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.clotoideSalida)
+                    {
+                        if (miClo.Get_Le_r() > 0)
+                        {
+                            Punto_Entrada = new Punto3d(miComponente.getPointAtDist(miClo.getPkIni)[0], miComponente.getPointAtDist(miClo.getPkIni)[1], 0);
+                            Punto_Salida = new Punto3d(miComponente.getPointAtDist(miComponente.getPkFin)[0], miComponente.getPointAtDist(miComponente.getPkFin)[1], 0);
+                        }
+                        else
+                        {
+                            Punto_Entrada = new Punto3d(miClo.getPointAtDist(miClo.getPkIni)[0], miClo.getPointAtDist(miClo.getPkIni)[1], 0);
+                            Punto_Salida = new Punto3d(miClo.getPointAtDist(miClo.getPkFin)[0], miClo.getPointAtDist(miClo.getPkFin)[1], 0);
+                        }
 
+                    }
+                    else if (miClo.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.clotoideEntrada)
+                    {
+                        if (miClo.Get_Le_r() > 0)
+                        {
+                            Punto_Entrada = new Punto3d(miComponente.getPointAtDist(miClo.getPkIni + miClo.Get_Le_r())[0], miComponente.getPointAtDist(miClo.getPkIni + miClo.Get_Le_r())[1], 0);
+                            Punto_Salida = new Punto3d(miComponente.getPointAtDist(miClo.getPkIni+ miClo.Get_Le_m())[0], miComponente.getPointAtDist(miClo.getPkIni + miClo.Get_Le_m())[1], 0);
+                        }
+                        else
+                        {
+                            Punto_Entrada = new Punto3d(miClo.getPointAtDist(miClo.getPkIni)[0], miClo.getPointAtDist(miClo.getPkIni)[1], 0);
+                            Punto_Salida = new Punto3d(miClo.getPointAtDist(miClo.getPkFin)[0], miClo.getPointAtDist(miClo.getPkFin)[1], 0);
+                        }
 
-                    InfoComponente miNewComp = new InfoComponente(miComponente.getTipoComponente(), miComponente.draw() as List<Punto3d>, miComponente.getPkIni, miComponente.getPkFinal(), miClo.getValorA(), miComponente.getLongitud(), miComponente.getPuntoEntrada, miComponente.getPuntoSalida);
+                    }
+                    else
+                    {
+                        Punto_Entrada = new Punto3d(miClo.getPointAtDist(miClo.getPkIni)[0], miClo.getPointAtDist(miClo.getPkIni)[1], 0);
+                        Punto_Salida = new Punto3d(miClo.getPointAtDist(miClo.getPkFin)[0], miClo.getPointAtDist(miClo.getPkFin)[1], 0);
+                    }
+                    /*Punto_Entrada = new Punto3d(miClo.getPointAtDist(miClo.getPkIni)[0], miClo.getPointAtDist(miClo.getPkIni)[1], 0);
+                    Punto_Salida = new Punto3d(miClo.getPointAtDist(miClo.getPkFin)[0], miClo.getPointAtDist(miClo.getPkFin)[1], 0);*/
+                    List<double[]> Lista = miComponente.getComponentPoints();
+                    InfoComponente miNewComp = new InfoComponente(miComponente.getTipoComponente(), miComponente.draw() as List<Punto3d>, miClo.getPkIni, miClo.getPkFin, miClo.getValorA(), miClo.getPkFin- miClo.getPkIni, Punto_Entrada, Punto_Salida);
                     miNewComp.setPeralte = miComponente.getPeralte();
                     miNewComp.setVariacionMI = miClo.getVariacionMI();
                     miNewComp.setVariacionMD = miClo.getVariacionMD();
@@ -59,9 +100,10 @@ namespace EjeDeTrazado
 
                     if (miComponente.getTipoComponente() == Componente.tipoComponente.clotoideSalida)
                     {
-                        i++;
+                        //i++;
                     }
                 }
+                i++;
             }
         }
 
@@ -130,7 +172,8 @@ namespace EjeDeTrazado
                 null, null, null, miComponenteInfo.getVariacionMI, miComponenteInfo.getVariacionMD));
                 }
             }
-            //oCsv.write<oValDesT<string, string>, oInforme, oValDesT<string, double?>>(miLstHeader, miInforme, miLstFooter, @"C:\Users\pruebaEje.csv");
+
+            oCsv.write<oValDesT<string, string>, oInformeEje, oValDesT<string, double?>>(miLstHeader, miInforme, miLstFooter, @"C:\Users\Juanma\Desktop\Juanma\aplitop\informes\pruebaEje.csv");
             return miInforme;
 
         }

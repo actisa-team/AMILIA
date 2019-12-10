@@ -281,6 +281,14 @@ namespace EjeDeTrazado.componentes
                 return clotoideS;
             }
         }
+        public override double Get_Le_r()
+        {
+            return le_r;
+        }
+        public override double Get_Le_m()
+        {
+            return mLe;
+        }
         public double getLe_r()
         {
             return le_r;
@@ -546,11 +554,6 @@ namespace EjeDeTrazado.componentes
 
             return miPunto;
         }
-
-
-
-
-
 
         public override double getVariacionMI()
         {

@@ -17,6 +17,7 @@ namespace EjeDeTrazado.componentes
         private double mPuntoEntradaY;
         private double mPuntoSalidaY;
         private double mPkInicial;
+        private double mPkFinal;
 
 
 
@@ -28,7 +29,7 @@ namespace EjeDeTrazado.componentes
             mPuntoSalidaY = iPuntoSalida.coordenadaY;
             mPkInicial = iPkIni;
         }
-
+       
         abstract public double getLongitud();
         abstract public double getPkFinal();
         
@@ -48,12 +49,28 @@ namespace EjeDeTrazado.componentes
         abstract public double[] getPointAtDist(double iDistancia);
 
         abstract public double[] getPointAtLocation(double iDistancia, double iOffset, EjeDeTrazado.puntosDelEje.EjeTrazado.ladoCalzada iLadoCalzada);
-
+        public void Set_PkIni(double valor)
+        {
+            mPkInicial=valor;
+        }
+        public void Set_PkFin(double valor)
+        {
+            mPkFinal = valor;
+        }
+        abstract public double Get_Le_m();
+        abstract public double Get_Le_r();
         public double getPkIni
         {
             get
             {
                 return mPkInicial;
+            }
+        }
+        public double getPkFin
+        {
+            get
+            {
+                return mPkFinal;
             }
         }
 

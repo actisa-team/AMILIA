@@ -786,6 +786,14 @@ namespace EjeDeTrazado.componentes
             return puntos;
 
         }
+        public override double Get_Le_r()
+        {
+            return -1;
+        }
+        public override double Get_Le_m()
+        {
+            return -1;
+        }
     }
     
 }

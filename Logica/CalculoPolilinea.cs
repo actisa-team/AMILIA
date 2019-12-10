@@ -5186,8 +5186,47 @@ namespace Logica {
 
                 //}
             }
+            Set_Pks();
             EjeDeTrazado.InfoComponentes info = new EjeDeTrazado.InfoComponentes(mcomponenetes, new List<Vertice>(0));
             List<EjeDeTrazado.oInformeEje> aa = info.escribirInforme();
+        }
+
+        public void Set_Pks()
+        {
+            double pk = 0;
+            foreach (var componente in mcomponenetes)
+            {
+                componente.Set_PkIni(pk);
+                if (componente.getTipoComponente()==EjeDeTrazado.componentes.Componente.tipoComponente.clotoideSalida)
+                {
+                    if (componente.Get_Le_r() > 0)
+                    {
+                        pk += componente.Get_Le_r();
+                    }
+                    else
+                    {
+                        pk = componente.getPkFinal();
+                    }
+                    
+                }
+                else if (componente.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.clotoideEntrada)
+                {
+                    if (componente.Get_Le_r()>0)
+                    {
+                        pk += componente.Get_Le_m() - componente.Get_Le_r();
+                    }
+                    else
+                    {
+                        pk = componente.getPkFinal();
+                    }
+                    
+                }
+                else
+                {
+                    pk = componente.getPkFinal();
+                }
+                componente.Set_PkFin(pk);
+            }
         }
         #region centro para clotoides 
         public void centro() {
