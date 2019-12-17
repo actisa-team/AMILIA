@@ -26,9 +26,12 @@ namespace interfaz {
             InitializeComponent();
             MaterialSkinManager m = MaterialSkinManager.Instance;
             m.AddFormToManage(this);
-           
+
             m.Theme = MaterialSkinManager.Themes.LIGHT;
+            
             //m.ColorScheme = new ColorScheme(Primary.Green900,Primary.Green700,Primary.Green500,Accent.LightGreen200,TextShade.WHITE);
+            m.ColorScheme = new ColorScheme(Primary.Indigo50, Primary.Indigo700, Primary.Blue900, Accent.Blue400, default);
+           
             postcarga();
 
             if (AplitopProperties.isDevelopment()) {
@@ -541,7 +544,10 @@ namespace interfaz {
 
 
         }
-
+        private void materialRaisedButton2_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Hay que elegir el orden en el que se desea hacer la iteracion. Si es 0 no se hará esa iteración", "Información");
+        }
         private void materialRaisedButton1_Click(object sender, EventArgs e) {
             MessageBox.Show("Hay que elegir el orden en el que se desea hacer la iteracion. Si es 0 no se hará esa iteración", "Información");
         }

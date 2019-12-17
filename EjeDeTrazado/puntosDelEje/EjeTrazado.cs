@@ -1578,7 +1578,7 @@ namespace EjeDeTrazado.puntosDelEje
         public List<oInformeEje> escribirInforme()
         {
             InfoComponentes misComponentes = new InfoComponentes(mComponentes, mVertices);
-            return misComponentes.escribirInforme();
+            return misComponentes.escribirInforme("");
         }
 
         public List<double[]> getPuntosEje()

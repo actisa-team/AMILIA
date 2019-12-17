@@ -117,7 +117,7 @@ namespace EjeDeTrazado
 
         }
 
-        public List<oInformeEje> escribirInforme()
+        public List<oInformeEje> escribirInforme(string nombre_informe)
         {
             int vertice = 1;
             int seg = 1;
@@ -173,8 +173,16 @@ namespace EjeDeTrazado
                 null, null, null, miComponenteInfo.getVariacionMI, miComponenteInfo.getVariacionMD));
                 }
             }
+            if (nombre_informe=="")
+            {
+                oCsv.write<oValDesT<string, string>, oInformeEje, oValDesT<string, double?>>(miLstHeader, miInforme, miLstFooter, @"C:\Users\Juanma\Desktop\Juanma\aplitop\informes\pruebaEje.csv");
 
-            oCsv.write<oValDesT<string, string>, oInformeEje, oValDesT<string, double?>>(miLstHeader, miInforme, miLstFooter, @"C:\Users\Juanma\Desktop\Juanma\aplitop\informes\pruebaEje.csv");
+            }
+            else
+            {
+                oCsv.write<oValDesT<string, string>, oInformeEje, oValDesT<string, double?>>(miLstHeader, miInforme, miLstFooter, nombre_informe);
+
+            }
             return miInforme;
 
         }

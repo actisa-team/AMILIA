@@ -5196,8 +5196,19 @@ namespace Logica {
             if (rotu)
             {
                 Set_Pks();
+                string nombre_informe = "";
+                System.Windows.Forms.SaveFileDialog saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+
+                saveFileDialog1.Filter = "csv files (*.csv)|*.csv|All files (*.*)|*.*";
+                saveFileDialog1.FilterIndex = 2;
+                saveFileDialog1.RestoreDirectory = true;
+                saveFileDialog1.DefaultExt = "csv";
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    nombre_informe = saveFileDialog1.FileName;
+                }
                 EjeDeTrazado.InfoComponentes info = new EjeDeTrazado.InfoComponentes(mcomponenetes, new List<Vertice>(0));
-                List<EjeDeTrazado.oInformeEje> aa = info.escribirInforme();
+                List<EjeDeTrazado.oInformeEje> aa = info.escribirInforme(nombre_informe);
                 engCadNet.oLayer.addLayer("Rotulacion-Curva", 1, false);
                 engCadNet.oLayer.addLayer("Rotulacion-Recta", 2, false);
                 engCadNet.oLayer.addLayer("Rotulacion-Clotoide", 3, false);

@@ -94,6 +94,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.materialRaisedButton2 = new System.Windows.Forms.Button();
             this.materialTabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -110,6 +111,7 @@
             // 
             this.materialTabSelector1.BaseTabControl = this.materialTabControl1;
             this.materialTabSelector1.Depth = 0;
+            this.materialTabSelector1.ForeColor = System.Drawing.SystemColors.Highlight;
             this.materialTabSelector1.Location = new System.Drawing.Point(0, 240);
             this.materialTabSelector1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialTabSelector1.Name = "materialTabSelector1";
@@ -158,6 +160,7 @@
             this.materialFlatButton5.AutoSize = true;
             this.materialFlatButton5.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.materialFlatButton5.Depth = 0;
+            this.materialFlatButton5.Enabled = false;
             this.materialFlatButton5.Location = new System.Drawing.Point(330, 292);
             this.materialFlatButton5.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.materialFlatButton5.MouseState = MaterialSkin.MouseState.HOVER;
@@ -167,6 +170,7 @@
             this.materialFlatButton5.TabIndex = 22;
             this.materialFlatButton5.Text = "Cargar Polilinea";
             this.materialFlatButton5.UseVisualStyleBackColor = true;
+            this.materialFlatButton5.Visible = false;
             this.materialFlatButton5.Click += new System.EventHandler(this.materialFlatButton5_Click);
             // 
             // materialLabel11
@@ -321,6 +325,7 @@
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.Color.White;
+            this.tabPage2.Controls.Add(this.materialRaisedButton2);
             this.tabPage2.Controls.Add(this.RotularCheckBox);
             this.tabPage2.Controls.Add(this.RotulacionTextField);
             this.tabPage2.Controls.Add(this.materialLabel22);
@@ -456,7 +461,7 @@
             this.debugButtonsContainer.Controls.Add(this.ejecutar3Button);
             this.debugButtonsContainer.Controls.Add(this.materialFlatButton2);
             this.debugButtonsContainer.Controls.Add(this.ejecutar2Button);
-            this.debugButtonsContainer.Location = new System.Drawing.Point(11, 536);
+            this.debugButtonsContainer.Location = new System.Drawing.Point(24, 508);
             this.debugButtonsContainer.Name = "debugButtonsContainer";
             this.debugButtonsContainer.Size = new System.Drawing.Size(768, 167);
             this.debugButtonsContainer.TabIndex = 35;
@@ -678,7 +683,7 @@
             this.materialFlatButton4.AutoSize = true;
             this.materialFlatButton4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.materialFlatButton4.Depth = 0;
-            this.materialFlatButton4.Location = new System.Drawing.Point(513, 495);
+            this.materialFlatButton4.Location = new System.Drawing.Point(24, 452);
             this.materialFlatButton4.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.materialFlatButton4.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialFlatButton4.Name = "materialFlatButton4";
@@ -691,15 +696,18 @@
             // 
             // materialRaisedButton1
             // 
+            this.materialRaisedButton1.BackColor = System.Drawing.Color.Black;
             this.materialRaisedButton1.Depth = 0;
-            this.materialRaisedButton1.Location = new System.Drawing.Point(27, 182);
+            this.materialRaisedButton1.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.materialRaisedButton1.Location = new System.Drawing.Point(24, 223);
             this.materialRaisedButton1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialRaisedButton1.Name = "materialRaisedButton1";
             this.materialRaisedButton1.Primary = true;
             this.materialRaisedButton1.Size = new System.Drawing.Size(75, 23);
             this.materialRaisedButton1.TabIndex = 20;
             this.materialRaisedButton1.Text = "Info";
-            this.materialRaisedButton1.UseVisualStyleBackColor = true;
+            this.materialRaisedButton1.UseVisualStyleBackColor = false;
+            this.materialRaisedButton1.Visible = false;
             this.materialRaisedButton1.Click += new System.EventHandler(this.materialRaisedButton1_Click);
             // 
             // materialLabel14
@@ -861,7 +869,8 @@
             this.materialFlatButton3.AutoSize = true;
             this.materialFlatButton3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.materialFlatButton3.Depth = 0;
-            this.materialFlatButton3.Location = new System.Drawing.Point(264, 495);
+            this.materialFlatButton3.Enabled = false;
+            this.materialFlatButton3.Location = new System.Drawing.Point(264, 452);
             this.materialFlatButton3.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.materialFlatButton3.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialFlatButton3.Name = "materialFlatButton3";
@@ -870,6 +879,7 @@
             this.materialFlatButton3.TabIndex = 1;
             this.materialFlatButton3.Text = "Cargar Puntos (propio)";
             this.materialFlatButton3.UseVisualStyleBackColor = true;
+            this.materialFlatButton3.Visible = false;
             this.materialFlatButton3.Click += new System.EventHandler(this.materialFlatButton3_Click);
             // 
             // filtrado3CheckBox
@@ -963,6 +973,20 @@
             this.pictureBox3.Size = new System.Drawing.Size(538, 43);
             this.pictureBox3.TabIndex = 5;
             this.pictureBox3.TabStop = false;
+            // 
+            // materialRaisedButton2
+            // 
+            this.materialRaisedButton2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(234)))), ((int)(((byte)(246)))));
+            this.materialRaisedButton2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.materialRaisedButton2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.materialRaisedButton2.ForeColor = System.Drawing.SystemColors.Desktop;
+            this.materialRaisedButton2.Location = new System.Drawing.Point(27, 179);
+            this.materialRaisedButton2.Name = "materialRaisedButton2";
+            this.materialRaisedButton2.Size = new System.Drawing.Size(75, 23);
+            this.materialRaisedButton2.TabIndex = 43;
+            this.materialRaisedButton2.Text = "INFO";
+            this.materialRaisedButton2.UseVisualStyleBackColor = false;
+            this.materialRaisedButton2.Click += new System.EventHandler(this.materialRaisedButton2_Click);
             // 
             // principal
             // 
@@ -1068,5 +1092,6 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.Button materialRaisedButton2;
     }
 }
