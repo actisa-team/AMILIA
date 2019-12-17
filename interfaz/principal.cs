@@ -52,7 +52,7 @@ namespace interfaz {
             
             tabPage2.Text = "Filtrar puntos";
             tabPage1.Text = "Estudio previo";
-
+            tabPage3.Text = "Perfil";
             filtrado1CheckBox.Checked = true;
             filtrado3GradosTextField.Enabled = false;
             filtrado3MetrosTextField.Enabled = false;
@@ -69,6 +69,29 @@ namespace interfaz {
             filtrado2ExecuteOrderNumericField.Enabled = false;
             filtrado3ExecuteOrderNumericField.Enabled = false;
 
+            /*
+             * Ocultamos informacion del perfil
+             */
+            materialCheckBox5.Visible = false;
+            materialCheckBox6.Visible = false;
+            materialCheckBox7.Visible = false;
+            materialDivider2.Visible = false;
+            materialCheckBox2.Visible = false;
+            textBox5.Visible = false;
+            textBox2.Visible = false;
+            materialLabel27.Visible = false;
+            materialLabel28.Visible = false;
+            button1.Visible = false;
+            materialLabel26.Visible = false;
+            materialLabel24.Visible = false;
+            materialLabel25.Visible = false;
+            numericUpDown1.Visible = false;
+            numericUpDown2.Visible = false;
+            numericUpDown3.Visible = false;
+            materialCheckBox3.Visible = false;
+
+            materialLabel23.Visible = true;
+            materialLabel23.Text = "Esta sección esta en construcción";
         }
 
         private void principal_ResizeEnd(object sender, EventArgs e) {

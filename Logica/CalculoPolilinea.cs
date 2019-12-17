@@ -1555,7 +1555,8 @@ namespace Logica {
             Point2d pm;
             int whileItIndex = 0;
             int contador = 0;
-            while (casos && contador < 100000) {
+            //&& contador < 100000
+            while (casos ) {
                 contador++;
                 this.Reiniciar_casos();
                 this.Rellenar_Componentes();
@@ -14884,7 +14885,8 @@ namespace Logica {
                         }
                     }
                     Comprobar_Curvas();
-                } while (!salir && this.Comprobar_casos_solapes() && contador < 10000 && !terminar);
+                    //&& contador < 10000
+                } while (!salir && this.Comprobar_casos_solapes()  && !terminar);
                 if (salir && !terminar)
                 {
                     viabilidad();
