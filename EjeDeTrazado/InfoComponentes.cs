@@ -89,6 +89,7 @@ namespace EjeDeTrazado
                         Punto_Entrada = new Punto3d(miClo.getPointAtDist(miClo.getPkIni)[0], miClo.getPointAtDist(miClo.getPkIni)[1], 0);
                         Punto_Salida = new Punto3d(miClo.getPointAtDist(miClo.getPkFin)[0], miClo.getPointAtDist(miClo.getPkFin)[1], 0);
                     }
+
                     /*Punto_Entrada = new Punto3d(miClo.getPointAtDist(miClo.getPkIni)[0], miClo.getPointAtDist(miClo.getPkIni)[1], 0);
                     Punto_Salida = new Punto3d(miClo.getPointAtDist(miClo.getPkFin)[0], miClo.getPointAtDist(miClo.getPkFin)[1], 0);*/
                     List<double[]> Lista = miComponente.getComponentPoints();

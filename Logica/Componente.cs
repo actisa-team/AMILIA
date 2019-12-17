@@ -83,7 +83,7 @@ namespace Logica
         public bool v_c_gr { get; set; }//La curva de gran radio solapa con clotoides anterior o posterior
         public bool v_a_p { get; set; }//La clotoide de enlace de dos curvas solapa con la clotoide anterior o posterior
         public double reduccion_r { get; set; }//Reducción de radio
-
+        public bool caso0_e { get; set; }
         public bool caso1_e { get; set; }
         public bool caso2_e { get; set; }
         public bool caso3_e { get; set; }
@@ -123,7 +123,7 @@ namespace Logica
             v_c_gr = false;
             v_a_p = false;
             reduccion_r = 0;
-
+            caso0_e = false;
             caso1_e = false;
             caso2_e = false;
             caso3_e = false;

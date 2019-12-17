@@ -46,6 +46,11 @@
             this.materialLabel8 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel7 = new MaterialSkin.Controls.MaterialLabel();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.RotularCheckBox = new MaterialSkin.Controls.MaterialCheckBox();
+            this.RotulacionTextField = new System.Windows.Forms.TextBox();
+            this.materialLabel22 = new MaterialSkin.Controls.MaterialLabel();
+            this.SolapesTextField = new System.Windows.Forms.TextBox();
+            this.materialLabel21 = new MaterialSkin.Controls.MaterialLabel();
             this.pclusterizacionTextField = new System.Windows.Forms.TextBox();
             this.materialLabel20 = new MaterialSkin.Controls.MaterialLabel();
             this.debugButtonsContainer = new System.Windows.Forms.Panel();
@@ -86,8 +91,9 @@
             this.materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel2 = new MaterialSkin.Controls.MaterialLabel();
             this.materialDivider1 = new MaterialSkin.Controls.MaterialDivider();
-            this.SolapesTextField = new System.Windows.Forms.TextBox();
-            this.materialLabel21 = new MaterialSkin.Controls.MaterialLabel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.materialTabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -95,17 +101,20 @@
             ((System.ComponentModel.ISupportInitialize)(this.filtrado3ExecuteOrderNumericField)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.filtrado2ExecuteOrderNumericField)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.filtrado1ExecuteOrderNumericField)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.SuspendLayout();
             // 
             // materialTabSelector1
             // 
             this.materialTabSelector1.BaseTabControl = this.materialTabControl1;
             this.materialTabSelector1.Depth = 0;
-            this.materialTabSelector1.Location = new System.Drawing.Point(0, 64);
+            this.materialTabSelector1.Location = new System.Drawing.Point(0, 240);
             this.materialTabSelector1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialTabSelector1.Name = "materialTabSelector1";
             this.materialTabSelector1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.materialTabSelector1.Size = new System.Drawing.Size(419, 23);
+            this.materialTabSelector1.Size = new System.Drawing.Size(858, 30);
             this.materialTabSelector1.TabIndex = 1;
             this.materialTabSelector1.Text = "materialTabSelector1";
             // 
@@ -114,11 +123,11 @@
             this.materialTabControl1.Controls.Add(this.tabPage1);
             this.materialTabControl1.Controls.Add(this.tabPage2);
             this.materialTabControl1.Depth = 0;
-            this.materialTabControl1.Location = new System.Drawing.Point(0, 93);
+            this.materialTabControl1.Location = new System.Drawing.Point(0, 276);
             this.materialTabControl1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialTabControl1.Name = "materialTabControl1";
             this.materialTabControl1.SelectedIndex = 0;
-            this.materialTabControl1.Size = new System.Drawing.Size(847, 756);
+            this.materialTabControl1.Size = new System.Drawing.Size(850, 830);
             this.materialTabControl1.TabIndex = 2;
             // 
             // tabPage1
@@ -139,7 +148,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(839, 730);
+            this.tabPage1.Size = new System.Drawing.Size(842, 804);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -312,6 +321,9 @@
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.Color.White;
+            this.tabPage2.Controls.Add(this.RotularCheckBox);
+            this.tabPage2.Controls.Add(this.RotulacionTextField);
+            this.tabPage2.Controls.Add(this.materialLabel22);
             this.tabPage2.Controls.Add(this.SolapesTextField);
             this.tabPage2.Controls.Add(this.materialLabel21);
             this.tabPage2.Controls.Add(this.pclusterizacionTextField);
@@ -349,14 +361,72 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(839, 730);
+            this.tabPage2.Size = new System.Drawing.Size(842, 804);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.Click += new System.EventHandler(this.tabPage2_Click);
             // 
+            // RotularCheckBox
+            // 
+            this.RotularCheckBox.AutoSize = true;
+            this.RotularCheckBox.Depth = 0;
+            this.RotularCheckBox.Font = new System.Drawing.Font("Roboto", 10F);
+            this.RotularCheckBox.Location = new System.Drawing.Point(403, 293);
+            this.RotularCheckBox.Margin = new System.Windows.Forms.Padding(0);
+            this.RotularCheckBox.MouseLocation = new System.Drawing.Point(-1, -1);
+            this.RotularCheckBox.MouseState = MaterialSkin.MouseState.HOVER;
+            this.RotularCheckBox.Name = "RotularCheckBox";
+            this.RotularCheckBox.Ripple = true;
+            this.RotularCheckBox.Size = new System.Drawing.Size(96, 30);
+            this.RotularCheckBox.TabIndex = 42;
+            this.RotularCheckBox.Text = "Rotulacíon";
+            this.RotularCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // RotulacionTextField
+            // 
+            this.RotulacionTextField.Location = new System.Drawing.Point(671, 298);
+            this.RotulacionTextField.Name = "RotulacionTextField";
+            this.RotulacionTextField.Size = new System.Drawing.Size(100, 20);
+            this.RotulacionTextField.TabIndex = 41;
+            this.RotulacionTextField.Text = "100";
+            // 
+            // materialLabel22
+            // 
+            this.materialLabel22.AutoSize = true;
+            this.materialLabel22.Depth = 0;
+            this.materialLabel22.Font = new System.Drawing.Font("Roboto", 11F);
+            this.materialLabel22.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialLabel22.Location = new System.Drawing.Point(512, 297);
+            this.materialLabel22.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel22.Name = "materialLabel22";
+            this.materialLabel22.Size = new System.Drawing.Size(92, 19);
+            this.materialLabel22.TabIndex = 40;
+            this.materialLabel22.Text = "% rotulación";
+            // 
+            // SolapesTextField
+            // 
+            this.SolapesTextField.Location = new System.Drawing.Point(672, 461);
+            this.SolapesTextField.Name = "SolapesTextField";
+            this.SolapesTextField.Size = new System.Drawing.Size(100, 20);
+            this.SolapesTextField.TabIndex = 39;
+            this.SolapesTextField.Text = "2000";
+            // 
+            // materialLabel21
+            // 
+            this.materialLabel21.AutoSize = true;
+            this.materialLabel21.Depth = 0;
+            this.materialLabel21.Font = new System.Drawing.Font("Roboto", 11F);
+            this.materialLabel21.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialLabel21.Location = new System.Drawing.Point(512, 462);
+            this.materialLabel21.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel21.Name = "materialLabel21";
+            this.materialLabel21.Size = new System.Drawing.Size(139, 19);
+            this.materialLabel21.TabIndex = 38;
+            this.materialLabel21.Text = "Solapes permitidos";
+            // 
             // pclusterizacionTextField
             // 
-            this.pclusterizacionTextField.Location = new System.Drawing.Point(668, 401);
+            this.pclusterizacionTextField.Location = new System.Drawing.Point(671, 350);
             this.pclusterizacionTextField.Name = "pclusterizacionTextField";
             this.pclusterizacionTextField.Size = new System.Drawing.Size(100, 20);
             this.pclusterizacionTextField.TabIndex = 37;
@@ -368,7 +438,7 @@
             this.materialLabel20.Depth = 0;
             this.materialLabel20.Font = new System.Drawing.Font("Roboto", 11F);
             this.materialLabel20.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialLabel20.Location = new System.Drawing.Point(509, 401);
+            this.materialLabel20.Location = new System.Drawing.Point(512, 350);
             this.materialLabel20.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel20.Name = "materialLabel20";
             this.materialLabel20.Size = new System.Drawing.Size(156, 19);
@@ -386,7 +456,7 @@
             this.debugButtonsContainer.Controls.Add(this.ejecutar3Button);
             this.debugButtonsContainer.Controls.Add(this.materialFlatButton2);
             this.debugButtonsContainer.Controls.Add(this.ejecutar2Button);
-            this.debugButtonsContainer.Location = new System.Drawing.Point(8, 557);
+            this.debugButtonsContainer.Location = new System.Drawing.Point(11, 536);
             this.debugButtonsContainer.Name = "debugButtonsContainer";
             this.debugButtonsContainer.Size = new System.Drawing.Size(768, 167);
             this.debugButtonsContainer.TabIndex = 35;
@@ -500,7 +570,7 @@
             // 
             // nCurvasMaxTextField
             // 
-            this.nCurvasMaxTextField.Location = new System.Drawing.Point(151, 402);
+            this.nCurvasMaxTextField.Location = new System.Drawing.Point(154, 351);
             this.nCurvasMaxTextField.Name = "nCurvasMaxTextField";
             this.nCurvasMaxTextField.Size = new System.Drawing.Size(100, 20);
             this.nCurvasMaxTextField.TabIndex = 31;
@@ -512,7 +582,7 @@
             this.materialLabel19.Depth = 0;
             this.materialLabel19.Font = new System.Drawing.Font("Roboto", 11F);
             this.materialLabel19.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialLabel19.Location = new System.Drawing.Point(20, 401);
+            this.materialLabel19.Location = new System.Drawing.Point(23, 350);
             this.materialLabel19.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel19.Name = "materialLabel19";
             this.materialLabel19.Size = new System.Drawing.Size(109, 19);
@@ -521,7 +591,7 @@
             // 
             // curvaGranRadioTextField
             // 
-            this.curvaGranRadioTextField.Location = new System.Drawing.Point(400, 402);
+            this.curvaGranRadioTextField.Location = new System.Drawing.Point(403, 351);
             this.curvaGranRadioTextField.Name = "curvaGranRadioTextField";
             this.curvaGranRadioTextField.Size = new System.Drawing.Size(100, 20);
             this.curvaGranRadioTextField.TabIndex = 29;
@@ -533,7 +603,7 @@
             this.materialLabel18.Depth = 0;
             this.materialLabel18.Font = new System.Drawing.Font("Roboto", 11F);
             this.materialLabel18.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialLabel18.Location = new System.Drawing.Point(257, 401);
+            this.materialLabel18.Location = new System.Drawing.Point(260, 350);
             this.materialLabel18.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel18.Name = "materialLabel18";
             this.materialLabel18.Size = new System.Drawing.Size(138, 19);
@@ -542,7 +612,7 @@
             // 
             // clusterizacionTextField
             // 
-            this.clusterizacionTextField.Location = new System.Drawing.Point(669, 458);
+            this.clusterizacionTextField.Location = new System.Drawing.Point(672, 407);
             this.clusterizacionTextField.Name = "clusterizacionTextField";
             this.clusterizacionTextField.Size = new System.Drawing.Size(100, 20);
             this.clusterizacionTextField.TabIndex = 27;
@@ -554,7 +624,7 @@
             this.materialLabel17.Depth = 0;
             this.materialLabel17.Font = new System.Drawing.Font("Roboto", 11F);
             this.materialLabel17.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialLabel17.Location = new System.Drawing.Point(506, 457);
+            this.materialLabel17.Location = new System.Drawing.Point(509, 406);
             this.materialLabel17.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel17.Name = "materialLabel17";
             this.materialLabel17.Size = new System.Drawing.Size(138, 19);
@@ -563,7 +633,7 @@
             // 
             // toleranciaMaximaTextField
             // 
-            this.toleranciaMaximaTextField.Location = new System.Drawing.Point(400, 458);
+            this.toleranciaMaximaTextField.Location = new System.Drawing.Point(403, 407);
             this.toleranciaMaximaTextField.Name = "toleranciaMaximaTextField";
             this.toleranciaMaximaTextField.Size = new System.Drawing.Size(100, 20);
             this.toleranciaMaximaTextField.TabIndex = 25;
@@ -575,7 +645,7 @@
             this.materialLabel16.Depth = 0;
             this.materialLabel16.Font = new System.Drawing.Font("Roboto", 11F);
             this.materialLabel16.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialLabel16.Location = new System.Drawing.Point(257, 457);
+            this.materialLabel16.Location = new System.Drawing.Point(260, 406);
             this.materialLabel16.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel16.Name = "materialLabel16";
             this.materialLabel16.Size = new System.Drawing.Size(137, 19);
@@ -584,7 +654,7 @@
             // 
             // toleranciaMediaTextField
             // 
-            this.toleranciaMediaTextField.Location = new System.Drawing.Point(151, 458);
+            this.toleranciaMediaTextField.Location = new System.Drawing.Point(154, 407);
             this.toleranciaMediaTextField.Name = "toleranciaMediaTextField";
             this.toleranciaMediaTextField.Size = new System.Drawing.Size(100, 20);
             this.toleranciaMediaTextField.TabIndex = 23;
@@ -596,7 +666,7 @@
             this.materialLabel15.Depth = 0;
             this.materialLabel15.Font = new System.Drawing.Font("Roboto", 11F);
             this.materialLabel15.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialLabel15.Location = new System.Drawing.Point(20, 457);
+            this.materialLabel15.Location = new System.Drawing.Point(23, 406);
             this.materialLabel15.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel15.Name = "materialLabel15";
             this.materialLabel15.Size = new System.Drawing.Size(125, 19);
@@ -608,7 +678,7 @@
             this.materialFlatButton4.AutoSize = true;
             this.materialFlatButton4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.materialFlatButton4.Depth = 0;
-            this.materialFlatButton4.Location = new System.Drawing.Point(510, 505);
+            this.materialFlatButton4.Location = new System.Drawing.Point(513, 495);
             this.materialFlatButton4.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.materialFlatButton4.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialFlatButton4.Name = "materialFlatButton4";
@@ -622,7 +692,7 @@
             // materialRaisedButton1
             // 
             this.materialRaisedButton1.Depth = 0;
-            this.materialRaisedButton1.Location = new System.Drawing.Point(24, 233);
+            this.materialRaisedButton1.Location = new System.Drawing.Point(27, 182);
             this.materialRaisedButton1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialRaisedButton1.Name = "materialRaisedButton1";
             this.materialRaisedButton1.Primary = true;
@@ -639,7 +709,7 @@
             this.materialLabel14.Depth = 0;
             this.materialLabel14.Font = new System.Drawing.Font("Roboto", 11F);
             this.materialLabel14.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialLabel14.Location = new System.Drawing.Point(255, 278);
+            this.materialLabel14.Location = new System.Drawing.Point(258, 227);
             this.materialLabel14.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel14.Name = "materialLabel14";
             this.materialLabel14.Size = new System.Drawing.Size(73, 19);
@@ -653,7 +723,7 @@
             this.materialLabel13.Depth = 0;
             this.materialLabel13.Font = new System.Drawing.Font("Roboto", 11F);
             this.materialLabel13.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialLabel13.Location = new System.Drawing.Point(255, 234);
+            this.materialLabel13.Location = new System.Drawing.Point(258, 183);
             this.materialLabel13.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel13.Name = "materialLabel13";
             this.materialLabel13.Size = new System.Drawing.Size(73, 19);
@@ -667,7 +737,7 @@
             this.materialLabel12.Depth = 0;
             this.materialLabel12.Font = new System.Drawing.Font("Roboto", 11F);
             this.materialLabel12.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialLabel12.Location = new System.Drawing.Point(255, 192);
+            this.materialLabel12.Location = new System.Drawing.Point(258, 141);
             this.materialLabel12.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel12.Name = "materialLabel12";
             this.materialLabel12.Size = new System.Drawing.Size(73, 19);
@@ -676,7 +746,7 @@
             // 
             // filtrado3ExecuteOrderNumericField
             // 
-            this.filtrado3ExecuteOrderNumericField.Location = new System.Drawing.Point(392, 277);
+            this.filtrado3ExecuteOrderNumericField.Location = new System.Drawing.Point(395, 226);
             this.filtrado3ExecuteOrderNumericField.Maximum = new decimal(new int[] {
             3,
             0,
@@ -688,7 +758,7 @@
             // 
             // filtrado2ExecuteOrderNumericField
             // 
-            this.filtrado2ExecuteOrderNumericField.Location = new System.Drawing.Point(392, 233);
+            this.filtrado2ExecuteOrderNumericField.Location = new System.Drawing.Point(395, 182);
             this.filtrado2ExecuteOrderNumericField.Maximum = new decimal(new int[] {
             3,
             0,
@@ -700,7 +770,7 @@
             // 
             // filtrado1ExecuteOrderNumericField
             // 
-            this.filtrado1ExecuteOrderNumericField.Location = new System.Drawing.Point(392, 191);
+            this.filtrado1ExecuteOrderNumericField.Location = new System.Drawing.Point(395, 140);
             this.filtrado1ExecuteOrderNumericField.Maximum = new decimal(new int[] {
             3,
             0,
@@ -716,7 +786,7 @@
             this.aplicarMultiplesFiltradosCheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.aplicarMultiplesFiltradosCheckBox.Depth = 0;
             this.aplicarMultiplesFiltradosCheckBox.Font = new System.Drawing.Font("Roboto", 10F);
-            this.aplicarMultiplesFiltradosCheckBox.Location = new System.Drawing.Point(24, 188);
+            this.aplicarMultiplesFiltradosCheckBox.Location = new System.Drawing.Point(27, 137);
             this.aplicarMultiplesFiltradosCheckBox.Margin = new System.Windows.Forms.Padding(0);
             this.aplicarMultiplesFiltradosCheckBox.MouseLocation = new System.Drawing.Point(-1, -1);
             this.aplicarMultiplesFiltradosCheckBox.MouseState = MaterialSkin.MouseState.HOVER;
@@ -733,7 +803,7 @@
             this.materialCheckBox4.AutoSize = true;
             this.materialCheckBox4.Depth = 0;
             this.materialCheckBox4.Font = new System.Drawing.Font("Roboto", 10F);
-            this.materialCheckBox4.Location = new System.Drawing.Point(24, 344);
+            this.materialCheckBox4.Location = new System.Drawing.Point(27, 293);
             this.materialCheckBox4.Margin = new System.Windows.Forms.Padding(0);
             this.materialCheckBox4.MouseLocation = new System.Drawing.Point(-1, -1);
             this.materialCheckBox4.MouseState = MaterialSkin.MouseState.HOVER;
@@ -749,7 +819,7 @@
             this.filtrado1CheckBox.AutoSize = true;
             this.filtrado1CheckBox.Depth = 0;
             this.filtrado1CheckBox.Font = new System.Drawing.Font("Roboto", 10F);
-            this.filtrado1CheckBox.Location = new System.Drawing.Point(24, 24);
+            this.filtrado1CheckBox.Location = new System.Drawing.Point(24, 3);
             this.filtrado1CheckBox.Margin = new System.Windows.Forms.Padding(0);
             this.filtrado1CheckBox.MouseLocation = new System.Drawing.Point(-1, -1);
             this.filtrado1CheckBox.MouseState = MaterialSkin.MouseState.HOVER;
@@ -763,7 +833,7 @@
             // 
             // filtrado3MetrosTextField
             // 
-            this.filtrado3MetrosTextField.Location = new System.Drawing.Point(668, 135);
+            this.filtrado3MetrosTextField.Location = new System.Drawing.Point(668, 89);
             this.filtrado3MetrosTextField.Name = "filtrado3MetrosTextField";
             this.filtrado3MetrosTextField.Size = new System.Drawing.Size(100, 20);
             this.filtrado3MetrosTextField.TabIndex = 9;
@@ -774,7 +844,7 @@
             this.filtrado2CheckBox.AutoSize = true;
             this.filtrado2CheckBox.Depth = 0;
             this.filtrado2CheckBox.Font = new System.Drawing.Font("Roboto", 10F);
-            this.filtrado2CheckBox.Location = new System.Drawing.Point(24, 79);
+            this.filtrado2CheckBox.Location = new System.Drawing.Point(24, 42);
             this.filtrado2CheckBox.Margin = new System.Windows.Forms.Padding(0);
             this.filtrado2CheckBox.MouseLocation = new System.Drawing.Point(-1, -1);
             this.filtrado2CheckBox.MouseState = MaterialSkin.MouseState.HOVER;
@@ -791,7 +861,7 @@
             this.materialFlatButton3.AutoSize = true;
             this.materialFlatButton3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.materialFlatButton3.Depth = 0;
-            this.materialFlatButton3.Location = new System.Drawing.Point(261, 505);
+            this.materialFlatButton3.Location = new System.Drawing.Point(264, 495);
             this.materialFlatButton3.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.materialFlatButton3.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialFlatButton3.Name = "materialFlatButton3";
@@ -808,7 +878,7 @@
             this.filtrado3CheckBox.Depth = 0;
             this.filtrado3CheckBox.Font = new System.Drawing.Font("Roboto", 10F);
             this.filtrado3CheckBox.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.filtrado3CheckBox.Location = new System.Drawing.Point(24, 135);
+            this.filtrado3CheckBox.Location = new System.Drawing.Point(24, 84);
             this.filtrado3CheckBox.Margin = new System.Windows.Forms.Padding(0);
             this.filtrado3CheckBox.MouseLocation = new System.Drawing.Point(-1, -1);
             this.filtrado3CheckBox.MouseState = MaterialSkin.MouseState.HOVER;
@@ -822,7 +892,7 @@
             // 
             // filtrado3GradosTextField
             // 
-            this.filtrado3GradosTextField.Location = new System.Drawing.Point(669, 84);
+            this.filtrado3GradosTextField.Location = new System.Drawing.Point(669, 47);
             this.filtrado3GradosTextField.Name = "filtrado3GradosTextField";
             this.filtrado3GradosTextField.Size = new System.Drawing.Size(100, 20);
             this.filtrado3GradosTextField.TabIndex = 8;
@@ -834,7 +904,7 @@
             this.materialLabel1.Depth = 0;
             this.materialLabel1.Font = new System.Drawing.Font("Roboto", 11F);
             this.materialLabel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialLabel1.Location = new System.Drawing.Point(580, 83);
+            this.materialLabel1.Location = new System.Drawing.Point(579, 46);
             this.materialLabel1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel1.Name = "materialLabel1";
             this.materialLabel1.Size = new System.Drawing.Size(57, 19);
@@ -847,7 +917,7 @@
             this.materialLabel2.Depth = 0;
             this.materialLabel2.Font = new System.Drawing.Font("Roboto", 11F);
             this.materialLabel2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialLabel2.Location = new System.Drawing.Point(579, 134);
+            this.materialLabel2.Location = new System.Drawing.Point(579, 88);
             this.materialLabel2.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel2.Name = "materialLabel2";
             this.materialLabel2.Size = new System.Drawing.Size(57, 19);
@@ -858,46 +928,60 @@
             // 
             this.materialDivider1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.materialDivider1.Depth = 0;
-            this.materialDivider1.Location = new System.Drawing.Point(0, 168);
+            this.materialDivider1.Location = new System.Drawing.Point(3, 117);
             this.materialDivider1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialDivider1.Name = "materialDivider1";
             this.materialDivider1.Size = new System.Drawing.Size(776, 145);
             this.materialDivider1.TabIndex = 11;
             this.materialDivider1.Text = "materialDivider1";
             // 
-            // SolapesTextField
+            // pictureBox1
             // 
-            this.SolapesTextField.Location = new System.Drawing.Point(160, 514);
-            this.SolapesTextField.Name = "SolapesTextField";
-            this.SolapesTextField.Size = new System.Drawing.Size(100, 20);
-            this.SolapesTextField.TabIndex = 39;
-            this.SolapesTextField.Text = "2000";
+            this.pictureBox1.ErrorImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.ErrorImage")));
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(605, 62);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(201, 135);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 3;
+            this.pictureBox1.TabStop = false;
             // 
-            // materialLabel21
+            // pictureBox2
             // 
-            this.materialLabel21.AutoSize = true;
-            this.materialLabel21.Depth = 0;
-            this.materialLabel21.Font = new System.Drawing.Font("Roboto", 11F);
-            this.materialLabel21.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialLabel21.Location = new System.Drawing.Point(20, 513);
-            this.materialLabel21.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel21.Name = "materialLabel21";
-            this.materialLabel21.Size = new System.Drawing.Size(139, 19);
-            this.materialLabel21.TabIndex = 38;
-            this.materialLabel21.Text = "Solapes permitidos";
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+            this.pictureBox2.Location = new System.Drawing.Point(0, 23);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(423, 211);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox2.TabIndex = 4;
+            this.pictureBox2.TabStop = false;
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Location = new System.Drawing.Point(408, 23);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(538, 43);
+            this.pictureBox3.TabIndex = 5;
+            this.pictureBox3.TabStop = false;
             // 
             // principal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(847, 847);
+            this.BackColor = System.Drawing.SystemColors.Window;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.ClientSize = new System.Drawing.Size(853, 1098);
+            this.Controls.Add(this.pictureBox2);
+            this.Controls.Add(this.pictureBox3);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.materialTabControl1);
             this.Controls.Add(this.materialTabSelector1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "principal";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "APLITOP";
+            this.Text = "aaa";
             this.Load += new System.EventHandler(this.principal_Load);
             this.ResizeEnd += new System.EventHandler(this.principal_ResizeEnd);
             this.materialTabControl1.ResumeLayout(false);
@@ -910,6 +994,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.filtrado3ExecuteOrderNumericField)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.filtrado2ExecuteOrderNumericField)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.filtrado1ExecuteOrderNumericField)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -975,5 +1062,11 @@
         private MaterialLabel materialLabel20;
         private System.Windows.Forms.TextBox SolapesTextField;
         private MaterialLabel materialLabel21;
+        private System.Windows.Forms.TextBox RotulacionTextField;
+        private MaterialLabel materialLabel22;
+        private MaterialCheckBox RotularCheckBox;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.PictureBox pictureBox3;
     }
 }

@@ -19,7 +19,7 @@ namespace EjeDeTrazado {
     // a través de una herramienta como ResGen o Visual Studio.
     // Para agregar o quitar un miembro, edite el archivo .ResX y, a continuación, vuelva a ejecutar ResGen
     // con la opción /str o recompile su proyecto de VS.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class strEje {
@@ -70,7 +70,7 @@ namespace EjeDeTrazado {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Azimut final.
+        ///   Busca una cadena traducida similar a Azimut recta.
         /// </summary>
         public static string azimutfinal {
             get {

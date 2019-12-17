@@ -5,6 +5,7 @@
     public interface IViabilidadStatusInfoPanelListener {
         void continuarPasoAPaso();
         void continuarHastaElFinal();
+        void Terminar();
         void continuarHastaLaIteracion(int iteracion);
     }
 

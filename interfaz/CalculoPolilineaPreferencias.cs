@@ -14,6 +14,8 @@
         private int n_curvas;
         private int puntos_cluster;
         private int solapes;
+        private double rotulacion;
+        private bool rotu;
 
         int[] orden;
 
@@ -29,6 +31,8 @@
         public int N_curvas { get => n_curvas; set => n_curvas = value; }
         public int Puntos_cluster { get => puntos_cluster; set => puntos_cluster = value; }
         public int Solapes { get => solapes; set => solapes = value; }
+        public double Rotulacion { get => rotulacion; set => rotulacion = value; }
+        public bool Rotu { get => rotu; set => rotu = value; }
         public int[] Orden { get => orden; set => orden = value; }
     }
 }

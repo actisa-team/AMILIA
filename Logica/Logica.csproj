@@ -80,6 +80,7 @@
     <Compile Include="IViabilidadListener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Punto.cs" />
+    <Compile Include="Rotular.cs" />
     <Compile Include="verificacion\VerificacionComponentesStatus.cs" />
     <Compile Include="verificacion\ComponentesCurvasSeguidasYDistintoSentido.cs" />
     <Compile Include="verificacion\ComponentesRectasSeguidas.cs" />

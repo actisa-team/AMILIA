@@ -9,6 +9,8 @@ namespace interfaz {
     using System.Collections.Generic;
     using System.Linq;
     using Logica.verificacion;
+    using System.Drawing;
+    using System.IO;
 
     public partial class principal : MaterialForm, IViabilidadListener, IViabilidadStatusInfoPanelListener {
         private CalculoPolilinea calculoPolilinea;
@@ -16,6 +18,7 @@ namespace interfaz {
         private CalculoPolilineaPreferencias calculoPolilineaPreferencias;
         private int pasosEjecutados = -1;
         private Boolean ejecutarViabilidadSinParar = false;
+        private Boolean terminar = false;
         private bool detenerEnIteracion = false;
         private int iteracion = -1;
 
@@ -23,6 +26,7 @@ namespace interfaz {
             InitializeComponent();
             MaterialSkinManager m = MaterialSkinManager.Instance;
             m.AddFormToManage(this);
+           
             m.Theme = MaterialSkinManager.Themes.LIGHT;
             //m.ColorScheme = new ColorScheme(Primary.Green900,Primary.Green700,Primary.Green500,Accent.LightGreen200,TextShade.WHITE);
             postcarga();
@@ -40,6 +44,9 @@ namespace interfaz {
         }
         private void postcarga() {
 
+            
+            this.Text = "Aplitop";
+            
             tabPage2.Text = "Filtrar puntos";
             tabPage1.Text = "Estudio previo";
 
@@ -131,7 +138,8 @@ namespace interfaz {
             int it = 2;
             int[] orden = new int[3];
             int solapes = 2000;
-
+            double rotulacion=100;
+            bool rotu = false;
             if (filtrado1CheckBox.Checked == true) {
                 opcion = 1;
                 grados = 0;
@@ -197,6 +205,22 @@ namespace interfaz {
                 {
                     solapes = 2000;
                 }
+                if (!string.IsNullOrEmpty(RotulacionTextField.Text))
+                {
+                    rotulacion = double.Parse(RotulacionTextField.Text);
+                }
+                else
+                {
+                    rotulacion = 100;
+                }
+                if (RotularCheckBox.Checked == true)
+                {
+                    rotu = true;
+                }
+                else
+                {
+                    rotu = false;
+                }
                 int filtrado1Order = (int)filtrado1ExecuteOrderNumericField.Value;
                 int filtrado2Order = (int)filtrado2ExecuteOrderNumericField.Value;
                 int filtrado3Order = (int)filtrado3ExecuteOrderNumericField.Value;
@@ -224,9 +248,9 @@ namespace interfaz {
             ca.N_curvas = n_curvas;
             ca.Puntos_cluster = puntos_cluster;
             ca.Solapes = solapes;
-
+            ca.Rotulacion = rotulacion;
             ca.Orden = orden;
-
+            ca.Rotu = rotu;
             return ca;
         }
 
@@ -326,7 +350,7 @@ namespace interfaz {
                     try {
                         calculoPolilinea.Dibujar_entidades(4);
                         calculoPolilinea.Crear_Trazado(this.calculoPolilineaPreferencias.Gran_r);
-                        calculoPolilinea.Dibujar_Todo();
+                        calculoPolilinea.Dibujar_Todo(this.calculoPolilineaPreferencias.Rotulacion, this.calculoPolilineaPreferencias.Rotu);
                     }
                     catch {
                         MessageBox.Show("Se ha detectado un error al crear la entidad. Se dibujará lo creado");
@@ -742,6 +766,11 @@ namespace interfaz {
             this.ejecutarViabilidadSinParar = false;
             this.detenerEnIteracion = false;
             this.iteracion = -1;
+        }
+        public void Terminar()
+        {
+            this.terminar = true;
+
         }
     }
 }

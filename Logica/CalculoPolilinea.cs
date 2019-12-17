@@ -1850,6 +1850,12 @@ namespace Logica {
         private ViabilidadComponentesStatus populateViabilidadEnlacesStatus() {
             ViabilidadComponentesStatus viabilidadComponentesStatus = new ViabilidadComponentesStatus();
 
+            this.Componentes.Where(componente => componente.caso0_e).ToList().ForEach(delegate (Componente componente) {
+                ViabilidadComponente viabilidadComponente = new ViabilidadComponente();
+                viabilidadComponente.Componente = componente;
+                viabilidadComponente.Caso = 0;
+                viabilidadComponentesStatus.ViabilidadComponentes.Add(viabilidadComponente);
+            });
             this.Componentes.Where(componente => componente.caso1_e).ToList().ForEach(delegate (Componente componente) {
                 ViabilidadComponente viabilidadComponente = new ViabilidadComponente();
                 viabilidadComponente.Componente = componente;
@@ -5142,7 +5148,8 @@ namespace Logica {
                 }
             }
         }
-        public void Dibujar_Todo() {
+        public void Dibujar_Todo(double rotulacion,bool rotu) {
+
             using (DocumentLock myDockLock = oCadManager.thisEditor.Document.LockDocument()) {
 
                 //using (oSolucion miSolucion = new oSolucion(iIdSolucion))
@@ -5186,9 +5193,668 @@ namespace Logica {
 
                 //}
             }
-            Set_Pks();
-            EjeDeTrazado.InfoComponentes info = new EjeDeTrazado.InfoComponentes(mcomponenetes, new List<Vertice>(0));
-            List<EjeDeTrazado.oInformeEje> aa = info.escribirInforme();
+            if (rotu)
+            {
+                Set_Pks();
+                EjeDeTrazado.InfoComponentes info = new EjeDeTrazado.InfoComponentes(mcomponenetes, new List<Vertice>(0));
+                List<EjeDeTrazado.oInformeEje> aa = info.escribirInforme();
+                engCadNet.oLayer.addLayer("Rotulacion-Curva", 1, false);
+                engCadNet.oLayer.addLayer("Rotulacion-Recta", 2, false);
+                engCadNet.oLayer.addLayer("Rotulacion-Clotoide", 3, false);
+                engCadNet.oLayer.addLayer("Rotulacion-Curva-100", 7, false);
+                engCadNet.oLayer.addLayer("Rotulacion-Recta-100", 7, false);
+                engCadNet.oLayer.addLayer("Rotulacion-Clotoide-100", 7, false);
+                engCadNet.oLayer.addLayer("Rotulacion-Curva_inicial", 1, false);
+                engCadNet.oLayer.addLayer("Rotulacion-Curva_final", 1, false);
+                engCadNet.oLayer.addLayer("Rotulacion-Recta_inicial", 2, false);
+                engCadNet.oLayer.addLayer("Rotulacion-Recta_final", 2, false);
+                engCadNet.oLayer.addLayer("Rotulacion-Clotoide_inicial", 3, false);
+                double az = 0;
+                List<double[]> componentPoint_ant = new List<double[]>();
+                componentPoint_ant.Add(new double[] { 0, 0 });
+                int contador = 0;
+                double distancia = 0;
+                bool primerpunto = true;
+                Rotular r = new Rotular(rotulacion);
+                int i = 0;
+                foreach (var componente in mcomponenetes)
+                {
+                    r.Dibujar_Transversales(componente);
+                    r.Dibujar_Singulares(componente);
+                    i++;
+                }
+                r.Dibujar_Final(mcomponenetes[mcomponenetes.Count - 1]);
+            }
+            
+
+        }
+        #region
+        /*
+         * 
+         * Rotulacion
+         * 
+         */
+        private void Prueba_rotulacion(EjeDeTrazado.InfoComponentes info, double dist, double dere, double izq, bool blanco, string iCapa)
+        {
+            short colorCurva;
+            short colorClo;
+            short colorLinea;
+            if (blanco)
+            {
+                colorCurva = 0;
+                colorClo = 0;
+                colorLinea = 0;
+            }
+            else
+            {
+                colorCurva = 2;
+                colorClo = 3;
+                colorLinea = 1;
+            }
+            List<EjeDeTrazado.InfoComponente> misComponentes = info.getInfoComponentes;
+            List<Entity> miLst = new List<Entity>();
+            int i = 0;
+            foreach (EjeDeTrazado.InfoComponente miInfoC in misComponentes)
+            {
+
+
+                if (miInfoC.getTipoComponente == EjeDeTrazado.componentes.Componente.tipoComponente.curva)
+                {
+
+                    while (i < miInfoC.getPkFinal - 0.1)
+                    {
+                        Polyline miLw1 = new Polyline();
+                        double[] miPunto1 = { miInfoC.getPolilinea[i].coordenadaX, miInfoC.getPolilinea[i].coordenadaY};
+                        double[] miPunto2 = { miInfoC.getPolilinea[i].coordenadaX, miInfoC.getPolilinea[i].coordenadaY };
+                        double[] miPuntoIni = { miInfoC.getPolilinea[i].coordenadaX, miInfoC.getPolilinea[i].coordenadaY };
+                        double miAzDer = 45;
+                        // double[] miPunto1 = miInfoC.getPointLocation(i, dere, EjeTrazado.ladoCalzada.Derecha);
+                        // double miAzDer = miEje.getAzimutTrans();
+                        //double[] miPunto2 = miEje.getPointLocation(i, izq, EjeTrazado.ladoCalzada.Izquierda);
+                        // double[] miPuntoIni = miEje.getPointAtDist(i);
+
+                        Point2d miP1 = new Point2d(miPunto1[0], miPunto1[1]);
+                        Point2d miP2 = new Point2d(miPunto2[0], miPunto2[1]);
+                        Point2d miPIni = new Point2d(miPuntoIni[0], miPuntoIni[1]);
+                        miLw1.AddVertexAt(0, miP1, 0, 0, 0);
+                        miLw1.AddVertexAt(0, miPIni, 0, 0, 0);
+                        miLw1.AddVertexAt(0, miP2, 0, 0, 0);
+                        miLw1.Color = Color.FromColorIndex(ColorMethod.ByLayer, colorCurva);
+                        miLst.Add(miLw1);
+
+
+                        string miPk = getStringPK(i, dist);
+
+                        oTexto.addText2D(miPk, miPunto1[0] + 3 * Math.Cos(miAzDer * Math.PI / 180), miPunto1[1] + 3 * Math.Sin(miAzDer * Math.PI / 180), 4, miAzDer * Math.PI / 180, colorCurva, iCapa);
+
+                        i++;
+                    }
+                }
+                else if (miInfoC.getTipoComponente == EjeDeTrazado.componentes.Componente.tipoComponente.linea)
+                {
+
+                    while (i < miInfoC.getPkFinal - 0.1)
+                    {
+                        Polyline miLw3 = new Polyline();
+                        double[] miPunto1 = { miInfoC.getPolilinea[i].coordenadaX, miInfoC.getPolilinea[i].coordenadaY };
+                        double[] miPunto2 = { miInfoC.getPolilinea[i].coordenadaX, miInfoC.getPolilinea[i].coordenadaY };
+                        double[] miPuntoIni = { miInfoC.getPolilinea[i].coordenadaX, miInfoC.getPolilinea[i].coordenadaY };
+                        double miAzDer = 45;
+                        /*double[] miPunto1 = miEje.getPointLocation(i, dere, EjeTrazado.ladoCalzada.Derecha);
+                        double miAzDer = miEje.getAzimutTrans();
+                        double[] miPunto2 = miEje.getPointLocation(i, izq, EjeTrazado.ladoCalzada.Izquierda);
+                        double[] miPuntoIni = miEje.getPointAtDist(i);*/
+                        Point2d miP = new Point2d(miPunto1[0], miPunto1[1]);
+                        Point2d miP2 = new Point2d(miPunto2[0], miPunto2[1]);
+                        Point2d miPIni = new Point2d(miPuntoIni[0], miPuntoIni[1]);
+                        miLw3.AddVertexAt(0, miP, 0, 0, 0);
+                        miLw3.AddVertexAt(0, miPIni, 0, 0, 0);
+                        miLw3.AddVertexAt(0, miP2, 0, 0, 0);
+                        miLw3.Color = Color.FromColorIndex(ColorMethod.ByLayer, colorLinea);
+                        miLst.Add(miLw3);
+
+                        string miPk = getStringPK(i, dist);
+
+                        oTexto.addText2D(miPk, miPunto1[0] + 3 * Math.Cos(miAzDer * Math.PI / 180), miPunto1[1] + 3 * Math.Sin(miAzDer * Math.PI / 180), 4, miAzDer * Math.PI / 180, colorLinea, iCapa);
+
+                        i++;
+
+
+                    }
+
+
+                }
+                else
+                {
+
+                    while (i < miInfoC.getPkFinal - 0.1)
+                    {
+                        Polyline miLw3 = new Polyline();
+                        double[] miPunto1 = { miInfoC.getPolilinea[i].coordenadaX, miInfoC.getPolilinea[i].coordenadaY };
+                        double[] miPunto2 = { miInfoC.getPolilinea[i].coordenadaX, miInfoC.getPolilinea[i].coordenadaY };
+                        double[] miPuntoIni = { miInfoC.getPolilinea[i].coordenadaX, miInfoC.getPolilinea[i].coordenadaY };
+                        double miAzDer = 45;
+                        /*double[] miPunto1 = miEje.getPointLocation(i, dere, EjeTrazado.ladoCalzada.Derecha);
+                        double miAzDer = miEje.getAzimutTrans();
+                        double[] miPunto2 = miEje.getPointLocation(i, izq, EjeTrazado.ladoCalzada.Izquierda);*/
+                        Point2d miP = new Point2d(miPunto1[0], miPunto1[1]);
+                        Point2d miP2 = new Point2d(miPunto2[0], miPunto2[1]);
+                        miLw3.AddVertexAt(0, miP, 0, 0, 0);
+                        miLw3.AddVertexAt(0, miP2, 0, 0, 0);
+                        miLw3.Color = Color.FromColorIndex(ColorMethod.ByLayer, colorClo);
+                        miLst.Add(miLw3);
+
+                        string miPk = getStringPK(i, dist);
+
+
+                        oTexto.addText2D(miPk, miPunto1[0] + 3 * Math.Cos(miAzDer * Math.PI / 180), miPunto1[1] + 3 * Math.Sin(miAzDer * Math.PI / 180), 4, miAzDer * Math.PI / 180, colorClo, iCapa);
+
+                        i++;
+
+
+                    }
+                }
+            }
+        }
+        private List<Entity> getLstEntidades(EjeTrazado miEje)
+        {
+
+
+            EjeDeTrazado.InfoComponentes miInfo = miEje.draw();
+            List<EjeDeTrazado.InfoComponente> misComponentes = miInfo.getInfoComponentes;
+            List<Entity> miLst = new List<Entity>();
+
+            foreach (EjeDeTrazado.InfoComponente miInfoC in misComponentes)
+            {
+                if (miInfoC.getTipoComponente == EjeDeTrazado.componentes.Componente.tipoComponente.curva)
+                {
+                    double[] misDatosCurva = miInfoC.getValoresCurva;
+                    Point3d miCentro = new Point3d(misDatosCurva[0], misDatosCurva[1], 0);
+
+                    Arc miArco = new Arc(miCentro, misDatosCurva[2], misDatosCurva[3], misDatosCurva[4]);
+                    miArco.Color = Color.FromColorIndex(ColorMethod.ByLayer, 2);
+
+
+                    miLst.Add(miArco);
+                }
+                else if (miInfoC.getTipoComponente == EjeDeTrazado.componentes.Componente.tipoComponente.linea)
+                {
+                    List<Punto3d> miListaPuntos = miInfoC.getPolilinea;
+                    Polyline miLw1 = new Polyline();
+                    foreach (Punto3d miPunto in miListaPuntos)
+                    {
+                        Point2d miP1 = new Point2d(miPunto.coordenadaX, miPunto.coordenadaY);
+                        miLw1.AddVertexAt(0, miP1, 0, 0, 0);
+                        miLw1.Color = Color.FromColorIndex(ColorMethod.ByLayer, 1);
+                    }
+
+
+                    miLst.Add(miLw1);
+
+
+                }
+                else
+                {
+                    List<Punto3d> miListaPuntos = miInfoC.getPolilinea;
+                    Polyline miLw1 = new Polyline();
+                    foreach (Punto3d miPunto in miListaPuntos)
+                    {
+                        Point2d miP1 = new Point2d(miPunto.coordenadaX, miPunto.coordenadaY);
+                        miLw1.AddVertexAt(0, miP1, 0, 0, 0);
+                        miLw1.Color = Color.FromColorIndex(ColorMethod.ByLayer, 3);
+                    }
+
+
+                    miLst.Add(miLw1);
+                }
+            }
+
+            return miLst;
+        }
+        private List<Entity> getLstTransversales(EjeTrazado miEje, double dist, double dere, double izq, bool blanco, string iCapa)
+        {
+            short colorCurva;
+            short colorClo;
+            short colorLinea;
+            if (blanco)
+            {
+                colorCurva = 0;
+                colorClo = 0;
+                colorLinea = 0;
+            }
+            else
+            {
+                colorCurva = 2;
+                colorClo = 3;
+                colorLinea = 1;
+            }
+
+            EjeDeTrazado.InfoComponentes miInfo = miEje.draw();
+            List<EjeDeTrazado.InfoComponente> misComponentes = miInfo.getInfoComponentes;
+            List<Entity> miLst = new List<Entity>();
+
+            double i = 0;
+
+            foreach (EjeDeTrazado.InfoComponente miInfoC in misComponentes)
+            {
+
+
+                if (miInfoC.getTipoComponente == EjeDeTrazado.componentes.Componente.tipoComponente.curva)
+                {
+
+                    while (i < miInfoC.getPkFinal - 0.1)
+                    {
+                        Polyline miLw1 = new Polyline();
+                        double[] miPunto1 = miEje.getPointLocation(i, dere, EjeTrazado.ladoCalzada.Derecha);
+                        double miAzDer = miEje.getAzimutTrans();
+                        double[] miPunto2 = miEje.getPointLocation(i, izq, EjeTrazado.ladoCalzada.Izquierda);
+                        double[] miPuntoIni = miEje.getPointAtDist(i);
+                        Point2d miP1 = new Point2d(miPunto1[0], miPunto1[1]);
+                        Point2d miP2 = new Point2d(miPunto2[0], miPunto2[1]);
+                        Point2d miPIni = new Point2d(miPuntoIni[0], miPuntoIni[1]);
+                        miLw1.AddVertexAt(0, miP1, 0, 0, 0);
+                        miLw1.AddVertexAt(0, miPIni, 0, 0, 0);
+                        miLw1.AddVertexAt(0, miP2, 0, 0, 0);
+                        miLw1.Color = Color.FromColorIndex(ColorMethod.ByLayer, colorCurva);
+                        miLst.Add(miLw1);
+
+
+                        string miPk = getStringPK(i, dist);
+
+                        oTexto.addText2D(miPk, miPunto1[0] + 3 * Math.Cos(miAzDer * Math.PI / 180), miPunto1[1] + 3 * Math.Sin(miAzDer * Math.PI / 180), 4, miAzDer * Math.PI / 180, colorCurva, iCapa);
+
+                        i = i + dist;
+                    }
+                }
+                else if (miInfoC.getTipoComponente == EjeDeTrazado.componentes.Componente.tipoComponente.linea)
+                {
+
+                    while (i < miInfoC.getPkFinal - 0.1)
+                    {
+                        Polyline miLw3 = new Polyline();
+                        double[] miPunto1 = miEje.getPointLocation(i, dere, EjeTrazado.ladoCalzada.Derecha);
+                        double miAzDer = miEje.getAzimutTrans();
+                        double[] miPunto2 = miEje.getPointLocation(i, izq, EjeTrazado.ladoCalzada.Izquierda);
+                        double[] miPuntoIni = miEje.getPointAtDist(i);
+                        Point2d miP = new Point2d(miPunto1[0], miPunto1[1]);
+                        Point2d miP2 = new Point2d(miPunto2[0], miPunto2[1]);
+                        Point2d miPIni = new Point2d(miPuntoIni[0], miPuntoIni[1]);
+                        miLw3.AddVertexAt(0, miP, 0, 0, 0);
+                        miLw3.AddVertexAt(0, miPIni, 0, 0, 0);
+                        miLw3.AddVertexAt(0, miP2, 0, 0, 0);
+                        miLw3.Color = Color.FromColorIndex(ColorMethod.ByLayer, colorLinea);
+                        miLst.Add(miLw3);
+
+                        string miPk = getStringPK(i, dist);
+
+                        oTexto.addText2D(miPk, miPunto1[0] + 3 * Math.Cos(miAzDer * Math.PI / 180), miPunto1[1] + 3 * Math.Sin(miAzDer * Math.PI / 180), 4, miAzDer * Math.PI / 180, colorLinea, iCapa);
+
+                        i = i + dist;
+
+
+                    }
+
+
+                }
+                else
+                {
+
+                    while (i < miInfoC.getPkFinal - 0.1)
+                    {
+                        Polyline miLw3 = new Polyline();
+                        double[] miPunto1 = miEje.getPointLocation(i, dere, EjeTrazado.ladoCalzada.Derecha);
+                        double miAzDer = miEje.getAzimutTrans();
+                        double[] miPunto2 = miEje.getPointLocation(i, izq, EjeTrazado.ladoCalzada.Izquierda);
+                        Point2d miP = new Point2d(miPunto1[0], miPunto1[1]);
+                        Point2d miP2 = new Point2d(miPunto2[0], miPunto2[1]);
+                        miLw3.AddVertexAt(0, miP, 0, 0, 0);
+                        miLw3.AddVertexAt(0, miP2, 0, 0, 0);
+                        miLw3.Color = Color.FromColorIndex(ColorMethod.ByLayer, colorClo);
+                        miLst.Add(miLw3);
+
+                        string miPk = getStringPK(i, dist);
+
+
+                        oTexto.addText2D(miPk, miPunto1[0] + 3 * Math.Cos(miAzDer * Math.PI / 180), miPunto1[1] + 3 * Math.Sin(miAzDer * Math.PI / 180), 4, miAzDer * Math.PI / 180, colorClo, iCapa);
+
+                        i = i + dist;
+
+
+                    }
+                }
+            }
+
+
+            return miLst;
+        }
+        private string getStringPK(double i, double dist)
+        {
+
+            int miles = (int)(i / 1000);
+            double d = i - miles * 1000;
+            int cent = (int)(d / 100);
+            d = d - cent * 100;
+            int dec = (int)(d / 10);
+            d = d - dec * 10;
+            int uni = (int)d;
+            d = d - uni;
+
+            d = Math.Truncate(d * 100);
+
+            string miPk = miles + "+" + cent + dec + uni;
+            if (d != 0)
+            {
+                if (d >= 10)
+                    miPk += "." + d;
+                else
+                    miPk += ".0" + d;
+            }
+
+
+            if ((dist != 100) && (dec == 0) && (d == 0))
+            {
+                miPk = " ";
+            }
+
+
+            return miPk;
+        }
+        private List<Entity> getLstSingulares(EjeTrazado miEje, double dere, double izq, bool blanco, string iCapa)
+        {
+            short colorCurva;
+            short colorClo;
+            short colorLinea;
+            if (blanco)
+            {
+                colorCurva = 0;
+                colorClo = 0;
+                colorLinea = 0;
+            }
+            else
+            {
+                colorCurva = 2;
+                colorClo = 3;
+                colorLinea = 1;
+            }
+
+            EjeDeTrazado.InfoComponentes miInfo = miEje.draw();
+            List<EjeDeTrazado.InfoComponente> misComponentes = miInfo.getInfoComponentes;
+            List<Entity> miLst = new List<Entity>();
+
+
+            foreach (EjeDeTrazado.InfoComponente miInfoC in misComponentes)
+            {
+                if (miInfoC.getLongitud > 0)
+                {
+                    if (miInfoC.getTipoComponente == EjeDeTrazado.componentes.Componente.tipoComponente.curva)
+                    {
+                        Polyline miLw1 = new Polyline();
+                        double[] miPunto1 = miEje.getPointLocation(miInfoC.getPkInicial, dere, EjeTrazado.ladoCalzada.Derecha);
+                        double miAzDer = miEje.getAzimutTrans();
+                        double[] miPunto2 = miEje.getPointLocation(miInfoC.getPkInicial, izq, EjeTrazado.ladoCalzada.Izquierda);
+                        double miAzIzq = miEje.getAzimutTrans();
+                        Point2d miP = new Point2d(miPunto1[0], miPunto1[1]);
+                        Point2d miP2 = new Point2d(miPunto2[0], miPunto2[1]);
+                        miLw1.AddVertexAt(0, miP, 0, 0, 0);
+                        miLw1.AddVertexAt(0, miP2, 0, 0, 0);
+                        miLw1.Color = Color.FromColorIndex(ColorMethod.ByLayer, colorCurva);
+                        miLst.Add(miLw1);
+
+
+                        string miPk = getStringPK(miInfoC.getPkInicial, 100);
+                        oTexto.addText2D(miPk, miPunto1[0] + 40 * Math.Cos(miAzIzq * Math.PI / 180), miPunto1[1] + 40 * Math.Sin(miAzIzq * Math.PI / 180), 4, miAzDer * Math.PI / 180, colorCurva, iCapa);
+
+
+                        double tex1X = miPunto1[0] + 40 * Math.Cos(miAzIzq * Math.PI / 180);
+                        double tex1Y = miPunto1[1] + 40 * Math.Sin(miAzIzq * Math.PI / 180);
+                        double miDir;
+                        if (miAzIzq + 90 > 360)
+                        {
+                            miDir = miAzIzq + 90 - 360;
+                        }
+                        else
+                        {
+                            miDir = miAzIzq + 90;
+                        }
+
+                        tex1X = tex1X - 5 * Math.Cos(miDir * Math.PI / 180);
+                        tex1Y = tex1Y - 5 * Math.Sin(miDir * Math.PI / 180);
+
+                        oTexto.addText2D("R=" + Math.Round(miInfoC.getValoresCurva[2], 2), tex1X, tex1Y, 4, miAzDer * Math.PI / 180, colorCurva, iCapa);
+
+
+
+                        Polyline miLw2 = new Polyline();
+                        double[] miPunto3 = miEje.getPointLocation(miInfoC.getPkFinal, dere, EjeTrazado.ladoCalzada.Derecha);
+                        miAzDer = miEje.getAzimutTrans();
+                        double[] miPunto4 = miEje.getPointLocation(miInfoC.getPkFinal, izq, EjeTrazado.ladoCalzada.Izquierda);
+                        miAzIzq = miEje.getAzimutTrans();
+                        Point2d miP3 = new Point2d(miPunto3[0], miPunto3[1]);
+                        Point2d miP4 = new Point2d(miPunto4[0], miPunto4[1]);
+                        miLw2.AddVertexAt(0, miP3, 0, 0, 0);
+                        miLw2.AddVertexAt(0, miP4, 0, 0, 0);
+                        miLw2.Color = Color.FromColorIndex(ColorMethod.ByLayer, colorCurva);
+                        miLst.Add(miLw2);
+
+
+                        string miPkF = getStringPK(miInfoC.getPkFinal, 100);
+                        oTexto.addText2D(miPkF, miPunto3[0] + 40 * Math.Cos(miAzIzq * Math.PI / 180), miPunto3[1] + 40 * Math.Sin(miAzIzq * Math.PI / 180), 4, miAzDer * Math.PI / 180, colorCurva, iCapa);
+
+
+                        tex1X = miPunto3[0] + 40 * Math.Cos(miAzIzq * Math.PI / 180);
+                        tex1Y = miPunto3[1] + 40 * Math.Sin(miAzIzq * Math.PI / 180);
+                        if (miAzIzq + 90 > 360)
+                        {
+                            miDir = miAzIzq + 90 - 360;
+                        }
+                        else
+                        {
+                            miDir = miAzIzq + 90;
+                        }
+
+                        tex1X = tex1X + 5 * Math.Cos(miDir * Math.PI / 180);
+                        tex1Y = tex1Y + 5 * Math.Sin(miDir * Math.PI / 180);
+
+                        oTexto.addText2D("R=" + Math.Round(miInfoC.getValoresCurva[2], 2), tex1X, tex1Y, 4, miAzDer * Math.PI / 180, colorCurva, iCapa);
+
+                    }
+                    else if (miInfoC.getTipoComponente == EjeDeTrazado.componentes.Componente.tipoComponente.linea)
+                    {
+                        Polyline miLw1 = new Polyline();
+                        double[] miPunto1 = miEje.getPointLocation(miInfoC.getPkInicial, dere, EjeTrazado.ladoCalzada.Derecha);
+                        double miAzDer = miEje.getAzimutTrans();
+                        double[] miPunto2 = miEje.getPointLocation(miInfoC.getPkInicial, izq, EjeTrazado.ladoCalzada.Izquierda);
+                        double miAzIzq = miEje.getAzimutTrans();
+                        Point2d miP = new Point2d(miPunto1[0], miPunto1[1]);
+                        Point2d miP2 = new Point2d(miPunto2[0], miPunto2[1]);
+                        miLw1.AddVertexAt(0, miP, 0, 0, 0);
+                        miLw1.AddVertexAt(0, miP2, 0, 0, 0);
+                        miLw1.Color = Color.FromColorIndex(ColorMethod.ByLayer, colorLinea);
+                        miLst.Add(miLw1);
+
+
+                        string miPk = getStringPK(miInfoC.getPkInicial, 100);
+                        double tex1X = miPunto1[0] + 40 * Math.Cos(miAzIzq * Math.PI / 180);
+                        double tex1Y = miPunto1[1] + 40 * Math.Sin(miAzIzq * Math.PI / 180);
+                        oTexto.addText2D(miPk, tex1X, tex1Y, 4, miAzDer * Math.PI / 180, colorLinea, iCapa);
+                        double miDir;
+                        if (miAzIzq + 90 > 360)
+                        {
+                            miDir = miAzIzq + 90 - 360;
+                        }
+                        else
+                        {
+                            miDir = miAzIzq + 90;
+                        }
+
+                        tex1X = tex1X - 5 * Math.Cos(miDir * Math.PI / 180);
+                        tex1Y = tex1Y - 5 * Math.Sin(miDir * Math.PI / 180);
+
+                        oTexto.addText2D("RECTA", tex1X, tex1Y, 4, miAzDer * Math.PI / 180, colorLinea, iCapa);
+
+
+                        Polyline miLw2 = new Polyline();
+                        double[] miPunto3 = miEje.getPointLocation(miInfoC.getPkFinal, dere, EjeTrazado.ladoCalzada.Derecha);
+                        miAzDer = miEje.getAzimutTrans();
+                        double[] miPunto4 = miEje.getPointLocation(miInfoC.getPkFinal, izq, EjeTrazado.ladoCalzada.Izquierda);
+                        miAzIzq = miEje.getAzimutTrans();
+                        Point2d miP3 = new Point2d(miPunto3[0], miPunto3[1]);
+                        Point2d miP4 = new Point2d(miPunto4[0], miPunto4[1]);
+                        miLw2.AddVertexAt(0, miP3, 0, 0, 0);
+                        miLw2.AddVertexAt(0, miP4, 0, 0, 0);
+                        miLw2.Color = Color.FromColorIndex(ColorMethod.ByLayer, colorLinea);
+                        miLst.Add(miLw2);
+
+                        string miPkF = getStringPK(miInfoC.getPkFinal, 100);
+                        tex1X = miPunto3[0] + 40 * Math.Cos(miAzIzq * Math.PI / 180);
+                        tex1Y = miPunto3[1] + 40 * Math.Sin(miAzIzq * Math.PI / 180);
+                        if (miAzIzq + 90 > 360)
+                        {
+                            miDir = miAzIzq + 90 - 360;
+                        }
+                        else
+                        {
+                            miDir = miAzIzq + 90;
+                        }
+                        oTexto.addText2D(miPkF, tex1X, tex1Y, 4, miAzDer * Math.PI / 180, colorLinea, iCapa);
+
+                        tex1X = tex1X + 5 * Math.Cos(miDir * Math.PI / 180);
+                        tex1Y = tex1Y + 5 * Math.Sin(miDir * Math.PI / 180);
+
+                        oTexto.addText2D("RECTA", tex1X, tex1Y, 4, miAzDer * Math.PI / 180, colorLinea, iCapa);
+
+                    }
+                    else
+                    {
+                        Polyline miLw1 = new Polyline();
+                        double[] miPunto1 = miEje.getPointLocation(miInfoC.getPkInicial, dere, EjeTrazado.ladoCalzada.Derecha);
+                        double miAzDer = miEje.getAzimutTrans();
+                        double[] miPunto2 = miEje.getPointLocation(miInfoC.getPkInicial, izq, EjeTrazado.ladoCalzada.Izquierda);
+                        double miAzIzq = miEje.getAzimutTrans();
+                        Point2d miP = new Point2d(miPunto1[0], miPunto1[1]);
+                        Point2d miP2 = new Point2d(miPunto2[0], miPunto2[1]);
+                        miLw1.AddVertexAt(0, miP, 0, 0, 0);
+                        miLw1.AddVertexAt(0, miP2, 0, 0, 0);
+                        miLw1.Color = Color.FromColorIndex(ColorMethod.ByLayer, colorClo);
+                        miLst.Add(miLw1);
+
+                        string miPk = getStringPK(miInfoC.getPkInicial, 100);
+                        oTexto.addText2D(miPk, miPunto1[0] + 40 * Math.Cos(miAzIzq * Math.PI / 180), miPunto1[1] + 40 * Math.Sin(miAzIzq * Math.PI / 180), 4, miAzDer * Math.PI / 180, colorClo, iCapa);
+
+                        double tex1X = miPunto1[0] + 40 * Math.Cos(miAzIzq * Math.PI / 180);
+                        double tex1Y = miPunto1[1] + 40 * Math.Sin(miAzIzq * Math.PI / 180);
+                        double miDir;
+                        if (miAzIzq + 90 > 360)
+                        {
+                            miDir = miAzIzq + 90 - 360;
+                        }
+                        else
+                        {
+                            miDir = miAzIzq + 90;
+                        }
+
+                        tex1X = tex1X - 5 * Math.Cos(miDir * Math.PI / 180);
+                        tex1Y = tex1Y - 5 * Math.Sin(miDir * Math.PI / 180);
+
+                        oTexto.addText2D("A=" + Math.Round(miInfoC.getValorA, 2), tex1X, tex1Y, 4, miAzDer * Math.PI / 180, colorClo, iCapa);
+
+
+
+                        Polyline miLw2 = new Polyline();
+                        double[] miPunto3 = miEje.getPointLocation(miInfoC.getPkFinal, dere, EjeTrazado.ladoCalzada.Derecha);
+                        miAzDer = miEje.getAzimutTrans();
+                        double[] miPunto4 = miEje.getPointLocation(miInfoC.getPkFinal, izq, EjeTrazado.ladoCalzada.Izquierda);
+                        miAzIzq = miEje.getAzimutTrans();
+                        Point2d miP3 = new Point2d(miPunto3[0], miPunto3[1]);
+                        Point2d miP4 = new Point2d(miPunto4[0], miPunto4[1]);
+                        miLw2.AddVertexAt(0, miP3, 0, 0, 0);
+                        miLw2.AddVertexAt(0, miP4, 0, 0, 0);
+                        miLw2.Color = Color.FromColorIndex(ColorMethod.ByLayer, colorClo);
+                        miLst.Add(miLw2);
+
+                        string miPkF = getStringPK(miInfoC.getPkFinal, 100);
+                        oTexto.addText2D(miPkF, miPunto3[0] + 40 * Math.Cos(miAzIzq * Math.PI / 180), miPunto3[1] + 40 * Math.Sin(miAzIzq * Math.PI / 180), 4, miAzDer * Math.PI / 180, colorClo, iCapa);
+
+                        tex1X = miPunto3[0] + 40 * Math.Cos(miAzIzq * Math.PI / 180);
+                        tex1Y = miPunto3[1] + 40 * Math.Sin(miAzIzq * Math.PI / 180);
+                        if (miAzIzq + 90 > 360)
+                        {
+                            miDir = miAzIzq + 90 - 360;
+                        }
+                        else
+                        {
+                            miDir = miAzIzq + 90;
+                        }
+
+                        tex1X = tex1X + 5 * Math.Cos(miDir * Math.PI / 180);
+                        tex1Y = tex1Y + 5 * Math.Sin(miDir * Math.PI / 180);
+
+                        oTexto.addText2D("A=" + Math.Round(miInfoC.getValorA, 2), tex1X, tex1Y, 4, miAzDer * Math.PI / 180, colorClo, iCapa);
+
+                    }
+
+                }
+            }
+
+
+            return miLst;
+
+        }
+        public void Rotular(EjeTrazado iEjeTrazado, string iCapaPK, string iCapaPuntosSing)
+        {
+
+            //Obtengo la Coleccion
+            List<Entity> miLstEntidades = getLstEntidades(iEjeTrazado);
+
+            using (DocumentLock miDockLock = oCadManager.thisEditor.Document.LockDocument())
+            {
+
+                using (Transaction tr = oCadManager.StartTransaction())
+                {
+
+                    BlockTable acBlockTable = tr.GetObject(oCadManager.thisBase.BlockTableId, OpenMode.ForRead) as BlockTable;
+
+                    //Necesito Crear un Nuevo Registro para Añadir la Linea
+                    BlockTableRecord acBlockTableRec = tr.GetObject(acBlockTable[BlockTableRecord.ModelSpace], OpenMode.ForWrite) as BlockTableRecord;
+
+                    miLstEntidades = getLstTransversales(iEjeTrazado, 20, 1.25, 1.25, false, iCapaPK);
+
+                    //Añado los Objetos Restantes a la Coleccion al Dwg
+                    foreach (Entity item in miLstEntidades)
+                    {
+                        acBlockTableRec.AppendEntity(item);
+                        tr.AddNewlyCreatedDBObject(item, true);
+                        item.SetDatabaseDefaults();
+                        item.Layer = iCapaPK;
+                    }
+
+
+                    miLstEntidades = getLstTransversales(iEjeTrazado, 100, 25, 0, true, iCapaPK);
+                    //Añado los Objetos Restantes a la Coleccion al Dwg
+                    foreach (Entity item in miLstEntidades)
+                    {
+                        acBlockTableRec.AppendEntity(item);
+                        tr.AddNewlyCreatedDBObject(item, true);
+                        item.SetDatabaseDefaults();
+                        item.Layer = iCapaPK;
+                    }
+
+
+                    miLstEntidades = getLstSingulares(iEjeTrazado, 0, 10, true, iCapaPuntosSing);
+                    //Añado los Objetos Restantes a la Coleccion al Dwg
+                    foreach (Entity item in miLstEntidades)
+                    {
+                        acBlockTableRec.AppendEntity(item);
+                        tr.AddNewlyCreatedDBObject(item, true);
+                        item.SetDatabaseDefaults();
+                        item.Layer = iCapaPuntosSing;
+                    }
+
+
+                    tr.Commit();
+
+                }
+            }
         }
 
         public void Set_Pks()
@@ -5228,6 +5894,7 @@ namespace Logica {
                 componente.Set_PkFin(pk);
             }
         }
+        #endregion
         #region centro para clotoides 
         public void centro() {
 
@@ -11703,6 +12370,7 @@ namespace Logica {
                 if (componentes[componentes.Count - 1].Tipo == 2)
                 {
                     Rellenar_Componente_Curva(componentes[componentes.Count - 1]);
+
                     if (Math.Abs(componentes[componentes.Count - 1].azte - componentes[componentes.Count - 1].azts) < 1.5 && componentes[componentes.Count - 1].radio< curva_g)//Convertimos la curva en recta y eliminamos la recta anterior si hay
                     {
                         List<Punto> Recta_final = new List<Punto>();
@@ -11740,8 +12408,9 @@ namespace Logica {
                 }
                 if (componentes[i].Tipo == 2)
                 {
-                    azimut_e_s(componentes[i]);
+                    
                     Rellenar_Curva(componentes[i]);
+                    azimut_e_s(componentes[i]);
                     if (dif==-1)
                     {
                         dif = i;
@@ -12423,7 +13092,7 @@ namespace Logica {
             }
             compo.azcurva = -azte + azts;
             compo.azmax = compo.azcurva / 2;
-
+            azimut_e_s(compo);
             double xcentro = xc;
             double ycentro = yc;
             compo.xc = xcentro;
@@ -12813,6 +13482,8 @@ namespace Logica {
 
             salida[0] = azte;
             salida[1] = azts;
+            componente.azte = azte;
+            componente.azts = azts;
             return salida;
         }
 
@@ -13184,7 +13855,7 @@ namespace Logica {
         private bool Comprobar_casos_solapes() {
             bool solapes = false;
             for (int i = 0; i < componentes.Count; i++) {
-                if (componentes[i].caso1_e == true || componentes[i].caso2_e == true ||
+                if (componentes[i].caso0_e == true || componentes[i].caso1_e == true || componentes[i].caso2_e == true ||
                     componentes[i].caso3_e == true || componentes[i].caso4_e == true ||
                     componentes[i].caso5_e == true || componentes[i].caso6_e == true ||
                     componentes[i].caso7_e == true) {
@@ -13213,6 +13884,11 @@ namespace Logica {
             bool curva_gran_radio = false;
             bool puntos_ultimos = false;
             bool salir = true;
+            bool terminar = false;
+            bool pregunta1 = true;
+            bool pregunta2 = true;
+            bool pregunta3 = true;
+            bool pregunta4 = true;
             for (int i=0;i<componentes.Count;i++)
             {
                 componentes[i].index = i;
@@ -13222,6 +13898,7 @@ namespace Logica {
 
                 componentes_iniciales.Add(c);
             }
+            DateTime tiempo1 = DateTime.Now;
             while (salir)
             {
                 do
@@ -13387,8 +14064,18 @@ namespace Logica {
                             {
                                 if (Comprobar(Clo))
                                 {
-                                    azimuts.Add(Az_Clotoide_Curvas_MS(Clo)[0]);
-                                    azimuts.Add(Az_Clotoide_Curvas_MS(Clo)[1]);
+                                    //azimuts.Add(Az_Clotoide_Curvas_MS(Clo)[0]);
+                                    //azimuts.Add(Az_Clotoide_Curvas_MS(Clo)[1]);
+                                    if (Clo.mTipo == EjeDeTrazado.puntosDelEje.EjeTrazado.tipoClotoide.salida)
+                                    {
+                                        azimuts.Add(Az_Clotoide_Curvas_MS_Antihoraria_Prueba(Clo, 0)[0]);
+                                        azimuts.Add(Az_Clotoide_Curvas_MS_Antihoraria_Prueba(Clo, 0)[1]);
+                                    }
+                                    else
+                                    {
+                                        azimuts.Add(Az_Clotoide_Curvas_MS_Prueba(Clo, 0)[0]);
+                                        azimuts.Add(Az_Clotoide_Curvas_MS_Prueba(Clo, 0)[1]);
+                                    }
 
                                 }
                                 else
@@ -13519,8 +14206,18 @@ namespace Logica {
                             {
                                 if (Comprobar(Clo))
                                 {
-                                    azimuts.Add(Az_Clotoide_Curvas_MS(Clo)[0]);
-                                    azimuts.Add(Az_Clotoide_Curvas_MS(Clo)[1]);
+                                    //azimuts.Add(Az_Clotoide_Curvas_MS(Clo)[0]);
+                                    //azimuts.Add(Az_Clotoide_Curvas_MS(Clo)[1]);
+                                    if (Clo.mTipo == EjeDeTrazado.puntosDelEje.EjeTrazado.tipoClotoide.salida)
+                                    {
+                                        azimuts.Add(Az_Clotoide_Curvas_MS_Antihoraria_Prueba(Clo, 0)[0]);
+                                        azimuts.Add(Az_Clotoide_Curvas_MS_Antihoraria_Prueba(Clo, 0)[1]);
+                                    }
+                                    else
+                                    {
+                                        azimuts.Add(Az_Clotoide_Curvas_MS_Prueba(Clo, 0)[0]);
+                                        azimuts.Add(Az_Clotoide_Curvas_MS_Prueba(Clo, 0)[1]);
+                                    }
 
                                 }
                                 else
@@ -13685,8 +14382,18 @@ namespace Logica {
                             {
                                 if (Comprobar(Clo))
                                 {
-                                    azimuts.Add(Az_Clotoide_Curvas_MS(Clo)[0]);
-                                    azimuts.Add(Az_Clotoide_Curvas_MS(Clo)[1]);
+                                    //azimuts.Add(Az_Clotoide_Curvas_MS(Clo)[0]);
+                                    //azimuts.Add(Az_Clotoide_Curvas_MS(Clo)[1]);
+                                    if (Clo.mTipo == EjeDeTrazado.puntosDelEje.EjeTrazado.tipoClotoide.salida)
+                                    {
+                                        azimuts.Add(Az_Clotoide_Curvas_MS_Antihoraria_Prueba(Clo, componentes.Count - 2)[0]);
+                                        azimuts.Add(Az_Clotoide_Curvas_MS_Antihoraria_Prueba(Clo, componentes.Count - 2)[1]);
+                                    }
+                                    else
+                                    {
+                                        azimuts.Add(Az_Clotoide_Curvas_MS_Prueba(Clo, componentes.Count - 2)[0]);
+                                        azimuts.Add(Az_Clotoide_Curvas_MS_Prueba(Clo, componentes.Count - 2)[1]);
+                                    }
                                 }
                                 else
                                 {
@@ -14022,6 +14729,77 @@ namespace Logica {
                         this.viabilidadListeners.ForEach(listener => listener.onNewViabilidadStatus("enlaces", viabilidadEnlacesStatus, this.componentes, whileIndex));
                     }
 
+                    if (contador==20000)
+                    {
+                        DialogResult result = MessageBox.Show("Se han ejecutado "+contador+" iteraciones. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
+                        if (result == DialogResult.Yes)
+                        {
+                            terminar = true;
+                        }
+                    }
+                    if (contador == 40000)
+                    {
+                        DialogResult result = MessageBox.Show("Se han ejecutado " + contador + " iteraciones. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
+                        if (result == DialogResult.Yes)
+                        {
+                            terminar = true;
+                        }
+                    }
+                    if (contador == 60000)
+                    {
+                        DialogResult result = MessageBox.Show("Se han ejecutado " + contador + " iteraciones. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
+                        if (result == DialogResult.Yes)
+                        {
+                            terminar = true;
+                        }
+                    }
+                    if (contador == 80000)
+                    {
+                        DialogResult result = MessageBox.Show("Se han ejecutado " + contador + " iteraciones. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
+                        if (result == DialogResult.Yes)
+                        {
+                            terminar = true;
+                        }
+                    }
+                    DateTime tiempo2 = DateTime.Now;
+                    TimeSpan total = new TimeSpan(tiempo2.Ticks - tiempo1.Ticks);
+                    if (total.TotalSeconds>600 && total.TotalSeconds < 700 && pregunta1) 
+                    {
+                        DialogResult result = MessageBox.Show("Se ha ejecutado durante 10 minutos. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
+                        if (result == DialogResult.Yes)
+                        {
+                            terminar = true;
+                        }
+                        pregunta1 = false;
+                    }
+                    if (total.TotalSeconds > 1200 && total.TotalSeconds < 1300 && pregunta1)
+                    {
+                        DialogResult result = MessageBox.Show("Se ha ejecutado durante 20 minutos. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
+                        if (result == DialogResult.Yes)
+                        {
+                            terminar = true;
+                        }
+                        pregunta2 = false;
+                    }
+                    if (total.TotalSeconds > 1800 && total.TotalSeconds < 1900 && pregunta1)
+                    {
+                        DialogResult result = MessageBox.Show("Se ha ejecutado durante 30 minutos. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
+                        if (result == DialogResult.Yes)
+                        {
+                            terminar = true;
+                        }
+                        pregunta3 = false;
+                    }
+                    if (total.TotalSeconds > 2400 && total.TotalSeconds < 2500 && pregunta1)
+                    {
+                        DialogResult result = MessageBox.Show("Se ha ejecutado durante 40 minutos. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
+                        if (result == DialogResult.Yes)
+                        {
+                            terminar = true;
+                        }
+                        pregunta4 = false;
+                    }
+                    //Console.Write("TIEMPO: " + total.ToString());
                     //mostrarCasos_Enlaces();
                     Modificacion(viabilidadEnlacesStatus);
                     //Comprobar_RCR();
@@ -14043,12 +14821,12 @@ namespace Logica {
                                     {
                                         if (componentes_iniciales[t].Tipo == 2)
                                         {
-                                            if (componentes_iniciales[t + 1].Tipo == 1)
+                                            if (componentes_iniciales[t + 1].Tipo == 1 && t+1< componentes_iniciales.Count-1)
                                             {
                                                 componentes_iniciales.RemoveAt(t + 1);
                                             }
                                             componentes_iniciales.RemoveAt(t);
-                                            if (componentes_iniciales[t - 1].Tipo == 1)
+                                            if (componentes_iniciales[t - 1].Tipo == 1 && t-1>0)
                                             {
                                                 componentes_iniciales.RemoveAt(t - 1);
                                             }
@@ -14071,12 +14849,12 @@ namespace Logica {
                                     {
                                         if (componentes_iniciales[t].Tipo == 2)
                                         {
-                                            if (componentes_iniciales[t + 1].Tipo == 1)
+                                            if (componentes_iniciales[t + 1].Tipo == 1 && t + 1 < componentes_iniciales.Count - 1)
                                             {
                                                 componentes_iniciales.RemoveAt(t + 1);
                                             }
                                             componentes_iniciales.RemoveAt(t);
-                                            if (componentes_iniciales[t - 1].Tipo == 1)
+                                            if (componentes_iniciales[t - 1].Tipo == 1 && t - 1 > 0)
                                             {
                                                 componentes_iniciales.RemoveAt(t - 1);
                                             }
@@ -14095,7 +14873,15 @@ namespace Logica {
                         }
                     }
                     Comprobar_Curvas();
-                } while (!salir && this.Comprobar_casos_solapes() && contador < 10000);
+                } while (!salir && this.Comprobar_casos_solapes() && contador < 10000 && !terminar);
+                if (salir && !terminar)
+                {
+                    viabilidad();
+                }
+                if (terminar)
+                {
+                    salir = false;
+                }
             }
              return trazaViabilidadEnlaces;
         }
@@ -14869,6 +15655,72 @@ namespace Logica {
             //Solape de clotoides en la curva intermedia
             if (componentes[0].Tipo == 2) {
                 conta_az++;
+                if (componentes[0].direccion== EjeTrazado.sentidoCurva.Horario)
+                {
+                    if (azimuts[0]!=-1)
+                    {
+                        if (componentes[0].azte> componentes[0].azts)
+                        {
+                            az_temp_1 = azimuts[0] - 90;
+                            az_temp_2 = componentes[0].azte - 90;
+                            if (az_temp_1 < 0)
+                            {
+                                az_temp_1 += 360;
+                            }
+                            if (az_temp_2 < 0)
+                            {
+                                az_temp_2 += 360;
+                            }
+
+                        }
+                        else
+                        {
+                            az_temp_1 = azimuts[0] - 90;
+                            az_temp_2 = componentes[0].azte - 90;
+                            if (az_temp_1 < 0)
+                            {
+                                az_temp_1 += 360;
+                            }
+                            if (az_temp_2 < 0)
+                            {
+                                az_temp_2 += 360;
+                            }
+                            if (az_temp_1 < az_temp_2)
+                            {
+                                componentes[0].caso0_e = true;
+                            }
+                        }
+                        
+                    }
+                }
+                else
+                {
+                    if (azimuts[0] != -1)
+                    {
+                        if (componentes[0].azte<componentes[0].azts)
+                        {
+
+                        }
+                        else
+                        {
+                            az_temp_1 = azimuts[0] + 90;
+                            az_temp_2 = componentes[0].azts + 90;
+                            if (az_temp_1 > 360)
+                            {
+                                az_temp_1 -= 360;
+                            }
+                            if (az_temp_2 > 360)
+                            {
+                                az_temp_2 -= 360;
+                            }
+                            if (az_temp_1 > az_temp_2)
+                            {
+                                componentes[0].caso0_e = true;
+                            }
+                        }
+                        
+                    }
+                }
             }
             
             for (int i = 1; i < componentes.Count - 1; i++)
@@ -15009,7 +15861,7 @@ namespace Logica {
                                 }
                                 else
                                 {
-                                    if ((az_temp_1 + 0.2) > az_temp_2 || (az_temp_2 > 330 && az_temp_2 < 360 && az_temp_1 > 0 && az_temp_1 < 90))//az_temp_1+0.2
+                                    if ((az_temp_1) > az_temp_2 || (az_temp_2 > 330 && az_temp_2 < 360 && az_temp_1 > 0 && az_temp_1 < 90) || (az_temp_1+250<az_temp_2 && az_temp_1!=-1 && az_temp_2 != -1 && componentes[i].azts- componentes[i].azte <120))//az_temp_1+0.2
                                     {
                                         if (Solape_Gran_Angulo(azimuts, conta_az, i))
                                         {
@@ -15206,7 +16058,7 @@ namespace Logica {
                                 }
                                 else
                                 {
-                                    if (az_temp_1 < (az_temp_2 + 0.2) || (az_temp_1>330 && az_temp_1 <360 && az_temp_2 > 0 && az_temp_2 < 90))//az_temp_2 + 0.2)
+                                    if (az_temp_1 < (az_temp_2) || (az_temp_1>330 && az_temp_1 <360 && az_temp_2 > 0 && az_temp_2 < 90))//az_temp_2 + 0.2)
                                     {
                                         if (Solape_Gran_Angulo(azimuts, conta_az, i) && az_temp_1 != -1 && az_temp_2 != -1)
                                         {
@@ -15404,16 +16256,31 @@ namespace Logica {
                     }
                     else
                     {
-                        if (az_temp_1 > 270 && az_temp_1 < 360 && azts_temp > 0 && azts_temp < 90)
+                        if (az_temp_1 > 270 && az_temp_1 < 360 && azts_temp > 0 && azts_temp < 90 )
                         {
 
                         }
                         else
                         {
-                            if (az_temp_1 > azts_temp)
+                            if (azts_temp< azte_temp)
                             {
-                                componentes[componentes.Count - 1].v_s_c = true;
+                                if (az_temp_1>270 && az_temp_1 < 360 && azts_temp>0 && azts_temp < 180)
+                                {
+                                    
+                                }
+                                else
+                                {
+                                    componentes[componentes.Count - 1].v_s_c = true;
+                                }
                             }
+                            else
+                            {
+                                if (az_temp_1 > azts_temp )
+                                {
+                                    componentes[componentes.Count - 1].v_s_c = true;
+                                }
+                            }
+                            
                         }
                     }
                 }
@@ -15449,9 +16316,23 @@ namespace Logica {
                         }
                         else
                         {
-                            if (az_temp_1 < azts_temp)
+                            if (azts_temp > azte_temp)
                             {
-                                componentes[componentes.Count - 1].v_s_c = true;
+                                if (azts_temp > 180 && azts_temp < 360 && az_temp_1 > 0 && az_temp_1 < 90)
+                                {
+
+                                }
+                                else
+                                {
+                                    componentes[componentes.Count - 1].v_s_c = true;
+                                }
+                            }
+                            else
+                            {
+                                if (az_temp_1 < azts_temp)
+                                {
+                                    componentes[componentes.Count - 1].v_s_c = true;
+                                }
                             }
                         }
                     }
@@ -15507,6 +16388,72 @@ namespace Logica {
         private void Modificacion(ViabilidadComponentesStatus viabilidadEnlacesStatus) {
             bool modificar = true;
             /*
+             * caso 0
+             */
+            if (modificar)
+            {
+                if (componentes[0].caso0_e == true && componentes[0].Tipo==2)
+                {
+                    if (componentes[1].Tipo==2)
+                    {
+                        Aumentar_radio(1);
+                        componentes[1].solape += 1;
+                    }
+                    else
+                    {
+                        if (componentes[0].direccion == EjeTrazado.sentidoCurva.Antihorario)
+                        {
+                            //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
+                            Girar_Recta(1, +0.01, componentes[1].azr);
+
+                        }
+                        else
+                        {
+                            //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
+                            Girar_Recta(1, -0.01, componentes[1].azr);
+                        }
+                        double[] l = new double[2];
+                        l = ajuste_recta(componentes[1].lista_puntos, 0).Item2;
+                        double d2 = Distancia_P_R(l[0], l[1], componentes[0].xc, componentes[0].yc);
+                        double d3 = Distancia_P_R(l[0], l[1], componentes[2].xc, componentes[2].yc);
+                        if (d2 < componentes[0].radio || d3 < componentes[2].radio)
+                        {
+                            if (componentes[0].direccion == EjeTrazado.sentidoCurva.Antihorario)
+                            {
+                                //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
+                                Girar_Recta(1, -0.01, componentes[1].azr);
+
+                            }
+                            else
+                            {
+                                //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
+                                Girar_Recta(1, +0.01, componentes[1].azr);
+                            }
+                            if (componentes[1].creacion==2 || componentes[1].creacion == 1)
+                            {
+                                componentes.RemoveAt(1);
+                                Aumentar_radio(1);
+                                componentes[1].solape += 20;
+                            }
+                            else
+                            {
+                                componentes.RemoveAt(1);
+                            }
+                            if (componentes[0].direccion == componentes[1].direccion)
+                            {
+                                Crear_RECM(0);
+                            }
+                            else
+                            {
+                                Crear_RECT(0);
+                            }
+
+                        }
+                    }
+                    modificar = false;
+                }
+            }
+            /*
              * caso 1 
              * Si es una recta la primera entidad se acerca la recta a la circunferencia girandola hasta que la diferencia sea minima
              */
@@ -15544,8 +16491,10 @@ namespace Logica {
                                 Girar_Entidad_Recta(2);
                             }
                             modificar = false;
+                            componentes[i].solape += 1;
                             break;
                         }
+                        
                     }
                 }
             }
@@ -15602,6 +16551,15 @@ namespace Logica {
                                 
                             }
                             modificar = false;
+                            if(i>=0 && i<=componentes.Count-1)
+                            {
+                                componentes[i].solape += 1;
+                            }
+                            else
+                            {
+
+                            }
+                            
                             break;
                         }
                     
@@ -15623,7 +16581,14 @@ namespace Logica {
                         modificar = Resolver_caso3(i);
                         if (!modificar) 
                         {
-                            componentes[i].solape += 1;
+                            if (i >= 0 && i <= componentes.Count - 1)
+                            {
+                                componentes[i].solape += 1;
+                            }
+                            else
+                            {
+
+                            }
                             break; 
                         }
                     }
@@ -15670,7 +16635,14 @@ namespace Logica {
                         modificar = Resolver_caso6(i);
                         if (!modificar) 
                         {
-                            componentes[i].solape += 1; 
+                            if (i >= 0 && i <= componentes.Count - 1)
+                            {
+                                componentes[i].solape += 1;
+                            }
+                            else
+                            {
+
+                            }
                             break; 
                         }
                     }
@@ -15685,7 +16657,14 @@ namespace Logica {
                 for (int i = 0; i < componentes.Count - 1; i++) {
                     if (componentes[i].caso7_e == true) {
                         modificar = Resolver_caso7(i);
-                        componentes[i].solape += 1;
+                        if (i >= 0 && i <= componentes.Count - 1)
+                        {
+                            componentes[i].solape += 1;
+                        }
+                        else
+                        {
+
+                        }
                     }
                 }
             }
@@ -16845,7 +17824,7 @@ namespace Logica {
                 }
             }*/
             double aztemp_e, aztemp_s, aztemp_r;
-            if (c1.direccion == EjeDeTrazado.puntosDelEje.EjeTrazado.sentidoCurva.Horario)
+            if (c2.direccion == EjeDeTrazado.puntosDelEje.EjeTrazado.sentidoCurva.Horario)
             {
                 aztemp_e = azte - 90;
                 aztemp_s = azts - 90;
@@ -16939,7 +17918,7 @@ namespace Logica {
                 }
                 if (!accion) {
                     if (ye[contar - 1] < ye_i) {
-                        qe.Add(qe[contar - 1] + 0.1);
+                        qe.Add(qe[contar - 1] + 0.01);
                     } else {
                         qe.Add(qe[contar - 1]);
                         break;
@@ -16947,7 +17926,7 @@ namespace Logica {
 
                 } else {
                     if (ye[contar - 1] > ye_i) {
-                        qe.Add(qe[contar - 1] - 0.1);
+                        qe.Add(qe[contar - 1] - 0.01);
                     } else {
                         qe.Add(qe[contar - 1]);
                         break;
@@ -17008,8 +17987,16 @@ namespace Logica {
             bool bajar = false;
             if ((ir[ir.Count - 1] + r) < distancia) {
                 valor = valor * -1;
+                if (Math.Truncate((ir[ir.Count - 1] + r)*1000) < Math.Truncate(distancia)*1000)
+                {
+                    valor = valor / 10;
+                }
                 subir = true;
             } else {
+                if (Math.Truncate((ir[ir.Count - 1] + r) * 1000) > Math.Truncate(distancia) * 1000)
+                {
+                    valor = valor / 10;
+                }
                 bajar = true;
             }
             if (subir && qe_def > 358)
@@ -17816,7 +18803,7 @@ namespace Logica {
                     }
                 }
             }
-
+            azimut_e_s(c1);
         }
         private Punto R_aux(Componente c1, Componente c2, int p) {
             Punto p_raux = new Punto();
@@ -17864,14 +18851,14 @@ namespace Logica {
             {
                 if (Clo.getTipoComponente() == EjeDeTrazado.componentes.Clotoide.tipoComponente.clotoideEntrada)
                 {
-                    Punto p3 = new Punto(new Point2d(Clo.getPointAtDist(Clo.getPkFinal() - 0.1)[0], Clo.getPointAtDist(Clo.getPkFinal() - 0.1)[1]));
+                    Punto p3 = new Punto(new Point2d(Clo.getPointAtDist(Clo.getPkFinal() - 0.0001)[0], Clo.getPointAtDist(Clo.getPkFinal() - 0.0001)[1]));
                     Punto p4 = new Punto(new Point2d(Clo.getPointAtDist(Clo.getPkFinal())[0], Clo.getPointAtDist(Clo.getPkFinal())[1]));
                     return Rellenar_centro(p4, p3.p.X, p3.p.Y, 1).Az;
                 }
                 else
                 {
                     Punto p1 = new Punto(new Point2d(Clo.getPointAtDist(0)[0], Clo.getPointAtDist(0)[1]));
-                    Punto p2 = new Punto(new Point2d(Clo.getPointAtDist(0.1)[0], Clo.getPointAtDist(0.1)[1]));
+                    Punto p2 = new Punto(new Point2d(Clo.getPointAtDist(0.0001)[0], Clo.getPointAtDist(0.0001)[1]));
                     return Rellenar_centro(p2, p1.p.X, p1.p.Y, 1).Az;
                 }
             }
@@ -17883,12 +18870,12 @@ namespace Logica {
         {
 
             double[] azimuts = new double[2];
-            Punto p3 = new Punto(new Point2d(Clo.getPointAtDist(Clo.getPkFinal() - 0.1)[0], Clo.getPointAtDist(Clo.getPkFinal() - 0.1)[1]));
+            Punto p3 = new Punto(new Point2d(Clo.getPointAtDist(Clo.getPkFinal() - 0.0001)[0], Clo.getPointAtDist(Clo.getPkFinal() - 0.0001)[1]));
             Punto p4 = new Punto(new Point2d(Clo.getPointAtDist(Clo.getPkFinal())[0], Clo.getPointAtDist(Clo.getPkFinal())[1]));
             azimuts[1] = Rellenar_centro(p4, p3.p.X, p3.p.Y, 1).Az;
 
             Punto p1 = new Punto(new Point2d(Clo.getPointAtDist(0)[0], Clo.getPointAtDist(0)[1]));
-            Punto p2 = new Punto(new Point2d(Clo.getPointAtDist(0.1)[0], Clo.getPointAtDist(0.1)[1]));
+            Punto p2 = new Punto(new Point2d(Clo.getPointAtDist(0.0001)[0], Clo.getPointAtDist(0.0001)[1]));
             azimuts[0] = Rellenar_centro(p2, p1.p.X, p1.p.Y, 1).Az;
             return azimuts;
 
@@ -17897,12 +18884,12 @@ namespace Logica {
         {
 
             double[] azimuts = new double[2];
-            Punto p3 = new Punto(new Point2d(Clo.getPointAtDist(Clo.getPkFinal() - 0.1)[0], Clo.getPointAtDist(Clo.getPkFinal() - 0.1)[1]));
+            Punto p3 = new Punto(new Point2d(Clo.getPointAtDist(Clo.getPkFinal() - 0.0001)[0], Clo.getPointAtDist(Clo.getPkFinal() - 0.0001)[1]));
             Punto p4 = new Punto(new Point2d(Clo.getPointAtDist(Clo.getPkFinal())[0], Clo.getPointAtDist(Clo.getPkFinal())[1]));
             azimuts[1] = Rellenar_centro(p4, p3.p.X, p3.p.Y, 1).Az;
 
             Punto p1 = new Punto(new Point2d(Clo.getPointAtDist(Clo.getLe_r())[0], Clo.getPointAtDist(Clo.getLe_r())[1]));
-            Punto p2 = new Punto(new Point2d(Clo.getPointAtDist(Clo.getLe_r() + 0.01)[0], Clo.getPointAtDist(Clo.getLe_r() + 0.01)[1]));
+            Punto p2 = new Punto(new Point2d(Clo.getPointAtDist(Clo.getLe_r() + 0.0001)[0], Clo.getPointAtDist(Clo.getLe_r() + 0.0001)[1]));
             azimuts[0] = Rellenar_centro(p2, p1.p.X, p1.p.Y, 1).Az;
             return azimuts;
 
@@ -17912,11 +18899,11 @@ namespace Logica {
 
             double[] azimuts = new double[2];
             Punto p3 = new Punto(new Point2d(Clo.getPointAtDist(0)[0], Clo.getPointAtDist(0)[1]));
-            Punto p4 = new Punto(new Point2d(Clo.getPointAtDist(0.01)[0], Clo.getPointAtDist(0.01)[1]));
+            Punto p4 = new Punto(new Point2d(Clo.getPointAtDist(0.0001)[0], Clo.getPointAtDist(0.0001)[1]));
             azimuts[0] = Rellenar_centro(p4, p3.p.X, p3.p.Y, 1).Az;
 
             Punto p1 = new Punto(new Point2d(Clo.getPointAtDist(Clo.getLe_r())[0], Clo.getPointAtDist(Clo.getLe_r())[1]));
-            Punto p2 = new Punto(new Point2d(Clo.getPointAtDist(Clo.getLe_r() + 0.01)[0], Clo.getPointAtDist(Clo.getLe_r() + 0.01)[1]));
+            Punto p2 = new Punto(new Point2d(Clo.getPointAtDist(Clo.getLe_r() + 0.0001)[0], Clo.getPointAtDist(Clo.getLe_r() + 0.0001)[1]));
             azimuts[1] = Rellenar_centro(p2, p1.p.X, p1.p.Y, 1).Az;
             return azimuts;
 
@@ -18386,7 +19373,7 @@ namespace Logica {
              //Comprobar_RCR();
            Dibujar_entidades(11);
             
-            for (int i = 1; i < componentes.Count - 1; i++)
+            for (int i = 0; i < componentes.Count - 1; i++)
             {
                 if (componentes[i].Tipo==1 && componentes[i+1].Tipo == 1)
                 {
@@ -18430,11 +19417,11 @@ namespace Logica {
             {
                 if (componentes[i].curva_creada)
                 {
-                    if (componentes[i + 1].Tipo == 1)
+                    if (componentes[i + 1].Tipo == 1 && i+1<componentes.Count-1)
                     {
                         Componentes.RemoveAt(i + 1);
                     }
-                    if (componentes[i-1].Tipo==1)
+                    if (componentes[i-1].Tipo==1 && i-1>0)
                     {
                         Componentes.RemoveAt(i-1);
                         i--;
@@ -18941,7 +19928,11 @@ namespace Logica {
                     {
                         i -= 1;
                     }
-                    componentes.RemoveAt(i-1);
+                    if (i - 1>0 && i-1<componentes.Count-1)
+                    {
+                        componentes.RemoveAt(i - 1);
+                    }
+                    
                     return false;
                 }
             }
@@ -20160,7 +21151,7 @@ namespace Logica {
                             } else {
                                 if (((componentes[componentes.Count - 1].lista_puntos[0].p.X < componentes[componentes.Count - 1].lista_puntos[1].p.X) && (Clo.getPointAtDist(Clo.getPkFinal())[0] <= componentes[componentes.Count - 1].lista_puntos[1].p.X)) ||
                                     ((componentes[componentes.Count - 1].lista_puntos[0].p.X > componentes[componentes.Count - 1].lista_puntos[1].p.X) && (Clo.getPointAtDist(Clo.getPkFinal())[0] >= componentes[componentes.Count - 1].lista_puntos[1].p.X))) {
-                                    Dibujar_Clotoide(Clo);
+                                    //Dibujar_Clotoide(Clo);
                                     break;
                                 }
                                 /*if ((componentes[componentes.Count - 1].lista_puntos[0].p.X < Clo.getPointAtDist(Clo.getPkFinal())[0] && Clo.getPointAtDist(Clo.getPkFinal())[0] < componentes[componentes.Count - 1].lista_puntos[1].p.X) || (componentes[componentes.Count - 1].lista_puntos[0].p.X > Clo.getPointAtDist(Clo.getPkFinal())[0] && Clo.getPointAtDist(Clo.getPkFinal())[0] > componentes[componentes.Count - 1].lista_puntos[1].p.X))

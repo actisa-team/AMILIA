@@ -10,7 +10,7 @@ namespace EjeDeTrazado
 {
     public class oInformeEje
     {
-
+/*
         [BindingInfo(SortIndex = 1)]
         [LocalizedDisplayName("segmento", typeof(strEje))]
         public int? segmento { get; set; }
@@ -20,16 +20,16 @@ namespace EjeDeTrazado
         [BindingInfo(SortIndex = 2)]
         [LocalizedDisplayName("vertice", typeof(strEje))]
         public int? vertice { get; set; }
-
+*/
         [BindingInfo(SortIndex = 3)]
         [LocalizedDisplayName("elemento", typeof(strEje))]
         public string elemento { get; set; }
 
-
+/*
         [BindingInfo(SortIndex = 4)]
         [LocalizedDisplayName("tipo", typeof(strEje))]
         public string tipo { get; set; }
-
+*/
         //[Browsable(false)]
         //public double campo3hide { get; set; }
 
@@ -122,10 +122,10 @@ namespace EjeDeTrazado
             double? iCentrocurvax, double? iCentrocurvay, double? iRadio, string iSentgiro, double? iAclotoide,  double iLongitud, double iPkini, double iPkfin, 
                 double? iPeralte, double? iMargenizq, double? iMargender, double? iVarimi, double? iVarmd)
         {
-            segmento = iSegmento;
-            vertice = iVertice;
+            //segmento = iSegmento;
+            //vertice = iVertice;
             elemento = iElemento;
-            tipo = iTipo;
+//            tipo = iTipo;
             azimutfinal = iAzimutfinal;
             if (azimutfinal != null) azimutfinal = Math.Round((double)azimutfinal, 4);
             puntoinix = Math.Round(iPuntoinix, 4);

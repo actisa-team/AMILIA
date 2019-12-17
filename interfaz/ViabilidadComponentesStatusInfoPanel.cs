@@ -32,6 +32,7 @@ namespace interfaz {
 
             //Listener para continuar hasta la iteracion indicada en el textBox
             this.ejecutarHastaIteracionButton.Click += this.ejecutarHastaIteracionButtonClick;
+
         }
 
         public void addListener(IViabilidadStatusInfoPanelListener listener) {
@@ -45,6 +46,11 @@ namespace interfaz {
 
         private void continuarDepurandoButtonClick(object sender, EventArgs e) {
             this.listeners.ForEach(listener => listener.continuarPasoAPaso());
+            this.Dispose();
+        }
+        private void TerminarButtonClick(object sender, EventArgs e)
+        {
+            this.listeners.ForEach(listener => listener.Terminar());
             this.Dispose();
         }
 
