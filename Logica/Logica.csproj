@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CalculoPolilinea.cs" />
+    <Compile Include="CalculoPolilineaPerfil.cs" />
     <Compile Include="Comandos\oEjeTrazado.cs" />
     <Compile Include="Componente.cs" />
     <Compile Include="IViabilidadListener.cs" />

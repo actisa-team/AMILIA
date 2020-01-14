@@ -17,7 +17,7 @@ namespace Logica {
     using EjeDeTrazado.puntosDelEje;
     using EjeDeTrazado.componentes;
     using Logica.verificacion;
-
+    using System.Diagnostics;
     public class CalculoPolilinea {
         public enum tipoCurva { cnp, cnpAnguloReducido, cp, c5000, c2500, noValorado };
         public enum sentidoCurva { Horario, Antihorario, noValorado };
@@ -25,6 +25,7 @@ namespace Logica {
         public enum tipoClotoide { entrada, salida };
         public enum ladoCalzada { Derecha, Izquierda };
         List<Punto> polilinea = new List<Punto>();
+
         List<List<Punto>> Listas_Polilineas = new List<List<Punto>>();
         dsApp.PolilineaDataTable dato = new dsApp.PolilineaDataTable();
         dsApp datoApp = new dsApp();
@@ -112,63 +113,86 @@ namespace Logica {
                     Guardar();
                     Vaciar_Puntos();
                     RellenarDatos();
-                    if (dibujar) {
+                    if (dibujar)
+                    {
                         Dibujar(0);
-                    }
 
 
-                    if (it == 1) {
-                        bool salida = true;
-                        while (salida) {
-                            if (opcion == 1) {
-                                FiltradoDisrupcion(true, ref contador);
-                                if (contador == 0) {
-                                    salida = false;
+
+                        if (it == 1)
+                        {
+                            bool salida = true;
+                            while (salida)
+                            {
+                                if (opcion == 1)
+                                {
+                                    FiltradoDisrupcion(true, ref contador);
+                                    if (contador == 0)
+                                    {
+                                        salida = false;
+                                    }
+                                    contador = 0;
+                                    Vaciar_Puntos();
+                                    RellenarDatos();
                                 }
-                                contador = 0;
-                                Vaciar_Puntos();
-                                RellenarDatos();
-                            } else if (opcion == 2) {
-                                FiltradoCambioSentido(true, ref contador);
-                                if (contador == 0) {
-                                    salida = false;
+                                else if (opcion == 2)
+                                {
+                                    FiltradoCambioSentido(true, ref contador);
+                                    if (contador == 0)
+                                    {
+                                        salida = false;
+                                    }
+                                    contador = 0;
+                                    Vaciar_Puntos();
+                                    RellenarDatos();
                                 }
-                                contador = 0;
-                                Vaciar_Puntos();
-                                RellenarDatos();
-                            } else if (opcion == 3) {
-                                FiltradoGiroLongitud(ratio, true, ref contador);
-                                if (contador == 0) {
-                                    salida = false;
+                                else if (opcion == 3)
+                                {
+                                    FiltradoGiroLongitud(ratio, true, ref contador);
+                                    if (contador == 0)
+                                    {
+                                        salida = false;
+                                    }
+                                    contador = 0;
+                                    Vaciar_Puntos();
+                                    RellenarDatos();
                                 }
-                                contador = 0;
-                                Vaciar_Puntos();
-                                RellenarDatos();
                             }
+
+                        }
+                        else
+                        {
+                            if (opcion == 1)
+                            {
+                                FiltradoDisrupcion(true, ref contador);
+                            }
+                            else if (opcion == 2)
+                            {
+                                FiltradoCambioSentido(true, ref contador);
+                            }
+                            else if (opcion == 3)
+                            {
+                                FiltradoGiroLongitud(ratio, true, ref contador);
+                            }
+                            Vaciar_Puntos();
+                            RellenarDatos();
                         }
 
-                    } else {
-                        if (opcion == 1) {
-                            FiltradoDisrupcion(true, ref contador);
-                        } else if (opcion == 2) {
-                            FiltradoCambioSentido(true, ref contador);
-                        } else if (opcion == 3) {
-                            FiltradoGiroLongitud(ratio, true, ref contador);
-                        }
-                        Vaciar_Puntos();
-                        RellenarDatos();
+
+                        Dibujar(1);
                     }
-
-
-                    Dibujar(1);
+                    else
+                    {
+                        MessageBox.Show("Polilinia guardada. Ya puede cargarla para realizar el próximo calculo.");
+                    }
                     //mas adelante para la fase 3
 
                     //List<Point3d> lista = Get_Poly3d(polilinea);
-                    List<Point3d> lista = new List<Point3d>();
+                   /* List<Point3d> lista = new List<Point3d>();
 
                     lista.Add(new Point3d(2581.7101, -1901.5082, 0));
                     lista.Add(new Point3d(748.7721, -1916.8332, 0));
-                    lista.Add(new Point3d(-59.3724, -830.3962, 0));
+                    lista.Add(new Point3d(-59.3724, -830.3962, 0));*/
                     //tadLayShare.puntos.Punto3d pp = new tadLayShare.puntos.Punto3d(-59.3724, -830.3962, 0);
                     //tadLayShare.puntos.Punto3d p2 = new tadLayShare.puntos.Punto3d(748.7721, -1916.8332, 0);
                     //EjeDeTrazado.componentes.Clotoide Clo = new EjeDeTrazado.componentes.Clotoide(pp, p2,1500,0, EjeDeTrazado.puntosDelEje.EjeTrazado.sentidoCurva.Antihorario, 2,2,true, tipoClotoide.entrada , 30,true,10,false,20,15000);
@@ -1555,6 +1579,14 @@ namespace Logica {
             Point2d pm;
             int whileItIndex = 0;
             int contador = 0;
+            for (int i = 0; i < componentes.Count - 1; i++)
+            {
+                if (componentes[i].Tipo == 2 && (double.IsNaN(componentes[i].xc) || double.IsNaN(componentes[i].yc)))
+                {
+                    componentes.RemoveAt(i);
+                    i--;
+                }
+            }
             //&& contador < 100000
             while (casos ) {
                 contador++;
@@ -5221,6 +5253,8 @@ namespace Logica {
                 engCadNet.oLayer.addLayer("Rotulacion-Recta_inicial", 2, false);
                 engCadNet.oLayer.addLayer("Rotulacion-Recta_final", 2, false);
                 engCadNet.oLayer.addLayer("Rotulacion-Clotoide_inicial", 3, false);
+
+                engCadNet.oLayer.addLayer("Rotulacion-singular", 7, false);
                 double az = 0;
                 List<double[]> componentPoint_ant = new List<double[]>();
                 componentPoint_ant.Add(new double[] { 0, 0 });
@@ -5229,11 +5263,22 @@ namespace Logica {
                 bool primerpunto = true;
                 Rotular r = new Rotular(rotulacion);
                 int i = 0;
+                var componente_ant= mcomponenetes[0];
                 foreach (var componente in mcomponenetes)
                 {
-                    r.Dibujar_Transversales(componente);
-                    r.Dibujar_Singulares(componente);
+                    if (i>0)
+                    {
+                        r.Dibujar_Transversales(componente);
+                        r.Dibujar_Singulares(componente,componente_ant);
+                    }
+                    else
+                    {
+                        r.Dibujar_Transversales(componente);
+                        r.Dibujar_Singulares(componente);
+                    }
+                    
                     i++;
+                    componente_ant = componente;
                 }
                 r.Dibujar_Final(mcomponenetes[mcomponenetes.Count - 1]);
             }
@@ -11603,7 +11648,7 @@ namespace Logica {
             List<int> cr = new List<int>();
             List<int> cc = new List<int>();
 
-
+            
             if (componentes.Count > 0)
             {
                 if (componentes[0].ini > 0)
@@ -12436,7 +12481,7 @@ namespace Logica {
                     }
                 }
             }
-
+            
             /*
              * 
              * cambiar curva por recta
@@ -13881,6 +13926,8 @@ namespace Logica {
                 componentes[i].Reiniciar_casos_solapes();
             }
         }
+
+
         /*
          * 
          * 
@@ -13901,6 +13948,14 @@ namespace Logica {
             bool pregunta2 = true;
             bool pregunta3 = true;
             bool pregunta4 = true;
+            for (int i = 0; i < componentes.Count - 1; i++)
+            {
+                if (componentes[i].Tipo == 2 && (double.IsNaN(componentes[i].xc) || double.IsNaN(componentes[i].yc)))
+                {
+                    componentes.RemoveAt(i);
+                    i--;
+                }
+            }
             for (int i=0;i<componentes.Count;i++)
             {
                 componentes[i].index = i;
@@ -13911,6 +13966,9 @@ namespace Logica {
                 componentes_iniciales.Add(c);
             }
             DateTime tiempo1 = DateTime.Now;
+            DateTime tiempo3;
+            DateTime tiempo4;
+            TimeSpan total_b;
             while (salir)
             {
                 do
@@ -13944,8 +14002,16 @@ namespace Logica {
                         {
 
                             int cont = 0;
+                            tiempo3 = DateTime.Now;
                             while (cont < 1000)//el 1000 se pone para las comprobaciones
                             {
+                                tiempo4 = DateTime.Now;
+                                total_b = new TimeSpan(tiempo4.Ticks - tiempo3.Ticks);
+                                if (total_b.TotalSeconds>300)
+                                {
+                                    terminar = true;
+                                    break;
+                                }
                                 Rellenar_Recta(componentes[0]);
                                 Rellenar_Curva(componentes[1]);
                                 cont++;
@@ -14250,8 +14316,16 @@ namespace Logica {
                         {
 
                             int cont = 0;
+                            tiempo3 = DateTime.Now;
                             while (cont < 1000)//el 1000 se pone para las comprobaciones
                             {
+                                tiempo4 = DateTime.Now;
+                                total_b = new TimeSpan(tiempo4.Ticks - tiempo3.Ticks);
+                                if (total_b.TotalSeconds > 300)
+                                {
+                                    terminar = true;
+                                    break;
+                                }
                                 Rellenar_Recta(componentes[componentes.Count - 1]);
                                 Rellenar_Curva(componentes[componentes.Count - 2]);
                                 cont++;
@@ -14423,8 +14497,16 @@ namespace Logica {
                         {
 
                             int cont = 0;
+                            tiempo3 = DateTime.Now;
                             while (cont < 1000)//el 1000 se pone para las comprobaciones
                             {
+                                tiempo4 = DateTime.Now;
+                                total_b = new TimeSpan(tiempo4.Ticks - tiempo3.Ticks);
+                                if (total_b.TotalSeconds > 300)
+                                {
+                                    terminar = true;
+                                    break;
+                                }
                                 Rellenar_Recta(componentes[componentes.Count - 1]);
                                 Rellenar_Curva(componentes[componentes.Count - 2]);
                                 cont++;
@@ -14741,10 +14823,10 @@ namespace Logica {
                         this.viabilidadListeners.ForEach(listener => listener.onNewViabilidadStatus("enlaces", viabilidadEnlacesStatus, this.componentes, whileIndex));
                     }
 
-                    if (contador==20000)
+                    if (contador == 20000)
                     {
                         DialogResult result = MessageBox.Show("Se han ejecutado "+contador+" iteraciones. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
-                        if (result == DialogResult.Yes)
+                        if (result == DialogResult.No)
                         {
                             terminar = true;
                         }
@@ -14752,7 +14834,7 @@ namespace Logica {
                     if (contador == 40000)
                     {
                         DialogResult result = MessageBox.Show("Se han ejecutado " + contador + " iteraciones. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
-                        if (result == DialogResult.Yes)
+                        if (result == DialogResult.No)
                         {
                             terminar = true;
                         }
@@ -14760,7 +14842,7 @@ namespace Logica {
                     if (contador == 60000)
                     {
                         DialogResult result = MessageBox.Show("Se han ejecutado " + contador + " iteraciones. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
-                        if (result == DialogResult.Yes)
+                        if (result == DialogResult.No)
                         {
                             terminar = true;
                         }
@@ -14768,44 +14850,44 @@ namespace Logica {
                     if (contador == 80000)
                     {
                         DialogResult result = MessageBox.Show("Se han ejecutado " + contador + " iteraciones. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
-                        if (result == DialogResult.Yes)
+                        if (result == DialogResult.No)
                         {
                             terminar = true;
                         }
                     }
                     DateTime tiempo2 = DateTime.Now;
                     TimeSpan total = new TimeSpan(tiempo2.Ticks - tiempo1.Ticks);
-                    if (total.TotalSeconds>600 && total.TotalSeconds < 700 && pregunta1) 
+                    if (total.TotalSeconds > 600 && total.TotalSeconds < 700 && pregunta1) 
                     {
                         DialogResult result = MessageBox.Show("Se ha ejecutado durante 10 minutos. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
-                        if (result == DialogResult.Yes)
+                        if (result == DialogResult.No)
                         {
                             terminar = true;
                         }
                         pregunta1 = false;
                     }
-                    if (total.TotalSeconds > 1200 && total.TotalSeconds < 1300 && pregunta1)
+                    if (total.TotalSeconds > 1200 && total.TotalSeconds < 1300 && pregunta2)
                     {
                         DialogResult result = MessageBox.Show("Se ha ejecutado durante 20 minutos. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
-                        if (result == DialogResult.Yes)
+                        if (result == DialogResult.No)
                         {
                             terminar = true;
                         }
                         pregunta2 = false;
                     }
-                    if (total.TotalSeconds > 1800 && total.TotalSeconds < 1900 && pregunta1)
+                    if (total.TotalSeconds > 1800 && total.TotalSeconds < 1900 && pregunta2)
                     {
                         DialogResult result = MessageBox.Show("Se ha ejecutado durante 30 minutos. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
-                        if (result == DialogResult.Yes)
+                        if (result == DialogResult.No)
                         {
                             terminar = true;
                         }
                         pregunta3 = false;
                     }
-                    if (total.TotalSeconds > 2400 && total.TotalSeconds < 2500 && pregunta1)
+                    if (total.TotalSeconds > 2400 && total.TotalSeconds < 2500 && pregunta2)
                     {
                         DialogResult result = MessageBox.Show("Se ha ejecutado durante 40 minutos. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
-                        if (result == DialogResult.Yes)
+                        if (result == DialogResult.No)
                         {
                             terminar = true;
                         }
@@ -14886,7 +14968,7 @@ namespace Logica {
                     }
                     Comprobar_Curvas();
                     //&& contador < 10000
-                } while (!salir && this.Comprobar_casos_solapes()  && !terminar);
+                } while (!salir && this.Comprobar_casos_solapes() && !terminar);
                 if (salir && !terminar)
                 {
                     viabilidad();
@@ -15826,7 +15908,14 @@ namespace Logica {
                                         }
                                         else
                                         {
-                                            componentes[i].v_s_c = true;
+                                            if (az_temp_1 > 220 && az_temp_1 < 360 && az_temp_2 > 0 && az_temp_2 < 90)
+                                            {
+
+                                            }
+                                            else
+                                            {
+                                                componentes[i].v_s_c = true;
+                                            }
                                         }
 
                                     }
@@ -15874,7 +15963,9 @@ namespace Logica {
                                 }
                                 else
                                 {
-                                    if ((az_temp_1) > az_temp_2 || (az_temp_2 > 330 && az_temp_2 < 360 && az_temp_1 > 0 && az_temp_1 < 90) || (az_temp_1+250<az_temp_2 && az_temp_1!=-1 && az_temp_2 != -1 && componentes[i].azts- componentes[i].azte <120))//az_temp_1+0.2
+                                    if ((az_temp_1) > az_temp_2 || 
+                                        (az_temp_2 > 330 && az_temp_2 < 360 && az_temp_1 > 0 && az_temp_1 < 90) || 
+                                        (az_temp_1+250<az_temp_2 && az_temp_1!=-1 && az_temp_2 != -1 && componentes[i].azts- componentes[i].azte <120))//az_temp_1+0.2
                                     {
                                         if (Solape_Gran_Angulo(azimuts, conta_az, i))
                                         {
@@ -16026,7 +16117,15 @@ namespace Logica {
                                         }
                                         else
                                         {
-                                            componentes[i].v_s_c = true;
+                                            if (az_temp_2>300 && az_temp_2 < 360 && az_temp_1>0 && az_temp_1<160)
+                                            {
+
+                                            }
+                                            else
+                                            {
+                                                componentes[i].v_s_c = true;
+                                            }
+                                            
                                         }
                                     }
                                     if (i == 1 && az_temp_2 != -1)
@@ -19428,15 +19527,25 @@ namespace Logica {
 
             for (int i = 0; i < componentes.Count - 1; i++)
             {
+                bool borrada = false;
                 if (componentes[i].curva_creada)
                 {
                     if (componentes[i + 1].Tipo == 1 && i+1<componentes.Count-1)
                     {
                         Componentes.RemoveAt(i + 1);
                     }
+                    if (componentes[i].radio<0.1)
+                    {
+                        Componentes.RemoveAt(i);
+                        borrada = true;
+                    }
                     if (componentes[i-1].Tipo==1 && i-1>0)
                     {
                         Componentes.RemoveAt(i-1);
+                        i--;
+                    }
+                    if (borrada)
+                    {
                         i--;
                     }
                 }
@@ -19483,7 +19592,7 @@ namespace Logica {
                     }
                 }
             }
-            
+
             this.Rellenar_Componentes();
 
         }
