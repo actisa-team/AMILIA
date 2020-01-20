@@ -16,6 +16,7 @@ namespace Logica
     public class Punto
     {
         public Point2d p { get; set; }
+        
         public double a { get; set; }
         public double b { get; set; }
         public double c { get; set; }
@@ -62,7 +63,9 @@ namespace Logica
         public List<int> Min_diferencia_p = new List<int>();
         public int seccion_giro { get; set; }
         public bool cambio_giro_modificado { get; set; }
-        public Punto()
+        public bool p_perfil {get;set;}//solo lo utilizamos para guardar la polilinea
+        public double pp_perfil { get; set; }
+    public Punto()
         {
 
         }

@@ -16,11 +16,50 @@ namespace interfaz
     public partial class PolilineaInfoPanel : MaterialForm
     {
         private List<Punto> polilinea;
+        private List<PuntoPerfil> polilinea_perfil;
         public PolilineaInfoPanel(List<Punto> Polilinea)
         {
             InitializeComponent();
             polilinea = Polilinea;
             this.populateDataTable();
+        }
+        public PolilineaInfoPanel(List<PuntoPerfil> Polilinea)
+        {
+            InitializeComponent();
+            polilinea_perfil = Polilinea;
+            this.populateDataTablePerfil();
+        }
+        public void populateDataTablePerfil()
+        {
+            DataTable dataTable = new DataTable();
+            dataTable.Columns.Add("Punto");
+            dataTable.Columns.Add("X");
+            dataTable.Columns.Add("Y");
+            dataTable.Columns.Add("Pendiente");
+            dataTable.Columns.Add("Primero");
+            dataTable.Columns.Add("Último");
+            dataTable.Columns.Add("Varianza");
+            dataTable.Columns.Add("Var. acum");
+            dataTable.Columns.Add("Resultado");
+            dataTable.Columns.Add("Valor");
+
+
+            this.polilinea_perfil.ForEach(punto => {
+                int puntoIndex = this.polilinea_perfil.IndexOf(punto);
+                string resultado = "";
+                if (punto.tipo==1)
+                {
+                    resultado = "Uniforme";
+                }
+                if (punto.tipo == 2)
+                {
+                    resultado = "Depuracion";
+                }
+                dataTable.Rows.Add(puntoIndex, punto.p.X, punto.p.Y, punto.pendiente, punto.primero, punto.ultimo, punto.varianza, punto.varianza_a, resultado, punto.valor*100);
+
+            });
+
+            dataGridView1.DataSource = dataTable;
         }
         public void populateDataTable()
         {

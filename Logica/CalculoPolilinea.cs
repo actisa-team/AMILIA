@@ -71,6 +71,7 @@ namespace Logica {
                     dibujar = false;
                     Set_Polilinea(ref a);
                 }
+                a.Polilinea3d.Clear();
                 this.ratio = ratio;
                 foreach (DataRow r in a.Polilinea.Rows) {
 
@@ -98,7 +99,7 @@ namespace Logica {
                     //Set_Polilinea3d(ref a);
 
                 }
-
+                a.Polilinea3d.Clear();
                 int contador = 0;
                 this.ratio = ratio;
                 if (a.Polilinea.Rows.Count != 0) {
@@ -216,6 +217,7 @@ namespace Logica {
                     dibujar = false;
                     Set_Polilinea(ref a);
                 }
+                a.Polilinea3d.Clear();
                 int contador = 0;
                 int contador_total = 0;
                 this.ratio = ratio;
@@ -356,6 +358,9 @@ namespace Logica {
             } else if (result == DialogResult.No) {
             }
         }
+        /// <summary>
+        /// Se encarga de rellenar los puntos primos de la polilinea
+        /// </summary>
         public void nueva_relacion() {
 
             for (int i = 2; i < polilinea.Count - 1; i++) {
@@ -377,6 +382,9 @@ namespace Logica {
                 }
             }
         }
+        /// <summary>
+        /// Identifica los minimos en la polilinea
+        /// </summary>
         public void Set_minimos() {
             for (int i = 2; i < polilinea.Count - 2; i++) {
                 Punto p_aa = polilinea[i - 2];
@@ -439,6 +447,9 @@ namespace Logica {
                 }
             }
         }
+        /// <summary>
+        /// Identifica los grupos que se crean en la polilinea
+        /// </summary>
         public void Set_grupo()//grupo recta y curva
         {
             int grupo = 1;
@@ -492,6 +503,9 @@ namespace Logica {
 
             }
         }
+        /// <summary>
+        /// Le de el valor de "Recta" o "Curva" a ciertos puntos de la polilinea
+        /// </summary>
         public void Set_recta_curva()//grupo recta y curva
         {
             bool cambio_modificado = false;
@@ -1099,6 +1113,7 @@ namespace Logica {
                 Crear_Curva_2Puntos(lista[0], lista[lista.Count-1], Curva.Item1, Curva.Item2, Curva.Item3, i);
                 //Crear_Curva(componentes[i].ini, componentes[i + 1].fin, Curva.Item1, Curva.Item2, Curva.Item3, i);
                     componentes[i].direccion = componentes[i + 1].direccion;
+                componentes[i].Clusterizada = true;
                     componentes.RemoveAt(i + 1);
                     componentes.RemoveAt(i + 1);
                 //Viabilidad_Clusterizacion(i);
@@ -1565,11 +1580,11 @@ namespace Logica {
                 }
             }
         }
-        /*
-         * 
-         * Este metodo vale para estudiar la viabilidad de las entidades antes de crear las clotoides correspondientes
-         * 
-         */
+
+        /// <summary>
+        /// Este metodo vale para estudiar la viabilidad de las entidades antes de crear las clotoides correspondientes
+        /// </summary>
+        /// <returns>Devuelve una lista con la traza de las modificaciones en las componentes </returns>
         public List<ViabilidadComponentesStatus> viabilidad() {
             List<ViabilidadComponentesStatus> trazaViabilidadComponentes = new List<ViabilidadComponentesStatus>();
             Valor_Inicial_Componentes();
@@ -5161,6 +5176,10 @@ namespace Logica {
 
             }
         }
+        /// <summary>
+        /// Dibuja todas las componentes curvas y rectas
+        /// </summary>
+        /// <param name="apartado">paso en el que nos encontramos</param>
         public void Dibujar_entidades(int apartado) {
             for (int i = 0; i < componentes.Count; i++) {
                 if (componentes[i].Tipo == 1) {
@@ -5181,6 +5200,11 @@ namespace Logica {
                 }
             }
         }
+        /// <summary>
+        /// Dibuja el trazado, rotula y crea el informe
+        /// </summary>
+        /// <param name="rotulacion">porcentaje del tamaño de la rotulación</param>
+        /// <param name="rotu">true para rotular el trazado y false para no hacerlo</param>
         public void Dibujar_Todo(double rotulacion,bool rotu) {
 
             using (DocumentLock myDockLock = oCadManager.thisEditor.Document.LockDocument()) {
@@ -9518,6 +9542,12 @@ namespace Logica {
         }
         #endregion
         #region dividir polilinea
+        /// <summary>
+        /// Se encarga de dividir una polilinea si tiene muchos puntos
+        /// </summary>
+        /// <returns>
+        /// Entero con el número de polilineas en las que se ha dividido
+        /// </returns>
         public int Dividir_Polilinea()
         {
             
@@ -9585,6 +9615,11 @@ namespace Logica {
                     Listas_Polilineas[pol][i].Min_diferencia_p.Clear();
                 }
         }
+        /// <summary>
+        /// Se encarga de ver las distancias y las diferencias entre los puntos y los centros de cada uno de ellos
+        /// </summary>
+        /// <param name="t_max">tolerancia máxima introducida por el usuario</param>
+        /// <param name="p_cluster">porcentaje de clusterización </param>
         public void Entidades_Curvas(double t_max, double p_cluster) {
             //Primero xc yc y xc_p yc_p
             double distancia;
@@ -9707,7 +9742,10 @@ namespace Logica {
             }
 
         }
-        public void Recorrido()//faltan curvas REVISAR
+        /// <summary>
+        /// Se encarga de detectar los puntos afines
+        /// </summary>
+        public void Recorrido()
         {
             for (int i = 0; i <= polilinea[polilinea.Count - 1].seccion_giro; i++) {
                 minimos.Add(new List<int>());
@@ -9947,6 +9985,14 @@ namespace Logica {
 
             }
         }
+        /// <summary>
+        /// Crea las endidades curvas y rectas 
+        /// </summary>
+        /// <param name="t_med">tolerancia media introducida por el usuario</param>
+        /// <param name="t_max">tolerancia máxima introducida por el usuario</param>
+        /// <param name="n_curvas">número de curvas por tramo de giro</param>
+        /// <param name="puntos_cluster">puntos minímos de un cluster</param>
+        /// <param name="curva_g">curva de gran radio</param>
         public void Combinacion(double t_med, double t_max, int n_curvas,int puntos_cluster,double curva_g) {
 
             List<List<double>> radios_finales = new List<List<double>>();
@@ -13543,7 +13589,12 @@ namespace Logica {
             componente.azts = azts;
             return salida;
         }
-
+        /// <summary>
+        /// Es el metodo encargado detectar los cambio de sentido de giro que se producen en la polilinea
+        /// </summary>
+        ///<param name="t_med">
+        ///tolerancia media introducida por el usuario
+        ///</param>
         public void Cambios_Sentido(double t_med) {
             List<List<Punto>> lista_giro = new List<List<Punto>>();
             List<List<Punto>> lista_giro_suavizada = new List<List<Punto>>();
@@ -13754,7 +13805,6 @@ namespace Logica {
             RellenarDatos();
             Dibujar(3);
         }
-
         private int Tolerancia_recta(double[] recta, List<Punto> lista_giro, double t_med) {
             double suma = 0;
             for (int i = 0; i < lista_giro.Count; i++) {
@@ -13912,10 +13962,10 @@ namespace Logica {
         private bool Comprobar_casos_solapes() {
             bool solapes = false;
             for (int i = 0; i < componentes.Count; i++) {
-                if (componentes[i].caso0_e == true || componentes[i].caso1_e == true || componentes[i].caso2_e == true ||
-                    componentes[i].caso3_e == true || componentes[i].caso4_e == true ||
-                    componentes[i].caso5_e == true || componentes[i].caso6_e == true ||
-                    componentes[i].caso7_e == true) {
+                if (componentes[i].caso0_e == true || componentes[i].caso1_e == true || 
+                    componentes[i].caso2_e == true || componentes[i].caso3_e == true || 
+                    componentes[i].caso4_e == true || componentes[i].caso5_e == true || 
+                    componentes[i].caso6_e == true || componentes[i].caso7_e == true) {
                     solapes = true;
                 }
             }
@@ -13928,11 +13978,18 @@ namespace Logica {
         }
 
 
-        /*
-         * 
-         * 
-         * 
-         */
+        /// <summary>
+        /// Es el metodo encargado de unir las rectas y las curvas con clotoides o con lo que se precise
+        /// </summary>
+        /// <return>
+        ///Devuelve una traza de viabilidad de las componentes
+        ///</return>
+        ///<param name="gran_r">
+        ///Parametro de la curva de gran radio
+        ///</param>
+        ///<param name="solapes">
+        ///Número de solpes permitidos
+        ///</param>
         public List<ViabilidadComponentesStatus> Enlaces(double gran_r,int solapes) {
             List<ViabilidadComponentesStatus> trazaViabilidadEnlaces = new List<ViabilidadComponentesStatus>();
             int whileIndex = 0;
@@ -14915,15 +14972,40 @@ namespace Logica {
                                     {
                                         if (componentes_iniciales[t].Tipo == 2)
                                         {
-                                            if (componentes_iniciales[t + 1].Tipo == 1 && t+1< componentes_iniciales.Count-1)
+                                            if (t + 1 < componentes_iniciales.Count - 1)
                                             {
-                                                componentes_iniciales.RemoveAt(t + 1);
+                                                if (componentes_iniciales[t + 1].Tipo == 1 )
+                                                {
+                                                    componentes_iniciales.RemoveAt(t + 1);
+                                                }
                                             }
-                                            componentes_iniciales.RemoveAt(t);
-                                            if (componentes_iniciales[t - 1].Tipo == 1 && t-1>0)
+                                            if ((t== componentes_iniciales.Count-1 || t==0) && Componentes[i].Clusterizada)
                                             {
-                                                componentes_iniciales.RemoveAt(t - 1);
+                                                if (t==0)
+                                                {
+                                                    componentes_iniciales.RemoveAt(t+1);
+                                                   
+                                                }
+                                                else
+                                                {
+                                                    componentes_iniciales.RemoveAt(t-1);
+                                                    t -= 1;
+                                                }
+                                                
                                             }
+                                            else
+                                            {
+                                                componentes_iniciales.RemoveAt(t);
+                                            }
+                                            
+                                            if (t - 1 > 0)
+                                            {
+                                                if (componentes_iniciales[t - 1].Tipo == 1)
+                                                {
+                                                    componentes_iniciales.RemoveAt(t - 1);
+                                                }
+                                            }
+                                            
                                             //MessageBox.Show("Se ha borrado una entidad");
                                             Crear_Nuevas_Componentes();
                                             salir = true;
@@ -14943,15 +15025,23 @@ namespace Logica {
                                     {
                                         if (componentes_iniciales[t].Tipo == 2)
                                         {
-                                            if (componentes_iniciales[t + 1].Tipo == 1 && t + 1 < componentes_iniciales.Count - 1)
+                                            if (t + 1 < componentes_iniciales.Count - 1)
                                             {
-                                                componentes_iniciales.RemoveAt(t + 1);
+                                                if (componentes_iniciales[t + 1].Tipo == 1)
+                                                {
+                                                    componentes_iniciales.RemoveAt(t + 1);
+                                                }
                                             }
+                                            
                                             componentes_iniciales.RemoveAt(t);
-                                            if (componentes_iniciales[t - 1].Tipo == 1 && t - 1 > 0)
+                                            if (t - 1 > 0)
                                             {
-                                                componentes_iniciales.RemoveAt(t - 1);
+                                                if (componentes_iniciales[t - 1].Tipo == 1)
+                                                {
+                                                    componentes_iniciales.RemoveAt(t - 1);
+                                                }
                                             }
+                                            
                                             //MessageBox.Show("Se ha borrado una entidad");
                                             Crear_Nuevas_Componentes();
                                             salir = true;
@@ -14968,7 +15058,7 @@ namespace Logica {
                     }
                     Comprobar_Curvas();
                     //&& contador < 10000
-                } while (!salir && this.Comprobar_casos_solapes() && !terminar);
+                } while (!salir && this.Comprobar_casos_solapes() && !terminar );
                 if (salir && !terminar)
                 {
                     viabilidad();
@@ -14993,6 +15083,10 @@ namespace Logica {
                 componentes.Add(c);
             }
         }
+        /// <summary>
+        /// Crea el trazado definitivo ya corregidas las curvas rectas y clotoides
+        /// </summary>
+        /// <param name="gran_r">Radio de la curva de gran radio</param>
         public void Crear_Trazado(double gran_r) {
             bool curva_gran_radio = false;
             bool continuar = true;
@@ -15775,10 +15869,12 @@ namespace Logica {
                             if (az_temp_1 < 0)
                             {
                                 az_temp_1 += 360;
+                                az_temp_2 += 360;
                             }
                             if (az_temp_2 < 0)
                             {
                                 az_temp_2 += 360;
+                                az_temp_1 += 360;
                             }
                             if (az_temp_1 < az_temp_2)
                             {
@@ -15803,10 +15899,12 @@ namespace Logica {
                             if (az_temp_1 > 360)
                             {
                                 az_temp_1 -= 360;
+                                az_temp_2 -= 360;
                             }
                             if (az_temp_2 > 360)
                             {
                                 az_temp_2 -= 360;
+                                az_temp_1 -= 360;
                             }
                             if (az_temp_1 > az_temp_2)
                             {
@@ -17966,7 +18064,7 @@ namespace Logica {
                 }
                 else
                 {
-                    qe.Add(Math.Abs(aztemp_r - aztemp_e));
+                    qe.Add(Math.Abs(aztemp_e - aztemp_r));
                 }
                
             }
@@ -18025,7 +18123,7 @@ namespace Logica {
             int contador = 0;
             while (!salir) {
                 contador++;
-                if (contador > 1000) {
+                if (contador > 15000) {
                     break;
                 }
                 if (!accion) {
@@ -18120,7 +18218,7 @@ namespace Logica {
                 valor = valor / 10;
             }
             contador = 0;
-            while (!ajustada && contador < 1000) {
+            while (!ajustada && contador < 10000) {
                 contador++;
                 qe_temp = qe_def;
                 qe_p_temp = qe_p_def;
@@ -19399,6 +19497,9 @@ namespace Logica {
                 }
             }
         }
+        /// <summary>
+        /// Hace diferentes comprobaciones de las rectas y curvas
+        /// </summary>
         public void Comprobacion() {
             /*
              * Toda curva con radio mayor a 60000 se eliminan
@@ -20087,7 +20188,8 @@ namespace Logica {
                             Crear_Curva_2Puntos(lista[0], lista[lista.Count - 1], Curva.Item1, Curva.Item2, Curva.Item3, i-1);
                             //Crear_Curva(componentes[i - 1].ini, componentes[i].fin, Curva.Item1, Curva.Item2, Curva.Item3, i - 1);
                                 componentes[i-1].direccion = componentes[i].direccion;
-                                componentes.RemoveAt(i);
+                            componentes[i].Clusterizada = true;
+                            componentes.RemoveAt(i);
                                 componentes.RemoveAt(i);
                                 //Viabilidad_Clusterizacion(i-1);
 /*                            }
@@ -20138,7 +20240,8 @@ namespace Logica {
                             Crear_Curva_2Puntos(lista[0], lista[lista.Count - 1], Curva.Item1, Curva.Item2, Curva.Item3, i - 1);
                             //Crear_Curva(componentes[i - 1].ini, componentes[i].fin, Curva.Item1, Curva.Item2, Curva.Item3, i - 1);
                                 componentes[i-1].direccion = componentes[i].direccion;
-                                componentes.RemoveAt(i);
+                            componentes[i].Clusterizada = true;
+                            componentes.RemoveAt(i);
                                 componentes.RemoveAt(i);
                             //Viabilidad_Clusterizacion(i-1);
                             /*                           }
@@ -20330,7 +20433,8 @@ namespace Logica {
                         Crear_Curva_2Puntos(lista[0], lista[lista.Count - 1], Curva.Item1, Curva.Item2, Curva.Item3, i - 1);
                         //Crear_Curva(componentes[i - 1].ini, componentes[i].fin, Curva.Item1, Curva.Item2, Curva.Item3, i - 1);
                             componentes[i - 1].direccion = componentes[i].direccion;
-                            componentes.RemoveAt(i);
+                        componentes[i].Clusterizada = true;
+                        componentes.RemoveAt(i);
                             componentes.RemoveAt(i);
                         // Viabilidad_Clusterizacion(i - 1);
                         /*}
@@ -20538,7 +20642,8 @@ namespace Logica {
                             Crear_Curva_2Puntos(lista[0], lista[lista.Count - 1], Curva.Item1, Curva.Item2, Curva.Item3, i - 1);
                             //Crear_Curva(componentes[i-1].ini, componentes[i].fin, Curva.Item1, Curva.Item2, Curva.Item3, i-1);
                                 componentes[i-1].direccion = componentes[i ].direccion;
-                                componentes.RemoveAt(i);
+                            componentes[i].Clusterizada = true;
+                            componentes.RemoveAt(i);
                                 componentes.RemoveAt(i);
                             // Viabilidad_Clusterizacion(i-1);
                             /*                            }
@@ -20590,7 +20695,8 @@ namespace Logica {
                             Crear_Curva_2Puntos(lista[0], lista[lista.Count - 1], Curva.Item1, Curva.Item2, Curva.Item3, i);
                             //Crear_Curva(componentes[i].ini, componentes[i + 1].fin, Curva.Item1, Curva.Item2, Curva.Item3, i);
                                 componentes[i].direccion = componentes[i + 1].direccion;
-                                componentes.RemoveAt(i + 1);
+                            componentes[i].Clusterizada = true;
+                            componentes.RemoveAt(i + 1);
                                 componentes.RemoveAt(i + 1);
                             // Viabilidad_Clusterizacion(i);
                             /*                            }
@@ -20686,6 +20792,7 @@ namespace Logica {
                             Crear_Curva_2Puntos(lista[0], lista[lista.Count - 1], Curva.Item1, Curva.Item2, Curva.Item3, i);
                             //Crear_Curva(componentes[i].ini, componentes[i + 1].fin, Curva.Item1, Curva.Item2, Curva.Item3, i);
                             componentes[i].direccion = componentes[i + 1].direccion;
+                            componentes[i].Clusterizada = true;
                             componentes.RemoveAt(i + 1);
                             componentes.RemoveAt(i + 1);
                             //Viabilidad_Clusterizacion(i);
@@ -20758,6 +20865,7 @@ namespace Logica {
                             Crear_Curva_2Puntos(lista[0], lista[lista.Count - 1], Curva.Item1, Curva.Item2, Curva.Item3, i);
                             //Crear_Curva(componentes[i].ini, componentes[i + 1].fin, Curva.Item1, Curva.Item2, Curva.Item3, i);
                             componentes[i].direccion = componentes[i + 1].direccion;
+                            componentes[i].Clusterizada = true;
                             componentes.RemoveAt(i + 1);
                             componentes.RemoveAt(i + 1);
                             //Viabilidad_Clusterizacion(i);
@@ -20878,7 +20986,8 @@ namespace Logica {
                         Crear_Curva_2Puntos(lista[0], lista[lista.Count - 1], Curva.Item1, Curva.Item2, Curva.Item3, i - 1);
                         //Crear_Curva(componentes[i - 1].ini, componentes[i].fin, Curva.Item1, Curva.Item2, Curva.Item3, i - 1);
                             componentes[i - 1].direccion = componentes[i].direccion;
-                            componentes.RemoveAt(i);
+                        componentes[i].Clusterizada = true;
+                        componentes.RemoveAt(i);
                             componentes.RemoveAt(i);
                             //Viabilidad_Clusterizacion(i - 1);
 /*                       }
@@ -20935,7 +21044,8 @@ namespace Logica {
                         Crear_Curva_2Puntos(lista[0], lista[lista.Count - 1], Curva.Item1, Curva.Item2, Curva.Item3, i - 1);
                         //Crear_Curva(componentes[i - 1].ini, componentes[i].fin, Curva.Item1, Curva.Item2, Curva.Item3, i - 1);
                             componentes[i - 1].direccion = componentes[i].direccion;
-                            componentes.RemoveAt(i);
+                        componentes[i].Clusterizada = true;
+                        componentes.RemoveAt(i);
                             componentes.RemoveAt(i);
                         //Viabilidad_Clusterizacion(i - 1);
                         /*                        }
@@ -21048,6 +21158,10 @@ namespace Logica {
             }
             return false;
         }
+        /// <summary>
+        /// Si ocurre algun error esta función dibuja el trazado aunque este mal
+        /// </summary>
+        /// <param name="gran_r">radio de la curva de gran radio</param>
         public void Crear_Trazado_Error(double gran_r) {
             this.Reiniciar_casos_solapes();
             this.Rellenar_Componentes();
@@ -21623,6 +21737,9 @@ namespace Logica {
                 }
             }
         }
+        /// <summary>
+        /// Une todas las componentes si se ha tenido que dividir la polilinea
+        /// </summary>
         public void Unir_Componentes()
         {
             componentes.Clear();

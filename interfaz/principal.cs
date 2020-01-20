@@ -35,9 +35,8 @@ namespace interfaz {
         private CalculoPolilineaPreferencias calculoPolilineaPreferenciasPerfil;
 
         /// <summary>
-        /// //////////
+        /// es donde inicializa la interfaz
         /// </summary>
-
         public principal() {
             InitializeComponent();
             MaterialSkinManager m = MaterialSkinManager.Instance;
@@ -88,31 +87,10 @@ namespace interfaz {
             filtrado2ExecuteOrderNumericField.Enabled = false;
             filtrado3ExecuteOrderNumericField.Enabled = false;
 
-            /*
-             * Ocultamos informacion del perfil
-             */
-            materialCheckBox5.Visible = false;
-            materialCheckBox6.Visible = false;
-            materialCheckBox7.Visible = false;
-            materialDivider2.Visible = false;
-            materialCheckBox2.Visible = false;
-            textBox5.Visible = false;
-            textBox2.Visible = false;
-            materialLabel27.Visible = false;
-            materialLabel28.Visible = false;
-            button1.Visible = false;
-            materialLabel26.Visible = false;
-            materialLabel24.Visible = false;
-            materialLabel25.Visible = false;
-            numericUpDown1.Visible = false;
-            numericUpDown2.Visible = false;
-            numericUpDown3.Visible = false;
-            materialCheckBox3.Visible = false;
 
-            materialLabel23.Visible = true;
-            CargarPoliPerfil.Visible = false;
-            materialFlatButton6.Visible = false;
+            
             materialLabel23.Text = "Esta sección esta en construcción";
+            materialTabControl1.Visible = true;
         }
 
         private void principal_ResizeEnd(object sender, EventArgs e) {
@@ -188,7 +166,15 @@ namespace interfaz {
                 {
                     string[] separadas;
                     separadas = line.Split(',');
-                    dsApp.Polilinea3d.Rows.Add(separadas[0], separadas[1], separadas[2], counter);
+                    if (separadas.Count()>2)
+                    {
+                        dsApp.Polilinea.Rows.Add(Math.Sqrt(Math.Pow(double.Parse(separadas[0]), 2) + Math.Pow(double.Parse(separadas[1]), 2)), double.Parse(separadas[2]), counter);
+
+                    }
+                    else
+                    {
+                        dsApp.Polilinea.Rows.Add(double.Parse(separadas[0]), double.Parse(separadas[1]), counter);
+                    }
                     counter++;
 
                 }
@@ -360,7 +346,7 @@ namespace interfaz {
         }
         private CalculoPolilineaPreferencias obtenerParametrosCalculoPolilineaPerfil()
         {
-            int opcion = 1;
+            int opcion = 0;
             double grados = 0;
             double metros = 0;
             double ratio = 0;
@@ -541,6 +527,9 @@ namespace interfaz {
             caPerfil.Rotu = rotu;
             return caPerfil;
         }
+        /// <summary>
+        /// Se ejecuta el primer paso para la obtención del trazado
+        /// </summary>
         private void ejecutar1ButtonClick(object sender, EventArgs eventArgs) {
             if (this.pasosEjecutados > -1) {
                 if (this.calculoPolilinea != null) {
@@ -604,7 +593,9 @@ namespace interfaz {
             }
         }
 
-
+        /// <summary>
+        /// Se ejecuta el segundo paso para la obtención del trazado
+        /// </summary>
         private void ejecutar2ButtonClick(object sender, EventArgs eventArgs) {
             this.ejecutarViabilidadSinParar = false;
             this.detenerEnIteracion = false;
@@ -752,6 +743,9 @@ namespace interfaz {
             }
 
         }
+        /// <summary>
+        /// Se ejecuta el tercer paso para la obtención del trazado
+        /// </summary>
         private void ejecutar3ButtonClick(object sender, EventArgs eventArgs) {
             this.ejecutarViabilidadSinParar = false;
             this.detenerEnIteracion = false;
@@ -760,12 +754,12 @@ namespace interfaz {
             if (this.pasosEjecutados > 1) {
                 if (this.calculoPolilinea != null) {
                     //Thread th1 = new Thread(new ThreadStart(Ejecutar_enlaces));
-                    Thread th2 = new Thread(new ThreadStart(time));
-                    th2.Start();
+                    //Thread th2 = new Thread(new ThreadStart(time));
+                    //th2.Start();
 
 
                     List<ViabilidadComponentesStatus> viabilidadEnlaces = calculoPolilinea.Enlaces(this.calculoPolilineaPreferencias.Gran_r, calculoPolilineaPreferencias.Solapes);
-                    th2.Abort();
+                    //th2.Abort();
                     try {
                         calculoPolilinea.Dibujar_entidades(4);
                         calculoPolilinea.Crear_Trazado(this.calculoPolilineaPreferencias.Gran_r);
@@ -1429,6 +1423,7 @@ namespace interfaz {
                 SolapesTextField.Visible = true;
                 RotularCheckBox.Visible = true;
                 materialLabel22.Visible = true;
+                materialLabel29.Visible = true;
                 RotulacionTextField.Visible = true;
 
             }
@@ -1442,6 +1437,7 @@ namespace interfaz {
                 SolapesTextField.Visible = false;
                 RotularCheckBox.Visible = false;
                 materialLabel22.Visible = false;
+                materialLabel29.Visible = false;
                 RotulacionTextField.Visible = false;
             }
         }
@@ -1453,7 +1449,7 @@ namespace interfaz {
             PolilineaInfoPanel polilineaInfoPanel = new PolilineaInfoPanel(List_polilinea[0]);
             polilineaInfoPanel.Show();
             PolilineaInfoPanel polilineaInfoPanel2 = new PolilineaInfoPanel(List_polilinea[1]);
-            polilineaInfoPanel2.Show();
+           // polilineaInfoPanel2.Show();
 
         }
 
@@ -1480,6 +1476,269 @@ namespace interfaz {
                 comp.Add(c);
             }
             List_componentes.Add(comp);
+        }
+
+        private void materialFlatButton11_Click(object sender, EventArgs e)
+        {
+            dsApp a = new dsApp();
+            Logica.GuardarPolilinea3d Gp3d = new GuardarPolilinea3d(ref a);
+            /*if (comprobar())
+            {
+                int opcion = 1;
+                double grados = 0;
+                double metros = 0;
+                double ratio = 0;
+                dsApp a = new dsApp();
+                if (filtrado1CheckBox.Checked == true)
+                {
+                    opcion = 1;
+                    grados = 0;
+                    metros = 0;
+                    ratio = 0;
+                }
+                else if (filtrado2CheckBox.Checked == true)
+                {
+                    opcion = 2;
+                    grados = 0;
+                    metros = 0;
+                    ratio = 0;
+                }
+                else if (filtrado3CheckBox.Checked == true)
+                {
+                    opcion = 3;
+                    if (!string.IsNullOrEmpty(filtrado3GradosTextField.Text))
+                    {
+                        grados = double.Parse(filtrado3GradosTextField.Text);
+                    }
+                    else
+                    {
+                        grados = 2;
+                    }
+                    if (!string.IsNullOrEmpty(filtrado3MetrosTextField.Text))
+                    {
+                        metros = double.Parse(filtrado3MetrosTextField.Text);
+                    }
+                    else
+                    {
+                        metros = 5;
+                    }
+                    ratio = grados / metros;
+                }
+                int it = 0;
+                if (materialCheckBox4.Checked == true)
+                {
+                    it = 1;
+                }
+                else
+                {
+                    it = 2;
+                }
+                if (aplicarMultiplesFiltradosCheckBox.Checked == false)
+                {
+                    double t_med, t_max, p_cluster;
+                    if (!string.IsNullOrEmpty(toleranciaMediaTextField.Text))
+                    {
+                        t_med = double.Parse(toleranciaMediaTextField.Text);
+                    }
+                    else
+                    {
+                        t_med = 0;
+                    }
+                    if (!string.IsNullOrEmpty(toleranciaMaximaTextField.Text))
+                    {
+                        t_max = double.Parse(toleranciaMaximaTextField.Text);
+                    }
+                    else
+                    {
+                        t_max = 1;
+                    }
+                    if (!string.IsNullOrEmpty(clusterizacionTextField.Text))
+                    {
+                        p_cluster = double.Parse(clusterizacionTextField.Text);
+                    }
+                    else
+                    {
+                        p_cluster = 10;
+                    }
+                    double curva_g;
+                    if (!string.IsNullOrEmpty(curvaGranRadioTextField.Text))
+                    {
+                        curva_g = int.Parse(curvaGranRadioTextField.Text);
+                    }
+                    else
+                    {
+                        curva_g = 2500;
+                    }
+                    int n_curvas;
+                    if (!string.IsNullOrEmpty(nCurvasMaxTextField.Text))
+                    {
+                        n_curvas = int.Parse(nCurvasMaxTextField.Text);
+                    }
+                    else
+                    {
+                        n_curvas = 2;
+                    }
+                    int puntos_cluster;
+                    if (!string.IsNullOrEmpty(pclusterizacionTextField.Text))
+                    {
+                        puntos_cluster = int.Parse(pclusterizacionTextField.Text);
+                    }
+                    else
+                    {
+                        puntos_cluster = 50;
+                    }
+                    Logica.CalculoPolilineaPerfil calculo = new CalculoPolilineaPerfil(ref a, opcion, ratio, it);
+
+                    if (a.Polilinea.Count > 0)
+                    {
+                        /*   calculo.Cambios_Sentido(t_med);
+                           calculo.nueva_relacion();
+                           calculo.Set_minimos();
+                           calculo.Set_grupo();
+                           calculo.Set_recta_curva();
+                           calculo.Entidades_Curvas(t_max, p_cluster);
+                           calculo.Recorrido();
+                           calculo.Combinacion(t_med, t_max, n_curvas,puntos_cluster,curva_g);
+                           calculo.Dibujar_entidades(1);*/
+   //                 }
+
+                    /*
+                                        calculo.nueva_relacion();
+                                        calculo.Set_minimos();
+                                        calculo.Set_grupo();
+                                        calculo.Set_recta_curva();
+                                        calculo.ajuste();
+                                        calculo.centro();*/
+/*                }
+                else
+                {
+                    int dis = (int)filtrado1ExecuteOrderNumericField.Value;
+                    int rad = (int)filtrado2ExecuteOrderNumericField.Value;
+                    int gir = (int)filtrado3ExecuteOrderNumericField.Value;
+                    int[] orden = new int[3];
+                    orden[0] = dis;
+                    orden[1] = rad;
+                    orden[2] = gir;
+                    if (!string.IsNullOrEmpty(filtrado3GradosTextField.Text))
+                    {
+                        grados = double.Parse(filtrado3GradosTextField.Text);
+                    }
+                    else
+                    {
+                        grados = 2;
+                    }
+                    if (!string.IsNullOrEmpty(filtrado3MetrosTextField.Text))
+                    {
+                        metros = double.Parse(filtrado3MetrosTextField.Text);
+                    }
+                    else
+                    {
+                        metros = 5;
+                    }
+
+                    ratio = grados / metros;
+                    double t_med, t_max, p_cluster;
+                    if (!string.IsNullOrEmpty(toleranciaMediaTextField.Text))
+                    {
+                        t_med = double.Parse(toleranciaMediaTextField.Text);
+                    }
+                    else
+                    {
+                        t_med = 0;
+                    }
+                    if (!string.IsNullOrEmpty(toleranciaMaximaTextField.Text))
+                    {
+                        t_max = double.Parse(toleranciaMaximaTextField.Text);
+                    }
+                    else
+                    {
+                        t_max = 1;
+                    }
+                    if (!string.IsNullOrEmpty(clusterizacionTextField.Text))
+                    {
+                        p_cluster = double.Parse(clusterizacionTextField.Text);
+                    }
+                    else
+                    {
+                        p_cluster = 10;
+                    }
+                    double curva_g;
+                    if (!string.IsNullOrEmpty(curvaGranRadioTextField.Text))
+                    {
+                        curva_g = int.Parse(curvaGranRadioTextField.Text);
+                    }
+                    else
+                    {
+                        curva_g = 2500;
+                    }
+                    int n_curvas;
+                    if (!string.IsNullOrEmpty(nCurvasMaxTextField.Text))
+                    {
+                        n_curvas = int.Parse(nCurvasMaxTextField.Text);
+                    }
+                    else
+                    {
+                        n_curvas = 2;
+                    }
+                    int puntos_cluster;
+                    if (!string.IsNullOrEmpty(pclusterizacionTextField.Text))
+                    {
+                        puntos_cluster = int.Parse(pclusterizacionTextField.Text);
+                    }
+                    else
+                    {
+                        puntos_cluster = 50;
+                    }
+                    Logica.CalculoPolilineaPerfil calculo = new CalculoPolilineaPerfil(ref a, opcion, ratio, orden, it);
+                    if (a.Polilinea.Count > 0)
+                    {
+                        /*  calculo.Cambios_Sentido(t_med);
+                          calculo.nueva_relacion();
+                          calculo.Set_minimos();
+                          calculo.Set_grupo();
+                          calculo.Set_recta_curva();
+                          calculo.Entidades_Curvas(t_max, p_cluster);
+                          calculo.Recorrido();
+                          calculo.Combinacion(t_med, t_max, n_curvas, puntos_cluster,curva_g);*/
+ //                   }
+
+                    /*
+                    calculo.nueva_relacion();
+                    calculo.Set_minimos();
+                    calculo.Set_grupo();
+                    calculo.Set_recta_curva();
+                    calculo.ajuste();
+                    calculo.centro();*/
+/*                }
+
+            }
+            else
+            {
+
+            }*/
+        }
+        /// <summary>
+        /// Ejecución del primer paso
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void materialFlatButton12_Click(object sender, EventArgs e)
+        {
+            calculoPolilineaPerfil.RellenarPerfil();
+            calculoPolilineaPerfil.MatrizAcuerdo();
+            PolilineaInfoPanel polilineaInfoPanel = new PolilineaInfoPanel(calculoPolilineaPerfil.Polilinea_Perfil);
+            polilineaInfoPanel.Show();
+        }
+
+        private void materialLabel23_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Guardarpolilinea2d(object sender, EventArgs e)
+        {
+            dsApp a = new dsApp();
+            Logica.GuardarPolilinea2d Gp2d = new GuardarPolilinea2d(ref a);
         }
     }
 }

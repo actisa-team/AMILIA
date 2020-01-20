@@ -31,6 +31,7 @@ namespace Logica
         public double dif_az {get;set;}
         public double dif_az_i { get; set; }
         public bool curva_creada { get; set; }
+        public bool Clusterizada { get; set; }
         /*
          * Viabilidad
          */

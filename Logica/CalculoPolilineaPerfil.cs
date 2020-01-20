@@ -28,8 +28,10 @@ namespace Logica
     {
         double ratio;
         List<Punto> polilinea = new List<Punto>();
+        List<PuntoPerfil> polilinea_perfil = new List<PuntoPerfil>();
         dsApp datoApp = new dsApp();
         public List<Punto> Polilinea { get => polilinea; set => polilinea = value; }
+        public List<PuntoPerfil> Polilinea_Perfil { get => polilinea_perfil; set => polilinea_perfil = value; }
         public CalculoPolilineaPerfil(ref dsApp a, int opcion, double ratio, int it)
         {
             try
@@ -40,7 +42,7 @@ namespace Logica
                     dibujar = false;
                     Set_Polilinea3d(ref a);
                 }
-
+                a.Polilinea.Clear();
                 int contador = 0;
                 this.ratio = ratio;
                 if (a.Polilinea3d.Rows.Count != 0)
@@ -51,11 +53,17 @@ namespace Logica
                         string y = (string)r["Y"];
                         string z = (string)r["Z"];
 
-                        Punto p = new Punto(new Point2d(Math.Sqrt(Math.Pow(double.Parse(x),2)+ Math.Pow(double.Parse(y), 2)), double.Parse(z)*10));
+                        Punto p = new Punto(new Point2d(double.Parse(x), double.Parse(y)));
+                        p.p_perfil = true;
+                        p.pp_perfil = double.Parse(z);
+             /*           string x = (string)r["X"];
+                        string y = (string)r["Y"];
+
+                        Punto p = new Punto(new Point2d(double.Parse(x), double.Parse(y)));*/
                         polilinea.Add(p);
                     }
                     Guardar();
-                    Vaciar_Puntos();
+                  /*  Vaciar_Puntos();
                     RellenarDatos();
                     if (dibujar)
                     {
@@ -99,6 +107,9 @@ namespace Logica
                                 contador = 0;
                                 Vaciar_Puntos();
                                 RellenarDatos();
+                            }else if (opcion == 0)
+                            {
+                                salida = false;
                             }
                         }
 
@@ -116,13 +127,16 @@ namespace Logica
                         else if (opcion == 3)
                         {
                             FiltradoGiroLongitud(ratio, true, ref contador);
+                        }else if (opcion == 0)
+                        {
+
                         }
                         Vaciar_Puntos();
                         RellenarDatos();
                     }
 
-
-                    Dibujar(1);
+                    
+                    Dibujar(1);*/
                     //datoApp.WriteXml("prueba_modificada.aplitop");
                 }
                 else
@@ -146,6 +160,7 @@ namespace Logica
                     dibujar = false;
                     Set_Polilinea3d(ref a);
                 }
+                a.Polilinea.Clear();
                 int contador = 0;
                 int contador_total = 0;
                 this.ratio = ratio;
@@ -1094,7 +1109,7 @@ namespace Logica
             d = Math.Pow(Math.Pow(b.X - a.X, 2) + Math.Pow(b.Y - a.Y, 2), 0.5);
             return d;
         }
-         public EjeTrazado.sentidoCurva getSentidoCurva(double iAzSegAnt, double iAz) {
+        public EjeTrazado.sentidoCurva getSentidoCurva(double iAzSegAnt, double iAz) {
             EjeTrazado.sentidoCurva miSent;
             if ((iAzSegAnt >= 0) && (iAzSegAnt <= 180)) {
                 if (((iAzSegAnt - iAz) < 0) && (Math.Abs(iAzSegAnt - iAz) < 180)) {
@@ -1112,6 +1127,314 @@ namespace Logica
 
 
             return miSent;
+        }
+        public void RellenarPerfil()
+        {
+            //Rellenamos parametros equivalentes entre punto y punto perfil
+            for (int i=0;i<polilinea.Count;i++)
+            {
+                polilinea_perfil.Add(new PuntoPerfil(polilinea[i]));
+            }
+            //Calculamos la pendiente y la pendiente_p
+            for (int i=1;i<polilinea_perfil.Count;i++)
+            {
+                polilinea_perfil[i].pendiente = polilinea_perfil[i].dy / polilinea_perfil[i].dx;
+                polilinea_perfil[i].pendiente_p = polilinea_perfil[i].pendiente * 100;
+            }
+
+            //Calculamos Valor medio
+            for (int i=3;i<polilinea_perfil.Count-2;i++)
+            {
+                polilinea_perfil[i].v_m=(polilinea_perfil[i - 2].pendiente_p + polilinea_perfil[i - 1].pendiente_p + polilinea_perfil[i].pendiente_p + polilinea_perfil[i + 1].pendiente_p + polilinea_perfil[i + 2].pendiente_p)/ 5;
+            }
+            //calculamos Valor medio para los 2 primeros y los 2 últimos
+            polilinea_perfil[1].v_m = polilinea_perfil[3].v_m;
+            polilinea_perfil[2].v_m = polilinea_perfil[3].v_m;
+            polilinea_perfil[polilinea_perfil.Count - 1].v_m = polilinea_perfil[polilinea_perfil.Count - 3].v_m;
+            polilinea_perfil[polilinea_perfil.Count - 2].v_m = polilinea_perfil[polilinea_perfil.Count - 3].v_m;
+
+            //Calculamos primero y ultimo
+            for (int i = 3; i < polilinea_perfil.Count - 2; i++)
+            {
+                polilinea_perfil[i].primero = polilinea_perfil[i - 2].pendiente_p;
+                polilinea_perfil[i].ultimo = polilinea_perfil[i + 2].pendiente_p;
+            }
+            
+            //Calculamos la Varianza
+            for (int i = 3; i < polilinea_perfil.Count - 2; i++)
+            {
+                polilinea_perfil[i].varianza = (
+                    Math.Pow(polilinea_perfil[i - 2].v_m - polilinea_perfil[i].primero, 2) +
+                    Math.Pow(polilinea_perfil[i - 1].v_m - polilinea_perfil[i].primero, 2) +
+                    Math.Pow(polilinea_perfil[  i  ].v_m - polilinea_perfil[i].primero, 2) +
+                    Math.Pow(polilinea_perfil[i + 1].v_m - polilinea_perfil[i].primero, 2) +
+                    Math.Pow(polilinea_perfil[i + 2].v_m - polilinea_perfil[i].primero, 2) ) / 5;
+            }
+
+            //Calculamos Varianza acumulada
+            for (int i = 5; i < polilinea_perfil.Count - 4; i++)
+            {
+                polilinea_perfil[i].varianza_a = 
+                    polilinea_perfil[i - 2].varianza + 
+                    polilinea_perfil[i - 1].varianza + 
+                    polilinea_perfil[  i  ].varianza + 
+                    polilinea_perfil[i + 1].varianza + 
+                    polilinea_perfil[i + 2].varianza;
+            }
+
+            //Detectamos los vertices
+            for (int i = 3; i < polilinea_perfil.Count - 2; i++)
+            {
+                //superior
+                if (polilinea_perfil[i].p.Y > polilinea_perfil[i - 2].p.Y &&
+                    polilinea_perfil[i].p.Y > polilinea_perfil[i - 1].p.Y &&
+                    polilinea_perfil[i].p.Y > polilinea_perfil[i + 1].p.Y &&
+                    polilinea_perfil[i].p.Y > polilinea_perfil[i + 2].p.Y)
+                {
+                    polilinea_perfil[i].vertice = 1;
+                }
+                //inferior
+                if (polilinea_perfil[i].p.Y < polilinea_perfil[i - 2].p.Y &&
+                    polilinea_perfil[i].p.Y < polilinea_perfil[i - 1].p.Y &&
+                    polilinea_perfil[i].p.Y < polilinea_perfil[i + 1].p.Y &&
+                    polilinea_perfil[i].p.Y < polilinea_perfil[i + 2].p.Y)
+                {
+                    polilinea_perfil[i].vertice = 2;
+                }
+            }
+
+            //Calculamos el resultado
+            List<int> Lista_aux = new List<int>();
+            Lista_aux.Add(1);
+            Lista_aux.Add(2);
+            Lista_aux.Add(3);
+            Lista_aux.Add(4);
+            for (int i = 5; i < polilinea_perfil.Count - 4; i++)
+            {
+                if (polilinea_perfil[i].varianza_a<0.1)
+                {
+                    Lista_aux.Add(i);
+                }
+                else
+                {
+                    if (Lista_aux.Count>=7)
+                    {
+                        for (int t= 0;t< Lista_aux.Count;t++)
+                        {
+                            polilinea_perfil[Lista_aux[t]].tipo = 1;
+                            
+                        }
+                        List<PuntoPerfil> lista_aux_valor = new List<PuntoPerfil>();
+                        for (int t = 0; t < Lista_aux.Count; t++)
+                        {
+                            lista_aux_valor.Add(polilinea_perfil[Lista_aux[t]]);
+                        }
+                        double valor=ajuste_recta(lista_aux_valor);
+                        for (int t = 0; t < Lista_aux.Count; t++)
+                        {
+                            polilinea_perfil[Lista_aux[t]].valor = valor;
+
+                        }
+                        Lista_aux.Clear();
+                    }
+                    else
+                    {
+                        if (Lista_aux.Count>0)
+                        {
+                            for (int t = 0; t < Lista_aux.Count; t++)
+                            {
+                                polilinea_perfil[Lista_aux[t]].tipo = 2;
+                            }
+                            Lista_aux.Clear();
+                        }
+                    }
+                }
+            }
+        }
+        public double ajuste_recta(List<PuntoPerfil> listaa)
+        {
+            List<PuntoPerfil> ajustada = new List<PuntoPerfil>();
+            double[] recta = new double[2];
+            List<double> xi_xm = new List<double>();
+            List<double> xi_xm2 = new List<double>();
+            List<double> yi_ym = new List<double>();
+            List<double> yi_ym2 = new List<double>();
+            List<double> xi_yi = new List<double>();
+            double xm = 0, ym = 0, sx2 = 0, sy2 = 0, sxy = 0;
+            if (listaa.Count > 2)
+            {
+                for (int i = 0; i < listaa.Count; i++)
+                {
+                    xm += listaa[i].p.X;
+                    ym += listaa[i].p.Y;
+                }
+                xm = xm / listaa.Count;
+                ym = ym / listaa.Count;
+                for (int i = 0; i < listaa.Count; i++)
+                {
+                    xi_xm.Add(listaa[i].p.X - xm);
+                    xi_xm2.Add(Math.Pow(listaa[i].p.X - xm, 2));
+                    yi_ym.Add(listaa[i].p.Y - ym);
+                    yi_ym2.Add(Math.Pow(listaa[i].p.Y - ym, 2));
+                    xi_yi.Add((listaa[i].p.X - xm) * (listaa[i].p.Y - ym));
+                }
+                for (int i = 0; i < listaa.Count; i++)
+                {
+                    sx2 += xi_xm2[i];
+                    sy2 += yi_ym2[i];
+                    sxy += xi_yi[i];
+                }
+                recta[0] = sxy / sx2;
+                recta[1] = -(sxy / sx2) * xm + ym;
+            }
+            return recta[0];
+        }
+        public void MatrizAcuerdo()
+        {
+            List<double> l_x = new List<double>();
+            List<double> l_y = new List<double>();
+            List<int> Lista_aux = new List<int>();
+            double suma_x,suma_x2,suma_x3,suma_x4;
+            double suma_y, suma_xy, suma_xy2;
+            for (int i=0;i<polilinea_perfil.Count;i++)
+            {
+
+                if (polilinea_perfil[i].tipo!=1)
+                {
+                    Lista_aux.Add(i);
+                    l_x.Add(polilinea_perfil[i].p.X);
+                    l_y.Add(polilinea_perfil[i].p.Y);
+                }
+                else
+                {
+                    if (l_x.Count>0)
+                    {
+                        suma_x = 0;
+                        suma_x2 = 0;
+                        suma_x3 = 0;
+                        suma_x4 = 0;
+                        suma_y = 0;
+                        suma_xy = 0;
+                        suma_xy2 = 0;
+                        for (int t = 0; t < l_x.Count; t++)
+                        {
+                            suma_x += l_x[t];
+                            suma_x2 += Math.Pow(l_x[t], 2);
+                            suma_x3 += Math.Pow(l_x[t], 3);
+                            suma_x4 += Math.Pow(l_x[t], 4);
+                            suma_y += l_y[t];
+                            suma_xy += l_x[t] * l_y[t];
+                            suma_xy2 += l_y[t] * Math.Pow(l_x[t], 2);
+                        }
+                        suma_x /= l_x.Count;
+                        suma_x2 /= l_x.Count;
+                        suma_x3 /= l_x.Count;
+                        suma_x4 /= l_x.Count;
+                        suma_y /= l_x.Count;
+                        suma_xy /= l_x.Count;
+                        suma_xy2 /= l_x.Count;
+                        double[,] matrix=new double[3, 4];
+                        matrix[0, 0] = 1;
+                        matrix[0, 1] = suma_x;
+                        matrix[0, 2] = suma_x2;
+                        matrix[0, 3] = suma_y;
+
+                        matrix[1, 0] = suma_x;
+                        matrix[1, 1] = suma_x2;
+                        matrix[1, 2] = suma_x3;
+                        matrix[1, 3] = suma_xy;
+
+                        matrix[2, 0] = suma_x2;
+                        matrix[2, 1] = suma_x3;
+                        matrix[2, 2] = suma_x4;
+                        matrix[2, 3] = suma_xy2;
+                        GJ(ref matrix,3,4);
+                        for (int t = 0; t < Lista_aux.Count; t++)
+                        {
+                            polilinea_perfil[Lista_aux[t]].parabola.Add(matrix[0 , 3]);
+                            polilinea_perfil[Lista_aux[t]].parabola.Add(matrix[1 , 3]);
+                            polilinea_perfil[Lista_aux[t]].parabola.Add(matrix[2 , 3]);
+                        }
+                        if (Lista_aux.Count > 1)
+                        {
+                            Dibujar_Acuerdo(polilinea_perfil, Lista_aux[0], Lista_aux[Lista_aux.Count-1]);
+                        }
+                        Lista_aux.Clear();
+                        l_x.Clear();
+                        l_y.Clear();
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// Resuelve una matriz de nfilas por ncolumnas
+        /// </summary>
+        /// <param name="matrix"></param>
+        /// <param name="filas"></param>
+        /// <param name="columnas"></param>
+        private void GJ(ref double[,] matrix, int filas, int columnas)
+        {
+            for (int fpivot = 0; fpivot < filas; fpivot++)
+            {
+
+                double nor = matrix[fpivot, fpivot];
+
+                for (int i = 0; i < columnas; i++)
+                {
+                    matrix[fpivot, i] = matrix[fpivot, i] / nor;
+                }
+
+                int f = fpivot + 1;
+                if (f == filas) f = 0;
+
+                for (int fila = 0; fila < filas - 1; fila++)
+                {
+                    double k = matrix[f, fpivot];
+
+                    for (int c = fpivot; c < columnas; c++)
+                    {
+                        matrix[f, c] = matrix[f, c] - (k * matrix[fpivot, c]);
+                    }
+
+                    if (f == filas - 1) f = 0;
+                    else f++;
+                }
+            }
+        }
+        private void Dibujar_Acuerdo(List<PuntoPerfil> Parabola,int ini,int fin)
+        {
+            using (DocumentLock myDockLock = oCadManager.thisEditor.Document.LockDocument())
+            {
+                using (Transaction tr = oCadManager.StartTransaction())
+                {
+                    BlockTable bt = (BlockTable)tr.GetObject(oCadManager.thisBase.BlockTableId, OpenMode.ForRead, false);
+                    BlockTableRecord btr = (BlockTableRecord)tr.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite, false);
+
+                    Polyline miEje = new Polyline();
+                    int index = 0;
+
+                    for (int i=ini;i<=fin;i++)
+                    {
+                        double x2 = Parabola[i].parabola[2];
+                        double x1 = Parabola[i].parabola[1];
+                        double x = Parabola[i].parabola[0];
+
+                        double y = (Parabola[i].p.X * Parabola[i].p.X) * x2 + Parabola[i].p.X * x1 + x;//x^2+x+c
+
+                        miEje.AddVertexAt(index, new Point2d(Parabola[i].p.X, y), 0, 0, 0);
+                        index++;
+                    }
+                    engCadNet.oLayer.addLayer("Acuerdo", 4, false);
+                    miEje.Layer = "Acuerdo";
+
+                    btr.AppendEntity(miEje);
+                    tr.AddNewlyCreatedDBObject(miEje, true);
+
+                    oCadManager.thisEditor.UpdateScreen();
+
+                    tr.Commit();
+                }
+            }
         }
     }
 }
