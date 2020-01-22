@@ -1089,7 +1089,7 @@
             this.toleranciaMaximaTextField.Name = "toleranciaMaximaTextField";
             this.toleranciaMaximaTextField.Size = new System.Drawing.Size(100, 20);
             this.toleranciaMaximaTextField.TabIndex = 73;
-            this.toleranciaMaximaTextField.Text = "1";
+            this.toleranciaMaximaTextField.Text = "0.01";
             // 
             // materialLabel16
             // 
@@ -1110,7 +1110,7 @@
             this.toleranciaMediaTextField.Name = "toleranciaMediaTextField";
             this.toleranciaMediaTextField.Size = new System.Drawing.Size(100, 20);
             this.toleranciaMediaTextField.TabIndex = 71;
-            this.toleranciaMediaTextField.Text = "1";
+            this.toleranciaMediaTextField.Text = "0.01";
             // 
             // materialLabel15
             // 

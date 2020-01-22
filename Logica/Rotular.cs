@@ -316,6 +316,7 @@ namespace Logica
                 {
                     if (contador != 0)
                     {
+                        
                         az = Rellenar_centro(componentPoint[0], componentPoint[1], componentPoint_ant[0][0], componentPoint_ant[0][1], 1).Az;
                         az = 360 - az;
                         double x = componentPoint_ant[0][0] - 6 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
@@ -709,7 +710,7 @@ namespace Logica
                 }
                 x = x - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                 y = y - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
-                oTexto.addText2D("Az: " + Math.Round(elemento.getRadio, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-Curva_final");
+                oTexto.addText2D("R: " + Math.Round(elemento.getRadio, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-Curva_final");
             }
         }
         private string getStringPK(double i)
