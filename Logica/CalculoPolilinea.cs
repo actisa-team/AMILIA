@@ -10423,7 +10423,15 @@ namespace Logica {
                     for (int t = 0; t < minimo_final[i].Count; t++) {
                         if (minimo_final[i][t]>-1)
                         {
-                            puntos_total.Add(maximo_final[i][t] - minimo_final[i][t] + 1);
+                            if (maximo_final[i][t] - minimo_final[i][t]+1>=puntos_cluster)
+                            {
+                                puntos_total.Add(maximo_final[i][t] - minimo_final[i][t] + 1);
+                            }
+                            else
+                            {
+                                puntos_total.Add(1);
+                            }
+                            
                         }
                         else
                         {
