@@ -527,122 +527,248 @@ namespace Logica
             if (c.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.clotoideEntrada)
             {
                 Clotoide elemento = (Clotoide)c;
-                foreach (var componentPoint in c.getComponentPoints())
+                if (elemento.Get_Le_r() > 0)
                 {
-                    if (contador != 0)
+                    foreach (var componentPoint in c.getComponentPoints(c.Get_Le_r()+c.getPkIni))
                     {
-                        az = Rellenar_centro(componentPoint[0], componentPoint[1], componentPoint_ant[0][0], componentPoint_ant[0][1], 1).Az;
-                        az = 360 - az;
-                        double x = componentPoint_ant[0][0] - 6 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
-                        double y = componentPoint_ant[0][1] - 6 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
-                        Dibujar_r(new Point2d(componentPoint_ant[0][0], componentPoint_ant[0][1]), new Point2d(x, y), 3, "Linea_Rotulacion_Clo_inicial");
-                        x = componentPoint_ant[0][0] - 40 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
-                        y = componentPoint_ant[0][1] - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
-                        double x_p = x;
-                        double y_p = y;
-                        oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x_p, y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
-                        double miDir;
-                        if (az + 90 > 360)
+                        if (contador != 0)
                         {
-                            miDir = az + 90 - 360;
-                        }
-                        else
-                        {
-                            miDir = az + 90;
-                        }
+                            az = Rellenar_centro(componentPoint[0], componentPoint[1], componentPoint_ant[0][0], componentPoint_ant[0][1], 1).Az;
+                            az = 360 - az;
+                            double x = componentPoint_ant[0][0] - 6 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                            double y = componentPoint_ant[0][1] - 6 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+                            Dibujar_r(new Point2d(componentPoint_ant[0][0], componentPoint_ant[0][1]), new Point2d(x, y), 3, "Linea_Rotulacion_Clo_inicial");
+                            x = componentPoint_ant[0][0] - 40 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                            y = componentPoint_ant[0][1] - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+                            double x_p = x;
+                            double y_p = y;
+                            oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x_p, y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
+                            double miDir;
+                            if (az + 90 > 360)
+                            {
+                                miDir = az + 90 - 360;
+                            }
+                            else
+                            {
+                                miDir = az + 90;
+                            }
 
-                        x = x_p + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
-                        y = y_p + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
+                            x = x_p + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
+                            y = y_p + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
 
-                        oTexto.addText2D(" A: " + Math.Round(elemento.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
-                        x = x_p - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
-                        y = y_p - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
-                        if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.linea)
-                        {
-                            
-                            oTexto.addText2D("RECTA", x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
+                            oTexto.addText2D(" A: " + Math.Round(elemento.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
+                            x = x_p - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
+                            y = y_p - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
+                            if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.linea)
+                            {
 
-                        }
-                        if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.curva)
-                        {
-                            Curva elemento_ant = (Curva)c_ant;
-                            oTexto.addText2D("R: " + Math.Round(elemento_ant.getRadio, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
+                                oTexto.addText2D("RECTA", x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
 
+                            }
+                            if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.curva)
+                            {
+                                Curva elemento_ant = (Curva)c_ant;
+                                oTexto.addText2D("R: " + Math.Round(elemento_ant.getRadio, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
+
+                            }
+                            if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.clotoideSalida)
+                            {
+                                Clotoide elemento_ant = (Clotoide)c_ant;
+                                oTexto.addText2D("A: " + Math.Round(elemento_ant.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
+                            }
                         }
-                        if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.clotoideSalida)
+                        if (contador == 1)
                         {
-                            Clotoide elemento_ant = (Clotoide)c_ant;
-                            oTexto.addText2D("A: " + Math.Round(elemento_ant.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
+                            break;
                         }
+                        componentPoint_ant[0][0] = componentPoint[0];
+                        componentPoint_ant[0][1] = componentPoint[1];
+                        contador++;
                     }
-                    if (contador == 1)
-                    {
-                        break;
-                    }
-                    componentPoint_ant[0][0] = componentPoint[0];
-                    componentPoint_ant[0][1] = componentPoint[1];
-                    contador++;
                 }
+                else
+                {
+                    foreach (var componentPoint in c.getComponentPoints())
+                    {
+                        if (contador != 0)
+                        {
+                            az = Rellenar_centro(componentPoint[0], componentPoint[1], componentPoint_ant[0][0], componentPoint_ant[0][1], 1).Az;
+                            az = 360 - az;
+                            double x = componentPoint_ant[0][0] - 6 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                            double y = componentPoint_ant[0][1] - 6 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+                            Dibujar_r(new Point2d(componentPoint_ant[0][0], componentPoint_ant[0][1]), new Point2d(x, y), 3, "Linea_Rotulacion_Clo_inicial");
+                            x = componentPoint_ant[0][0] - 40 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                            y = componentPoint_ant[0][1] - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+                            double x_p = x;
+                            double y_p = y;
+                            oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x_p, y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
+                            double miDir;
+                            if (az + 90 > 360)
+                            {
+                                miDir = az + 90 - 360;
+                            }
+                            else
+                            {
+                                miDir = az + 90;
+                            }
+
+                            x = x_p + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
+                            y = y_p + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
+
+                            oTexto.addText2D(" A: " + Math.Round(elemento.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
+                            x = x_p - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
+                            y = y_p - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
+                            if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.linea)
+                            {
+
+                                oTexto.addText2D("RECTA", x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
+
+                            }
+                            if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.curva)
+                            {
+                                Curva elemento_ant = (Curva)c_ant;
+                                oTexto.addText2D("R: " + Math.Round(elemento_ant.getRadio, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
+
+                            }
+                            if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.clotoideSalida)
+                            {
+                                Clotoide elemento_ant = (Clotoide)c_ant;
+                                oTexto.addText2D("A: " + Math.Round(elemento_ant.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
+                            }
+                        }
+                        if (contador == 1)
+                        {
+                            break;
+                        }
+                        componentPoint_ant[0][0] = componentPoint[0];
+                        componentPoint_ant[0][1] = componentPoint[1];
+                        contador++;
+                    }
+                }
+                
             }
             if (c.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.clotoideSalida)
             {
                 Clotoide elemento = (Clotoide)c;
-                foreach (var componentPoint in c.getComponentPoints())
+                if (elemento.Get_Le_r() > 0)
                 {
-                    if (contador != 0)
+                    foreach (var componentPoint in c.getComponentPoints(c.Get_Le_r()))
                     {
-                        az = Rellenar_centro(componentPoint[0], componentPoint[1], componentPoint_ant[0][0], componentPoint_ant[0][1], 1).Az;
-                        az = 360 - az;
-                        double x = componentPoint_ant[0][0] - 6 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
-                        double y = componentPoint_ant[0][1] - 6 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
-                        Dibujar_r(new Point2d(componentPoint_ant[0][0], componentPoint_ant[0][1]), new Point2d(x, y), 3, "Linea_Rotulacion_Clo_inicial");
-                        x = componentPoint_ant[0][0] - 40 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
-                        y = componentPoint_ant[0][1] - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
-                        double x_p = x;
-                        double y_p = y;
-                        oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x_p, y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
-                        double miDir;
-                        if (az + 90 > 360)
+                        if (contador != 0)
                         {
-                            miDir = az + 90 - 360;
+                            az = Rellenar_centro(componentPoint[0], componentPoint[1], componentPoint_ant[0][0], componentPoint_ant[0][1], 1).Az;
+                            az = 360 - az;
+                            double x = componentPoint_ant[0][0] - 6 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                            double y = componentPoint_ant[0][1] - 6 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+                            Dibujar_r(new Point2d(componentPoint_ant[0][0], componentPoint_ant[0][1]), new Point2d(x, y), 3, "Linea_Rotulacion_Clo_inicial");
+                            x = componentPoint_ant[0][0] - 40 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                            y = componentPoint_ant[0][1] - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+                            double x_p = x;
+                            double y_p = y;
+                            oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x_p, y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
+                            double miDir;
+                            if (az + 90 > 360)
+                            {
+                                miDir = az + 90 - 360;
+                            }
+                            else
+                            {
+                                miDir = az + 90;
+                            }
+
+                            x = x_p + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
+                            y = y_p + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
+
+                            oTexto.addText2D(" A: " + Math.Round(elemento.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
+                            x = x_p - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
+                            y = y_p - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
+                            if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.linea)
+                            {
+
+                                oTexto.addText2D("RECTA", x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
+
+                            }
+                            if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.curva)
+                            {
+                                Curva elemento_ant = (Curva)c_ant;
+                                oTexto.addText2D("R: " + Math.Round(elemento_ant.getRadio, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
+
+                            }
+                            if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.clotoideEntrada)
+                            {
+                                Clotoide elemento_ant = (Clotoide)c_ant;
+                                oTexto.addText2D("A: " + Math.Round(elemento_ant.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
+                            }
                         }
-                        else
+                        if (contador == 1)
                         {
-                            miDir = az + 90;
+                            break;
                         }
-
-                        x = x_p + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
-                        y = y_p + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
-
-                        oTexto.addText2D(" A: " + Math.Round(elemento.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
-                        x = x_p - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
-                        y = y_p - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
-                        if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.linea)
-                        {
-
-                            oTexto.addText2D("RECTA", x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
-
-                        }
-                        if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.curva)
-                        {
-                            Curva elemento_ant = (Curva)c_ant;
-                            oTexto.addText2D("R: " + Math.Round(elemento_ant.getRadio, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
-
-                        }
-                        if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.clotoideEntrada)
-                        {
-                            Clotoide elemento_ant = (Clotoide)c_ant;
-                            oTexto.addText2D("A: " + Math.Round(elemento_ant.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
-                        }
+                        componentPoint_ant[0][0] = componentPoint[0];
+                        componentPoint_ant[0][1] = componentPoint[1];
+                        contador++;
                     }
-                    if (contador == 1)
-                    {
-                        break;
-                    }
-                    componentPoint_ant[0][0] = componentPoint[0];
-                    componentPoint_ant[0][1] = componentPoint[1];
-                    contador++;
                 }
+                else
+                {
+                    foreach (var componentPoint in c.getComponentPoints())
+                    {
+                        if (contador != 0)
+                        {
+                            az = Rellenar_centro(componentPoint[0], componentPoint[1], componentPoint_ant[0][0], componentPoint_ant[0][1], 1).Az;
+                            az = 360 - az;
+                            double x = componentPoint_ant[0][0] - 6 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                            double y = componentPoint_ant[0][1] - 6 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+                            Dibujar_r(new Point2d(componentPoint_ant[0][0], componentPoint_ant[0][1]), new Point2d(x, y), 3, "Linea_Rotulacion_Clo_inicial");
+                            x = componentPoint_ant[0][0] - 40 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                            y = componentPoint_ant[0][1] - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+                            double x_p = x;
+                            double y_p = y;
+                            oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x_p, y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
+                            double miDir;
+                            if (az + 90 > 360)
+                            {
+                                miDir = az + 90 - 360;
+                            }
+                            else
+                            {
+                                miDir = az + 90;
+                            }
+
+                            x = x_p + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
+                            y = y_p + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
+
+                            oTexto.addText2D(" A: " + Math.Round(elemento.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
+                            x = x_p - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
+                            y = y_p - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
+                            if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.linea)
+                            {
+
+                                oTexto.addText2D("RECTA", x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
+
+                            }
+                            if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.curva)
+                            {
+                                Curva elemento_ant = (Curva)c_ant;
+                                oTexto.addText2D("R: " + Math.Round(elemento_ant.getRadio, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
+
+                            }
+                            if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.clotoideEntrada)
+                            {
+                                Clotoide elemento_ant = (Clotoide)c_ant;
+                                oTexto.addText2D("A: " + Math.Round(elemento_ant.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
+                            }
+                        }
+                        if (contador == 1)
+                        {
+                            break;
+                        }
+                        componentPoint_ant[0][0] = componentPoint[0];
+                        componentPoint_ant[0][1] = componentPoint[1];
+                        contador++;
+                    }
+                }
+                
             }
         }
         public void Dibujar_Final(EjeDeTrazado.componentes.Componente c)

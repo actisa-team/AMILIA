@@ -1421,10 +1421,20 @@ namespace interfaz {
                 clusterizacionTextField.Visible = true;
                 materialLabel21.Visible = true;
                 SolapesTextField.Visible = true;
-                RotularCheckBox.Visible = true;
-                materialLabel22.Visible = true;
-                materialLabel29.Visible = true;
-                RotulacionTextField.Visible = true;
+                materialLabel16.Visible = true;
+                toleranciaMaximaTextField.Visible = true;
+                materialLabel15.Visible = true;
+                toleranciaMediaTextField.Visible = true;
+                materialLabel19.Visible = true;
+                nCurvasMaxTextField.Visible = true;
+                button2.Visible = true;
+                button3.Visible = true;
+                button4.Visible = true;
+                button5.Visible = true;
+                button6.Visible = true;
+                button7.Visible = true;
+
+
 
             }
             if (materialCheckBox1_opciones.Checked == false)
@@ -1435,10 +1445,19 @@ namespace interfaz {
                 clusterizacionTextField.Visible = false;
                 materialLabel21.Visible = false;
                 SolapesTextField.Visible = false;
-                RotularCheckBox.Visible = false;
-                materialLabel22.Visible = false;
-                materialLabel29.Visible = false;
-                RotulacionTextField.Visible = false;
+                materialLabel16.Visible = false;
+                toleranciaMaximaTextField.Visible = false;
+                materialLabel15.Visible = false;
+                toleranciaMediaTextField.Visible = false;
+                materialLabel19.Visible = false;
+                nCurvasMaxTextField.Visible = false;
+                button2.Visible = false;
+                button3.Visible = false;
+                button4.Visible = false;
+                button5.Visible = false;
+                button6.Visible = false;
+                button7.Visible = false;
+
             }
         }
 
@@ -1739,6 +1758,59 @@ namespace interfaz {
         {
             dsApp a = new dsApp();
             Logica.GuardarPolilinea2d Gp2d = new GuardarPolilinea2d(ref a);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Factor de escala de la rotulacion.\nEl tamaño por defecto de la letra es de 4 metros al 100%, cambiando este valor se adecuará al porcentaje establecido.", "Información");
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Puntos mínimos con los que se puede crear un cluster.", "Información");
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Se seleccionan los radios cuya diferencia no supere el porcentaje aquí dado para clusterizar.", "Información");
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Veces que una entidad puede ser modificada antes de ser eliminada.", "Información");
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Curvas maximas por tramo de giro.", "Información");
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            info i = new info();
+            i.Show();
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            info_m2 i = new info_m2();
+            i.Show();
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            info_m3 i = new info_m3();
+            i.Show();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Tolerancia máxima que utilizaremos para detectar las entidades.", "Información");
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Tolerancia media que utilizaremos para detectar las entidades.", "Información");
         }
     }
 }

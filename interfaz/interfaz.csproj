@@ -83,6 +83,24 @@
     <Compile Include="ComponentesInfoPanel.Designer.cs">
       <DependentUpon>ComponentesInfoPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="info_m3.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="info_m3.Designer.cs">
+      <DependentUpon>info_m3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="info_m2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="info_m2.Designer.cs">
+      <DependentUpon>info_m2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="info.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="info.Designer.cs">
+      <DependentUpon>info.cs</DependentUpon>
+    </Compile>
     <Compile Include="PolilineaInfoPanel.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -118,6 +136,15 @@
     <EmbeddedResource Include="ComponentesInfoPanel.resx">
       <DependentUpon>ComponentesInfoPanel.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="info_m3.resx">
+      <DependentUpon>info_m3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="info_m2.resx">
+      <DependentUpon>info_m2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="info.resx">
+      <DependentUpon>info.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="PolilineaInfoPanel.resx">
       <DependentUpon>PolilineaInfoPanel.cs</DependentUpon>
     </EmbeddedResource>
@@ -147,6 +174,15 @@
       <Project>{a6e7dde8-c736-4ce0-9891-6dd7542128d5}</Project>
       <Name>Logica</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\metodo 1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\metodo 2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\metodo 3.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

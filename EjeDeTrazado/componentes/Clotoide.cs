@@ -793,6 +793,7 @@ namespace EjeDeTrazado.componentes
                 }
 
             }
+            puntos.Add(getPointAtDist(pk_fin));
             //base.setPuntoSalida=new Punto3d(puntos[puntos.Count-1][0], puntos[puntos.Count - 1][1],0);
             //puntos.Add(new double[] { getPuntoSalida.coordenadaX, getPuntoSalida.coordenadaY });
             return puntos;

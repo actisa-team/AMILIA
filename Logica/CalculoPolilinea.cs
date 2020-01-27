@@ -1689,14 +1689,14 @@ namespace Logica {
                 //El primer punto de la recta queda dentro del círculo siguiente
                 if (componentes[0].Tipo == 1 && componentes[1].Tipo == 2) {
                     distancia = Distancia(new Point2d(componentes[0].lista_puntos[0].p.X, componentes[0].lista_puntos[0].p.Y), new Point2d(componentes[1].xc, componentes[1].yc));
-                    if (distancia < componentes[1].radio) {
+                    if (Math.Round(distancia,6) <= Math.Round(componentes[1].radio,6)) {
                         componentes[0].V_pr = true;
                     }
                 }
                 //El último punto de la recta queda dentro del círculo anterior
                 if (componentes[componentes.Count - 1].Tipo == 1 && componentes[componentes.Count - 2].Tipo == 2) {
                     distancia = Distancia(new Point2d(componentes[componentes.Count - 1].lista_puntos[componentes[componentes.Count - 1].lista_puntos.Count - 1].p.X, componentes[componentes.Count - 1].lista_puntos[componentes[componentes.Count - 1].lista_puntos.Count - 1].p.Y), new Point2d(componentes[componentes.Count - 2].xc, componentes[componentes.Count - 2].yc));
-                    if (distancia < componentes[componentes.Count - 2].radio) {
+                    if (Math.Round(distancia,6) <= Math.Round(componentes[componentes.Count - 2].radio,6)) {
                         componentes[componentes.Count - 1].V_ur = true;
                     }
                 }
@@ -1910,23 +1910,56 @@ namespace Logica {
                             }
                             else
                             {*/
-                            if (componenteIndex - 1 == 0)
+                            if (componenteIndex-1 ==0 || componenteIndex+1== componentes.Count - 1)
                             {
-                                Reducir_radio_inicial(componenteIndex-1);
-                            }
-                            else
-                            {
-                                Reducir_radio(componenteIndex-1);
-                            }
+                                if (componentes[componenteIndex].creacion == 1 || componentes[componenteIndex].creacion == 2)
+                                {
+                                    if (componenteIndex - 1 == 0)
+                                    {
+                                        Reducir_radio_inicial(componenteIndex - 1);
+                                    }
+                                    else
+                                    {
+                                        Reducir_radio(componenteIndex - 1);
+                                    }
 
-                            if (componenteIndex+1 == componentes.Count - 1)
-                            {
-                                Reducir_radio_final(componenteIndex+1);
+                                    if (componenteIndex + 1 == componentes.Count - 1)
+                                    {
+                                        Reducir_radio_final(componenteIndex + 1);
+                                    }
+                                    else
+                                    {
+                                        Reducir_radio(componenteIndex + 1);
+                                    }
+                                }
+                                else
+                                {
+                                    Componentes.RemoveAt(componenteIndex);
+                                    Crear_RECT(componenteIndex-1);
+                                }
                             }
                             else
                             {
-                                Reducir_radio(componenteIndex+1);
+                                if (componenteIndex - 1 == 0)
+                                {
+                                    Reducir_radio_inicial(componenteIndex - 1);
+                                }
+                                else
+                                {
+                                    Reducir_radio(componenteIndex - 1);
+                                }
+
+                                if (componenteIndex + 1 == componentes.Count - 1)
+                                {
+                                    Reducir_radio_final(componenteIndex + 1);
+                                }
+                                else
+                                {
+                                    Reducir_radio(componenteIndex + 1);
+                                }
                             }
+                            
+                            
                             /*}
                             if (componenteIndex - 1>0 && componenteIndex + 1 <componentes.Count-1)
                             {
@@ -5334,6 +5367,7 @@ namespace Logica {
             }
             if (rotu)
             {
+                Set_Pks();
                 engCadNet.oLayer.addLayer("Rotulacion-Curva", 1, false);
                 engCadNet.oLayer.addLayer("Rotulacion-Recta", 2, false);
                 engCadNet.oLayer.addLayer("Rotulacion-Clotoide", 3, false);
@@ -5372,7 +5406,7 @@ namespace Logica {
                 }
                
                 
-                Set_Pks();
+                
 
                 componentPoint_ant = new List<double[]>();
                 componentPoint_ant.Add(new double[] { 0, 0 });
@@ -15078,7 +15112,7 @@ namespace Logica {
                     trazaViabilidadEnlaces.Add(viabilidadEnlacesStatus);
 
                     whileIndex++;
-                    for (int i = 0; i < componentes.Count; i++)
+                    for (int i = 0; i < componentes.Count && !salir; i++)
                     {
                         if (componentes[i].Tipo == 2)
                         {
@@ -15113,7 +15147,22 @@ namespace Logica {
                                             }
                                             else
                                             {
-                                                componentes_iniciales.RemoveAt(t);
+                                                if (t == componentes_iniciales.Count - 1)
+                                                {
+                                                    if (t - 2 > 0)
+                                                    {
+                                                        if (componentes_iniciales[t - 2].Tipo == 2)
+                                                        {
+                                                            componentes_iniciales.RemoveAt(t - 2);
+                                                            componentes[componentes.Count - 1].solape = 0;
+                                                            t -= 1;
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    componentes_iniciales.RemoveAt(t);
+                                                }
                                             }
                                             
                                             if (t - 1 > 0)
@@ -16634,6 +16683,21 @@ namespace Logica {
                         if (az_temp_1 < azts_temp)
                         {
                             componentes[componentes.Count - 1].v_s_c = true;
+                        }
+                        else
+                        {
+                            if (componentes[componentes.Count - 2].Tipo==1)
+                            {
+                                if (az_temp_1 < componentes[componentes.Count - 2].azr+90 && az_temp_1>azts_temp)
+                                {
+                                    
+                                }
+                                else
+                                {
+                                    componentes[componentes.Count - 1].v_s_c = true;
+                                }
+                            }
+                            
                         }
                     }
                     else
@@ -20276,11 +20340,19 @@ namespace Logica {
             double az1, az2;
             if (i==componentes.Count-1 && componentes[i].Tipo == 2)
             {
-                if (componentes[i-1].Tipo == 1 && componentes[i - 1].creacion==2)
+                if (componentes[i - 1].Tipo == 1 && componentes[i - 1].creacion == 2)
                 {
                     bool eliminado = false;
                     Reducir_radio_final(i);
-                    eliminado=Reducir_radio(i-2);
+                    if (i-2==0)
+                    {
+                        Reducir_radio_inicial(i - 2);
+                    }
+                    else
+                    {
+                        eliminado = Reducir_radio(i - 2);
+                    }
+                    
                     if (eliminado)
                     {
                         i -= 1;
@@ -20290,6 +20362,60 @@ namespace Logica {
                         componentes.RemoveAt(i - 1);
                     }
                     
+                    return false;
+                }
+                if (componentes[i - 1].Tipo == 1 && componentes[i - 1].creacion == 1)
+                {
+                    if (componentes[i].direccion == EjeTrazado.sentidoCurva.Antihorario)
+                    {
+                        //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
+                        Girar_Recta(i-1, -0.01, componentes[i-1].azr);
+
+                    }
+                    else
+                    {
+                        //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
+                        Girar_Recta(i-1, +0.01, componentes[i-1].azr);
+                    }
+                    double[] l = new double[2];
+                    l = ajuste_recta(componentes[i-1].lista_puntos, 0).Item2;
+                    double d2 = Distancia_P_R(l[0], l[1], componentes[i].xc, componentes[i].yc);
+                    double d3 = Distancia_P_R(l[0], l[1], componentes[i-2].xc, componentes[i-2].yc);
+                    if (d2 < componentes[i].radio || d3 < componentes[i-2].radio)
+                    {
+                        if (componentes[i].direccion == EjeTrazado.sentidoCurva.Antihorario)
+                        {
+                            //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
+                            Girar_Recta(i-1, +0.01, componentes[i-1].azr);
+
+                        }
+                        else
+                        {
+                            //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
+                            Girar_Recta(i-1, -0.01, componentes[i-1].azr);
+                        }
+                        if (componentes[i-1].creacion == 2 || componentes[i-1].creacion == 1)
+                        {
+                            componentes.RemoveAt(i-1);
+                            Aumentar_radio(i-2);
+                            componentes[i-2].solape += 20;
+                            
+                        }
+                        else
+                        {
+                            componentes.RemoveAt(i-1);
+                        }
+                        i -= 1;
+                        if (componentes[i].direccion == componentes[i-1].direccion)
+                        {
+                            Crear_RECM(i-1);
+                        }
+                        else
+                        {
+                            Crear_RECT(i-1);
+                        }
+
+                    }
                     return false;
                 }
             }
