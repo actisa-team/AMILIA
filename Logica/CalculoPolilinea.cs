@@ -57,7 +57,7 @@ namespace Logica {
         bool mostrar_casos = true;
 
         List<IViabilidadListener> viabilidadListeners = new List<IViabilidadListener>();
-
+        public List<EjeDeTrazado.componentes.Componente> Mcomponenetes { get => mcomponenetes; set => mcomponenetes = value; }
         public List<Componente> Componentes { get => componentes; set => componentes = value; }
         public List<Componente> Componentes_iniciales { get => componentes_iniciales; set => componentes_iniciales = value; }
         public List<Punto> Polilinea { get => polilinea; set => polilinea = value; }

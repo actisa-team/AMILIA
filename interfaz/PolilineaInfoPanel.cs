@@ -35,6 +35,7 @@ namespace interfaz
             dataTable.Columns.Add("Punto");
             dataTable.Columns.Add("X");
             dataTable.Columns.Add("Y");
+            dataTable.Columns.Add("Vertice");
             dataTable.Columns.Add("Pendiente");
             dataTable.Columns.Add("Primero");
             dataTable.Columns.Add("Último");
@@ -55,7 +56,16 @@ namespace interfaz
                 {
                     resultado = "Depuracion";
                 }
-                dataTable.Rows.Add(puntoIndex, punto.p.X, punto.p.Y, punto.pendiente, punto.primero, punto.ultimo, punto.varianza, punto.varianza_a, resultado, punto.valor*100);
+                string vertice = "";
+                if (punto.vertice == 1)
+                {
+                    vertice = "Superior";
+                }
+                if (punto.vertice == 2)
+                {
+                    vertice = "Inferior";
+                }
+                dataTable.Rows.Add(puntoIndex, punto.p.X, punto.p.Y,vertice, punto.pendiente, punto.primero, punto.ultimo, punto.varianza, punto.varianza_a, resultado, punto.valor*100);
 
             });
 
