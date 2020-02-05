@@ -34,10 +34,14 @@ namespace Logica
         List<PuntoPerfil> polilinea_perfil = new List<PuntoPerfil>();
         List<Parabola> Lista_parabolas = new List<Parabola>();
         List<double> lista_puntos_rectas = new List<double>();
+        List<Point3d> Polilinea3d_original = new List<Point3d>();
         dsApp datoApp = new dsApp();
+        public List<Point3d> Polilinea3d_Original { get => Polilinea3d_original; set => Polilinea3d_original = value; }
         public List<Punto> Polilinea { get => polilinea; set => polilinea = value; }
         public List<PuntoPerfil> Polilinea_Perfil { get => polilinea_perfil; set => polilinea_perfil = value; }
-        public CalculoPolilineaPerfil(ref dsApp a, int opcion, double ratio, int it,int escal)
+        public CalculoPolilineaPerfil() { 
+        }
+        public CalculoPolilineaPerfil(ref dsApp a, int opcion, double ratio, int it,int escal,int n_suavizados)
         {
             try
             {
@@ -92,91 +96,88 @@ namespace Logica
                     {
                         polilinea_inicial.Add(p);
                     }
-                    for (int i=0;i<25;i++)
+                    /*                   List<Punto> List_temp = new List<Punto>();
+                                       List<Punto> List_aux = new List<Punto>();
+                                       //Detectamos los vertices
+                                       List_temp.Add(polilinea[0]);
+                                       List_temp.Add(polilinea[1]);
+                                       List_temp.Add(polilinea[2]);
+                                       for (int i = 3; i < polilinea.Count - 2; i++)
+                                       {
+                                           //superior
+                                           if (polilinea[i].p.Y > polilinea[i - 2].p.Y &&
+                                               polilinea[i].p.Y > polilinea[i - 1].p.Y &&
+                                               polilinea[i].p.Y > polilinea[i + 1].p.Y &&
+                                               polilinea[i].p.Y > polilinea[i + 2].p.Y)
+                                           {
+                                               List_aux.Add(polilinea[i]);
+                                               for (int t = 0; t < n_suavizados; t++)
+                                               {
+                                                   List_aux = Suavizar(List_aux);
+                                               }
+
+                                               for (int t = 0; t < List_aux.Count; t++)
+                                               {
+                                                   List_temp.Add(List_aux[t]);
+                                               }
+                                               List_aux.Clear();
+                                               List_aux.Add(polilinea[i]);
+                                           }
+                                           else if (polilinea[i].p.Y < polilinea[i - 2].p.Y &&
+                                               polilinea[i].p.Y < polilinea[i - 1].p.Y &&
+                                               polilinea[i].p.Y < polilinea[i + 1].p.Y &&
+                                               polilinea[i].p.Y < polilinea[i + 2].p.Y)
+                                           {
+                                               List_aux.Add(polilinea[i]);
+                                               for (int t = 0; t < n_suavizados; t++)
+                                               {
+                                                   List_aux = Suavizar(List_aux);
+                                               }
+                                               for (int t = 0; t < List_aux.Count; t++)
+                                               {
+                                                   List_temp.Add(List_aux[t]);
+                                               }
+                                               List_aux.Clear();
+                                               List_aux.Add(polilinea[i]);
+                                           }
+                                           else
+                                           {
+                                               List_aux.Add(polilinea[i]);
+                                           }
+                                       }
+                                       for (int t = 0; t < n_suavizados; t++)
+                                       {
+                                           List_aux = Suavizar(List_aux);
+                                       }
+                                       for (int t = 0; t < List_aux.Count; t++)
+                                       {
+                                           List_temp.Add(List_aux[t]);
+                                       }
+                                       List_aux.Clear();
+                                       List_temp.Add(polilinea[polilinea.Count - 2]);
+                                       List_temp.Add(polilinea[polilinea.Count - 1]);
+                                       polilinea = List_temp;
+
+                                         /*for (int i=0;i< n_suavizados; i++)
+                                         {
+                                             polilinea = Suavizar(polilinea);
+                                         }*/
+
+                    polilinea= Duplicar_puntos(polilinea);
+                    Vaciar_Puntos();
+                    RellenarDatos();
+                    polilinea = Duplicar_puntos(polilinea);
+                    Vaciar_Puntos();
+                    RellenarDatos();
+                    for (int i = 0; i < n_suavizados; i++)
                     {
                         polilinea = Suavizar(polilinea);
-                        Vaciar_Puntos();
-                        RellenarDatos();
                     }
 
+                    Vaciar_Puntos();
+                    RellenarDatos();
                     Iguales();
                     Dibujar(1);
-                    //Guardar();
-                    /*  Vaciar_Puntos();
-                      RellenarDatos();
-                      if (dibujar)
-                      {
-                          Dibujar(0);
-                      }
-
-                      if (it == 1)
-                      {
-                          bool salida = true;
-                          while (salida)
-                          {
-                              if (opcion == 1)
-                              {
-                                  FiltradoDisrupcion(true, ref contador);
-                                  if (contador == 0)
-                                  {
-                                      salida = false;
-                                  }
-                                  contador = 0;
-                                  Vaciar_Puntos();
-                                  RellenarDatos();
-                              }
-                              else if (opcion == 2)
-                              {
-                                  FiltradoCambioSentido(true, ref contador);
-                                  if (contador == 0)
-                                  {
-                                      salida = false;
-                                  }
-                                  contador = 0;
-                                  Vaciar_Puntos();
-                                  RellenarDatos();
-                              }
-                              else if (opcion == 3)
-                              {
-                                  FiltradoGiroLongitud(ratio, true, ref contador);
-                                  if (contador == 0)
-                                  {
-                                      salida = false;
-                                  }
-                                  contador = 0;
-                                  Vaciar_Puntos();
-                                  RellenarDatos();
-                              }else if (opcion == 0)
-                              {
-                                  salida = false;
-                              }
-                          }
-
-                      }
-                      else
-                      {
-                          if (opcion == 1)
-                          {
-                              FiltradoDisrupcion(true, ref contador);
-                          }
-                          else if (opcion == 2)
-                          {
-                              FiltradoCambioSentido(true, ref contador);
-                          }
-                          else if (opcion == 3)
-                          {
-                              FiltradoGiroLongitud(ratio, true, ref contador);
-                          }else if (opcion == 0)
-                          {
-
-                          }
-                          Vaciar_Puntos();
-                          RellenarDatos();
-                      }
-
-
-                      Dibujar(1);*/
-                    //datoApp.WriteXml("prueba_modificada.aplitop");
                 }
                 else
                 {
@@ -447,6 +448,14 @@ namespace Logica
             {
                 polilinea[i].Vaciar();
             }
+        }
+        public List<Punto> Vaciar_Puntos_aux(List<Punto> lista)
+        {
+            for (int i = 0; i < lista.Count; i++)
+            {
+                lista[i].Vaciar();
+            }
+            return lista;
         }
         public void Vaciar_Puntos_inicial()
         {
@@ -1103,7 +1112,6 @@ namespace Logica
 
                 poly.Add(new Point3d(polilinea[i].p.X, polilinea[i].p.Y*escala, 0));
             }
-
             Document acDoc2 = Application.DocumentManager.MdiActiveDocument;
             Database AcCurDb2 = acDoc2.Database;
             using (DocumentLock docLock = acDoc2.LockDocument())
@@ -1570,13 +1578,35 @@ namespace Logica
 
             return miSent;
         }
-        public void RellenarPerfil(double v_ac)
+        public void RellenarPerfil(double v_ac,int n_suavizados)
         {
             //Rellenamos parametros equivalentes entre punto y punto perfil
             for (int i=0;i<polilinea.Count;i++)
             {
                 polilinea_perfil.Add(new PuntoPerfil(polilinea[i]));
             }
+            //Detectamos los vertices
+            for (int i = 3; i < polilinea_perfil.Count - 2; i++)
+            {
+                //superior
+                if (polilinea_perfil[i].p.Y > polilinea_perfil[i - 2].p.Y &&
+                    polilinea_perfil[i].p.Y > polilinea_perfil[i - 1].p.Y &&
+                    polilinea_perfil[i].p.Y > polilinea_perfil[i + 1].p.Y &&
+                    polilinea_perfil[i].p.Y > polilinea_perfil[i + 2].p.Y)
+                {
+                    polilinea_perfil[i].vertice = 1;
+                }
+                //inferior
+                if (polilinea_perfil[i].p.Y < polilinea_perfil[i - 2].p.Y &&
+                    polilinea_perfil[i].p.Y < polilinea_perfil[i - 1].p.Y &&
+                    polilinea_perfil[i].p.Y < polilinea_perfil[i + 1].p.Y &&
+                    polilinea_perfil[i].p.Y < polilinea_perfil[i + 2].p.Y)
+                {
+                    polilinea_perfil[i].vertice = 2;
+                }
+            }
+
+
             //Calculamos la pendiente y la pendiente_p
             for (int i=1;i<polilinea_perfil.Count;i++)
             {
@@ -1785,7 +1815,7 @@ namespace Logica
             for (int i=0;i<polilinea_perfil.Count;i++)
             {
 
-                if (polilinea_perfil[i].tipo!=1)
+                if (polilinea_perfil[i].tipo!=1 && polilinea_perfil[i].tipo != 2)
                 {
                     Lista_aux.Add(i);
                     l_x.Add(polilinea_perfil[i].p.X);
@@ -1943,9 +1973,15 @@ namespace Logica
             int x = 0;
             for (int i = 0; i < polilinea_perfil_inicial.Count; i++)
             {
-                if (lista_puntos_rectas.Count-1>=x+1)
+                if (lista_puntos_rectas.Count-1>=x)
                 {
-                    if (polilinea_perfil_inicial[i].p.X > lista_puntos_rectas[x] && polilinea_perfil_inicial[i].p.X < lista_puntos_rectas[x + 1])
+                    if (lista_puntos_rectas.Count==x+1)
+                    {
+                        Lista_aux.Add(i);
+                        l_x.Add(polilinea_perfil_inicial[i].p.X);
+                        l_y.Add(polilinea_perfil_inicial[i].p.Y);
+                    }
+                    else if (polilinea_perfil_inicial[i].p.X >= lista_puntos_rectas[x] && polilinea_perfil_inicial[i].p.X <= lista_puntos_rectas[x + 1])
                     {
                         Lista_aux.Add(i);
                         l_x.Add(polilinea_perfil_inicial[i].p.X);
@@ -2284,13 +2320,13 @@ namespace Logica
             List<Punto> Lista_suavizada_temp = new List<Punto>();
 
             Lista_suavizada_temp.Add(new Punto(l[0].p));
-            for (int i = 1; i < l.Count - 1; i++)
+            for (int i = 0; i < l.Count - 1; i++)
             {
                 Lista_suavizada_temp.Add(new Punto(new Point2d((l[i].p.X + l[i + 1].p.X) / 2, (l[i].p.Y + l[i + 1].p.Y) / 2)));
             }
             Lista_suavizada_temp.Add(new Punto(l[l.Count - 1].p));
             Lista_suavizada = new List<Punto>(Lista_suavizada_temp);
-            for (int t = 0; t < 10; t++)
+            /*for (int t = 0; t < 10; t++)
             {
                 Lista_suavizada_temp = new List<Punto>();
                 Lista_suavizada_temp.Add(new Punto(Lista_suavizada[0].p));
@@ -2307,9 +2343,32 @@ namespace Logica
                 Lista_suavizada_temp.Add(new Punto(new Point2d((Lista_suavizada[i].p.X + Lista_suavizada[i + 1].p.X) / 2, (Lista_suavizada[i].p.Y + Lista_suavizada[i + 1].p.Y) / 2)));
             }
             Lista_suavizada = new List<Punto>(Lista_suavizada_temp);
+            Lista_suavizada.Insert(0, l[0]);
+            Lista_suavizada.Add(l[l.Count-1]);*/
             //RellenarDatos();
             //Dibujar_Suavizado(Lista_suavizada);
             return Lista_suavizada;
+        }
+        public void Suavizar_Max_Min(int n_suavizados)
+        {
+            
+            for (int t=0;t< polilinea_perfil.Count; t++)
+            {
+
+                if (polilinea_perfil[t].vertice==1 || polilinea_perfil[t].vertice == 1)
+                {
+                    for (int i = 0; i < n_suavizados; i++)
+                    {
+                        polilinea = Suavizar(polilinea);
+                        Vaciar_Puntos();
+                        RellenarDatos();
+                    }
+
+                }
+                
+            }
+            
+
         }
         public void QuitarSuavizado()
         {
@@ -2382,18 +2441,21 @@ namespace Logica
             Lista_parabolas[p].parabola[2] = f;
 
         }
-        public void Cotas_Trazado(CalculoPolilinea poli)
+        public void Cotas_Trazado(List<EjeDeTrazado.componentes.Componente> Mcomponenetes)
         {
             List<Point3d> Polilinea3d = new List<Point3d>();
-            List<Point3d> Polilinea3d_original = new List<Point3d>();
+            
             Point3d p3d = new Point3d();
-            foreach (var componente in poli.Mcomponenetes)
+            foreach (var componente in Mcomponenetes)
             {
                 foreach (var componentPoint in componente.getComponentPoints())
                 {
                     p3d = new Point3d(componentPoint[0], componentPoint[1],0);
+                    Polilinea3d.Add(p3d);
                 }
             }
+            Polilinea3d=Erroneos(Polilinea3d);
+            Polilinea3d= Dividir_Segmentos_Largos(Polilinea3d);
             string miFileOut = string.Empty;
             string line;
             OpenFileDialog miDialogo = new OpenFileDialog();
@@ -2422,7 +2484,82 @@ namespace Logica
                 }
                 file.Close();
             }
+            List<Point3d> Polilinea3d_aux = new List<Point3d>();
+            if (Polilinea3d_original.Count>1)
+            {
+                /*double x2 = poli.Polilinea3d_Original[i].X;
+                double y2 = poli.Polilinea3d_Original[i].Y;
+                double distancia = Math.Sqrt(Math.Pow(x2 - x, 2) + Math.Pow(y2 - y, 2));
+                double d_acumulada += distancia;*/
+                List<Point3d> polilinea_aux = new List<Point3d>();
+                int punto_p_o=0;//punto de la polilinea original seleccionado
+                int punto_ini = 0, punto_fin = Polilinea3d.Count - 1;
+                double distancia=0;
+                double distancia_g = 0;
+                Point3d p_aux = new Point3d(Polilinea3d[0].X, Polilinea3d[0].Y, Polilinea3d_original[0].Z);
+                Polilinea3d_aux.Add(p_aux);
+                for (int i = 1; i < Polilinea3d_original.Count; i++)
+                {
+                    distancia_g = Distancia(new Point2d(Polilinea3d[0].X, Polilinea3d[0].Y), new Point2d(Polilinea3d_original[i].X, Polilinea3d_original[i].Y));
+                    for (int t = 0; t < Polilinea3d.Count; t++)
+                    {
+                        distancia = Distancia(new Point2d(Polilinea3d[t].X, Polilinea3d[t].Y), new Point2d(Polilinea3d_original[i].X, Polilinea3d_original[i].Y));
+                        if (distancia_g > distancia)
+                        {
+                            punto_p_o = t;
+                            distancia_g = distancia;
+                        }
+                        
+                    }
+                    p_aux = new Point3d(Polilinea3d[punto_p_o].X, Polilinea3d[punto_p_o].Y, Polilinea3d_original[i].Z);
+                    Polilinea3d_aux.Add(p_aux);
+                }
+                p_aux = new Point3d(Polilinea3d[Polilinea3d.Count-1].X, Polilinea3d[Polilinea3d.Count - 1].Y, Polilinea3d_original[Polilinea3d_original.Count-1].Z);
+                Polilinea3d_aux.Add(p_aux);
+                /*
+                for (int t=0;t<Polilinea3d.Count;t++)
+                {
+                    punto_ini = 0;
+                    punto_fin = Polilinea3d_original.Count - 1;
+                    distancia = Distancia(new Point2d(Polilinea3d[t].X, Polilinea3d[t].Y), new Point2d(Polilinea3d_original[0].X, Polilinea3d_original[0].Y));
+                    for (int i = 1; i < Polilinea3d_original.Count; i++)
+                    {
+                        if (Distancia(new Point2d(Polilinea3d[t].X, Polilinea3d[t].Y), new Point2d(Polilinea3d_original[i].X, Polilinea3d_original[i].Y)) < distancia)
+                        {
+                            punto_p_o = i;
+                        }
+                        distancia = Distancia(new Point2d(Polilinea3d[t].X, Polilinea3d[t].Y), new Point2d(Polilinea3d_original[i].X, Polilinea3d_original[i].Y));
+                    }
+                    if (punto_p_o-50> punto_ini)
+                    {
+                        punto_ini = punto_p_o - 50;
+                    }
+                    if (punto_p_o + 50 < punto_fin)
+                    {
+                        punto_fin = punto_p_o + 50;
+                    }
+                    for (int i = punto_ini; i < punto_fin-1; i++)
+                    {
+                        polilinea_aux.Add(Polilinea3d_original[i]);
+                    }
+                    /*for (int i = 0; i < Polilinea3d_original.Count; i++)
+                    {
+                        if (Distancia(new Point2d(Polilinea3d_original[punto_p_o].X, Polilinea3d_original[punto_p_o].Y), new Point2d(Polilinea3d_original[i].X, Polilinea3d_original[i].Y)) < 200)
+                        {
+                            polilinea_aux.Add(Polilinea3d_original[i]);
+                        }
+                    }*/
+               /*     polilinea_aux =Dividir_Segmentos_Largos(polilinea_aux);
+                    Point3d p_aux = new Point3d(Polilinea3d[punto_p_o].X, Polilinea3d[punto_p_o].Y, CotaPunto(Polilinea3d[punto_p_o], Polilinea3d_original));
+                    Polilinea3d_aux.Add(p_aux);
+                    polilinea_aux.Clear();
+                }*/
+                Polilinea3d_original = Polilinea3d_aux;
 
+                //Polilinea3d_original = Dividir_Segmentos_Largos(Polilinea3d_original);
+            }
+            
+                
         }
         /// <summary>
         /// Divide un segmento
@@ -2434,15 +2571,26 @@ namespace Logica
         private List<Point3d> Dividir_Segmento(Point3d p1, Point3d p2,int partes)
         {
             List<Point3d> segmento = new List<Point3d>();
-            int r;
-            double x, y,z;
-            z = (p2.Z - p1.Z) / partes;
+            double r;
+            double x, y,z,z_ac=0;
+            z = (p1.Z - p2.Z) / partes;
+            
             for (int i=1; i<=partes;i++)
             {
-                r = (partes - i) / i;
+                r = ((double)partes - (double)i) / (double)i;
                 x = (p1.X + r * p2.X) / (1 + r);
                 y = (p1.Y + r * p2.Y) / (1 + r);
-                segmento.Add(new Point3d(x,y,p1.Z+z));
+                if (segmento.Count==0)
+                {
+                    segmento.Add(new Point3d(x, y, p2.Z + z));
+                    z_ac = z;
+                }
+                else
+                {
+                    z_ac += z;
+                    segmento.Add(new Point3d(x, y, p2.Z + z_ac));
+                }
+               
             }
             return segmento;
         }
@@ -2468,15 +2616,15 @@ namespace Logica
                     partes = (int)Math.Truncate(Distancia(p1, p2)*10);
                     if (partes>1)
                     {
-                        segmento = Dividir_Segmento(polilinea[i], polilinea[i + 1], partes);
+                        segmento = Dividir_Segmento(polilinea[i+1], polilinea[i], partes);
                     }
                     else
                     {
-                        segmento = Dividir_Segmento(polilinea[i], polilinea[i + 1], 2);
+                        segmento = Dividir_Segmento(polilinea[i+1], polilinea[i], 2);
                     }
                     for (int t=0;t< segmento.Count;t++)
                     {
-                        polilinea_temp.Add(segmento[i]);
+                        polilinea_temp.Add(segmento[t]);
                     }
                 }
                 else
@@ -2486,6 +2634,360 @@ namespace Logica
             }
             polilinea_temp.Add(polilinea[polilinea.Count-1]);
             return polilinea_temp;
+        }
+        private double CotaPunto(Point3d p, List<Point3d> polilinea_aux)
+        {
+            double cota = polilinea_aux[0].Z;
+            double distancia = Distancia(new Point2d(p.X,p.Y), new Point2d(polilinea_aux[0].X, polilinea_aux[0].Y));
+            for (int i=1;i< polilinea_aux.Count;i++)
+            {
+                if (Distancia(new Point2d(p.X, p.Y), new Point2d(polilinea_aux[i].X, polilinea_aux[i].Y))<distancia)
+                {
+                    cota = polilinea_aux[i].Z;
+                }
+                distancia = Distancia(new Point2d(p.X, p.Y), new Point2d(polilinea_aux[i].X, polilinea_aux[i].Y));
+            }
+
+            return cota;
+        }
+        /// <summary>
+        /// Se elimina el error de un punto erroneo que se detecta a una distancia demasiado grande
+        /// </summary>
+        /// <param name="poli">polilinea a corregir</param>
+        /// <returns>polilinea corregida</returns>
+        private List<Point3d> Erroneos(List<Point3d> poli)
+        {
+            for (int i=0;i<poli.Count-2;i++)
+            {
+                if (Distancia(new Point2d(poli[i].X, poli[i].Y), new Point2d(poli[i + 1].X, poli[i + 1].Y)) >100000 && 
+                    Distancia(new Point2d(poli[i+1].X, poli[i+1].Y), new Point2d(poli[i + 2].X, poli[i + 2].Y)) > 100000)
+                {
+                    poli.RemoveAt(i + 1);
+                }
+            }
+            return poli;
+        }
+        private List<Punto> Duplicar_puntos_C(List<Punto> l)
+        {
+            List<Punto> aux = new List<Punto>();
+
+
+            Punto p_aux;
+            double az_final;
+            aux.Add(l[0]);
+            double xx = 0, yy = 0;
+            double xc;
+            double yc;
+            double r;
+            double az1;
+            double az2;
+            int i;
+            for (i = 1; i < l.Count - 1; i++)
+            {
+                xc = ((l[i + 1].p.Y + l[i].p.Y) * 0.5 + ((l[i + 1].p.X - l[i].p.X) * (l[i + 1].p.X + l[i].p.X) * 0.5 / (l[i + 1].p.Y - l[i].p.Y)) - (l[i].p.Y + l[i - 1].p.Y) * 0.5 - ((l[i].p.X - l[i - 1].p.X) * (l[i].p.X + l[i - 1].p.X) * 0.5 / (l[i].p.Y - l[i - 1].p.Y))) / (((l[i + 1].p.X - l[i].p.X) / (l[i + 1].p.Y - l[i].p.Y)) - ((l[i].p.X - l[i - 1].p.X) / (l[i].p.Y - l[i - 1].p.Y)));
+                yc = (l[i].p.Y + l[i - 1].p.Y) * 0.5 + (l[i].p.X - l[i - 1].p.X) * 0.5 * (l[i].p.X + l[i - 1].p.X) * Math.Pow(l[i].p.Y - l[i - 1].p.Y, -1) - xc * (l[i].p.X - l[i - 1].p.X) * Math.Pow(l[i].p.Y - l[i - 1].p.Y, -1);
+                r = l[i].R;
+                if (r > 0 && r < 100000)
+                {
+                    az1 = Rellenar_centro(l[i - 1].p.X, l[i - 1].p.Y, xc, yc, 1).Az;
+                    az2 = Rellenar_centro(l[i].p.X, l[i].p.Y, xc, yc, 1).Az;
+
+                    if (l[i].Tipogiro == 1)
+                    {
+                        if (az1 > az2)
+                        {
+                            az1 -= 360;
+                        }
+                        az_final = (az2 + az1) / 2;
+                        if (az_final > 360)
+                        {
+                            az_final -= 360;
+                        }
+                        if (az_final < 0)
+                        {
+                            az_final += 360;
+                        }
+                        xx = xc + (r) * Math.Sin((az_final) * Math.PI / 180);
+                        yy = yc + (r) * Math.Cos((az_final) * Math.PI / 180);
+                    }
+                    else
+                    {
+                        if (az1 < az2)
+                        {
+                            az2 -= 360;
+                        }
+                        az_final = (az2 + az1) / 2;
+                        if (az_final > 360)
+                        {
+                            az_final -= 360;
+                        }
+                        if (az_final < 0)
+                        {
+                            az_final += 360;
+                        }
+                        xx = xc + (r) * Math.Sin((az_final) * Math.PI / 180);
+                        yy = yc + (r) * Math.Cos((az_final) * Math.PI / 180);
+                    }
+                    aux.Add(new Punto(new Point2d(xx, yy)));
+                    aux.Add(l[i]);
+                }
+
+            }
+            i = l.Count - 2;
+            xc = ((l[i + 1].p.Y + l[i].p.Y) * 0.5 + ((l[i + 1].p.X - l[i].p.X) * (l[i + 1].p.X + l[i].p.X) * 0.5 / (l[i + 1].p.Y - l[i].p.Y)) - (l[i].p.Y + l[i - 1].p.Y) * 0.5 - ((l[i].p.X - l[i - 1].p.X) * (l[i].p.X + l[i - 1].p.X) * 0.5 / (l[i].p.Y - l[i - 1].p.Y))) / (((l[i + 1].p.X - l[i].p.X) / (l[i + 1].p.Y - l[i].p.Y)) - ((l[i].p.X - l[i - 1].p.X) / (l[i].p.Y - l[i - 1].p.Y)));
+            yc = (l[i].p.Y + l[i - 1].p.Y) * 0.5 + (l[i].p.X - l[i - 1].p.X) * 0.5 * (l[i].p.X + l[i - 1].p.X) * Math.Pow(l[i].p.Y - l[i - 1].p.Y, -1) - xc * (l[i].p.X - l[i - 1].p.X) * Math.Pow(l[i].p.Y - l[i - 1].p.Y, -1);
+            r = l[i].R;
+            if (r > 0 && r < 100000)
+            {
+                az2 = Rellenar_centro(l[i + 1].p.X, l[i + 1].p.Y, xc, yc, 1).Az;
+                az1 = Rellenar_centro(l[i].p.X, l[i].p.Y, xc, yc, 1).Az;
+
+                if (l[i].Tipogiro == 1)
+                {
+                    if (az1 > az2)
+                    {
+                        az1 -= 360;
+                    }
+                    az_final = (az2 + az1) / 2;
+                    if (az_final > 360)
+                    {
+                        az_final -= 360;
+                    }
+                    if (az_final < 0)
+                    {
+                        az_final += 360;
+                    }
+                    xx = xc + (r) * Math.Sin((az_final) * Math.PI / 180);
+                    yy = yc + (r) * Math.Cos((az_final) * Math.PI / 180);
+                }
+                else
+                {
+                    if (az1 < az2)
+                    {
+                        az2 -= 360;
+                    }
+                    az_final = (az2 + az1) / 2;
+                    if (az_final > 360)
+                    {
+                        az_final -= 360;
+                    }
+                    if (az_final < 0)
+                    {
+                        az_final += 360;
+                    }
+                    xx = xc + (r) * Math.Sin((az_final) * Math.PI / 180);
+                    yy = yc + (r) * Math.Cos((az_final) * Math.PI / 180);
+                }
+                aux.Add(new Punto(new Point2d(xx, yy)));
+            }
+            aux.Add(l[l.Count - 1]);
+            return aux;
+        }
+        private List<Punto> Duplicar_puntos(List<Punto> l)
+        {
+            List<Punto> aux = new List<Punto>();
+
+            Punto p_aux;
+            for (int i = 0; i < l.Count - 1; i++)
+            {
+                aux.Add(l[i]);
+                p_aux = new Punto(new Point2d((l[i].p.X + l[i + 1].p.X) / 2, (l[i].p.Y + l[i + 1].p.Y) / 2));
+                aux.Add(p_aux);
+            }
+            aux.Add(l[l.Count - 1]);
+            return aux;
+        }
+        private Punto Rellenar_centro(double xc1, double yc1, double xc, double yc, int direccion)
+        {
+            Punto p, p_a;
+            if (direccion == 1)
+            {
+                p = new Punto(new Point2d(xc1, yc1));
+                p_a = new Punto(new Point2d(xc, yc));
+            }
+            else
+            {
+                p_a = new Punto(new Point2d(xc1, yc1));
+                p = new Punto(new Point2d(xc, yc));
+            }
+
+            p.Dx = p.p.X - p_a.p.X;
+            p.Dy = p.p.Y - p_a.p.Y;
+            if (p.Dx == 0)
+            {
+                p.Ad1 = 0;
+            }
+            else
+            {
+                if (p.Dy == 0)
+                {
+                    p.Ad1 = 0;
+                }
+                else
+                {
+                    p.Ad1 = Math.Atan(p.Dy / p.Dx);
+                }
+            }
+            p.Ad2 = p.Ad1 * (180 / Math.PI);
+
+            if (p.Ad1 == 0)
+            {
+                p.signod = 0;
+            }
+            else
+            {
+                if (p.Ad1 < 0)
+                {
+                    p.signod = 1;
+                }
+                else
+                {
+                    p.signod = 2;
+                }
+            }
+
+            if (p.Dx == 0)
+            {
+                p.signodx = 0;
+            }
+            else
+            {
+                if (p.Dx < 0)
+                {
+                    p.signodx = 1;
+                }
+                else
+                {
+                    p.signodx = 2;
+                }
+            }
+
+            if (p.Dy == 0)
+            {
+                p.signody = 0;
+            }
+            else
+            {
+                if (p.Dy < 0)
+                {
+                    p.signody = 1;
+                }
+                else
+                {
+                    p.signody = 2;
+                }
+            }
+
+            if (p.signod == 0)
+            {
+                p.Dc = 2;
+            }
+            else
+            {
+                p.Dc = 1;
+            }
+            if (p.Dc == 2)
+            {
+                if (p.Dy == 0)
+                {
+                    p.Orientacion = "E-W";
+                }
+                else
+                {
+                    p.Orientacion = "N-S";
+                }
+            }
+
+            if (p.Dc == 2)
+            {
+                if (p.Orientacion == "E-W")
+                {
+                    if (p.Dx < 0)
+                    {
+                        p.Azcardinal = 270;
+                    }
+                    else
+                    {
+                        p.Azcardinal = 90;
+                    }
+                }
+                else
+                {
+                    if (p.Dy < 0)
+                    {
+                        p.Azcardinal = 180;
+                    }
+                    else
+                    {
+                        p.Azcardinal = 0;
+                    }
+                }
+            }
+
+            //cuadrante
+            if (p.Dc == 2)
+            {
+                p.cuadrante = 0;
+            }
+            else
+            {
+                if (p.Dx > 0 && p.Dy > 0)
+                {
+                    p.cuadrante = 1;
+                }
+                else
+                {
+                    if (p.Dx > 0 && p.Dy < 0)
+                    {
+                        p.cuadrante = 2;
+                    }
+                    else
+                    {
+                        if (p.Dx < 0 && p.Dy < 0)
+                        {
+                            p.cuadrante = 3;
+                        }
+                        else
+                        {
+                            p.cuadrante = 4;
+                        }
+                    }
+                }
+            }
+
+            //Azimut
+            if (p.Dc == 2)
+            {
+                p.Az = p.Azcardinal;
+            }
+            else
+            {
+                if (p.signod == 1)
+                {
+                    if (p.signodx == 2)
+                    {
+                        p.Az = 90 - p.Ad2;
+
+                    }
+                    else
+                    {
+                        p.Az = 270 - p.Ad2;
+                    }
+                }
+                else
+                {
+                    if (p.signodx == 2)
+                    {
+                        p.Az = 90 - p.Ad2;
+
+                    }
+                    else
+                    {
+                        p.Az = 270 - p.Ad2;
+                    }
+                }
+            }
+            return p;
         }
     }
 }

@@ -37,14 +37,14 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(1, 63);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(965, 493);
+            this.dataGridView1.Size = new System.Drawing.Size(1261, 493);
             this.dataGridView1.TabIndex = 0;
             // 
             // PolilineaInfoPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(968, 558);
+            this.ClientSize = new System.Drawing.Size(1264, 558);
             this.Controls.Add(this.dataGridView1);
             this.Name = "PolilineaInfoPanel";
             this.Text = "PolilineaInfoPanel";

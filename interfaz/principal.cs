@@ -205,6 +205,28 @@ namespace interfaz {
             return null;
         }
 
+        private dsApp CargarArchivoDeProyectoPerfil(CalculoPolilineaPerfil poli)
+        {
+            double x = 0, y = 0, x2 = 0, y2 = 0;
+            double distancia = 0;
+            double d_acumulada = 0;
+
+            dsApp dsApp = new dsApp();
+            dsApp.Polilinea.Rows.Add(0, poli.Polilinea3d_Original[0].Z, 1);
+            x = poli.Polilinea3d_Original[0].X;
+            y = poli.Polilinea3d_Original[0].Y;
+            for (int i=1; i< poli.Polilinea3d_Original.Count;i++)
+            {
+                x2 = poli.Polilinea3d_Original[i].X;
+                y2 = poli.Polilinea3d_Original[i].Y;
+                distancia = Math.Sqrt(Math.Pow(x2 - x, 2) + Math.Pow(y2 - y, 2));
+                d_acumulada += distancia;
+                dsApp.Polilinea.Rows.Add(d_acumulada, poli.Polilinea3d_Original[i].Z, i+1);
+                x = x2;
+                y = y2;
+            }
+            return dsApp;
+        }
         private CalculoPolilineaPreferencias obtenerParametrosCalculoPolilinea() {
             int opcion = 1;
             double grados = 0;
@@ -1334,6 +1356,7 @@ namespace interfaz {
             this.detenerEnIteracion = false;
             this.iteracion = -1;
             int escala;
+            int n_suavizados;
             if (!string.IsNullOrEmpty(FactorEscala.Text))
             {
                 escala = int.Parse(FactorEscala.Text);
@@ -1341,6 +1364,14 @@ namespace interfaz {
             else
             {
                 escala = 1;
+            }
+            if (!string.IsNullOrEmpty(suavizar.Text))
+            {
+                n_suavizados = int.Parse(suavizar.Text);
+            }
+            else
+            {
+                n_suavizados = 1;
             }
             if (comprobar())
             {
@@ -1353,7 +1384,7 @@ namespace interfaz {
 
                     if (aplicarMultiplesFiltradosCheckBox.Checked == false)
                     {
-                        this.calculoPolilineaPerfil = new CalculoPolilineaPerfil(ref dsApp, calculoPolilineaPreferenciasPerfil.Opcion, calculoPolilineaPreferenciasPerfil.Ratio, calculoPolilineaPreferenciasPerfil.It, escala);
+                        this.calculoPolilineaPerfil = new CalculoPolilineaPerfil(ref dsApp, calculoPolilineaPreferenciasPerfil.Opcion, calculoPolilineaPreferenciasPerfil.Ratio, calculoPolilineaPreferenciasPerfil.It, escala, n_suavizados);
                     }
                     else
                     {
@@ -1555,12 +1586,22 @@ namespace interfaz {
             {
                 v_ac = 1;
             }
-            calculoPolilineaPerfil.RellenarPerfil(v_ac);
+            int n_suavizados;
+            if (!string.IsNullOrEmpty(suavizar.Text))
+            {
+                n_suavizados = int.Parse(suavizar.Text);
+            }
+            else
+            {
+                n_suavizados = 1;
+            }
+            calculoPolilineaPerfil.RellenarPerfil(v_ac,n_suavizados);
+            
             calculoPolilineaPerfil.QuitarSuavizado();
-            //calculoPolilineaPerfil.MatrizAcuerdo();
-            calculoPolilineaPerfil.MatrizAcuerdo2();
+            calculoPolilineaPerfil.MatrizAcuerdo();
+            //calculoPolilineaPerfil.MatrizAcuerdo2();
 
-            calculoPolilineaPerfil.ReducirParabola(1,1);
+           // calculoPolilineaPerfil.ReducirParabola(1,1);
             calculoPolilineaPerfil.PuntoInflexion();
             //calculoPolilineaPerfil.CalcularEntreParabolas();
             PolilineaInfoPanel polilineaInfoPanel = new PolilineaInfoPanel(calculoPolilineaPerfil.Polilinea_Perfil);
@@ -1635,6 +1676,71 @@ namespace interfaz {
         {
 
            
+        }
+
+        private void materialFlatButton16_Click(object sender, EventArgs e)
+        {
+            this.calculoPolilineaPerfil = null;
+            this.pasosEjecutados = -1;
+            this.paso1EjecutadoTextView.Visible = false;
+            this.paso2EjecutadoTextView.Visible = false;
+            this.paso3EjecutadoTextView.Visible = false;
+            this.calculoPolilineaStatusTextView.Visible = false;
+            this.ejecutarViabilidadSinParar = false;
+            this.detenerEnIteracion = false;
+            this.iteracion = -1;
+            int escala;
+            int n_suavizados;
+            calculoPolilineaPerfil = new CalculoPolilineaPerfil();
+            calculoPolilineaPerfil.Cotas_Trazado(this.calculoPolilinea.Mcomponenetes);
+            if (!string.IsNullOrEmpty(FactorEscala.Text))
+            {
+                escala = int.Parse(FactorEscala.Text);
+            }
+            else
+            {
+                escala = 1;
+            }
+            if (!string.IsNullOrEmpty(suavizar.Text))
+            {
+                n_suavizados = int.Parse(suavizar.Text);
+            }
+            else
+            {
+                n_suavizados = 1;
+            }
+            if (comprobar())
+            {
+                dsApp dsApp = this.CargarArchivoDeProyectoPerfil(calculoPolilineaPerfil);
+
+                if (dsApp != null)
+                {
+                    //obtener parametros de inicializacion de CalculoPolilineaController
+                    this.calculoPolilineaPreferenciasPerfil = this.obtenerParametrosCalculoPolilineaPerfil();
+
+                    if (aplicarMultiplesFiltradosCheckBox.Checked == false)
+                    {
+                        this.calculoPolilineaPerfil = new CalculoPolilineaPerfil(ref dsApp, calculoPolilineaPreferenciasPerfil.Opcion, calculoPolilineaPreferenciasPerfil.Ratio, calculoPolilineaPreferenciasPerfil.It, escala, n_suavizados);
+                    }
+                    else
+                    {
+                        this.calculoPolilineaPerfil = new CalculoPolilineaPerfil(ref dsApp, calculoPolilineaPreferenciasPerfil.Opcion, calculoPolilineaPreferenciasPerfil.Ratio, calculoPolilineaPreferenciasPerfil.Orden, calculoPolilineaPreferenciasPerfil.It);
+                    }
+
+                    this.calculoPolilineaStatusTextView.Visible = true;
+                    this.pasosEjecutados = 0;
+
+                    MessageBox.Show("CalculoPolilinea Perfil inicializado");
+                }
+                else
+                {
+                    MessageBox.Show("Error al abrir el archivo del proyecto");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Error. El orden de los filtros esta repetido");
+            }
         }
     }
 }

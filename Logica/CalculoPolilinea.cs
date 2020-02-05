@@ -2415,7 +2415,7 @@ namespace Logica {
                     }
                 }
                 if (hacer_caso) {
-                    if (componentes[0].caso3 == true) {
+                    if (componentes[1].caso3 == true) {
                         //hacer caso 3
                         List<Punto> pv = new List<Punto>();
                         List<Punto> recta = new List<Punto>();
@@ -2445,7 +2445,7 @@ namespace Logica {
                         hacer_caso = false;
 
                     }
-                    if (componentes[componentes.Count - 1].caso3 == true) {
+                    if (componentes[componentes.Count - 2].caso3 == true) {
                         //hacer caso 3
                         List<Punto> pv = new List<Punto>();
                         List<Punto> recta = new List<Punto>();
@@ -20475,6 +20475,8 @@ namespace Logica {
                             }
                             Rellenar_Componentes();
                             //this.viabilidad();
+                            
+                            this.viabilidad_Extremos();
                             componentes[0].caso6_e = true;
                             return false;
 
@@ -20536,7 +20538,7 @@ namespace Logica {
                             }*/
                            
                             Rellenar_Componentes();
-
+                            this.viabilidad_Extremos();
                             componentes[0].caso6_e = true;
                             return false;
 
