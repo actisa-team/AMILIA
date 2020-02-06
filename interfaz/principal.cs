@@ -1596,7 +1596,7 @@ namespace interfaz {
                 n_suavizados = 1;
             }
             calculoPolilineaPerfil.RellenarPerfil(v_ac,n_suavizados);
-            
+            calculoPolilineaPerfil.Cambios_Sentido(0.01);
             calculoPolilineaPerfil.QuitarSuavizado();
             calculoPolilineaPerfil.MatrizAcuerdo();
             //calculoPolilineaPerfil.MatrizAcuerdo2();

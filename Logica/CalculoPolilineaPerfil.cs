@@ -169,6 +169,10 @@ namespace Logica
                     polilinea = Duplicar_puntos(polilinea);
                     Vaciar_Puntos();
                     RellenarDatos();
+                    polilinea = Duplicar_puntos(polilinea);
+                    Vaciar_Puntos();
+                    RellenarDatos();
+
                     for (int i = 0; i < n_suavizados; i++)
                     {
                         polilinea = Suavizar(polilinea);
@@ -176,6 +180,7 @@ namespace Logica
 
                     Vaciar_Puntos();
                     RellenarDatos();
+
                     Iguales();
                     Dibujar(1);
                 }
@@ -1170,6 +1175,79 @@ namespace Logica
                 }
             }
         }
+        private void Dibujar(int a,List<PuntoPerfil> Lista )
+        {
+            Point3dCollection poly = new Point3dCollection();
+            for (int i = 0; i < Lista.Count; i++)
+            {
+
+                poly.Add(new Point3d(Lista[i].p.X, Lista[i].p.Y * escala, 0));
+            }
+            Document acDoc2 = Application.DocumentManager.MdiActiveDocument;
+            Database AcCurDb2 = acDoc2.Database;
+            using (DocumentLock docLock = acDoc2.LockDocument())
+            {
+                if (a == 0)
+                {
+                    engCadNet.oLayer.addLayer("polilinia original", 4, false);
+                }
+                else
+                {
+                    if (a == 2)
+                    {
+                        engCadNet.oLayer.addLayer("Polilinea depurada", 6, false);
+                    }else if (a==3)
+                    {
+                        engCadNet.oLayer.addLayer("Polilinea Cota", 5, false);
+                    }
+                    else
+                    {
+                        engCadNet.oLayer.addLayer("Nueva suavizada", 3, false);
+                    }
+
+                }
+
+                using (Transaction acTrans = HostApplicationServices.WorkingDatabase.TransactionManager.StartTransaction())
+                {
+                    BlockTable acBlkTbl;
+                    acBlkTbl = acTrans.GetObject(AcCurDb2.BlockTableId,
+                        OpenMode.ForRead) as BlockTable;
+                    BlockTableRecord acBlkTblRec;
+                    acBlkTblRec = acTrans.GetObject(acBlkTbl[BlockTableRecord.ModelSpace],
+                        OpenMode.ForWrite) as BlockTableRecord;
+
+                    Editor e = Application.DocumentManager.MdiActiveDocument.Editor;
+                    Document d = Application.DocumentManager.MdiActiveDocument;
+                    Polyline3d pol = new Polyline3d(new Poly3dType(), poly, false);
+
+                    if (a == 0)
+                    {
+                        pol.Layer = "polilinia original";
+                    }
+                    else
+                    {
+                        if (a == 2)
+                        {
+                            pol.Layer = "Polilinea depurada";
+                        }
+                        else if (a == 3)
+                        {
+                            pol.Layer = "Polilinea Cota";
+                        }
+                        else
+                        {
+                            pol.Layer = "Nueva suavizada";
+                        }
+
+                    }
+                    acBlkTblRec.AppendEntity(pol);
+
+                    acTrans.AddNewlyCreatedDBObject(pol, true);
+
+                    acTrans.Commit();
+                }
+            }
+        }
         private void FiltradoDisrupcion(bool acc, ref int contador)
         {
             List<Punto> polilinea_temp = new List<Punto>();
@@ -1605,8 +1683,8 @@ namespace Logica
                     polilinea_perfil[i].vertice = 2;
                 }
             }
-
-
+            Reajustar_Cota();
+            Dibujar(3, polilinea_perfil);
             //Calculamos la pendiente y la pendiente_p
             for (int i=1;i<polilinea_perfil.Count;i++)
             {
@@ -2377,7 +2455,22 @@ namespace Logica
                 polilinea_perfil_inicial.Add(new PuntoPerfil(polilinea_inicial[i]));
             }
             RellenarDatos_inicial();
-           
+            for (int i = 2; i < Polilinea_Perfil.Count - 2; i++)
+            {
+                if(Polilinea_Perfil[i-1].tipo== Polilinea_Perfil[i + 1].tipo)
+                {
+                    Polilinea_Perfil[i].tipo = Polilinea_Perfil[i - 1].tipo;
+                }
+                if (Polilinea_Perfil[i - 1].tipo == 1 && Polilinea_Perfil[i + 1].tipo==2)
+                {
+                    Polilinea_Perfil[i].tipo = Polilinea_Perfil[i - 1].tipo;
+                }
+                if (Polilinea_Perfil[i - 1].tipo == 2 && Polilinea_Perfil[i + 1].tipo==1)
+                {
+                    Polilinea_Perfil[i].tipo = Polilinea_Perfil[i - 1].tipo;
+                }
+
+            }
             Point2d p = new Point2d();
             for (int i=2;i<Polilinea_Perfil.Count-2;i++)
             {
@@ -2989,5 +3082,172 @@ namespace Logica
             }
             return p;
         }
+        private void Reajustar_Cota()
+        {
+            int contador=0;
+            double cota_inf,cota_sup;
+            double cota;
+            double dif_cota = 0;
+            double dif_cota_inf=0, dif_cota_sup=0;
+            double t_cota,c_cota;
+            bool cont;
+            int contador2;
+            for (int i=0;i< polilinea_perfil.Count;i++)
+            {
+                if (i==0)
+                {
+                    contador = 0;
+                    cota = Buscar_Cota(polilinea_perfil[i], 0);
+                    dif_cota = cota - polilinea_perfil[i].p.Y;
+                    cont = true;
+                    for (int t = i; t < polilinea_perfil.Count && cont; t++)
+                    {
+                        if (polilinea_perfil[t].vertice == 2)
+                        {
+                            cota_sup = cota;
+                            dif_cota_sup = dif_cota;
+                            cota_inf = Buscar_Cota(polilinea_perfil[t], 2);
+                            dif_cota_inf = cota_inf - polilinea_perfil[t].p.Y;
+                            cont = false;
+                            contador++;
+
+                        }
+                        if (polilinea_perfil[t].vertice == 1)
+                        {
+                            cota_inf = cota;
+                            dif_cota_inf = dif_cota;
+                            cota_sup = Buscar_Cota(polilinea_perfil[t], 1);
+                            dif_cota_sup = cota_sup - polilinea_perfil[t].p.Y;
+                            cont = false;
+                            contador++;
+
+                        }
+                        if (cont)
+                        {
+                            contador++;
+                        }
+                    }
+                    t_cota = dif_cota_sup - dif_cota_inf;
+                    c_cota = t_cota / contador;
+                    Point2d p;
+                    contador2 = 1;
+                    for (int t = i+1; t < contador + i-1; t++)
+                    {
+                        p = new Point2d(polilinea_perfil[t].p.X, polilinea_perfil[t].p.Y + 0 + (c_cota * contador2));
+                        polilinea_perfil[t].p = p;
+                        contador2++;
+                    }
+                }
+                if (polilinea_perfil[i].vertice==1)
+                {
+                    contador = 0;
+                    cota_sup = Buscar_Cota(polilinea_perfil[i],1);
+                    dif_cota_sup = cota_sup - polilinea_perfil[i].p.Y;
+                    cont = true;
+                    for (int t=i;t< polilinea_perfil.Count && cont; t++)
+                    {
+                        if (polilinea_perfil[t].vertice ==2)
+                        {
+                            cota_inf = Buscar_Cota(polilinea_perfil[t],2);
+                            dif_cota_inf= cota_inf- polilinea_perfil[t].p.Y;
+                            cont = false;
+                            contador++;
+                            
+                        }
+                        if (cont)
+                        {
+                            contador++;
+                        }
+                    }
+                    t_cota = dif_cota_sup - dif_cota_inf;
+                    c_cota = t_cota / contador;
+                    Point2d p;
+                    contador2 = 1;
+                    for (int t = i; t < contador+i-1; t++)
+                    {
+                        p = new Point2d(polilinea_perfil[t].p.X, polilinea_perfil[t].p.Y + dif_cota_sup- (c_cota*contador2));
+                        polilinea_perfil[t].p = p;
+                        contador2++;
+                    }
+                }
+                if (polilinea_perfil[i].vertice == 2)
+                {
+                    contador = 0;
+                    cota_inf = Buscar_Cota(polilinea_perfil[i], 2);
+                    dif_cota_inf = cota_inf - polilinea_perfil[i].p.Y;
+                    cont = true;
+                    for (int t = i; t < polilinea_perfil.Count && cont; t++)
+                    {
+                        if (polilinea_perfil[t].vertice == 1)
+                        {
+                            cota_sup = Buscar_Cota(polilinea_perfil[t], 1);
+                            dif_cota_sup = cota_sup - polilinea_perfil[t].p.Y;
+                            cont = false;
+                            contador++;
+
+                        }
+                        if (cont)
+                        {
+                            contador++;
+                        }
+                    }
+                    t_cota = dif_cota_sup - dif_cota_inf;
+                    c_cota = t_cota / contador;
+                    Point2d p;
+                    contador2 = 1;
+                    for (int t = i; t < contador + i-1; t++)
+                    {
+                        p = new Point2d(polilinea_perfil[t].p.X, polilinea_perfil[t].p.Y + dif_cota_inf + (c_cota * contador2));
+                        polilinea_perfil[t].p = p;
+                        contador2++;
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// Busca La cota para el punto superior o inferior segun si el tipo es 1(superior) o 2(inferior)
+        /// </summary>
+        /// <param name="p">punto a buscar</param>
+        /// <param name="tipo">tipo de busqueda 1(superior) o 2(inferior)(</param>
+        /// <returns>Cota encontrada</returns>
+        private double Buscar_Cota(PuntoPerfil p,int tipo)
+        {
+            double distancia = 100;
+            double cota=0;
+            int n_cota=0;
+            for (int i=0;i< polilinea_inicial.Count;i++)
+            {
+                if (Distancia(polilinea_inicial[i].p,p.p)<distancia)
+                {
+                    cota = polilinea_inicial[i].p.Y;
+                    n_cota = i;
+                }
+                distancia = Distancia(polilinea_inicial[i].p, p.p);
+            }
+            if (tipo==1)
+            {
+                if (polilinea_inicial[n_cota-1].p.Y>cota)
+                {
+                    cota = polilinea_inicial[n_cota - 1].p.Y;
+                }
+                else if (polilinea_inicial[n_cota + 1].p.Y > cota)
+                {
+                    cota = polilinea_inicial[n_cota + 1].p.Y;
+                }
+            }
+            if (tipo==2)
+            {
+                if (polilinea_inicial[n_cota - 1].p.Y < cota)
+                {
+                    cota = polilinea_inicial[n_cota - 1].p.Y;
+                }
+                else if (polilinea_inicial[n_cota + 1].p.Y < cota)
+                {
+                    cota = polilinea_inicial[n_cota + 1].p.Y;
+                }
+            }
+            return cota;
+        }
+
     }
 }
