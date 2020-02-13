@@ -28,6 +28,8 @@ namespace Logica
         public int vertice { get; set; }//1->superior//2->inferior
         public int tipo { get; set; }//1->pendiente uniforme//2->depuracion
         public double valor { get; set; }
+        public double Tipogiro { get; set; }//1-->horario//2-->antihorario//3-->recta
+        public double secuenciagiro { get; set; }//1-->cambio de sentido//2-->mismo sentido
         public PuntoPerfil()
         {
 
@@ -42,6 +44,8 @@ namespace Logica
             R = punto.R;
             dx = punto.Dx;
             dy = punto.Dy;
+            Tipogiro = punto.Tipogiro;
+            secuenciagiro = punto.secuenciagiro;
         }
         public PuntoPerfil(PuntoPerfil punto)
         {
@@ -62,6 +66,8 @@ namespace Logica
             varianza_a = punto.varianza_a;
             vertice = punto.vertice;
             tipo = punto.tipo;
+            Tipogiro = punto.Tipogiro;
+            secuenciagiro = punto.secuenciagiro;
         }
         /// <summary>
         /// Rellena un punto perfil con los datos de un punto

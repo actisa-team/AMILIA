@@ -10,6 +10,9 @@ namespace Logica
     {
         public List<double> parabola = new List<double>();
         public List<PuntoPerfil> polilinea_perfil = new List<PuntoPerfil>();
+
+        public List<double> lista_parabola { get => parabola; set => parabola = value; }
+        public List<PuntoPerfil> Polilinea_Perfil { get => polilinea_perfil; set => polilinea_perfil = value; }
         public double max_min { get; set; }
         public Parabola()
         {

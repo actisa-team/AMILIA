@@ -1595,17 +1595,64 @@ namespace interfaz {
             {
                 n_suavizados = 1;
             }
+            double distancia;
+            if (!string.IsNullOrEmpty(text_distancia.Text))
+            {
+                distancia = double.Parse(text_distancia.Text);
+            }
+            else
+            {
+                distancia = 20;
+            }
+            double separacion;
+            if (!string.IsNullOrEmpty(text_separacion.Text))
+            {
+                separacion = double.Parse(text_separacion.Text);
+            }
+            else
+            {
+                separacion = 40;
+            }
+            double pendiente;
+            if (!string.IsNullOrEmpty(textpendiente.Text))
+            {
+                pendiente = double.Parse(textpendiente.Text);
+            }
+            else
+            {
+                pendiente = 1;
+            }
             calculoPolilineaPerfil.RellenarPerfil(v_ac,n_suavizados);
-            calculoPolilineaPerfil.Cambios_Sentido(0.01);
+            calculoPolilineaPerfil.DividirSentidos();
             calculoPolilineaPerfil.QuitarSuavizado();
-            calculoPolilineaPerfil.MatrizAcuerdo();
+            //calculoPolilineaPerfil.MatrizAcuerdo();
             //calculoPolilineaPerfil.MatrizAcuerdo2();
+            calculoPolilineaPerfil.MatrizAcuerdo3();
+            //calculoPolilineaPerfil.Dibujar_Acuerdos();
+            
+             
 
-           // calculoPolilineaPerfil.ReducirParabola(1,1);
+            calculoPolilineaPerfil.Quitar_Acuerdos(distancia,separacion,pendiente);
+            
+            // calculoPolilineaPerfil.ReducirParabola(1,1);
             calculoPolilineaPerfil.PuntoInflexion();
-            //calculoPolilineaPerfil.CalcularEntreParabolas();
+            //calculoPolilineaPerfil.Fusion_Acuerdos();
+            PolilineaInfoPanel polilineaInfoPanel3 = new PolilineaInfoPanel(calculoPolilineaPerfil.Lista_Parabolas);
+            polilineaInfoPanel3.Show();
+
+            calculoPolilineaPerfil.CalcularEntreParabolas();
+            calculoPolilineaPerfil.CalculoEntreParabolas_Dibujar();
+            calculoPolilineaPerfil.Componente_Inicial();
+            calculoPolilineaPerfil.Componente_Final();
+            calculoPolilineaPerfil.Acuerdo_Entre_Pendientes();
+            calculoPolilineaPerfil.Dibujar_Rectas();
+            calculoPolilineaPerfil.Dibujar_Acuerdos();
+            
+            calculoPolilineaPerfil.CrearTrazado();
             PolilineaInfoPanel polilineaInfoPanel = new PolilineaInfoPanel(calculoPolilineaPerfil.Polilinea_Perfil);
             polilineaInfoPanel.Show();
+            PolilineaInfoPanel polilineaInfoPanel2 = new PolilineaInfoPanel(calculoPolilineaPerfil.Lista_Parabolas);
+            polilineaInfoPanel2.Show();
         }
 
         private void materialLabel23_Click(object sender, EventArgs e)
