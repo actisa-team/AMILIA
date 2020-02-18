@@ -218,7 +218,6 @@ namespace Logica
                 distancia_global = i;
             }
         }
-
         public void Dibujar_Singulares(EjeDeTrazado.componentes.Componente c)
         {
             int contador = 0;
@@ -1089,6 +1088,462 @@ namespace Logica
                 }
             }
             return p;
+        }
+        /// <summary>
+        /// Dibuja los puntos singulares entre parabola y pendiente
+        /// </summary>
+        /// <param name="p">parabola</param>
+        /// <param name="p_ini">punto inicial</param>
+        /// <param name="p_fin">punto final</param>
+        /// <param name="escala">escala de aumento de y</param>
+        /// <param name="p1"></param>
+        /// <param name="p2"></param>
+        /// <param name="tipo">si el trazado empieza en acuerdo la primera parte ya esta dibujada con el valor diferente de un 1 no se pintará</param>
+        public void Dibujar_Singulares_Perfil(Parabola p,Point2d p_ini,Point2d p_fin,double escala,double p1,double p2,int tipo)
+        {
+            engCadNet.oLayer.addLayer("Rotulacion-singular", 1, false);
+            double x2;
+            double x1;
+            double x;
+            double pk_ini, p_ini_x, p_ini_y;
+            double pk;
+            double y;//x^2+x+c
+            double p_fin_x;
+            double p_fin_y;
+            double az;
+            double x_p;
+            double y_p;
+            double miDir;
+            double kv;
+            if (tipo==1)
+            {
+                //inicial del acuerdo
+                x2 = p.parabola[0];
+                x1 = p.parabola[1];
+                x = p.parabola[2];
+                pk_ini = p_ini.X;
+                pk = p_ini.X + 0.1;
+                y = (pk * pk) * x2 + pk * x1 + x;//x^2+x+c
+                p_ini_x = p_ini.X;
+                p_ini_y = p_ini.Y * escala;
+                p_fin_x = p_fin.X;
+                p_fin_y = p_fin.Y * escala;
+                az = Rellenar_centro(p_ini_x, p_ini_y, pk, y * escala, 1).Az;
+                az = 360 - az;
+                x = p_ini_x - 6 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                y = p_ini_y - 6 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+
+                Dibujar_r(new Point2d(p_ini_x, p_ini_y), new Point2d(x, y), 1, "Linea_Rotulacion_Acuerdo_inicial");
+                x = p_ini_x - 40 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                y = p_ini_y - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+                x_p = x;
+                y_p = y;
+                oTexto.addText2D("Pk: " + getStringPK(Math.Round(p_ini_x, 2)), x_p, y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular");
+                
+                if (az + 90 > 360)
+                {
+                    miDir = az + 90 - 360;
+                }
+                else
+                {
+                    miDir = az + 90;
+                }
+
+                x = x_p - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
+                y = y_p - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
+                kv = 1 / (2 * x2);
+                oTexto.addText2D(" Kv: " + Math.Round(kv, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular");
+                x = x_p + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
+                y = y_p + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
+                oTexto.addText2D(" Pdte: " + Math.Round(p1, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular");
+
+            }
+
+
+
+            //final del acuerdo
+            x2 = p.parabola[0];
+            x1 = p.parabola[1];
+            x = p.parabola[2];
+            pk_ini = p_fin.X-0.1;
+            pk = p_fin.X;
+            y = (pk_ini * pk_ini) * x2 + pk_ini * x1 + x;//x^2+x+c
+            p_fin_x = p_fin.X;
+            p_fin_y = p_fin.Y * escala;
+            az = Rellenar_centro(pk_ini, y * escala, p_fin_x, p_fin_y, 1).Az;
+            az = 360 - az;
+            x = p_fin_x - 6 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+            y = p_fin_y - 6 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+
+            Dibujar_r(new Point2d(p_fin_x, p_fin_y), new Point2d(x, y), 1, "Linea_Rotulacion_Acuerdo_inicial");
+            x = p_fin_x - 40 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+            y = p_fin_y - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+            x_p = x;
+            y_p = y;
+            oTexto.addText2D("Pk: " + getStringPK(Math.Round(p_fin_x, 2)), x_p, y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular");
+            if (az + 90 > 360)
+            {
+                miDir = az + 90 - 360;
+            }
+            else
+            {
+                miDir = az + 90;
+            }
+
+            x = x_p + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
+            y = y_p + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
+            kv = 1 / (2 * x2);
+            oTexto.addText2D(" Kv: " + Math.Round(kv, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular");
+            x = x_p - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
+            y = y_p - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
+            oTexto.addText2D(" Pdte: " + Math.Round(p2, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular");
+        }
+        /// <summary>
+        /// Dibuja el punto inicial y final rotulado
+        /// </summary>
+        /// <param name="p">Pendiente a rotular</param>
+        /// <param name="tipo">1 inicio y 2 final</param>
+        public void Dibujar_Ini_Fin_Pendiente(Pendiente p,int tipo,double escala,double pendiente)
+        {
+            engCadNet.oLayer.addLayer("Rotulacion-singular_inicial", 1, false);
+            engCadNet.oLayer.addLayer("Rotulacion-singular_final", 1, false);
+            if (tipo==1)
+            {
+                double p_ini_x = p.Puntos[0].X;
+                double p_ini_y = p.Puntos[0].Y * escala;
+                double p_fin_x = p.Puntos[1].X;
+                double p_fin_y = p.Puntos[1].Y * escala;
+                double az = Rellenar_centro(p_ini_x, p_ini_y, p_fin_x, p_fin_y, 1).Az;
+                az = 360 - az;
+                double x = p_ini_x - 6 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                double y = p_ini_y - 6 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+
+                Dibujar_r(new Point2d(p_ini_x, p_ini_y), new Point2d(x, y), 1, "Linea_Rotulacion_Inicial");
+                x = p_ini_x - 40 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                y = p_ini_y - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+                double x_p = x;
+                double y_p = y;
+
+                oTexto.addText2D("Pk: " + 0, x_p, y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular_inicial");
+                double miDir;
+                if (az + 90 > 360)
+                {
+                    miDir = az + 90 - 360;
+                }
+                else
+                {
+                    miDir = az + 90;
+                }
+
+                x = x_p - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
+                y = y_p - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
+
+                oTexto.addText2D(" Pdte: " + Math.Round(pendiente, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular_inicial");
+            }
+            else
+            {
+                double p_ini_x = p.Puntos[0].X;
+                double p_ini_y = p.Puntos[0].Y * escala;
+                double p_fin_x = p.Puntos[1].X;
+                double p_fin_y = p.Puntos[1].Y * escala;
+                double az = Rellenar_centro(p_ini_x, p_ini_y, p_fin_x, p_fin_y, 1).Az;
+                az = 360 - az;
+                double x = p_fin_x - 6 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                double y = p_fin_y - 6 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+
+                Dibujar_r(new Point2d(p_fin_x, p_fin_y), new Point2d(x, y), 1, "Linea_Rotulacion_Final");
+                x = p_fin_x - 40 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                y = p_fin_y - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+                double x_p = x;
+                double y_p = y;
+
+                oTexto.addText2D("Pk: " + getStringPK(Math.Round(p_fin_x, 2)), x_p, y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular_final");
+                double miDir;
+                if (az + 90 > 360)
+                {
+                    miDir = az + 90 - 360;
+                }
+                else
+                {
+                    miDir = az + 90;
+                }
+
+                x = x_p + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
+                y = y_p + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
+
+                oTexto.addText2D(" Pdte: " + Math.Round(pendiente, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular_final");
+            }
+        }/// <summary>
+         /// Dibuja el punto inicial y final rotulado
+         /// </summary>
+         /// <param name="p">Parabola a rotular</param>
+         /// <param name="tipo">1 inicio y 2 final</param>
+        public void Dibujar_Ini_Fin_Acuerdo(Parabola p, int tipo, double escala, double pkfin)
+        {
+            engCadNet.oLayer.addLayer("Rotulacion-singular_inicial", 1, false);
+            engCadNet.oLayer.addLayer("Rotulacion-singular_final", 1, false);
+            if (tipo == 1)
+            {
+                double x2 = p.parabola[0];
+                double x1 = p.parabola[1];
+                double x = p.parabola[2];
+                double pk_ini = 0;
+                double y = (0 * 0) * x2 + 0 * x1 + x;//x^2+x+c
+                double pk = pk_ini + 0.1;
+                double y1 = (pk * pk) * x2 + pk * x1 + x;//x^2+x+c
+                double p_ini_x = 0;
+                double p_ini_y = y * escala;
+                double p_fin_x = pk;
+                double p_fin_y = y1 * escala;
+                double az = Rellenar_centro(p_ini_x, p_ini_y, pk, y1 * escala, 1).Az;
+                az = 360 - az;
+                x = p_ini_x - 6 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                y = p_ini_y - 6 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+
+                Dibujar_r(new Point2d(p_ini_x, p_ini_y), new Point2d(x, y), 1, "Linea_Rotulacion_Acuerdo_inicial");
+                x = p_ini_x - 40 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                y = p_ini_y - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+                double x_p = x;
+                double y_p = y;
+                oTexto.addText2D("Pk: " + getStringPK(Math.Round(p_ini_x, 2)), x_p, y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular_inicial");
+                double miDir;
+                if (az + 90 > 360)
+                {
+                    miDir = az + 90 - 360;
+                }
+                else
+                {
+                    miDir = az + 90;
+                }
+
+                x = x_p - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
+                y = y_p - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
+                double kv = 1 / (2 * x2);
+                oTexto.addText2D(" Kv: " + Math.Round(kv, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular_inicial");
+            }
+            else
+            {
+                //final del acuerdo
+                double x2 = p.parabola[0];
+                double x1 = p.parabola[1];
+                double x = p.parabola[2];
+                double pk_ini = pkfin - 0.1;
+                double pk = pkfin;
+                double y1 = (pk_ini * pk_ini) * x2 + pk_ini * x1 + x;//x^2+x+c
+                double y = (pk * pk) * x2 + pk * x1 + x;//x^2+x+c
+                double p_fin_x = pkfin;
+                double p_fin_y = y * escala;
+                double az = Rellenar_centro(pk_ini, y1* escala, p_fin_x, p_fin_y, 1).Az;
+                az = 360 - az;
+                x = p_fin_x - 6 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                y = p_fin_y - 6 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+
+                Dibujar_r(new Point2d(p_fin_x, p_fin_y), new Point2d(x, y), 1, "Linea_Rotulacion_Acuerdo_inicial");
+                x = p_fin_x - 40 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                y = p_fin_y - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+                double x_p = x;
+                double y_p = y;
+                oTexto.addText2D("Pk: " + getStringPK(Math.Round(p_fin_x, 2)), x_p, y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular_final");
+                double miDir;
+                if (az + 90 > 360)
+                {
+                    miDir = az + 90 - 360;
+                }
+                else
+                {
+                    miDir = az + 90;
+                }
+
+                x = x_p + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
+                y = y_p + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
+                double kv = 1 / (2 * x2);
+                oTexto.addText2D(" Kv: " + Math.Round(kv, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular_final");
+            }
+        }
+        public int Dibujar_PK_Acuerdo(Parabola p, int pk, double escala,double pk_fin,double min)
+        {
+            double a = p.parabola[0];
+            double b = p.parabola[1];
+            double c = p.parabola[2];
+            double y1=0,y2=0;
+            double pk2 = 0;
+            int minimo = (int)Math.Truncate(min) * (int)escala - 6 * (int)escala;
+            while (pk < pk_fin)
+            {
+                pk2 = pk - 0.1;
+                y1 = (pk * pk) * a + pk * b + c;
+                y2 = (pk2 * pk2) * a + pk2 * b + c;
+                y1 = y1 * escala;
+                y2 = y2 * escala;
+                double az = Rellenar_centro(pk-0.1, y2, pk, y1, 1).Az;
+                az = 360 - az;
+                //double x = pk + 4 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                //double y = y1 + 4 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+                double x = pk + 4 * (rotulacion / 100) * Math.Cos(270 * Math.PI / 180);
+                double y = minimo + 4 * (rotulacion / 100) * Math.Sin(270 * Math.PI / 180);
+                //Dibujar_r(new Point2d(pk, y1), new Point2d(x, y), 7, "Linea_Rotulacion_Acuerdo");
+                oTexto.addText2D("Cota: " + Math.Round(y1 /escala,2), x, minimo, 4 * (rotulacion / 100), 270 * Math.PI / 180, 7, "Rotulacion-pk");
+                pk += 20;
+            }
+            return pk;
+        }
+        public void Dibujar_PK_Acuerdo_Final(Parabola p, double pk, double escala, double min)
+        {
+            double a = p.parabola[0];
+            double b = p.parabola[1];
+            double c = p.parabola[2];
+            double y1 = 0, y2 = 0;
+            double pk2 = 0;
+            int minimo = (int)Math.Truncate(min) * (int)escala - 6 * (int)escala;
+            pk2 = pk - 0.1;
+            y1 = (pk * pk) * a + pk * b + c;
+            y2 = (pk2 * pk2) * a + pk2 * b + c;
+            y1 = y1 * escala;
+            y2 = y2 * escala;
+            double az = Rellenar_centro(pk - 0.1, y2, pk, y1, 1).Az;
+            az = 360 - az;
+            double x = pk + 4 * (rotulacion / 100) * Math.Cos(270 * Math.PI / 180);
+            double y = minimo + 4 * (rotulacion / 100) * Math.Sin(270 * Math.PI / 180);
+
+            oTexto.addText2D("Cota: " + Math.Round(y1 / escala, 2), x, minimo, 4 * (rotulacion / 100), 270 * Math.PI / 180, 7, "Rotulacion-pk");
+        }
+        public void Guitarra(double min,double max,double dist,double escala)
+        {
+            int minimo = (int)Math.Truncate(min)*(int)escala- 5 * (int)escala;
+            int maximo = (int)Math.Truncate(max)*(int)escala+ 5 * (int)escala;
+            double distancia= Math.Truncate(dist)+20;
+            distancia = Math.Truncate(distancia / 10) + 20;
+            distancia = distancia * 10;
+            double x = 0;
+            double y = minimo - 20;
+            bool primero = true;
+            while (minimo<maximo+25)
+            {
+                if (primero)
+                {
+                    Dibujar_r(new Point2d(x, minimo), new Point2d(x + distancia, minimo), 2, "Guitarra horizontal");
+                    oTexto.addText2D(getStringPK(minimo/escala), x - 4, minimo, 1, 0 * Math.PI / 180, 7, "Rotulacion-Cota");
+                    minimo += 20;
+                    primero = false;
+                }
+                else
+                {
+                    Dibujar_r(new Point2d(x, minimo), new Point2d(x + distancia, minimo), 8, "Guitarra horizontal intermedia");
+                    oTexto.addText2D(getStringPK(minimo/escala), x - 4, minimo, 1, 0 * Math.PI / 180, 7, "Rotulacion-Cota");
+                    minimo += 20;
+                }
+                
+            }
+            Dibujar_r(new Point2d(x, minimo), new Point2d(x + distancia, minimo), 2, "Guitarra horizontal");
+            oTexto.addText2D(getStringPK(minimo/escala), x - 4, minimo, 1, 0 * Math.PI / 180, 7, "Rotulacion-Cota");
+            maximo = minimo;
+            minimo = (int)Math.Truncate(min) * (int)escala-5 * (int)escala;
+            
+            primero = true;
+            while (x < distancia )
+            {
+                if (primero)
+                {
+                    Dibujar_r(new Point2d(x, minimo), new Point2d(x, maximo), 3, "Guitarra vertical");
+                    oTexto.addText2D(getStringPK(x), x-1, minimo-1, 1, 0 * Math.PI / 180, 7, "Rotulacion-Cota");
+                    x += 20;
+                    primero = false;
+                }
+                else
+                {
+                    Dibujar_r(new Point2d(x, minimo), new Point2d(x, maximo), 8, "Guitarra vertical intermedia");
+                    oTexto.addText2D(getStringPK(x), x-1, minimo - 1, 1, 0 * Math.PI / 180, 7, "Rotulacion-Cota");
+                    x += 20;
+                }
+                
+            }
+            Dibujar_r(new Point2d(distancia, minimo), new Point2d(distancia, maximo), 3, "Guitarra vertical");
+            oTexto.addText2D(getStringPK(x), x-1, minimo - 1, 1, 0 * Math.PI / 180, 7, "Rotulacion-Cota");
+
+        }
+        public int Dibujar_PK_Pendiente(Pendiente p,int pk,double escala,double min)
+        {
+            
+            double az = Rellenar_centro(p.Puntos[0].X, p.Puntos[0].Y*escala, p.Puntos[1].X, p.Puntos[1].Y*escala, 1).Az;
+            az = 360 - az;
+            double a_x0 = p.Puntos[0].X;
+            double a_y0 = p.Puntos[0].Y*escala;
+            double b_x1 = p.Puntos[1].X;
+            double b_y1 = p.Puntos[1].Y*escala;
+
+            double a_1 = (a_y0 - b_y1) / (a_x0 - b_x1);
+            double b_1 = -b_x1 * (a_y0 - b_y1) / (a_x0 - b_x1) + b_y1;
+            double pk_y = 0;
+            int minimo = (int)Math.Truncate(min) * (int)escala - 6 * (int)escala;
+            while (pk< p.Puntos[1].X)
+            {
+                pk_y = a_1 * pk + b_1;
+                double x = pk + 4 * (rotulacion / 100) * Math.Cos(270 * Math.PI / 180);
+                double y = minimo + 4 * (rotulacion / 100) * Math.Sin(270 * Math.PI / 180);
+                //Dibujar_r(new Point2d(pk, minimo), new Point2d(x, y), 7, "Linea_Rotulacion_Pendiente");
+                oTexto.addText2D("Cota: " + Math.Round(pk_y /escala,2), x, minimo, 4 * (rotulacion / 100), 270 * Math.PI / 180, 7, "Rotulacion-pk");
+                pk += 20;
+            }
+            
+
+            return pk;
+        }
+        public void Dibujar_PK_Pendiente_Final(Pendiente p, int pk, double escala, double min)
+        {
+
+            double az = Rellenar_centro(p.Puntos[0].X, p.Puntos[0].Y * escala, p.Puntos[1].X, p.Puntos[1].Y * escala, 1).Az;
+            az = 360 - az;
+            double a_x0 = p.Puntos[0].X;
+            double a_y0 = p.Puntos[0].Y * escala;
+            double b_x1 = p.Puntos[1].X;
+            double b_y1 = p.Puntos[1].Y * escala;
+
+            double a_1 = (a_y0 - b_y1) / (a_x0 - b_x1);
+            double b_1 = -b_x1 * (a_y0 - b_y1) / (a_x0 - b_x1) + b_y1;
+            double pk_y = 0;
+            int minimo = (int)Math.Truncate(min) * (int)escala - 6 * (int)escala;
+            pk_y = a_1 * b_x1 + b_1;
+            double x = b_x1 + 4 * (rotulacion / 100) * Math.Cos(270 * Math.PI / 180);
+            double y = minimo + 4 * (rotulacion / 100) * Math.Sin(270 * Math.PI / 180);
+            //Dibujar_r(new Point2d(pk, minimo), new Point2d(x, y), 7, "Linea_Rotulacion_Pendiente");
+            oTexto.addText2D("Cota: " + Math.Round(pk_y / escala, 2), x, minimo, 4 * (rotulacion / 100), 270 * Math.PI / 180, 7, "Rotulacion-pk");
+            b_x1 += 20;
+        }
+        public void Cota(double x,double y,Parabola p,double escala)
+        {
+            double a = p.parabola[0];
+            double b = p.parabola[1];
+            double c = p.parabola[2];
+            double yy = (x * x) * a + x * b + c;
+            yy = yy*escala;
+            double x2 = x - 0.1;
+            double yy1 = (x2 * x2) * a + x2 * b + c;
+            yy1= yy1* escala;
+            double az = Rellenar_centro(x-0.1, yy1, x, yy, 1).Az;
+            az = 360 - az;
+            double x3 = x + 6 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+            double y3 = yy + 6 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+
+            Dibujar_r(new Point2d(x, yy), new Point2d(x3, y3), 7, "Linea_Cota");
+            x3 = x + 4 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+            y3 = yy + 4 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+            Dibujar_r(new Point2d(x, yy), new Point2d(x3, y3), 7, "Linea_Rotulacion_Pendiente");
+            oTexto.addText2D("Pk: " + getStringPK(x), x3, y3, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-Cota");
+
+            double miDir;
+            if (az + 90 > 360)
+            {
+                miDir = az + 90 - 360;
+            }
+            else
+            {
+                miDir = az + 90;
+            }
+            x = x + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
+            y = yy + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
+
+            oTexto.addText2D("  Cota: " + Math.Round(yy/escala, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-Cota");
+
         }
     }
 }

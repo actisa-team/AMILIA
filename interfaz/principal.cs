@@ -13,6 +13,8 @@ namespace interfaz {
     using System.IO;
     using System.Threading;
     using System.Diagnostics;
+    using Autodesk.AutoCAD.Geometry;
+    using System.Data;
 
     public partial class principal : MaterialForm, IViabilidadListener, IViabilidadStatusInfoPanelListener {
         private CalculoPolilinea calculoPolilinea;
@@ -33,6 +35,7 @@ namespace interfaz {
          */
         private CalculoPolilineaPerfil calculoPolilineaPerfil;
         private CalculoPolilineaPreferencias calculoPolilineaPreferenciasPerfil;
+        private List<Point3d> Lista_original_3d = new List<Point3d>();
 
         /// <summary>
         /// es donde inicializa la interfaz
@@ -89,7 +92,7 @@ namespace interfaz {
 
 
             
-            materialLabel23.Text = "Esta sección esta en construcción";
+            
             materialTabControl1.Visible = true;
         }
 
@@ -1560,6 +1563,15 @@ namespace interfaz {
         {
             dsApp a = new dsApp();
             Logica.GuardarPolilinea3d Gp3d = new GuardarPolilinea3d(ref a);
+            Lista_original_3d = new List<Point3d>();
+            foreach (DataRow r in a.Polilinea3d.Rows)
+            {
+                string x = (string)r["X"];
+                string y = (string)r["Y"];
+                string z = (string)r["Z"];
+                Lista_original_3d.Add(new Point3d(double.Parse(x), double.Parse(y), double.Parse(z)));
+            }
+
         }
         /// <summary>
         /// Ejecución del primer paso
@@ -1629,9 +1641,13 @@ namespace interfaz {
             //calculoPolilineaPerfil.MatrizAcuerdo2();
             calculoPolilineaPerfil.MatrizAcuerdo3();
             //calculoPolilineaPerfil.Dibujar_Acuerdos();
-            
-             
 
+
+
+            PolilineaInfoPanel polilineaInfoPanel = new PolilineaInfoPanel(calculoPolilineaPerfil.Polilinea_Perfil);
+            polilineaInfoPanel.Show();
+            PolilineaInfoPanel polilineaInfoPanel2 = new PolilineaInfoPanel(calculoPolilineaPerfil.Lista_Parabolas);
+            polilineaInfoPanel2.Show();
             calculoPolilineaPerfil.Quitar_Acuerdos(distancia,separacion,pendiente);
             
             // calculoPolilineaPerfil.ReducirParabola(1,1);
@@ -1639,20 +1655,24 @@ namespace interfaz {
             //calculoPolilineaPerfil.Fusion_Acuerdos();
             PolilineaInfoPanel polilineaInfoPanel3 = new PolilineaInfoPanel(calculoPolilineaPerfil.Lista_Parabolas);
             polilineaInfoPanel3.Show();
-
+            
+            calculoPolilineaPerfil.Dibujar_Acuerdos(1);
             calculoPolilineaPerfil.CalcularEntreParabolas();
             calculoPolilineaPerfil.CalculoEntreParabolas_Dibujar();
+            //calculoPolilineaPerfil.Dibujar_Acuerdos();
+
             calculoPolilineaPerfil.Componente_Inicial();
             calculoPolilineaPerfil.Componente_Final();
-            calculoPolilineaPerfil.Acuerdo_Entre_Pendientes();
-            calculoPolilineaPerfil.Dibujar_Rectas();
-            calculoPolilineaPerfil.Dibujar_Acuerdos();
             
+            calculoPolilineaPerfil.Acuerdo_Entre_Pendientes();
+            calculoPolilineaPerfil.Dibujar_Rectas(2);
+            calculoPolilineaPerfil.Dibujar_Acuerdos(2);
+
             calculoPolilineaPerfil.CrearTrazado();
-            PolilineaInfoPanel polilineaInfoPanel = new PolilineaInfoPanel(calculoPolilineaPerfil.Polilinea_Perfil);
-            polilineaInfoPanel.Show();
-            PolilineaInfoPanel polilineaInfoPanel2 = new PolilineaInfoPanel(calculoPolilineaPerfil.Lista_Parabolas);
-            polilineaInfoPanel2.Show();
+            calculoPolilineaPerfil.Rotular();
+            
+            
+            calculoPolilineaPerfil.Informe();
         }
 
         private void materialLabel23_Click(object sender, EventArgs e)
@@ -1739,7 +1759,7 @@ namespace interfaz {
             int escala;
             int n_suavizados;
             calculoPolilineaPerfil = new CalculoPolilineaPerfil();
-            calculoPolilineaPerfil.Cotas_Trazado(this.calculoPolilinea.Mcomponenetes);
+            calculoPolilineaPerfil.Cotas_Trazado(this.calculoPolilinea.Mcomponenetes, Lista_original_3d);
             if (!string.IsNullOrEmpty(FactorEscala.Text))
             {
                 escala = int.Parse(FactorEscala.Text);
