@@ -91,9 +91,24 @@ namespace interfaz {
             filtrado3ExecuteOrderNumericField.Enabled = false;
 
 
-            
-            
+
+            materialLabel26.Visible = false;
+            suavizar.Visible = false;
+            materialLabel30.Visible = false;
+            textpendiente.Visible = false;
+            materialLabel25.Visible = false;
+            Varianza_acumulada.Visible = false;
+            materialLabel27.Visible = false;
+            text_distancia.Visible = false;
+            materialLabel28.Visible = false;
+            text_separacion.Visible = false;
+            panel1.Visible = false;
+            materialLabel23.Visible = false;
+            materialLabel31.Visible = false;
+
             materialTabControl1.Visible = true;
+            
+
         }
 
         private void principal_ResizeEnd(object sender, EventArgs e) {
@@ -1629,6 +1644,10 @@ namespace interfaz {
             if (!string.IsNullOrEmpty(textpendiente.Text))
             {
                 pendiente = double.Parse(textpendiente.Text);
+                if (pendiente==0)
+                {
+                    pendiente = 0.001;
+                }
             }
             else
             {
@@ -1644,17 +1663,16 @@ namespace interfaz {
 
 
 
-            PolilineaInfoPanel polilineaInfoPanel = new PolilineaInfoPanel(calculoPolilineaPerfil.Polilinea_Perfil);
+            /*PolilineaInfoPanel polilineaInfoPanel = new PolilineaInfoPanel(calculoPolilineaPerfil.Polilinea_Perfil);
             polilineaInfoPanel.Show();
             PolilineaInfoPanel polilineaInfoPanel2 = new PolilineaInfoPanel(calculoPolilineaPerfil.Lista_Parabolas);
-            polilineaInfoPanel2.Show();
+            polilineaInfoPanel2.Show();*/
             calculoPolilineaPerfil.Quitar_Acuerdos(distancia,separacion,pendiente);
             
             // calculoPolilineaPerfil.ReducirParabola(1,1);
             calculoPolilineaPerfil.PuntoInflexion();
             //calculoPolilineaPerfil.Fusion_Acuerdos();
-            PolilineaInfoPanel polilineaInfoPanel3 = new PolilineaInfoPanel(calculoPolilineaPerfil.Lista_Parabolas);
-            polilineaInfoPanel3.Show();
+
             
             calculoPolilineaPerfil.Dibujar_Acuerdos(1);
             calculoPolilineaPerfil.CalcularEntreParabolas();
@@ -1670,7 +1688,6 @@ namespace interfaz {
 
             calculoPolilineaPerfil.CrearTrazado();
             calculoPolilineaPerfil.Rotular();
-            
             
             calculoPolilineaPerfil.Informe();
         }
@@ -1759,54 +1776,106 @@ namespace interfaz {
             int escala;
             int n_suavizados;
             calculoPolilineaPerfil = new CalculoPolilineaPerfil();
-            calculoPolilineaPerfil.Cotas_Trazado(this.calculoPolilinea.Mcomponenetes, Lista_original_3d);
-            if (!string.IsNullOrEmpty(FactorEscala.Text))
+            if (this.calculoPolilinea!=null)
             {
-                escala = int.Parse(FactorEscala.Text);
-            }
-            else
-            {
-                escala = 1;
-            }
-            if (!string.IsNullOrEmpty(suavizar.Text))
-            {
-                n_suavizados = int.Parse(suavizar.Text);
-            }
-            else
-            {
-                n_suavizados = 1;
-            }
-            if (comprobar())
-            {
-                dsApp dsApp = this.CargarArchivoDeProyectoPerfil(calculoPolilineaPerfil);
-
-                if (dsApp != null)
+                if (this.calculoPolilinea.Mcomponenetes!=null)
                 {
-                    //obtener parametros de inicializacion de CalculoPolilineaController
-                    this.calculoPolilineaPreferenciasPerfil = this.obtenerParametrosCalculoPolilineaPerfil();
-
-                    if (aplicarMultiplesFiltradosCheckBox.Checked == false)
+                    calculoPolilineaPerfil.Cotas_Trazado(this.calculoPolilinea.Mcomponenetes, Lista_original_3d);
+                    if (!string.IsNullOrEmpty(FactorEscala.Text))
                     {
-                        this.calculoPolilineaPerfil = new CalculoPolilineaPerfil(ref dsApp, calculoPolilineaPreferenciasPerfil.Opcion, calculoPolilineaPreferenciasPerfil.Ratio, calculoPolilineaPreferenciasPerfil.It, escala, n_suavizados);
+                        escala = int.Parse(FactorEscala.Text);
                     }
                     else
                     {
-                        this.calculoPolilineaPerfil = new CalculoPolilineaPerfil(ref dsApp, calculoPolilineaPreferenciasPerfil.Opcion, calculoPolilineaPreferenciasPerfil.Ratio, calculoPolilineaPreferenciasPerfil.Orden, calculoPolilineaPreferenciasPerfil.It);
+                        escala = 1;
                     }
+                    if (!string.IsNullOrEmpty(suavizar.Text))
+                    {
+                        n_suavizados = int.Parse(suavizar.Text);
+                    }
+                    else
+                    {
+                        n_suavizados = 1;
+                    }
+                    if (comprobar())
+                    {
+                        dsApp dsApp = this.CargarArchivoDeProyectoPerfil(calculoPolilineaPerfil);
 
-                    this.calculoPolilineaStatusTextView.Visible = true;
-                    this.pasosEjecutados = 0;
+                        if (dsApp != null)
+                        {
+                            //obtener parametros de inicializacion de CalculoPolilineaController
+                            this.calculoPolilineaPreferenciasPerfil = this.obtenerParametrosCalculoPolilineaPerfil();
 
-                    MessageBox.Show("CalculoPolilinea Perfil inicializado");
+                            if (aplicarMultiplesFiltradosCheckBox.Checked == false)
+                            {
+                                this.calculoPolilineaPerfil = new CalculoPolilineaPerfil(ref dsApp, calculoPolilineaPreferenciasPerfil.Opcion, calculoPolilineaPreferenciasPerfil.Ratio, calculoPolilineaPreferenciasPerfil.It, escala, n_suavizados);
+                            }
+                            else
+                            {
+                                this.calculoPolilineaPerfil = new CalculoPolilineaPerfil(ref dsApp, calculoPolilineaPreferenciasPerfil.Opcion, calculoPolilineaPreferenciasPerfil.Ratio, calculoPolilineaPreferenciasPerfil.Orden, calculoPolilineaPreferenciasPerfil.It);
+                            }
+
+                            this.calculoPolilineaStatusTextView.Visible = true;
+                            this.pasosEjecutados = 0;
+
+                            MessageBox.Show("CalculoPolilinea Perfil inicializado");
+                        }
+                        else
+                        {
+                            MessageBox.Show("Error al abrir el archivo del proyecto");
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error. El orden de los filtros esta repetido");
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("Error al abrir el archivo del proyecto");
+                    MessageBox.Show("Error. No hay trazado disponible");
                 }
+                
             }
             else
             {
-                MessageBox.Show("Error. El orden de los filtros esta repetido");
+                MessageBox.Show("Error. No hay trazado disponible");
+            }
+            
+        }
+
+        private void materialCheckBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (materialCheckBox2.Checked)
+            {
+                materialLabel26.Visible = true;
+                suavizar.Visible = true;
+                materialLabel30.Visible = true;
+                textpendiente.Visible = true;
+                materialLabel25.Visible = true;
+                Varianza_acumulada.Visible = true;
+                materialLabel27.Visible = true;
+                text_distancia.Visible = true;
+                materialLabel28.Visible = true;
+                text_separacion.Visible = true;
+                panel1.Visible = true;
+                materialLabel23.Visible = true;
+                materialLabel31.Visible = true;
+            }
+            else
+            {
+                materialLabel26.Visible = false;
+                suavizar.Visible = false;
+                materialLabel30.Visible = false;
+                textpendiente.Visible = false;
+                materialLabel25.Visible = false;
+                Varianza_acumulada.Visible = false;
+                materialLabel27.Visible = false;
+                text_distancia.Visible = false;
+                materialLabel28.Visible = false;
+                text_separacion.Visible = false;
+                panel1.Visible = false;
+                materialLabel23.Visible = false;
+                materialLabel31.Visible = false;
             }
         }
     }

@@ -4609,6 +4609,16 @@ namespace Logica
                     p2 = (a_y0 - b_y1) / (a_x0 - b_x1);
                     rotular.Dibujar_Singulares_Perfil(Lista_parabolas[i], Lista_rectas[i].Puntos[1], Lista_rectas[i + 1].Puntos[0], escala, p1, p2,1);
                 }
+                if (Lista_parabolas.Count==Lista_rectas.Count)
+                {
+                    a_x0 = Lista_rectas[Lista_rectas.Count-1].Puntos[0].X;
+                    a_y0 = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].Y;
+                    b_x1 = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
+                    b_y1 = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].Y;
+
+                    p1 = (a_y0 - b_y1) / (a_x0 - b_x1);
+                    rotular.Dibujar_Singulares_Perfil(Lista_parabolas[Lista_parabolas.Count-1], Lista_rectas[Lista_rectas.Count-1].Puntos[1], polilinea_perfil[polilinea_perfil.Count-1].p, escala, p1, 0, 3);
+                }
 
             }
             else
@@ -4738,7 +4748,7 @@ namespace Logica
                 
                 if (Lista_parabolas[i].polilinea_perfil[0].p.X<x && x< Lista_parabolas[i].polilinea_perfil[Lista_parabolas[i].polilinea_perfil.Count-1].p.X)
                 {
-                    for (int t=0;t<Lista_rectas.Count;t++)
+                    for (int t=0;t<Lista_rectas.Count-1;t++)
                     {
                         if (Lista_rectas[t].Puntos[1].X<x && x<Lista_rectas[t+1].Puntos[0].X)
                         {
