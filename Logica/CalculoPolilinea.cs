@@ -22334,7 +22334,68 @@ namespace Logica {
             return vertice;
 
         }
+        public void Aniadir_Rectar_Radio_Grande()
+        {
+            int contador;
+            bool contar = true;
+            List<Componente> lista_rectas_aniadir = new List<Componente>();
+            for (int i=0;i<componentes.Count-1;i++)
+            {
+                lista_rectas_aniadir = new List<Componente>();
+                contar = true;
+                for (int t = componentes[i].fin + 1; t < componentes[i + 1].ini; t++)
+                {
+                    if (polilinea[t].secuenciagiro==1)
+                    {
+                        contar = false;
+                    }
+                }
+                if (contar && componentes[i + 1].ini-(componentes[i].fin+1)>1)
+                {
+                    contador = 0;
+                    for (int t = componentes[i].fin + 1; t < componentes[i + 1].ini; t++)
+                    {
+                        if (polilinea[t].R > 10000)
+                        {
+                            contador++;
+                        }
+                        else
+                        {
+                            if (contador > 1)
+                            {
 
+                                lista_rectas_aniadir.Add(new Componente(new Punto(new Point2d(polilinea[t - contador].p.X, polilinea[t - contador].p.Y)), 1));
+                                for (int r = t - contador + 1; r < t; r++)
+                                {
+
+                                    lista_rectas_aniadir[lista_rectas_aniadir.Count - 1].add(new Punto(new Point2d(polilinea[r].p.X, polilinea[r].p.Y)));
+                                }
+
+
+                            }
+                            contador = 0;
+                        }
+                    }
+                    if (contador > 1)
+                    {
+                        lista_rectas_aniadir.Add(new Componente(new Punto(new Point2d(polilinea[componentes[i + 1].ini - contador].p.X, polilinea[componentes[i + 1].ini - contador].p.Y)), 1));
+                        for (int r = componentes[i + 1].ini - contador+1; r < componentes[i + 1].ini; r++)
+                        {
+
+                            lista_rectas_aniadir[lista_rectas_aniadir.Count - 1].add(new Punto(new Point2d(polilinea[r].p.X, polilinea[r].p.Y)));
+                        }
+
+                    }
+                    contador = 0;
+                }
+                for (int t=0;t< lista_rectas_aniadir.Count;t++)
+                {
+                    componentes.Insert(i+1, lista_rectas_aniadir[t]);
+                }
+                i += lista_rectas_aniadir.Count;
+
+            }
+        }
     }
 
 

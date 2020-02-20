@@ -626,7 +626,9 @@ namespace interfaz {
                         calculoPolilinea.Limpiar(i);
 
                     }
+                    
                     calculoPolilinea.Unir_Componentes();
+                    calculoPolilinea.Aniadir_Rectar_Radio_Grande();
                     calculoPolilinea.Dibujar_entidades(1);
                     calculoPolilinea.Comprobacion();
                     calculoPolilinea.Dibujar_entidades(2);
@@ -1659,7 +1661,6 @@ namespace interfaz {
             //calculoPolilineaPerfil.MatrizAcuerdo();
             //calculoPolilineaPerfil.MatrizAcuerdo2();
             calculoPolilineaPerfil.MatrizAcuerdo3();
-            //calculoPolilineaPerfil.Dibujar_Acuerdos();
 
 
 
@@ -1669,7 +1670,6 @@ namespace interfaz {
             polilineaInfoPanel2.Show();*/
             calculoPolilineaPerfil.Quitar_Acuerdos(distancia,separacion,pendiente);
             
-            // calculoPolilineaPerfil.ReducirParabola(1,1);
             calculoPolilineaPerfil.PuntoInflexion();
             //calculoPolilineaPerfil.Fusion_Acuerdos();
 
@@ -1677,7 +1677,6 @@ namespace interfaz {
             calculoPolilineaPerfil.Dibujar_Acuerdos(1);
             calculoPolilineaPerfil.CalcularEntreParabolas();
             calculoPolilineaPerfil.CalculoEntreParabolas_Dibujar();
-            //calculoPolilineaPerfil.Dibujar_Acuerdos();
 
             calculoPolilineaPerfil.Componente_Inicial();
             calculoPolilineaPerfil.Componente_Final();
@@ -1687,6 +1686,7 @@ namespace interfaz {
             calculoPolilineaPerfil.Dibujar_Acuerdos(2);
 
             calculoPolilineaPerfil.CrearTrazado();
+
             calculoPolilineaPerfil.Rotular();
             
             calculoPolilineaPerfil.Informe();
