@@ -1725,7 +1725,7 @@ namespace Logica {
                         b = new Point2d(componentes[i + 1].xc, componentes[i + 1].yc);
                         if (Distancia(a, b) <= (componentes[i - 1].radio + componentes[i + 1].radio)) {
                             if (componentes[i].creacion != 2) {
-                                componentes[i].ca_cp = true;
+//                                componentes[i].ca_cp = true;
                             } else {
                                 componentes[i].ca_cp = false;
 
@@ -15225,7 +15225,7 @@ namespace Logica {
                     }
                     Comprobar_Curvas();
                     //&& contador < 10000
-                } while (!salir && this.Comprobar_casos_solapes() && !terminar );
+                } while (!salir && this.Comprobar_casos_solapes() && !terminar && contador < 1);
                 if (salir && !terminar)
                 {
                     viabilidad();
@@ -17157,6 +17157,32 @@ namespace Logica {
 
             return new Curva(puntosSing[1], puntosSing[2], puntosSing[4], c2.radio, 0, 0, getSentidoCurva(c1.azr, c3.azr));
 
+        }
+        private EjeDeTrazado.componentes.Curva Curva_No_Paso(Componente c1, double radio, Componente c3)
+        {
+            //ec de la primera recta
+            double a_x0 = c1.lista_puntos[0].p.X;
+            double a_y0 = c1.lista_puntos[0].p.Y;
+            double b_x1 = c1.lista_puntos[1].p.X;
+            double b_y1 = c1.lista_puntos[1].p.Y;
+
+            double a_1 = (a_y0 - b_y1) / (a_x0 - b_x1);
+            double b_1 = -b_x1 * (a_y0 - b_y1) / (a_x0 - b_x1) + b_y1;
+
+            double c_x0 = c3.lista_puntos[0].p.X;
+            double c_y0 = c3.lista_puntos[0].p.Y;
+            double d_x1 = c3.lista_puntos[1].p.X;
+            double d_y1 = c3.lista_puntos[1].p.Y;
+
+            double c_1 = (c_y0 - d_y1) / (c_x0 - d_x1);
+            double d_1 = -d_x1 * ((c_y0 - d_y1) / (c_x0 - d_x1)) + d_y1;
+
+            double i_x = (d_1 - b_1) / (a_1 - c_1);
+            double i_y = a_1 * ((d_1 - b_1) / (a_1 - c_1)) + b_1;
+            Punto3d p_vertice = new Punto3d(i_x, i_y, 0);
+            Punto3d[] puntosSing = addCurvaNoPaso(radio, c1.azr, c3.azr, p_vertice, getSentidoCurva(c1.azr, c3.azr),false);
+
+            return new Curva( puntosSing[2], puntosSing[1], puntosSing[4], radio, 0, 0, getSentidoCurva(c1.azr, c3.azr));
         }
         private EjeDeTrazado.componentes.Curva Curva_Gran_Radio(Componente c1, double radio, Componente c3)
         {
@@ -19813,7 +19839,8 @@ namespace Logica {
                     {
                         radio = d2 /(dif_az * Math.PI / 180);
                     }
-                    EjeDeTrazado.componentes.Curva curva=Curva_Gran_Radio(componentes[i],radio/3, componentes[i+1]);
+                    EjeDeTrazado.componentes.Curva curva = Curva_No_Paso(componentes[i], radio / 3, componentes[i + 1]);
+                    //EjeDeTrazado.componentes.Curva curva=Curva_Gran_Radio(componentes[i],radio/3, componentes[i+1]);
                     componentes.Insert(i+1,new Componente(new Punto(new Point2d(curva.getPuntoEntrada.coordenadaX, curva.getPuntoEntrada.coordenadaY)), 2));
                     componentes[i + 1].add(new Punto(new Point2d(curva.puntoMedioCurva.coordenadaX, curva.puntoMedioCurva.coordenadaY)));
                     componentes[i + 1].add(new Punto(new Point2d(curva.getPuntoSalida.coordenadaX, curva.getPuntoSalida.coordenadaY)));
@@ -19827,22 +19854,69 @@ namespace Logica {
             for (int i = 0; i < componentes.Count - 1; i++)
             {
                 bool borrada = false;
+                bool borrada1 = false;
+                bool borrada2 = false;
                 if (componentes[i].curva_creada)
                 {
+                    borrada1 = false;
+                    borrada2 = false;
                     if (componentes[i + 1].Tipo == 1 && i+1<componentes.Count-1)
                     {
-                        Componentes.RemoveAt(i + 1);
+                        if (i+2< componentes.Count-2)
+                        {
+                            if (componentes[i + 2].curva_creada)
+                            {
+
+                            }
+                            else
+                            {
+                                Componentes.RemoveAt(i + 1);
+                                borrada1 = true;
+                            }
+                        }
+
                     }
                     if (componentes[i].radio<0.1)
                     {
+                        if (componentes[i + 1].Tipo == 1 && i + 1 < componentes.Count - 1)
+                        {
+                            if (!borrada1)
+                            {
+                                Componentes.RemoveAt(i + 1);
+                            }
+                            
+                        }
+                        borrada2 = false;
                         Componentes.RemoveAt(i);
                         borrada = true;
+                        if (componentes[i - 1].Tipo == 1 && i - 1 > 0)
+                        {
+                            Componentes.RemoveAt(i - 1);
+                            borrada2 = true;
+                            i--;
+                        }
                     }
                     if (componentes[i-1].Tipo==1 && i-1>0)
                     {
-                        Componentes.RemoveAt(i-1);
-                        i--;
+                         if (i - 2 >0)
+                         {
+                             if (componentes[i - 2].curva_creada)
+                             {
+
+                             }
+                             else
+                             {
+                                 if (!borrada2)
+                                 {
+                                     Componentes.RemoveAt(i - 1);
+                                     i--;
+                                 }
+
+                             }
+                         }
+
                     }
+
                     if (borrada)
                     {
                         i--;
@@ -20999,7 +21073,15 @@ namespace Logica {
                 } else if (componentes[i].Tipo == 2) {
                     if (componentes[i-1].Tipo == 2 && componentes[i+1].Tipo == 2)
                     {
-                        Aumentar_radio(i);
+                        if (componentes[i - 1].radio< componentes[i].radio && componentes[i].radio> componentes[i + 1].radio)
+                        {
+                            Reducir_radio_mismo_centro(i);
+                        }
+                        else
+                        {
+                            Aumentar_radio(i);
+                        }
+                        
                     }
                     else
                     {
