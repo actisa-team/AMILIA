@@ -815,10 +815,6 @@ namespace interfaz {
 
             if (this.pasosEjecutados > 1) {
                 if (this.calculoPolilinea != null) {
-                    //Thread th1 = new Thread(new ThreadStart(Ejecutar_enlaces));
-                    //Thread th2 = new Thread(new ThreadStart(time));
-                    //th2.Start();
-
 
                     List<ViabilidadComponentesStatus> viabilidadEnlaces = calculoPolilinea.Enlaces(this.calculoPolilineaPreferencias.Gran_r, calculoPolilineaPreferencias.Solapes);
                     //th2.Abort();

@@ -114,13 +114,11 @@
             this.materialFlatButton6 = new MaterialSkin.Controls.MaterialFlatButton();
             this.CargarPoliPerfil = new MaterialSkin.Controls.MaterialFlatButton();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.materialLabel32 = new MaterialSkin.Controls.MaterialLabel();
+            this.materialLabel31 = new MaterialSkin.Controls.MaterialLabel();
             this.materialCheckBox2 = new MaterialSkin.Controls.MaterialCheckBox();
             this.textpendiente = new System.Windows.Forms.TextBox();
             this.materialLabel30 = new MaterialSkin.Controls.MaterialLabel();
-            this.text_separacion = new System.Windows.Forms.TextBox();
-            this.materialLabel28 = new MaterialSkin.Controls.MaterialLabel();
-            this.text_distancia = new System.Windows.Forms.TextBox();
-            this.materialLabel27 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel26 = new MaterialSkin.Controls.MaterialLabel();
             this.suavizar = new System.Windows.Forms.TextBox();
             this.materialFlatButton16 = new MaterialSkin.Controls.MaterialFlatButton();
@@ -132,15 +130,17 @@
             this.materialFlatButton12 = new MaterialSkin.Controls.MaterialFlatButton();
             this.materialFlatButton11 = new MaterialSkin.Controls.MaterialFlatButton();
             this.materialFlatButton10 = new MaterialSkin.Controls.MaterialFlatButton();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.materialLabel23 = new MaterialSkin.Controls.MaterialLabel();
+            this.text_separacion = new System.Windows.Forms.TextBox();
+            this.materialLabel27 = new MaterialSkin.Controls.MaterialLabel();
+            this.materialLabel28 = new MaterialSkin.Controls.MaterialLabel();
+            this.text_distancia = new System.Windows.Forms.TextBox();
             this.materialFlatButton13 = new MaterialSkin.Controls.MaterialFlatButton();
             this.materialFlatButton14 = new MaterialSkin.Controls.MaterialFlatButton();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.materialLabel23 = new MaterialSkin.Controls.MaterialLabel();
-            this.materialLabel31 = new MaterialSkin.Controls.MaterialLabel();
-            this.materialLabel32 = new MaterialSkin.Controls.MaterialLabel();
             this.materialTabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -150,10 +150,10 @@
             this.tabPage3.SuspendLayout();
             this.debugButtonsContainer.SuspendLayout();
             this.tabPage4.SuspendLayout();
+            this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // materialTabSelector1
@@ -1430,6 +1430,32 @@
             this.tabPage4.Text = "tabPage4";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
+            // materialLabel32
+            // 
+            this.materialLabel32.AutoSize = true;
+            this.materialLabel32.Depth = 0;
+            this.materialLabel32.Font = new System.Drawing.Font("Roboto", 11F);
+            this.materialLabel32.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialLabel32.Location = new System.Drawing.Point(30, 22);
+            this.materialLabel32.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel32.Name = "materialLabel32";
+            this.materialLabel32.Size = new System.Drawing.Size(106, 19);
+            this.materialLabel32.TabIndex = 105;
+            this.materialLabel32.Text = "escala vertical";
+            // 
+            // materialLabel31
+            // 
+            this.materialLabel31.AutoSize = true;
+            this.materialLabel31.Depth = 0;
+            this.materialLabel31.Font = new System.Drawing.Font("Roboto", 11F);
+            this.materialLabel31.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialLabel31.Location = new System.Drawing.Point(238, 74);
+            this.materialLabel31.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel31.Name = "materialLabel31";
+            this.materialLabel31.Size = new System.Drawing.Size(181, 19);
+            this.materialLabel31.TabIndex = 104;
+            this.materialLabel31.Text = "pendiente en acuerdos(%)";
+            // 
             // materialCheckBox2
             // 
             this.materialCheckBox2.AutoSize = true;
@@ -1467,48 +1493,6 @@
             this.materialLabel30.Size = new System.Drawing.Size(155, 19);
             this.materialLabel30.TabIndex = 99;
             this.materialLabel30.Text = "Diferencia mínima de ";
-            // 
-            // text_separacion
-            // 
-            this.text_separacion.Location = new System.Drawing.Point(683, 37);
-            this.text_separacion.Name = "text_separacion";
-            this.text_separacion.Size = new System.Drawing.Size(70, 20);
-            this.text_separacion.TabIndex = 98;
-            this.text_separacion.Text = "0.1";
-            // 
-            // materialLabel28
-            // 
-            this.materialLabel28.AutoSize = true;
-            this.materialLabel28.Depth = 0;
-            this.materialLabel28.Font = new System.Drawing.Font("Roboto", 11F);
-            this.materialLabel28.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialLabel28.Location = new System.Drawing.Point(501, 36);
-            this.materialLabel28.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel28.Name = "materialLabel28";
-            this.materialLabel28.Size = new System.Drawing.Size(139, 19);
-            this.materialLabel28.TabIndex = 97;
-            this.materialLabel28.Text = "Asiento mínimo(m)";
-            // 
-            // text_distancia
-            // 
-            this.text_distancia.Location = new System.Drawing.Point(422, 37);
-            this.text_distancia.Name = "text_distancia";
-            this.text_distancia.Size = new System.Drawing.Size(70, 20);
-            this.text_distancia.TabIndex = 96;
-            this.text_distancia.Text = "10";
-            // 
-            // materialLabel27
-            // 
-            this.materialLabel27.AutoSize = true;
-            this.materialLabel27.Depth = 0;
-            this.materialLabel27.Font = new System.Drawing.Font("Roboto", 11F);
-            this.materialLabel27.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialLabel27.Location = new System.Drawing.Point(217, 36);
-            this.materialLabel27.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel27.Name = "materialLabel27";
-            this.materialLabel27.Size = new System.Drawing.Size(199, 19);
-            this.materialLabel27.TabIndex = 95;
-            this.materialLabel27.Text = "Longitud de deformación(m)";
             // 
             // materialLabel26
             // 
@@ -1659,6 +1643,74 @@
             this.materialFlatButton10.UseVisualStyleBackColor = true;
             this.materialFlatButton10.Click += new System.EventHandler(this.CargarPoliPerfil_Click);
             // 
+            // panel1
+            // 
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.materialLabel23);
+            this.panel1.Controls.Add(this.text_separacion);
+            this.panel1.Controls.Add(this.materialLabel27);
+            this.panel1.Controls.Add(this.materialLabel28);
+            this.panel1.Controls.Add(this.text_distancia);
+            this.panel1.Location = new System.Drawing.Point(20, 109);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(762, 84);
+            this.panel1.TabIndex = 103;
+            // 
+            // materialLabel23
+            // 
+            this.materialLabel23.AutoSize = true;
+            this.materialLabel23.Depth = 0;
+            this.materialLabel23.Font = new System.Drawing.Font("Roboto", 11F);
+            this.materialLabel23.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialLabel23.Location = new System.Drawing.Point(9, 0);
+            this.materialLabel23.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel23.Name = "materialLabel23";
+            this.materialLabel23.Size = new System.Drawing.Size(262, 19);
+            this.materialLabel23.TabIndex = 0;
+            this.materialLabel23.Text = "Detección de deformación del terreno";
+            // 
+            // text_separacion
+            // 
+            this.text_separacion.Location = new System.Drawing.Point(683, 37);
+            this.text_separacion.Name = "text_separacion";
+            this.text_separacion.Size = new System.Drawing.Size(70, 20);
+            this.text_separacion.TabIndex = 98;
+            this.text_separacion.Text = "0.1";
+            // 
+            // materialLabel27
+            // 
+            this.materialLabel27.AutoSize = true;
+            this.materialLabel27.Depth = 0;
+            this.materialLabel27.Font = new System.Drawing.Font("Roboto", 11F);
+            this.materialLabel27.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialLabel27.Location = new System.Drawing.Point(217, 36);
+            this.materialLabel27.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel27.Name = "materialLabel27";
+            this.materialLabel27.Size = new System.Drawing.Size(199, 19);
+            this.materialLabel27.TabIndex = 95;
+            this.materialLabel27.Text = "Longitud de deformación(m)";
+            // 
+            // materialLabel28
+            // 
+            this.materialLabel28.AutoSize = true;
+            this.materialLabel28.Depth = 0;
+            this.materialLabel28.Font = new System.Drawing.Font("Roboto", 11F);
+            this.materialLabel28.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialLabel28.Location = new System.Drawing.Point(501, 36);
+            this.materialLabel28.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel28.Name = "materialLabel28";
+            this.materialLabel28.Size = new System.Drawing.Size(139, 19);
+            this.materialLabel28.TabIndex = 97;
+            this.materialLabel28.Text = "Asiento mínimo(m)";
+            // 
+            // text_distancia
+            // 
+            this.text_distancia.Location = new System.Drawing.Point(422, 37);
+            this.text_distancia.Name = "text_distancia";
+            this.text_distancia.Size = new System.Drawing.Size(70, 20);
+            this.text_distancia.TabIndex = 96;
+            this.text_distancia.Text = "10";
+            // 
             // materialFlatButton13
             // 
             this.materialFlatButton13.AutoSize = true;
@@ -1722,58 +1774,6 @@
             this.pictureBox1.TabIndex = 3;
             this.pictureBox1.TabStop = false;
             // 
-            // panel1
-            // 
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.materialLabel23);
-            this.panel1.Controls.Add(this.text_separacion);
-            this.panel1.Controls.Add(this.materialLabel27);
-            this.panel1.Controls.Add(this.materialLabel28);
-            this.panel1.Controls.Add(this.text_distancia);
-            this.panel1.Location = new System.Drawing.Point(20, 109);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(762, 84);
-            this.panel1.TabIndex = 103;
-            // 
-            // materialLabel23
-            // 
-            this.materialLabel23.AutoSize = true;
-            this.materialLabel23.Depth = 0;
-            this.materialLabel23.Font = new System.Drawing.Font("Roboto", 11F);
-            this.materialLabel23.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialLabel23.Location = new System.Drawing.Point(9, 0);
-            this.materialLabel23.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel23.Name = "materialLabel23";
-            this.materialLabel23.Size = new System.Drawing.Size(262, 19);
-            this.materialLabel23.TabIndex = 0;
-            this.materialLabel23.Text = "Detección de deformación del terreno";
-            // 
-            // materialLabel31
-            // 
-            this.materialLabel31.AutoSize = true;
-            this.materialLabel31.Depth = 0;
-            this.materialLabel31.Font = new System.Drawing.Font("Roboto", 11F);
-            this.materialLabel31.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialLabel31.Location = new System.Drawing.Point(238, 74);
-            this.materialLabel31.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel31.Name = "materialLabel31";
-            this.materialLabel31.Size = new System.Drawing.Size(160, 19);
-            this.materialLabel31.TabIndex = 104;
-            this.materialLabel31.Text = "pendiente en acuerdos";
-            // 
-            // materialLabel32
-            // 
-            this.materialLabel32.AutoSize = true;
-            this.materialLabel32.Depth = 0;
-            this.materialLabel32.Font = new System.Drawing.Font("Roboto", 11F);
-            this.materialLabel32.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialLabel32.Location = new System.Drawing.Point(30, 22);
-            this.materialLabel32.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel32.Name = "materialLabel32";
-            this.materialLabel32.Size = new System.Drawing.Size(106, 19);
-            this.materialLabel32.TabIndex = 105;
-            this.materialLabel32.Text = "escala vertical";
-            // 
             // principal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1810,11 +1810,11 @@
             this.debugButtonsContainer.PerformLayout();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
