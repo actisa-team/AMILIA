@@ -3295,7 +3295,7 @@ namespace Logica {
                     }
                 }
                 if (hacer_caso) {
-                    if (componentes[1].caso3 == true) {
+                    if (componentes[1].caso3 == true && componentes[0].Tipo==1) {
                         //hacer caso 3
                         List<Punto> pv = new List<Punto>();
                         List<Punto> recta = new List<Punto>();
@@ -3436,11 +3436,15 @@ namespace Logica {
                 componentes[1].caso3 = false;
             }
             //caso 3
-            if (componentes[componentes.Count - 1].Tipo == 1 && componentes[componentes.Count - 2].Tipo == 2 && componentes[componentes.Count - 1].c_a == true) {
-                componentes[componentes.Count - 1].caso3 = true;
-            } else {
-                componentes[componentes.Count - 1].caso3 = false;
+            if (componentes[componentes.Count - 1].Tipo == 1 && componentes[componentes.Count - 2].Tipo == 2 && componentes[componentes.Count - 1].c_a == true)
+            {
+                componentes[componentes.Count - 2].caso3 = true;
             }
+            else
+            {
+                componentes[componentes.Count - 2].caso3 = false;
+            }
+
         }
         public bool ajuste_tipo2(double x, double y, double r, int pos)//este es el ultimo ajuste utilizando las curvas en cluster
         {
@@ -18365,7 +18369,15 @@ namespace Logica {
                                     }
                                     if (i == componentes.Count - 2 && az_temp_1!=-1)
                                     {
-                                        componentes[i].v_u_r = true;
+                                        if (componentes[componentes.Count - 1].Tipo == 1 && componentes[componentes.Count - 1].azr> az_temp_2)
+                                        {
+
+                                        }
+                                        else
+                                        {
+                                            componentes[i].v_u_r = true;
+                                        }
+                                       
                                     }
                                     if (componentes[i + 1].Tipo == 2)
                                     {
@@ -18396,7 +18408,7 @@ namespace Logica {
                             }
                             else
                             {
-                                if (az_temp_1 > 270 && az_temp_1 < 360 && az_temp_2 > 0 && az_temp_2 < 90)
+                                if (az_temp_1 > 270 && az_temp_1 < 360 && az_temp_2 > 0 && az_temp_2 < 110)
                                 {
 
                                 }
@@ -18480,7 +18492,14 @@ namespace Logica {
                                             }
                                             if (i == componentes.Count - 2 && az_temp_1 != -1)
                                             {
-                                                componentes[i].v_u_r = true;
+                                                if (componentes[componentes.Count - 1].Tipo == 1 && componentes[componentes.Count - 1].azr > az_temp_2)
+                                                {
+
+                                                }
+                                                else
+                                                {
+                                                    componentes[i].v_u_r = true;
+                                                }
                                             }
                                             if (componentes[i + 1].Tipo == 2)
                                             {
@@ -18542,55 +18561,71 @@ namespace Logica {
                                 {
                                     az_temp_2 -= 360;
                                 }
-                                if (az_temp_1 < az_temp_2)
+                                if (az_temp_2 > 270 && az_temp_2 < 360 && az_temp_1 > 0 && az_temp_1 < 110)
                                 {
-                                    if (Solape_Gran_Angulo(azimuts, conta_az, i) && az_temp_1 != -1 && az_temp_2 != -1)
-                                    {
-                                        Solape_Gran_Angulo(azimuts, conta_az, i);
-                                    }
-                                    if (i < componentes.Count - 2 && i > 1)
-                                    {
-                                        if (az_temp_1 > 0 && az_temp_2 == -1)
-                                        {
 
-                                        }
-                                        else
+                                }
+                                else
+                                {
+                                    if (az_temp_1 < az_temp_2)
+                                    {
+                                        if (Solape_Gran_Angulo(azimuts, conta_az, i) && az_temp_1 != -1 && az_temp_2 != -1)
                                         {
-                                            if (az_temp_2>300 && az_temp_2 < 360 && az_temp_1>0 && az_temp_1<160)
+                                            Solape_Gran_Angulo(azimuts, conta_az, i);
+                                        }
+                                        if (i < componentes.Count - 2 && i > 1)
+                                        {
+                                            if (az_temp_1 > 0 && az_temp_2 == -1)
                                             {
 
                                             }
                                             else
                                             {
-                                                componentes[i].v_s_c = true;
+                                                if (az_temp_2 > 300 && az_temp_2 < 360 && az_temp_1 > 0 && az_temp_1 < 160)
+                                                {
+
+                                                }
+                                                else
+                                                {
+                                                    componentes[i].v_s_c = true;
+                                                }
+
                                             }
-                                            
                                         }
-                                    }
-                                    if (i == 1 && az_temp_2 != -1)
-                                    {
-                                        componentes[i].v_p_r = true;
-                                    }
-                                    if (i == componentes.Count - 2 && az_temp_1 != -1)
-                                    {
-                                        componentes[i].v_u_r = true;
-                                    }
-                                    if (componentes[i + 1].Tipo == 2)
-                                    {
-                                        componentes[i + 1].v_a_p = true;
-                                    }
-                                    if (componentes[i - 1].Tipo == 2)
-                                    {
-                                        if (az_temp_1 != -1 && az_temp_1 < componentes[i - 1].azte)
+                                        if (i == 1 && az_temp_2 != -1)
                                         {
+                                            componentes[i].v_p_r = true;
+                                        }
+                                        if (i == componentes.Count - 2 && az_temp_1 != -1)
+                                        {
+                                            if (componentes[componentes.Count - 1].Tipo == 1 && componentes[componentes.Count - 1].azr < az_temp_2)
+                                            {
+
+                                            }
+                                            else
+                                            {
+                                                componentes[i].v_u_r = true;
+                                            }
 
                                         }
-                                        else
+                                        if (componentes[i + 1].Tipo == 2)
                                         {
-                                            componentes[i - 1].v_a_p = true;
+                                            componentes[i + 1].v_a_p = true;
+                                        }
+                                        if (componentes[i - 1].Tipo == 2)
+                                        {
+                                            if (az_temp_1 != -1 && az_temp_1 < componentes[i - 1].azte)
+                                            {
+
+                                            }
+                                            else
+                                            {
+                                                componentes[i - 1].v_a_p = true;
+                                            }
                                         }
                                     }
                                 }
+                                
                             }
                         }
                         else
@@ -18631,7 +18666,14 @@ namespace Logica {
                                         }
                                         if (i == componentes.Count - 2 && az_temp_1 != -1)
                                         {
-                                            componentes[i].v_u_r = true;
+                                            if (componentes[componentes.Count - 1].Tipo == 1 && componentes[componentes.Count - 1].azr < az_temp_2)
+                                            {
+
+                                            }
+                                            else
+                                            {
+                                                componentes[i].v_u_r = true;
+                                            }
                                         }
                                         if (componentes[i + 1].Tipo == 2)
                                         {
@@ -18779,7 +18821,11 @@ namespace Logica {
                 }
 
             }
-            if (componentes[componentes.Count - 1].Tipo == 2)
+
+            /*
+             * Lo comento el siguiente if por parecer inecesario
+             */
+            /*if (componentes[componentes.Count - 1].Tipo == 2)
             {
                 if (componentes[componentes.Count - 1].direccion == EjeDeTrazado.puntosDelEje.EjeTrazado.sentidoCurva.Horario)
                 {
@@ -18903,7 +18949,7 @@ namespace Logica {
                         }
                     }
                 }
-            }
+            }*/
             //Ángulo de giro en la curva menor de 2º (a1-a2)<2º
             for (int i = 1; i < componentes.Count - 2; i++) {
                 if (componentes[i].Tipo == 1 && componentes[i + 1].Tipo == 1) {
@@ -19243,16 +19289,28 @@ namespace Logica {
              * Caso 7
              */
             if (modificar) {
-                for (int i = 0; i < componentes.Count - 1; i++) {
-                    if (componentes[i].caso7_e == true) {
-                        modificar = Resolver_caso7(i);
-                        if (i >= 0 && i <= componentes.Count - 1)
+                for (int i = 0; i < componentes.Count - 1; i++)
+                {
+                    if (componentes[i].caso6_e == true)
+                    {
+                        modificar = false;
+                    }
+                }
+                if (modificar)
+                {
+                    for (int i = 0; i < componentes.Count - 1; i++)
+                    {
+                        if (componentes[i].caso7_e == true)
                         {
-                            componentes[i].solape += 1;
-                        }
-                        else
-                        {
+                            modificar = Resolver_caso7(i);
+                            if (i >= 0 && i <= componentes.Count - 1)
+                            {
+                                componentes[i].solape += 1;
+                            }
+                            else
+                            {
 
+                            }
                         }
                     }
                 }
