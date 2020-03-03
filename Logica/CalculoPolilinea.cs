@@ -17754,11 +17754,19 @@ namespace Logica {
                                             curva_gran_radio = true;
                                             double xx = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaX;
                                             double yy = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaY;
-                                            Punto3d p3d = new Punto3d(xx, yy, 0);
-                                            Punto3d p3d2 = new Punto3d(Clo.getPointAtDist(0)[0], Clo.getPointAtDist(0)[1], 0);
-                                            Punto3d p3dc = new Punto3d(componentes[i - 1].xc, componentes[i - 1].yc, 0);
-                                            EjeDeTrazado.componentes.Curva Curvaa = new EjeDeTrazado.componentes.Curva(p3d, p3d2, p3dc, componentes[i - 1].radio, 0, 0, componentes[i - 1].direccion);
-                                            mcomponenetes.Add(Curvaa);
+                                            if (Distancia(new Point2d(xx,yy), new Point2d(Clo.getPointAtDist(0)[0], Clo.getPointAtDist(0)[1]))<0.0001)
+                                            {
+
+                                            }
+                                            else
+                                            {
+                                                Punto3d p3d = new Punto3d(xx, yy, 0);
+                                                Punto3d p3d2 = new Punto3d(Clo.getPointAtDist(0)[0], Clo.getPointAtDist(0)[1], 0);
+                                                Punto3d p3dc = new Punto3d(componentes[i - 1].xc, componentes[i - 1].yc, 0);
+                                                EjeDeTrazado.componentes.Curva Curvaa = new EjeDeTrazado.componentes.Curva(p3d, p3d2, p3dc, componentes[i - 1].radio, 0, 0, componentes[i - 1].direccion);
+                                                mcomponenetes.Add(Curvaa);
+                                            }
+                                            
                                             mcomponenetes.Add(Clo);
                                             xx = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaX;
                                             yy = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaY;
@@ -17789,12 +17797,19 @@ namespace Logica {
                                                     xx = Clo_Entre_Curvas.getPointAtDist(Clo_Entre_Curvas.getLe_r())[0];
                                                     yy = Clo_Entre_Curvas.getPointAtDist(Clo_Entre_Curvas.getLe_r())[1];
                                                 }
+                                                if (Distancia(new Point2d(xx, yy), new Point2d(Clotoides[0].getPointAtDist(0)[0], Clotoides[0].getPointAtDist(0)[1])) < 0.0001)
+                                                {
 
-                                                Punto3d p3d = new Punto3d(xx, yy, 0);
-                                                Punto3d p3d2 = new Punto3d(Clotoides[0].getPointAtDist(0)[0], Clotoides[0].getPointAtDist(0)[1], 0);
-                                                Punto3d p3dc = new Punto3d(componentes[i - 1].xc, componentes[i - 1].yc, 0);
-                                                EjeDeTrazado.componentes.Curva Curvaa = new EjeDeTrazado.componentes.Curva(p3d, p3d2, p3dc, componentes[i - 1].radio, 0, 0, componentes[i - 1].direccion);
-                                                mcomponenetes.Add(Curvaa);
+                                                }
+                                                else
+                                                {
+                                                    Punto3d p3d = new Punto3d(xx, yy, 0);
+                                                    Punto3d p3d2 = new Punto3d(Clotoides[0].getPointAtDist(0)[0], Clotoides[0].getPointAtDist(0)[1], 0);
+                                                    Punto3d p3dc = new Punto3d(componentes[i - 1].xc, componentes[i - 1].yc, 0);
+                                                    EjeDeTrazado.componentes.Curva Curvaa = new EjeDeTrazado.componentes.Curva(p3d, p3d2, p3dc, componentes[i - 1].radio, 0, 0, componentes[i - 1].direccion);
+                                                    mcomponenetes.Add(Curvaa);
+                                                }
+                                                
                                                 clo_salida = false;
                                                 Clo_Entre_Curvas = null;
                                             }
@@ -17803,13 +17818,24 @@ namespace Logica {
                                                 double[] pr1 = Clotoides[0].getPointAtDist(Clotoides[0].getPkFinal());
                                                 xx = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaX;
                                                 yy = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaY;
-                                                Punto3d p3d = new Punto3d(xx, yy, 0);
-                                                Punto3d p3d2 = new Punto3d(Clotoides[0].getPointAtDist(0)[0], Clotoides[0].getPointAtDist(0)[1], 0);
-                                                Punto3d p3dc = new Punto3d(componentes[i - 1].xc, componentes[i - 1].yc, 0);
-                                                EjeDeTrazado.componentes.Curva Curvaa = new EjeDeTrazado.componentes.Curva(p3d, p3d2, p3dc, componentes[i - 1].radio, 0, 0, componentes[i - 1].direccion);
-                                                mcomponenetes.Add(Curvaa);
-                                            }
+                                                if (Distancia(new Point2d(xx, yy), new Point2d(Clotoides[0].getPointAtDist(0)[0], Clotoides[0].getPointAtDist(0)[1])) < 0.0001)
+                                                {
 
+                                                }
+                                                else
+                                                {
+                                                    Punto3d p3d = new Punto3d(xx, yy, 0);
+                                                    Punto3d p3d2 = new Punto3d(Clotoides[0].getPointAtDist(0)[0], Clotoides[0].getPointAtDist(0)[1], 0);
+                                                    Punto3d p3dc = new Punto3d(componentes[i - 1].xc, componentes[i - 1].yc, 0);
+                                                    EjeDeTrazado.componentes.Curva Curvaa = new EjeDeTrazado.componentes.Curva(p3d, p3d2, p3dc, componentes[i - 1].radio, 0, 0, componentes[i - 1].direccion);
+                                                    mcomponenetes.Add(Curvaa);
+                                                }
+                                                
+                                            }
+                                            if (Distancia(new Point2d(xx, yy), new Point2d(Clotoides[0].getPointAtDist(0)[0], Clotoides[0].getPointAtDist(0)[1])) < 0.0001)
+                                            {
+
+                                            }
                                             mcomponenetes.Add(Clotoides[0]);
                                             xx = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaX;
                                             yy = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaY;
