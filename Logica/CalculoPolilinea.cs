@@ -1988,8 +1988,34 @@ namespace Logica {
                                         }
                                         else
                                         {
-                                            Componentes.RemoveAt(componenteIndex);
-                                            Crear_RECT(componenteIndex - 1);
+                                            
+                                            if (Distancia(new Point2d(Componentes[componenteIndex-1].xc, Componentes[componenteIndex - 1].yc), new Point2d(Componentes[componenteIndex + 1].xc, Componentes[componenteIndex + 1].yc)) <
+                                                (Componentes[componenteIndex - 1].radio+ Componentes[componenteIndex + 1].radio))
+                                            {
+                                                if (componenteIndex - 1 == 0)
+                                                {
+                                                    Reducir_radio_inicial(componenteIndex - 1);
+                                                }
+                                                else
+                                                {
+                                                    Reducir_radio(componenteIndex - 1);
+                                                }
+
+                                                if (componenteIndex + 1 == componentes.Count - 1)
+                                                {
+                                                    Reducir_radio_final(componenteIndex + 1);
+                                                }
+                                                else
+                                                {
+                                                    Reducir_radio(componenteIndex + 1);
+                                                }
+                                            }
+                                            else
+                                            {
+                                                Componentes.RemoveAt(componenteIndex);
+                                                Crear_RECT(componenteIndex - 1);
+                                            }
+                                            
                                         }
                                     }
                                     else
@@ -5854,8 +5880,13 @@ namespace Logica {
                     engCadNet.oLayer.addLayer("Curva-2", 1, false);
                 } else if (apartado == 3) {
                     engCadNet.oLayer.addLayer("Curva-3", 1, false);
-                } else {
+                } else if (apartado == 4)
+                {
                     engCadNet.oLayer.addLayer("Curva-4", 1, false);
+                }
+                else
+                {
+                    engCadNet.oLayer.addLayer("Curva-Flotante", 4, false);
                 }
                 using (Transaction acTrans = HostApplicationServices.WorkingDatabase.TransactionManager.StartTransaction()) {
                     BlockTable acBlkTbl;
@@ -5895,8 +5926,13 @@ namespace Logica {
                         curva.Layer = "Curva-2";
                     } else if (apartado == 3) {
                         curva.Layer = "Curva-3";
-                    } else {
+                    } else if (apartado == 4)
+                    {
                         curva.Layer = "Curva-4";
+                    }
+                    else
+                    {
+                        curva.Layer = "Curva-Flotante";
                     }
 
                     acBlkTblRec.AppendEntity(curva);
@@ -6189,11 +6225,28 @@ namespace Logica {
                 if (componentes[i].Tipo == 2) {
                     double[] azimuts = new double[2];
                     azimuts = azimut_e_s(componentes[i]);
+
                     if (componentes[i].direccion == EjeDeTrazado.puntosDelEje.EjeTrazado.sentidoCurva.Horario) {
+                        if (componentes[i].curva_creada==true)
+                        {
+                            apartado = apartado + 20;
+                        }
                         Dibujar_c(componentes[i].xc, componentes[i].yc, componentes[i].radio, azimuts[1] + 90, azimuts[0] + 90, apartado);
+                        if (componentes[i].curva_creada == true)
+                        {
+                            apartado = apartado - 20;
+                        }
 
                     } else {
+                        if (componentes[i].curva_creada == true)
+                        {
+                            apartado = apartado + 20;
+                        }
                         Dibujar_c(componentes[i].xc, componentes[i].yc, componentes[i].radio, azimuts[0] - 90, azimuts[1] - 90, apartado);
+                        if (componentes[i].curva_creada == true)
+                        {
+                            apartado = apartado - 20;
+                        }
                     }
 
                 }
@@ -14521,19 +14574,19 @@ namespace Logica {
             {
                 miPcx = iVertice.coordenadaX + (miEe / var + iRc) * Math.Sin((iAzimut2 + miPhi / 2) * Math.PI / 180);
                 miPcy = iVertice.coordenadaY + (miEe / var + iRc) * Math.Cos((iAzimut2 + miPhi / 2) * Math.PI / 180);
-                miPx1x = miPcx + (miRc + miDR) * Math.Sin((az1_m_90) * Math.PI / 180);
-                miPx1y = miPcy + (miRc + miDR) * Math.Cos((az1_m_90) * Math.PI / 180);
-                miPx2x = miPcx + (miRc + miDR) * Math.Sin((az2_m_90) * Math.PI / 180);
-                miPx2y = miPcy + (miRc + miDR) * Math.Cos((az2_m_90) * Math.PI / 180);
+                miPx1x = miPcx + (miRc + miDR) * Math.Sin((iAzimut1 - 90) * Math.PI / 180);
+                miPx1y = miPcy + (miRc + miDR) * Math.Cos((iAzimut1 - 90) * Math.PI / 180);
+                miPx2x = miPcx + (miRc + miDR) * Math.Sin((iAzimut2 - 90) * Math.PI / 180);
+                miPx2y = miPcy + (miRc + miDR) * Math.Cos((iAzimut2 - 90) * Math.PI / 180);
 
-                miPcl1x = miPx1x + miXM * Math.Sin((az1_m_180) * Math.PI / 180);
-                miPcl1y = miPx1y + miXM * Math.Cos((az1_m_180) * Math.PI / 180);
+                miPcl1x = miPx1x + miXM * Math.Sin((iAzimut1 - 180) * Math.PI / 180);
+                miPcl1y = miPx1y + miXM * Math.Cos((iAzimut1 - 180) * Math.PI / 180);
 
-                miPc1x = miPcx + miRc * Math.Sin((az1_m_90 + miQe * 180 / Math.PI) * Math.PI / 180);
-                miPc1y = miPcy + miRc * Math.Cos((az1_m_90 + miQe * 180 / Math.PI) * Math.PI / 180);
+                miPc1x = miPcx + miRc * Math.Sin((iAzimut1 - 90 + miQe * 180 / Math.PI) * Math.PI / 180);
+                miPc1y = miPcy + miRc * Math.Cos((iAzimut1 - 90 + miQe * 180 / Math.PI) * Math.PI / 180);
 
-                miPc2x = miPcx + miRc * Math.Sin((az2_m_90 - miQe * 180 / Math.PI) * Math.PI / 180);
-                miPc2y = miPcy + miRc * Math.Cos((az2_m_90 - miQe * 180 / Math.PI) * Math.PI / 180);
+                miPc2x = miPcx + miRc * Math.Sin((iAzimut2 - 90 - miQe * 180 / Math.PI) * Math.PI / 180);
+                miPc2y = miPcy + miRc * Math.Cos((iAzimut2 - 90 - miQe * 180 / Math.PI) * Math.PI / 180);
 
                 miPcl2x = miPx2x + miXM * Math.Sin(iAzimut2 * Math.PI / 180);
                 miPcl2y = miPx2y + miXM * Math.Cos(iAzimut2 * Math.PI / 180);
@@ -14543,20 +14596,20 @@ namespace Logica {
             {
                 miPcx = iVertice.coordenadaX + (miEe / var + iRc) * Math.Sin((iAzimut2 - miPhi / 2) * Math.PI / 180);
                 miPcy = iVertice.coordenadaY + (miEe / var + iRc) * Math.Cos((iAzimut2 - miPhi / 2) * Math.PI / 180);
-                miPx1x = miPcx + (miRc + miDR) * Math.Sin((az1_M_90) * Math.PI / 180);
-                miPx1y = miPcy + (miRc + miDR) * Math.Cos((az1_M_90) * Math.PI / 180);
-                miPx2x = miPcx + (miRc + miDR) * Math.Sin((az2_M_90) * Math.PI / 180);
-                miPx2y = miPcy + (miRc + miDR) * Math.Cos((az2_M_90) * Math.PI / 180);
+                miPx1x = miPcx + (miRc + miDR) * Math.Sin((iAzimut1 + 90) * Math.PI / 180);
+                miPx1y = miPcy + (miRc + miDR) * Math.Cos((iAzimut1 + 90) * Math.PI / 180);
+                miPx2x = miPcx + (miRc + miDR) * Math.Sin((iAzimut2 + 90) * Math.PI / 180);
+                miPx2y = miPcy + (miRc + miDR) * Math.Cos((iAzimut2 + 90) * Math.PI / 180);
 
 
-                miPcl1x = miPx1x + miXM * Math.Sin((az1_m_180) * Math.PI / 180);
-                miPcl1y = miPx1y + miXM * Math.Cos((az1_m_180) * Math.PI / 180);
+                miPcl1x = miPx1x + miXM * Math.Sin((iAzimut1 - 180) * Math.PI / 180);
+                miPcl1y = miPx1y + miXM * Math.Cos((iAzimut1 - 180) * Math.PI / 180);
 
-                miPc1x = miPcx + miRc * Math.Sin((az1_M_90 - miQe * 180 / Math.PI) * Math.PI / 180);
-                miPc1y = miPcy + miRc * Math.Cos((az1_M_90 - miQe * 180 / Math.PI) * Math.PI / 180);
+                miPc1x = miPcx + miRc * Math.Sin((iAzimut1 + 90 - miQe * 180 / Math.PI) * Math.PI / 180);
+                miPc1y = miPcy + miRc * Math.Cos((iAzimut1 + 90 - miQe * 180 / Math.PI) * Math.PI / 180);
 
-                miPc2x = miPcx + miRc * Math.Sin((az2_M_90 + miQe * 180 / Math.PI) * Math.PI / 180);
-                miPc2y = miPcy + miRc * Math.Cos((az2_M_90 + miQe * 180 / Math.PI) * Math.PI / 180);
+                miPc2x = miPcx + miRc * Math.Sin((iAzimut2 + 90 + miQe * 180 / Math.PI) * Math.PI / 180);
+                miPc2y = miPcy + miRc * Math.Cos((iAzimut2 + 90 + miQe * 180 / Math.PI) * Math.PI / 180);
 
                 miPcl2x = miPx2x + miXM * Math.Sin(iAzimut2 * Math.PI / 180);
                 miPcl2y = miPx2y + miXM * Math.Cos(iAzimut2 * Math.PI / 180);
@@ -16249,7 +16302,7 @@ namespace Logica {
                             }
                             Comprobar_Curvas();
                             //&& contador < 10000
-                        } while (!salir && this.Comprobar_casos_solapes() && !terminar );
+                        } while (!salir && this.Comprobar_casos_solapes() && !terminar);
                         if (salir && !terminar)
                         {
                             viabilidad_1();
@@ -18369,14 +18422,14 @@ namespace Logica {
                                     }
                                     if (i == componentes.Count - 2 && az_temp_1!=-1)
                                     {
-                                        if (componentes[componentes.Count - 1].Tipo == 1 && componentes[componentes.Count - 1].azr> az_temp_2)
+                                      /*  if (componentes[componentes.Count - 1].Tipo == 1 && componentes[componentes.Count - 1].azr> az_temp_2)
                                         {
 
                                         }
                                         else
-                                        {
+                                        {*/
                                             componentes[i].v_u_r = true;
-                                        }
+                                       // }
                                        
                                     }
                                     if (componentes[i + 1].Tipo == 2)
@@ -18492,14 +18545,14 @@ namespace Logica {
                                             }
                                             if (i == componentes.Count - 2 && az_temp_1 != -1)
                                             {
-                                                if (componentes[componentes.Count - 1].Tipo == 1 && componentes[componentes.Count - 1].azr > az_temp_2)
+                                                /*if (componentes[componentes.Count - 1].Tipo == 1 && componentes[componentes.Count - 1].azr > az_temp_2)
                                                 {
 
                                                 }
                                                 else
-                                                {
+                                                {*/
                                                     componentes[i].v_u_r = true;
-                                                }
+                                                //}
                                             }
                                             if (componentes[i + 1].Tipo == 2)
                                             {
@@ -18598,14 +18651,14 @@ namespace Logica {
                                         }
                                         if (i == componentes.Count - 2 && az_temp_1 != -1)
                                         {
-                                            if (componentes[componentes.Count - 1].Tipo == 1 && componentes[componentes.Count - 1].azr < az_temp_2)
+                                         /*   if (componentes[componentes.Count - 1].Tipo == 1 && componentes[componentes.Count - 1].azr < az_temp_2)
                                             {
 
                                             }
                                             else
-                                            {
+                                            {*/
                                                 componentes[i].v_u_r = true;
-                                            }
+                                            //}
 
                                         }
                                         if (componentes[i + 1].Tipo == 2)
@@ -18666,14 +18719,14 @@ namespace Logica {
                                         }
                                         if (i == componentes.Count - 2 && az_temp_1 != -1)
                                         {
-                                            if (componentes[componentes.Count - 1].Tipo == 1 && componentes[componentes.Count - 1].azr < az_temp_2)
+                                        /*    if (componentes[componentes.Count - 1].Tipo == 1 && componentes[componentes.Count - 1].azr < az_temp_2)
                                             {
 
                                             }
                                             else
-                                            {
+                                            {*/
                                                 componentes[i].v_u_r = true;
-                                            }
+                                            //}
                                         }
                                         if (componentes[i + 1].Tipo == 2)
                                         {
@@ -18696,126 +18749,7 @@ namespace Logica {
                         }
 
                     }
-                    /*   if (componentes[i].Tipo == 2)
-                       {
-                           if (componentes[i].direccion == EjeTrazado.sentidoCurva.Horario)
-                           {
-                               if (azimuts[conta_az] == -1)
-                               {
-                                   az_temp_1 = -1;
-                               }
-                               else
-                               {
-                                   az_temp_1 = azimuts[conta_az] - 90;
-                               }
-                               if (azimuts[conta_az + 1] == -1)
-                               {
-                                   az_temp_2 = -1;
-                               }
-                               else
-                               {
-                                   az_temp_2 = azimuts[conta_az + 1] - 90;
-                               }
-
-                               if (az_temp_1 == -1 || az_temp_2 == -1)
-                               {
-
-                               }
-                               else
-                               {
-                                   if ((az_temp_1 + 0.2) > az_temp_2)
-                                   {
-                                       if (i < componentes.Count - 2 && i > 1)
-                                       {
-                                           if (az_temp_1 > 0 && az_temp_2 == -1)
-                                           {
-
-                                           }
-                                           else
-                                           {
-                                               componentes[i].v_s_c = true;
-                                           }
-                                       }
-                                       if (i == 1)
-                                       {
-                                           componentes[i].v_p_r = true;
-                                       }
-                                       if (i == componentes.Count - 2)
-                                       {
-                                           componentes[i].v_u_r = true;
-                                       }
-                                       if (componentes[i + 1].Tipo == 2)
-                                       {
-                                           componentes[i + 1].v_a_p = true;
-                                       }
-                                       if (componentes[i - 1].Tipo == 2)
-                                       {
-                                           componentes[i - 1].v_a_p = true;
-                                       }
-                                   }
-                               }
-                           }
-                           else
-                           {
-                               if (azimuts[conta_az] == -1)
-                               {
-                                   az_temp_1 = -1;
-                               }
-                               else
-                               {
-                                   az_temp_1 = azimuts[conta_az] + 90;
-                               }
-                               if (azimuts[conta_az + 1] == -1)
-                               {
-                                   az_temp_2 = -1;
-                               }
-                               else
-                               {
-                                   az_temp_2 = azimuts[conta_az + 1] + 90;
-                               }
-                               if (az_temp_1 == -1 || az_temp_2 == -1)
-                               {
-
-                               }
-                               else
-                               {
-                                   if (az_temp_1 < az_temp_2)
-                                   {
-                                       if (i < componentes.Count - 2 && i > 1)
-                                       {
-                                           if (az_temp_1 > 0 && az_temp_2 == -1)
-                                           {
-
-                                           }
-                                           else
-                                           {
-                                               componentes[i].v_s_c = true;
-                                           }
-                                       }
-                                       if (i == 1)
-                                       {
-                                           componentes[i].v_p_r = true;
-                                       }
-                                       if (i == componentes.Count - 2)
-                                       {
-                                           componentes[i].v_u_r = true;
-                                       }
-                                       if (componentes[i + 1].Tipo == 2)
-                                       {
-                                           componentes[i + 1].v_a_p = true;
-                                       }
-                                       if (componentes[i - 1].Tipo == 2)
-                                       {
-                                           componentes[i - 1].v_a_p = true;
-                                       }
-                                   }
-                               }
-                           }
-
-                           conta_az++;
-                           conta_az++;
-                       }
-                       */
+                    
                     conta_az++;
                     conta_az++;
                 }
@@ -19437,7 +19371,15 @@ namespace Logica {
             Punto3d p_vertice = new Punto3d(i_x, i_y, 0);
             Punto3d[] puntosSing = addCurvaNoPaso(radio, c1.azr, c3.azr, p_vertice, getSentidoCurva( c1.azr,c3.azr),false,var);
 
-            return new Curva(   puntosSing[2], puntosSing[1], puntosSing[4], radio, 0, 0, getSentidoCurva(c1.azr, c3.azr));
+            if ((c1.azr<90 && c3.azr<90))
+            {
+                return new Curva(puntosSing[1], puntosSing[2], puntosSing[4], radio, 0, 0, getSentidoCurva(c1.azr, c3.azr));
+            }
+            else
+            {
+                return new Curva(puntosSing[2], puntosSing[1], puntosSing[4], radio, 0, 0, getSentidoCurva(c1.azr, c3.azr));
+            }
+           
         }
         private EjeDeTrazado.componentes.Curva Curva_Gran_Radio(Componente c1, double radio, Componente c3)
         {
@@ -24727,7 +24669,7 @@ namespace Logica {
                 }
                 for (int t=0;t< lista_rectas_aniadir.Count;t++)
                 {
-                    componentes.Insert(i+1, lista_rectas_aniadir[t]);
+                    componentes.Insert(i+1+t, lista_rectas_aniadir[t]);
                 }
                 i += lista_rectas_aniadir.Count;
 
@@ -24934,16 +24876,7 @@ namespace Logica {
                                                new Point2d(Clo3.getPuntoSalida.coordenadaX, Clo3.getPuntoSalida.coordenadaY));
                                 d4 = Distancia(new Point2d(Clo3.getPuntoEntrada.coordenadaX, Clo3.getPuntoEntrada.coordenadaY),
                                                new Point2d(Clo4.getPuntoEntrada.coordenadaX, Clo4.getPuntoEntrada.coordenadaY));
-                                if (i > 15 && i < 22)
-                                {
-                                    if (contador2<80)
-                                    {
-                                        Dibujar_Clotoide(Clo3);
-                                        Dibujar_Clotoide(Clo4);
-                                        Dibujar_entidad(i + 1);
-                                    }
-                                    
-                                }
+
                                 if (d3 > d4)
                                 {
                                     if (var2 == 15)

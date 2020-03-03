@@ -628,6 +628,7 @@ namespace interfaz {
                     }
                     
                     calculoPolilinea.Unir_Componentes();
+                    
                     calculoPolilinea.Aniadir_Rectar_Radio_Grande();
                     calculoPolilinea.Dibujar_entidades(1);
                     calculoPolilinea.Comprobacion();
