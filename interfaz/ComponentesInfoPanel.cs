@@ -75,6 +75,8 @@ namespace interfaz {
             dataTable.Columns.Add("Sentido");
             dataTable.Columns.Add("xc");
             dataTable.Columns.Add("yc");
+            dataTable.Columns.Add("P-ini");
+            dataTable.Columns.Add("P-fin");
             dataTable.Columns.Add("azte");
             dataTable.Columns.Add("azts");
             dataTable.Columns.Add("azr");
@@ -101,7 +103,10 @@ namespace interfaz {
                     sentidoDeLaCurva = "Antihorario";
                 }
 
-                dataTable.Rows.Add(componenteIndex, tipo, sentidoDeLaCurva, componente.xc, componente.yc, componente.azte, componente.azts, componente.azr, componente.radio,componente.ini, componente.fin);
+                dataTable.Rows.Add(componenteIndex, tipo, sentidoDeLaCurva, componente.xc, componente.yc,
+                    componente.lista_puntos[0].p.X+";"+ componente.lista_puntos[0].p.Y,
+                    componente.lista_puntos[componente.lista_puntos.Count-1].p.X + ";" + componente.lista_puntos[componente.lista_puntos.Count-1].p.Y,
+                    componente.azte, componente.azts, componente.azr, componente.radio,componente.ini, componente.fin);
 
             });
 

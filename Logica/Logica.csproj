@@ -78,6 +78,7 @@
     <Compile Include="CalculoPolilineaPerfil.cs" />
     <Compile Include="Comandos\oEjeTrazado.cs" />
     <Compile Include="Componente.cs" />
+    <Compile Include="GuardarPunto.cs" />
     <Compile Include="GuardarPolilinea2d.cs" />
     <Compile Include="GuardarPolilinea3d.cs" />
     <Compile Include="IViabilidadListener.cs" />

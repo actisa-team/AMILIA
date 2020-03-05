@@ -16,9 +16,11 @@
         private int solapes;
         private double rotulacion;
         private bool rotu;
+        private int suavizado;
 
         int[] orden;
 
+        public int Suavizado { get => suavizado; set => suavizado = value; }
         public int Opcion { get => opcion; set => opcion = value; }
         public double Grados { get => grados; set => grados = value; }
         public double Metros { get => metros; set => metros = value; }

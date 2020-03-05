@@ -113,6 +113,7 @@ namespace Logica {
                         Punto p = new Punto(new Point2d(double.Parse(x), double.Parse(y)));
                         polilinea.Add(p);
                     }
+
                     Guardar();
                     Vaciar_Puntos();
                     RellenarDatos();
@@ -181,7 +182,10 @@ namespace Logica {
                             RellenarDatos();
                         }
 
+                       
 
+                        Vaciar_Puntos();
+                        RellenarDatos();
                         Dibujar(1);
                     }
                     else
@@ -1011,6 +1015,28 @@ namespace Logica {
                 azs2 = componentes[i + 1].azts;
                 double az_fin = p.Az - (90 - alfa * (180 / Math.PI));
                 double az_fin2 = p.Az + (90 - alfa * (180 / Math.PI));
+                /*if (az_fin > 360)
+                {
+                    az_fin = az_fin - 360;
+                }
+                else
+                {
+                    if (az_fin < 0)
+                    {
+                        az_fin = az_fin + 360;
+                    }
+                }
+                if (az_fin2 > 360)
+                {
+                    az_fin2 = az_fin2 - 360;
+                }
+                else
+                {
+                    if (az_fin2 < 0)
+                    {
+                        az_fin2 = az_fin2 + 360;
+                    }
+                }*/
                 if (componentes[i].direccion == EjeDeTrazado.puntosDelEje.EjeTrazado.sentidoCurva.Horario)
                 {
                     aze -= 90;
@@ -1689,7 +1715,7 @@ namespace Logica {
 
                 componentes = componentes_general[w];
                 casos = true;
-                if (componentes.Count>2)
+                if (componentes.Count>1)
                 {
                     while (casos)
                     {
@@ -3266,7 +3292,7 @@ namespace Logica {
             Point2d pm;
             int contador = 0;
 
-            while (casos) {
+            while (casos &&contador<80000) {
                 contador++;
                 this.Reiniciar_casos();
                 this.Rellenar_Componentes();
@@ -13628,7 +13654,7 @@ namespace Logica {
 
                     Rellenar_Curva(componentes[i]);
                     double lon = 2 * Math.PI * componentes[i].radio*(Math.Abs(azimuts[0] - azimuts[1])/360);
-                    if (Math.Abs(azimuts[0] - azimuts[1]) < 2 && (componentes[i].radio < curva_g || lon<20)) {//si la variacion de az es <1.5, en radio es menor que el que se indica y la longitud de arco es menor a 20
+                    if (Math.Abs(azimuts[0] - azimuts[1]) < 2 && (componentes[i].radio < curva_g || lon<40)) {//si la variacion de az es <1.5, en radio es menor que el que se indica y la longitud de arco es menor a 20
                         componentes[i].Tipo = 1;
                         List<Punto> Recta_inicial = new List<Punto>();
                         foreach (Punto p in componentes[i].lista_puntos) {
@@ -15219,7 +15245,7 @@ namespace Logica {
             List<double> azimuts = new List<double>();
             List<Point2d> Puntos_rectas = new List<Point2d>();
             List<object> entidades = new List<object>();
-            bool curva_gran_radio = false;
+            
             bool puntos_ultimos = false;
             bool salir = true;
             bool terminar = false;
@@ -15229,6 +15255,7 @@ namespace Logica {
             bool pregunta4 = true;
             for (int w = 0; w < componentes_general.Count; w++)
             {
+                bool curva_gran_radio = false;
                 componentes = componentes_general[w];
                 salir = true;
                 if (componentes.Count > 1)
@@ -15260,6 +15287,7 @@ namespace Logica {
                         do
                         {
                             salir = false;
+                            curva_gran_radio = false;
                             bool ultima_clo_crc = false;
                             bool primera_clo_crc = false;
                             int intermedias = 1;
@@ -16302,7 +16330,7 @@ namespace Logica {
                             }
                             Comprobar_Curvas();
                             //&& contador < 10000
-                        } while (!salir && this.Comprobar_casos_solapes() && !terminar);
+                        } while (!salir && this.Comprobar_casos_solapes() && !terminar );
                         if (salir && !terminar)
                         {
                             viabilidad_1();
@@ -19157,6 +19185,20 @@ namespace Logica {
                             componentes[i].solape += 1;
                             break;
                         }
+                        else
+                        {//se intruduce ya que es un caso 3
+                            if (componentes[i - 1].Tipo == 2 && componentes[i].Tipo == 2)
+                            {
+                                if (componentes[i - 1].radio> componentes[i].radio)
+                                {
+                                    Aumentar_radio(i);
+                                    componentes[i].solape++;
+                                    viabilidad_1();
+                                    
+                                }
+                            }
+                            
+                        }
                         
                     }
                 }
@@ -19212,10 +19254,12 @@ namespace Logica {
                                         if (componentes[componentes.Count - 3].radio < componentes[componentes.Count - 2].radio)
                                         {
                                             Aumentar_radio(componentes.Count - 3);
+                                            viabilidad_1();
                                         }
                                         else
                                         {
                                             Aumentar_radio(componentes.Count - 2);
+                                            viabilidad_1();
                                         }
                                     }
                                 }
@@ -19473,16 +19517,16 @@ namespace Logica {
             double i_y = a_1 * ((d_1 - b_1) / (a_1 - c_1)) + b_1;
             Punto3d p_vertice = new Punto3d(i_x, i_y, 0);
             Punto3d[] puntosSing = addCurvaNoPaso(radio, c1.azr, c3.azr, p_vertice, getSentidoCurva( c1.azr,c3.azr),false,var);
+            return new Curva(puntosSing[2], puntosSing[1], puntosSing[4], radio, 0, 0, getSentidoCurva(c1.azr, c3.azr));
+            /*  if ((c1.azr<90 && c3.azr<90))
+              {
+                  return new Curva(puntosSing[1], puntosSing[2], puntosSing[4], radio, 0, 0, getSentidoCurva(c1.azr, c3.azr));
+              }
+              else
+              {
+                  return new Curva(puntosSing[2], puntosSing[1], puntosSing[4], radio, 0, 0, getSentidoCurva(c1.azr, c3.azr));
+              }*/
 
-            if ((c1.azr<90 && c3.azr<90))
-            {
-                return new Curva(puntosSing[1], puntosSing[2], puntosSing[4], radio, 0, 0, getSentidoCurva(c1.azr, c3.azr));
-            }
-            else
-            {
-                return new Curva(puntosSing[2], puntosSing[1], puntosSing[4], radio, 0, 0, getSentidoCurva(c1.azr, c3.azr));
-            }
-           
         }
         private EjeDeTrazado.componentes.Curva Curva_Gran_Radio(Componente c1, double radio, Componente c3)
         {
@@ -21836,7 +21880,7 @@ namespace Logica {
             List<Tuple<List<Punto>, double[], int>> Listas_rectas) {
             Punto p1 = new Punto();
             int p_anteriores = 0;
-            if (Listas_curvas[0].Item4[0] < 100000)
+            if (Listas_curvas[0].Item4[0] < 600000)
             {
                 for (int i = puntos_I_F[0][0] - 1; i >= 0; i--)
                 {
@@ -21942,6 +21986,17 @@ namespace Logica {
                 componentes[componentes.Count - 1].yc = Listas_curvas[0].Item3[0];
                 componentes[componentes.Count - 1].ini = puntos_I_F[0][0];
                 componentes[componentes.Count - 1].fin = punto_final;
+                if (Listas_curvas[0].Item1[0]>20)
+                {
+                    if (Distancia(new Point2d(p1.p.X, p1.p.Y), new Point2d(p3.p.X, p3.p.Y)) <1)
+                    {
+                        if (Distancia(new Point2d(p1.p.X, p1.p.Y), new Point2d(polilinea[puntos_I_F[0][0]].p.X, polilinea[puntos_I_F[0][0]].p.Y)) > 1)
+                        {
+                            componentes.RemoveAt(componentes.Count - 1);
+                        }
+                    }
+
+                }
             }
         }
         public void Ordenar_Curvas() {
@@ -22024,9 +22079,10 @@ namespace Logica {
              */
             for (int i = 0; i < componentes.Count - 1; i++)
             {
-                if (componentes[i].Tipo == 2 && componentes[i].radio > 60000)
+                if (componentes[i].Tipo == 2 && componentes[i].radio > 20000)
                 {
                     componentes.RemoveAt(i);
+                    i--;
                 }
             }
             for (int i = 0; i < componentes.Count - 1; i++) {

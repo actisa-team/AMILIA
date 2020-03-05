@@ -26,7 +26,7 @@ namespace Logica
     using Logica.verificacion;
     public class CalculoPolilineaPerfil
     {
-        double ratio;
+        double ratio,x_ins,y_ins;
         int escala=1;
         List<Punto> polilinea = new List<Punto>();
         List<Punto> polilinea_inicial = new List<Punto>();
@@ -44,10 +44,14 @@ namespace Logica
         public List<PuntoPerfil> Polilinea_Perfil { get => polilinea_perfil; set => polilinea_perfil = value; }
         public CalculoPolilineaPerfil() { 
         }
-        public CalculoPolilineaPerfil(ref dsApp a, int opcion, double ratio, int it,int escal,int n_suavizados)
+        public CalculoPolilineaPerfil(ref dsApp a, int opcion, double ratio, int it,int escal,int n_suavizados,double x_in,double y_in)
         {
+            MessageBox.Show("Eliga en autocad el punto de inserción.");
+            Point3d fstCnr = new Point3d();
+            GuardarPunto gp = new GuardarPunto(ref fstCnr);
             try
             {
+                Insercion(fstCnr.X, fstCnr.Y);
                 escala = escal;
                 bool dibujar = true;
                 if (a.Polilinea.Rows.Count == 0)
@@ -76,7 +80,15 @@ namespace Logica
                         polilinea.Add(p);
                         
                     }
-
+                    double y_alt = polilinea[0].p.Y;
+                    for (int i=1;i<polilinea.Count;i++)
+                    {
+                        if (polilinea[0].p.Y< y_alt)
+                        {
+                            y_alt = polilinea[0].p.Y;
+                        }
+                    }
+                    y_ins -= (y_alt* escala);
                     RellenarDatos();
                     Dibujar(0);
                     bool salida = true;
@@ -198,10 +210,14 @@ namespace Logica
 
             }
         }
-        public CalculoPolilineaPerfil(ref dsApp a, int opcion, double ratio, int[] orden, int it)
+        public CalculoPolilineaPerfil(ref dsApp a, int opcion, double ratio, int[] orden, int it, double x_in, double y_in)
         {
+            MessageBox.Show("Eliga en autocad el punto de inserción.");
+            Point3d fstCnr = new Point3d();
+            GuardarPunto gp = new GuardarPunto(ref fstCnr);
             try
             {
+                Insercion(fstCnr.X, fstCnr.Y);
                 bool dibujar = true;
                 if (a.Polilinea3d.Rows.Count == 0)
                 {
@@ -222,6 +238,15 @@ namespace Logica
                     Punto p = new Punto(new Point2d(Math.Sqrt(Math.Pow(double.Parse(x), 2) + Math.Pow(double.Parse(y), 2)), double.Parse(z)));
                     polilinea.Add(p);
                 }
+                double y_alt = polilinea[0].p.Y;
+                for (int i = 1; i < polilinea.Count; i++)
+                {
+                    if (polilinea[0].p.Y < y_alt)
+                    {
+                        y_alt = polilinea[0].p.Y;
+                    }
+                }
+                y_ins -= (y_alt * escala);
                 RellenarDatos();
                 if (dibujar)
                 {
@@ -1118,7 +1143,7 @@ namespace Logica
             for (int i = 0; i < polilinea.Count; i++)
             {
 
-                poly.Add(new Point3d(polilinea[i].p.X, polilinea[i].p.Y*escala, 0));
+                poly.Add(new Point3d(polilinea[i].p.X + x_ins, y_ins + polilinea[i].p.Y*escala, 0));
             }
             Document acDoc2 = Application.DocumentManager.MdiActiveDocument;
             Database AcCurDb2 = acDoc2.Database;
@@ -1184,7 +1209,7 @@ namespace Logica
             for (int i = 0; i < Lista.Count; i++)
             {
 
-                poly.Add(new Point3d(Lista[i].p.X, Lista[i].p.Y * escala, 0));
+                poly.Add(new Point3d(Lista[i].p.X + x_ins, y_ins + Lista[i].p.Y * escala, 0));
             }
             Document acDoc2 = Application.DocumentManager.MdiActiveDocument;
             Database AcCurDb2 = acDoc2.Database;
@@ -2612,13 +2637,13 @@ namespace Logica
                     {
                         y = (pk * pk) * x2 + pk * x1 + x;//x^2+x+c
 
-                        miEje.AddVertexAt(i, new Point2d(pk, y * escala), 0, 0, 0);
+                        miEje.AddVertexAt(i, new Point2d(pk+x_ins, y * escala+y_ins), 0, 0, 0);
                         pk = pk + 0.1;
                         index = i+1;
                     }
                     y = (pk_fin * pk_fin) * x2 + pk_fin * x1 + x;//x^2+x+c
 
-                    miEje.AddVertexAt(index, new Point2d(pk_fin, y * escala), 0, 0, 0);
+                    miEje.AddVertexAt(index, new Point2d(pk_fin + x_ins, y * escala + y_ins), 0, 0, 0);
 
                     /* for (int i = 0; i < parabola.polilinea_perfil.Count; i++)
                      {
@@ -4041,8 +4066,8 @@ namespace Logica
         private void Dibujar_r(Point2d p1, Point2d p2,int paso)
         {
             Point3dCollection poly = new Point3dCollection();
-            poly.Add(new Point3d(p1.X, p1.Y*escala, 0));
-            poly.Add(new Point3d(p2.X, p2.Y*escala, 0));
+            poly.Add(new Point3d(p1.X + x_ins,y_ins+ p1.Y*escala, 0));
+            poly.Add(new Point3d(p2.X + x_ins, y_ins + p2.Y*escala, 0));
 
 
             Document acDoc2 = Application.DocumentManager.MdiActiveDocument;
@@ -4385,22 +4410,22 @@ namespace Logica
                             {
                                 y = (pk * pk) * x2 + pk * x1 + x;//x^2+x+c
 
-                                miEje.AddVertexAt(index, new Point2d(pk, y * escala), 0, 0, 0);
+                                miEje.AddVertexAt(index, new Point2d(pk + x_ins, y * escala + y_ins), 0, 0, 0);
                                 pk = pk + 1;
                                 index++;
                             }
                             y = (pk_fin * pk_fin) * x2 + pk_fin * x1 + x;//x^2+x+c
 
-                            miEje.AddVertexAt(index, new Point2d(pk_fin, y * escala), 0, 0, 0);
+                            miEje.AddVertexAt(index, new Point2d(pk_fin + x_ins, y * escala + y_ins), 0, 0, 0);
                             index++;
 
                             double p1_x = Lista_rectas[t].Puntos[0].X;
                             double p1_y = Lista_rectas[t].Puntos[0].Y;
-                            miEje.AddVertexAt(index, new Point2d(p1_x, p1_y * escala), 0, 0, 0);
+                            miEje.AddVertexAt(index, new Point2d(p1_x + x_ins, p1_y * escala + y_ins), 0, 0, 0);
                             index++;
                             p2_x = Lista_rectas[t].Puntos[1].X;
                             double p2_y = Lista_rectas[t].Puntos[1].Y;
-                            miEje.AddVertexAt(index, new Point2d(p2_x, p2_y * escala), 0, 0, 0);
+                            miEje.AddVertexAt(index, new Point2d(p2_x + x_ins, p2_y * escala + y_ins), 0, 0, 0);
                             index++;
 
                         }
@@ -4408,11 +4433,11 @@ namespace Logica
                         {
                             double p1_x = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].X;
                             double p1_y = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].Y;
-                            miEje.AddVertexAt(index, new Point2d(p1_x, p1_y * escala), 0, 0, 0);
+                            miEje.AddVertexAt(index, new Point2d(p1_x + x_ins, p1_y * escala + y_ins), 0, 0, 0);
                             index++;
                             p2_x = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
                             double p2_y = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].Y;
-                            miEje.AddVertexAt(index, new Point2d(p2_x, p2_y * escala), 0, 0, 0);
+                            miEje.AddVertexAt(index, new Point2d(p2_x + x_ins, p2_y * escala + y_ins), 0, 0, 0);
                             index++;
                         }
                         else
@@ -4430,13 +4455,13 @@ namespace Logica
                                 {
                                     y = (pk * pk) * x2 + pk * x1 + x;//x^2+x+c
 
-                                    miEje.AddVertexAt(index, new Point2d(pk, y * escala), 0, 0, 0);
+                                    miEje.AddVertexAt(index, new Point2d(pk + x_ins, y * escala + y_ins), 0, 0, 0);
                                     pk = pk + 0.1;
                                     index++;
                                 }
                                 y = (pk_fin * pk_fin) * x2 + pk_fin * x1 + x;//x^2+x+c
 
-                                miEje.AddVertexAt(index, new Point2d(pk_fin, y * escala), 0, 0, 0);
+                                miEje.AddVertexAt(index, new Point2d(pk_fin + x_ins, y * escala + y_ins), 0, 0, 0);
                                 index++;
                             }
 
@@ -4469,11 +4494,11 @@ namespace Logica
                         {
                             double p1_x = Lista_rectas[t].Puntos[0].X;
                             double p1_y = Lista_rectas[t].Puntos[0].Y;
-                            miEje.AddVertexAt(index, new Point2d(p1_x, p1_y * escala), 0, 0, 0);
+                            miEje.AddVertexAt(index, new Point2d(p1_x + x_ins, p1_y * escala + y_ins), 0, 0, 0);
                             index++;
                             double p2_x = Lista_rectas[t].Puntos[1].X;
                             double p2_y = Lista_rectas[t].Puntos[1].Y;
-                            miEje.AddVertexAt(index, new Point2d(p2_x, p2_y * escala), 0, 0, 0);
+                            miEje.AddVertexAt(index, new Point2d(p2_x + x_ins, p2_y * escala + y_ins), 0, 0, 0);
                             index++;
                             double x2 = Lista_parabolas[t].parabola[0];
                             double x1 = Lista_parabolas[t].parabola[1];
@@ -4490,24 +4515,24 @@ namespace Logica
                             {
                                 y = (pk * pk) * x2 + pk * x1 + x;//x^2+x+c
 
-                                miEje.AddVertexAt(index, new Point2d(pk, y * escala), 0, 0, 0);
+                                miEje.AddVertexAt(index, new Point2d(pk + x_ins, y * escala + y_ins), 0, 0, 0);
                                 pk = pk + 1;
                                 index++;
                             }
                             y = (pk_fin * pk_fin) * x2 + pk_fin * x1 + x;//x^2+x+c
 
-                            miEje.AddVertexAt(index, new Point2d(pk_fin, y * escala), 0, 0, 0);
+                            miEje.AddVertexAt(index, new Point2d(pk_fin + x_ins, y * escala + y_ins), 0, 0, 0);
                             index++;
                         }
                         if (Lista_rectas.Count > Lista_parabolas.Count)
                         {
                             double p1_x = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].X;
                             double p1_y = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].Y;
-                            miEje.AddVertexAt(index, new Point2d(p1_x, p1_y * escala), 0, 0, 0);
+                            miEje.AddVertexAt(index, new Point2d(p1_x + x_ins, p1_y * escala + y_ins), 0, 0, 0);
                             index++;
                             double p2_x = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
                             double p2_y = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].Y;
-                            miEje.AddVertexAt(index, new Point2d(p2_x, p2_y * escala), 0, 0, 0);
+                            miEje.AddVertexAt(index, new Point2d(p2_x + x_ins, p2_y * escala + y_ins), 0, 0, 0);
                             index++;
                         }
                         else
@@ -4525,13 +4550,13 @@ namespace Logica
                                 {
                                     y = (pk * pk) * x2 + pk * x1 + x;//x^2+x+c
 
-                                    miEje.AddVertexAt(index, new Point2d(pk, y * escala), 0, 0, 0);
+                                    miEje.AddVertexAt(index, new Point2d(pk + x_ins, y * escala + y_ins), 0, 0, 0);
                                     pk = pk + 0.1;
                                     index++;
                                 }
                                 y = (pk_fin * pk_fin) * x2 + pk_fin * x1 + x;//x^2+x+c
 
-                                miEje.AddVertexAt(index, new Point2d(pk_fin, y * escala), 0, 0, 0);
+                                miEje.AddVertexAt(index, new Point2d(pk_fin + x_ins, y * escala + y_ins), 0, 0, 0);
                                 index++;
                             }
 
@@ -4575,13 +4600,13 @@ namespace Logica
             }
             return maximo;
         }
-        public void Rotular()
+        public void Rotular(double rotu)
         {
-            Rotular rotular = new Rotular(100);
+            Rotular rotular = new Rotular(rotu);
             double min = Buscar_minimo();
             double maximo = Buscar_maximo();
             engCadNet.oLayer.addLayer("Rotulacion-Cota", 1, false);
-            rotular.Guitarra(min,maximo, polilinea_perfil[polilinea_perfil.Count-1].p.X,escala);
+            rotular.Guitarra(min,maximo, polilinea_perfil[polilinea_perfil.Count-1].p.X,escala,x_ins, y_ins);
             double a_x0, a_y0, b_x1, b_y1, p1, p2;
             a_x0 = Lista_rectas[0].Puntos[0].X;
             a_y0 = Lista_rectas[0].Puntos[0].Y;
@@ -4591,7 +4616,7 @@ namespace Logica
             p1 = (a_y0 - b_y1) / (a_x0 - b_x1);
             if (Lista_rectas[0].Puntos[0].X<Lista_Parabolas[0].polilinea_perfil[0].p.X)
             {
-                rotular.Dibujar_Ini_Fin_Pendiente(Lista_rectas[0], 1, escala, p1);
+                rotular.Dibujar_Ini_Fin_Pendiente(Lista_rectas[0], 1, escala, p1,x_ins, y_ins);
                 for (int i = 0; i < Lista_parabolas.Count && i < Lista_rectas.Count-1; i++)
                 {
                     a_x0 = Lista_rectas[i].Puntos[0].X;
@@ -4607,7 +4632,7 @@ namespace Logica
                     b_y1 = Lista_rectas[i + 1].Puntos[1].Y;
 
                     p2 = (a_y0 - b_y1) / (a_x0 - b_x1);
-                    rotular.Dibujar_Singulares_Perfil(Lista_parabolas[i], Lista_rectas[i].Puntos[1], Lista_rectas[i + 1].Puntos[0], escala, p1, p2,1);
+                    rotular.Dibujar_Singulares_Perfil(Lista_parabolas[i], Lista_rectas[i].Puntos[1], Lista_rectas[i + 1].Puntos[0], escala, p1, p2,1, x_ins, y_ins);
                 }
                 if (Lista_parabolas.Count==Lista_rectas.Count)
                 {
@@ -4617,13 +4642,13 @@ namespace Logica
                     b_y1 = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].Y;
 
                     p1 = (a_y0 - b_y1) / (a_x0 - b_x1);
-                    rotular.Dibujar_Singulares_Perfil(Lista_parabolas[Lista_parabolas.Count-1], Lista_rectas[Lista_rectas.Count-1].Puntos[1], polilinea_perfil[polilinea_perfil.Count-1].p, escala, p1, 0, 3);
+                    rotular.Dibujar_Singulares_Perfil(Lista_parabolas[Lista_parabolas.Count-1], Lista_rectas[Lista_rectas.Count-1].Puntos[1], polilinea_perfil[polilinea_perfil.Count-1].p, escala, p1, 0, 3, x_ins, y_ins);
                 }
 
             }
             else
             {
-                rotular.Dibujar_Ini_Fin_Acuerdo(Lista_Parabolas[0], 1, escala, polilinea_perfil[polilinea_perfil.Count-1].p.X);
+                rotular.Dibujar_Ini_Fin_Acuerdo(Lista_Parabolas[0], 1, escala, polilinea_perfil[polilinea_perfil.Count-1].p.X,x_ins, y_ins);
                 for (int i = 0; i < Lista_parabolas.Count && i < Lista_rectas.Count-1; i++)
                 {
                     if (i==0)
@@ -4634,7 +4659,7 @@ namespace Logica
                         b_y1 = Lista_rectas[i].Puntos[1].Y;
 
                         p1 = (a_y0 - b_y1) / (a_x0 - b_x1);
-                        rotular.Dibujar_Singulares_Perfil(Lista_parabolas[i], Lista_rectas[i].Puntos[0], Lista_rectas[i].Puntos[0], escala, p1, 0, 2);
+                        rotular.Dibujar_Singulares_Perfil(Lista_parabolas[i], Lista_rectas[i].Puntos[0], Lista_rectas[i].Puntos[0], escala, p1, 0, 2,x_ins, y_ins );
 
                         a_x0 = Lista_rectas[i].Puntos[0].X;
                         a_y0 = Lista_rectas[i].Puntos[0].Y;
@@ -4650,7 +4675,7 @@ namespace Logica
 
                         p2 = (a_y0 - b_y1) / (a_x0 - b_x1);
                         
-                        rotular.Dibujar_Singulares_Perfil(Lista_parabolas[i+1], Lista_rectas[i].Puntos[1], Lista_rectas[i + 1].Puntos[0], escala, p1, p2, 1);
+                        rotular.Dibujar_Singulares_Perfil(Lista_parabolas[i+1], Lista_rectas[i].Puntos[1], Lista_rectas[i + 1].Puntos[0], escala, p1, p2, 1,x_ins, y_ins);
 
                     }
                     else
@@ -4668,7 +4693,7 @@ namespace Logica
                         b_y1 = Lista_rectas[i + 1].Puntos[1].Y;
 
                         p2 = (a_y0 - b_y1) / (a_x0 - b_x1);
-                        rotular.Dibujar_Singulares_Perfil(Lista_parabolas[i+1], Lista_rectas[i].Puntos[1], Lista_rectas[i + 1].Puntos[0], escala, p1, p2, 1);
+                        rotular.Dibujar_Singulares_Perfil(Lista_parabolas[i+1], Lista_rectas[i].Puntos[1], Lista_rectas[i + 1].Puntos[0], escala, p1, p2, 1, x_ins, y_ins );
                     }
                     
                 }
@@ -4683,11 +4708,11 @@ namespace Logica
                 b_y1 = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].Y;
 
                 p1 = (a_y0 - b_y1) / (a_x0 - b_x1);
-                rotular.Dibujar_Ini_Fin_Pendiente(Lista_rectas[Lista_rectas.Count - 1], 2, escala, p1);
+                rotular.Dibujar_Ini_Fin_Pendiente(Lista_rectas[Lista_rectas.Count - 1], 2, escala, p1, x_ins, y_ins);
             }
             else
             {
-                rotular.Dibujar_Ini_Fin_Acuerdo(Lista_Parabolas[Lista_Parabolas.Count-1], 2, escala, polilinea_perfil[polilinea_perfil.Count - 1].p.X);
+                rotular.Dibujar_Ini_Fin_Acuerdo(Lista_Parabolas[Lista_Parabolas.Count-1], 2, escala, polilinea_perfil[polilinea_perfil.Count - 1].p.X, x_ins, y_ins );
             }
             
             engCadNet.oLayer.addLayer("Rotulacion-pk", 1, false);
@@ -4698,19 +4723,19 @@ namespace Logica
                  double pk_fin;
                  for (int i=0;i<Lista_rectas.Count-1 && i < Lista_parabolas.Count;i++)
                  {
-                     pk = rotular.Dibujar_PK_Pendiente(Lista_rectas[i],pk,escala,min);
+                     pk = rotular.Dibujar_PK_Pendiente(Lista_rectas[i],pk,escala,min, x_ins, y_ins);
                      pk_fin = Lista_rectas[i + 1].Puntos[0].X;
-                     pk = rotular.Dibujar_PK_Acuerdo(Lista_parabolas[i], pk, escala,pk_fin,min);
+                     pk = rotular.Dibujar_PK_Acuerdo(Lista_parabolas[i], pk, escala,pk_fin,min, x_ins, y_ins);
                  }
                 if (Lista_rectas.Count> Lista_parabolas.Count)
                 {
-                    pk = rotular.Dibujar_PK_Pendiente(Lista_rectas[Lista_rectas.Count-1], pk, escala, min);
-                    rotular.Dibujar_PK_Pendiente_Final(Lista_rectas[Lista_rectas.Count - 1], pk, escala, min);
+                    pk = rotular.Dibujar_PK_Pendiente(Lista_rectas[Lista_rectas.Count-1], pk, escala, min, x_ins, y_ins);
+                    rotular.Dibujar_PK_Pendiente_Final(Lista_rectas[Lista_rectas.Count - 1], pk, escala, min, x_ins, y_ins);
                 }
                 else
                 {
-                    pk = rotular.Dibujar_PK_Acuerdo(Lista_parabolas[Lista_parabolas.Count - 1], pk, escala, polilinea_perfil[polilinea_perfil.Count - 1].p.X, min);
-                    rotular.Dibujar_PK_Acuerdo_Final(Lista_parabolas[Lista_parabolas.Count - 1], polilinea_perfil[polilinea_perfil.Count - 1].p.X, escala, min);
+                    pk = rotular.Dibujar_PK_Acuerdo(Lista_parabolas[Lista_parabolas.Count - 1], pk, escala, polilinea_perfil[polilinea_perfil.Count - 1].p.X, min, x_ins, y_ins );
+                    rotular.Dibujar_PK_Acuerdo_Final(Lista_parabolas[Lista_parabolas.Count - 1], polilinea_perfil[polilinea_perfil.Count - 1].p.X, escala, min,x_ins, y_ins);
                 }
             }
             else
@@ -4720,17 +4745,17 @@ namespace Logica
                 for (int i = 0; i < Lista_rectas.Count && i < Lista_parabolas.Count; i++)
                 {
                     pk_fin = Lista_rectas[i].Puntos[0].X;
-                    pk = rotular.Dibujar_PK_Acuerdo(Lista_parabolas[i], pk, escala, pk_fin, min);
-                    pk = rotular.Dibujar_PK_Pendiente(Lista_rectas[i], pk, escala, min);
+                    pk = rotular.Dibujar_PK_Acuerdo(Lista_parabolas[i], pk, escala, pk_fin, min, x_ins, y_ins);
+                    pk = rotular.Dibujar_PK_Pendiente(Lista_rectas[i], pk, escala, min, x_ins, y_ins);
                 }
                 if (Lista_rectas.Count < Lista_parabolas.Count)
                 {
-                    pk = rotular.Dibujar_PK_Acuerdo(Lista_parabolas[Lista_parabolas.Count-1], pk, escala, polilinea_perfil[polilinea_perfil.Count - 1].p.X, min);
-                    rotular.Dibujar_PK_Acuerdo_Final(Lista_parabolas[Lista_parabolas.Count - 1], polilinea_perfil[polilinea_perfil.Count - 1].p.X, escala, min);
+                    pk = rotular.Dibujar_PK_Acuerdo(Lista_parabolas[Lista_parabolas.Count-1], pk, escala, polilinea_perfil[polilinea_perfil.Count - 1].p.X, min, x_ins, y_ins);
+                    rotular.Dibujar_PK_Acuerdo_Final(Lista_parabolas[Lista_parabolas.Count - 1], polilinea_perfil[polilinea_perfil.Count - 1].p.X, escala, min, x_ins, y_ins);
                 }
                 else
                 {
-                    rotular.Dibujar_PK_Pendiente_Final(Lista_rectas[Lista_rectas.Count - 1], pk, escala, min);
+                    rotular.Dibujar_PK_Pendiente_Final(Lista_rectas[Lista_rectas.Count - 1], pk, escala, min, x_ins, y_ins);
                 }
             }
 
@@ -4752,7 +4777,7 @@ namespace Logica
                     {
                         if (Lista_rectas[t].Puntos[1].X<x && x<Lista_rectas[t+1].Puntos[0].X)
                         {
-                            rotular.Cota(x, min, Lista_parabolas[i], escala);
+                            rotular.Cota(x, min, Lista_parabolas[i], escala,x_ins,y_ins);
                         }
                     }
                     
@@ -5046,6 +5071,15 @@ namespace Logica
             }
             
 
+        }
+        /// <summary>
+        /// Se encarga de poner el punto de inserción
+        /// </summary>
+        public void Insercion(double x,double y)
+        {
+            x_ins = x;
+            y_ins = y;
+            
         }
     }
 }
