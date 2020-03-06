@@ -92,7 +92,7 @@ namespace Logica {
 
             }
         }
-        public CalculoPolilinea(ref dsApp a, int opcion, double ratio, int it) {
+        public CalculoPolilinea(ref dsApp a, int opcion, double ratio, int it, int suavizado) {
             try {
                 bool dibujar = true;
                 if (a.Polilinea.Rows.Count == 0) {
@@ -186,6 +186,25 @@ namespace Logica {
 
                         Vaciar_Puntos();
                         RellenarDatos();
+                        for (int i = 0; i <suavizado; i++)
+                        {
+                            polilinea = Suavizar_ini(polilinea);
+                        }
+                        if (suavizado > 0)
+                        {
+                            while (Distancia(new Point2d(polilinea[0].p.X, polilinea[0].p.Y), new Point2d(polilinea[1].p.X, polilinea[1].p.Y)) < 0.20)
+                            {
+                                polilinea.RemoveAt(1);
+                            }
+                            while (Distancia(new Point2d(polilinea[polilinea.Count - 1].p.X, polilinea[polilinea.Count - 1].p.Y), new Point2d(polilinea[polilinea.Count - 2].p.X, polilinea[polilinea.Count - 2].p.Y)) < 0.20)
+                            {
+                                polilinea.RemoveAt(polilinea.Count - 2);
+                            }
+                        }
+                        Vaciar_Puntos();
+                        RellenarDatos();
+
+                        Iguales();
                         Dibujar(1);
                     }
                     else
@@ -216,7 +235,7 @@ namespace Logica {
 
             }
         }
-        public CalculoPolilinea(ref dsApp a, int opcion, double ratio, int[] orden, int it) {
+        public CalculoPolilinea(ref dsApp a, int opcion, double ratio, int[] orden, int it, int suavizado) {
             try {
                 bool dibujar = true;
                 if (a.Polilinea.Rows.Count == 0) {
@@ -322,6 +341,25 @@ namespace Logica {
 
                 } else if (result == DialogResult.No) {
                 }
+                for (int i = 0; i < suavizado; i++)
+                {
+                    polilinea = Suavizar_ini(polilinea);
+                }
+                if (suavizado>0)
+                {
+                    while (Distancia(new Point2d(polilinea[0].p.X, polilinea[0].p.Y), new Point2d(polilinea[1].p.X, polilinea[1].p.Y)) <0.20)
+                    {
+                        polilinea.RemoveAt(1);
+                    }
+                    while (Distancia(new Point2d(polilinea[polilinea.Count-1].p.X, polilinea[polilinea.Count - 1].p.Y), new Point2d(polilinea[polilinea.Count - 2].p.X, polilinea[polilinea.Count - 2].p.Y)) < 0.20)
+                    {
+                        polilinea.RemoveAt(polilinea.Count - 2);
+                    }
+                }
+                Vaciar_Puntos();
+                RellenarDatos();
+
+                Iguales();
                 Dibujar(1);
                 //mas adelante para la fase 3
                 //List<Point3d> lista = Get_Poly3d(polilinea);
@@ -6253,23 +6291,63 @@ namespace Logica {
                     azimuts = azimut_e_s(componentes[i]);
 
                     if (componentes[i].direccion == EjeDeTrazado.puntosDelEje.EjeTrazado.sentidoCurva.Horario) {
-                        if (componentes[i].curva_creada==true)
+                        if (componentes[i].curva_creada2==true)
                         {
+                            if (componentes[i].radio>1214 && componentes[i].radio < 1215)
+                            {
+
+                            }
+                            if (componentes[i].radio > 1527 && componentes[i].radio < 1528)
+                            {
+
+                            }
                             apartado = apartado + 20;
+                            if (azimuts[0] > azimuts[1])
+                            {
+                                Dibujar_c(componentes[i].xc, componentes[i].yc, componentes[i].radio,  azimuts[0] + 90, azimuts[1] + 90, apartado);
+                            }
+                            else
+                            {
+                                Dibujar_c(componentes[i].xc, componentes[i].yc, componentes[i].radio, azimuts[1] + 90, azimuts[0] + 90, apartado);
+                            }
                         }
-                        Dibujar_c(componentes[i].xc, componentes[i].yc, componentes[i].radio, azimuts[1] + 90, azimuts[0] + 90, apartado);
-                        if (componentes[i].curva_creada == true)
+                        else
+                        {
+                            Dibujar_c(componentes[i].xc, componentes[i].yc, componentes[i].radio, azimuts[1] + 90, azimuts[0] + 90, apartado);
+                        }
+                        
+                        if (componentes[i].curva_creada2 == true)
                         {
                             apartado = apartado - 20;
                         }
 
                     } else {
-                        if (componentes[i].curva_creada == true)
+                        if (componentes[i].curva_creada2 == true)
                         {
+                            if (componentes[i].radio > 1214 && componentes[i].radio < 1215)
+                            {
+
+                            }
+                            if (componentes[i].radio > 1527 && componentes[i].radio < 1528)
+                            {
+
+                            }
                             apartado = apartado + 20;
+                            if (azimuts[0]< azimuts[1])
+                            {
+                                Dibujar_c(componentes[i].xc, componentes[i].yc, componentes[i].radio,  azimuts[1] - 90, azimuts[0] - 90, apartado);
+                            }
+                            else
+                            {
+                                Dibujar_c(componentes[i].xc, componentes[i].yc, componentes[i].radio, azimuts[0] - 90, azimuts[1] - 90, apartado);
+                            }
                         }
-                        Dibujar_c(componentes[i].xc, componentes[i].yc, componentes[i].radio, azimuts[0] - 90, azimuts[1] - 90, apartado);
-                        if (componentes[i].curva_creada == true)
+                        else
+                        {
+                            Dibujar_c(componentes[i].xc, componentes[i].yc, componentes[i].radio, azimuts[0] - 90, azimuts[1] - 90, apartado);
+                        }
+                        
+                        if (componentes[i].curva_creada2 == true)
                         {
                             apartado = apartado - 20;
                         }
@@ -14350,6 +14428,41 @@ namespace Logica {
             RellenarDatos();
             Dibujar_Suavizado(Lista_suavizada);
         }
+        public List<Punto> Suavizar_ini(List<Punto> l)
+        {
+            List<Punto> Lista_suavizada = new List<Punto>();
+            List<Punto> Lista_suavizada_temp = new List<Punto>();
+
+            Lista_suavizada_temp.Add(new Punto(l[0].p));
+            for (int i = 0; i < l.Count - 1; i++)
+            {
+                Lista_suavizada_temp.Add(new Punto(new Point2d((l[i].p.X + l[i + 1].p.X) / 2, (l[i].p.Y + l[i + 1].p.Y) / 2)));
+            }
+            Lista_suavizada_temp.Add(new Punto(l[l.Count - 1].p));
+            Lista_suavizada = new List<Punto>(Lista_suavizada_temp);
+            /*for (int t = 0; t < 10; t++)
+            {
+                Lista_suavizada_temp = new List<Punto>();
+                Lista_suavizada_temp.Add(new Punto(Lista_suavizada[0].p));
+                for (int i = 0; i < Lista_suavizada.Count - 1; i++)
+                {
+                    Lista_suavizada_temp.Add(new Punto(new Point2d((Lista_suavizada[i].p.X + Lista_suavizada[i + 1].p.X) / 2, (Lista_suavizada[i].p.Y + Lista_suavizada[i + 1].p.Y) / 2)));
+                }
+                Lista_suavizada_temp.Add(new Punto(Lista_suavizada[Lista_suavizada.Count - 1].p));
+                Lista_suavizada = new List<Punto>(Lista_suavizada_temp);
+            }
+            Lista_suavizada_temp = new List<Punto>();
+            for (int i = 0; i < Lista_suavizada.Count - 1; i++)
+            {
+                Lista_suavizada_temp.Add(new Punto(new Point2d((Lista_suavizada[i].p.X + Lista_suavizada[i + 1].p.X) / 2, (Lista_suavizada[i].p.Y + Lista_suavizada[i + 1].p.Y) / 2)));
+            }
+            Lista_suavizada = new List<Punto>(Lista_suavizada_temp);
+            Lista_suavizada.Insert(0, l[0]);
+            Lista_suavizada.Add(l[l.Count-1]);*/
+            //RellenarDatos();
+            //Dibujar_Suavizado(Lista_suavizada);
+            return Lista_suavizada;
+        }
         public List<Punto> Suavizar(List<Punto> l) {
             List<Punto> Lista_suavizada = new List<Punto>();
             List<Punto> Lista_suavizada_temp = new List<Punto>();
@@ -15199,6 +15312,22 @@ namespace Logica {
             }
             aux.Add(l[l.Count - 1]);
             return aux;
+        }
+        private void Iguales()
+        {
+            double x = polilinea[0].p.X;
+            for (int i = 1; i < polilinea.Count - 1; i++)
+            {
+                if (Math.Truncate(polilinea[i].p.X * 10000) == Math.Truncate(x * 10000))
+                {
+                    polilinea.RemoveAt(i);
+                    i--;
+                }
+                else
+                {
+                    x = polilinea[i].p.X;
+                }
+            }
         }
         private bool Iguales(Punto p1, Punto p2) {
             if (p1.p.X == p2.p.X && p1.p.Y == p2.p.Y) {
@@ -17760,12 +17889,12 @@ namespace Logica {
                                         {
                                             curva_gran_radio = false;
                                             EjeDeTrazado.componentes.Clotoide Clo = Recta_Curva(componentes[i], componentes[i + 1], 1);
-                                            /*double xx = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaX;
+                                            double xx = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaX;
                                             double yy = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaY;
                                             tadLayShare.puntos.Punto3d pl1 = new tadLayShare.puntos.Punto3d(xx, yy, 0);
                                             tadLayShare.puntos.Punto3d pl2 = new tadLayShare.puntos.Punto3d(Clo.getPointAtDist(0)[0], Clo.getPointAtDist(0)[1], 0);
                                             EjeDeTrazado.componentes.Linea linea = new EjeDeTrazado.componentes.Linea(pl1, pl2, 0, 0, componentes[i].azr);
-                                            mcomponenetes.Add(linea);*/
+                                            mcomponenetes.Add(linea);
                                             mcomponenetes.Add(Clo);
                                             clo_salida = false;
                                             Clo_Entre_Curvas = null;
@@ -25133,7 +25262,7 @@ namespace Logica {
                             componentes[i + 1].radio = curva.getRadio;
                             // componentes[i + 1].xc = curva.getCentroCurva.coordenadaX;
                             //componentes[i + 1].yc = curva.getCentroCurva.coordenadaY;
-                            componentes[i + 1].curva_creada = true;
+                            componentes[i + 1].curva_creada2 = true;
                             contador++;
                             Rellenar_Curva(componentes[i + 1]);
                             azimut_e_s(componentes[i + 1]);

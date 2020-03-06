@@ -44,7 +44,7 @@ namespace Logica
         public List<PuntoPerfil> Polilinea_Perfil { get => polilinea_perfil; set => polilinea_perfil = value; }
         public CalculoPolilineaPerfil() { 
         }
-        public CalculoPolilineaPerfil(ref dsApp a, int opcion, double ratio, int it,int escal,int n_suavizados,double x_in,double y_in)
+        public CalculoPolilineaPerfil(ref dsApp a, int opcion, double ratio, int it,int escal,int n_suavizados)
         {
             MessageBox.Show("Eliga en autocad el punto de inserción.");
             Point3d fstCnr = new Point3d();
@@ -210,7 +210,7 @@ namespace Logica
 
             }
         }
-        public CalculoPolilineaPerfil(ref dsApp a, int opcion, double ratio, int[] orden, int it, double x_in, double y_in)
+        public CalculoPolilineaPerfil(ref dsApp a, int opcion, double ratio, int[] orden, int it)
         {
             MessageBox.Show("Eliga en autocad el punto de inserción.");
             Point3d fstCnr = new Point3d();
