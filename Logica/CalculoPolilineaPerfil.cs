@@ -3939,6 +3939,10 @@ namespace Logica
             {
                 double p1 = Lista_parabolas[i].polilinea_perfil[0].pendiente;
                 double p3 = Lista_parabolas[i].polilinea_perfil[Lista_parabolas[i].polilinea_perfil.Count-1].pendiente;
+                if (double.IsNaN(p3))
+                {
+                    p3 = Lista_parabolas[i].polilinea_perfil[Lista_parabolas[i].polilinea_perfil.Count - 2].pendiente;
+                }
                 if (Math.Abs(p1-p3)<pendiente/100)
                 {
                     Lista_parabolas.RemoveAt(i);
