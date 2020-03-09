@@ -74,7 +74,7 @@ namespace engNet.Csv
                             miVal = prop.GetValue(item).ToString();
                         }
 
-                        output.Write(miVal.Replace('.', ','));
+                        output.Write(miVal.Replace(',', '.'));
                         output.Write(";");
                     }
                 }
@@ -98,7 +98,7 @@ namespace engNet.Csv
 
                 if (prop.IsBrowsable)
                 {
-                    output.Write(prop.DisplayName.Replace('.',',')); // header
+                    output.Write(prop.DisplayName.Replace(',','.')); // header
                     output.Write(";");
                 }
 
@@ -124,7 +124,7 @@ namespace engNet.Csv
                             miVal = prop.GetValue(item).ToString();
                         }
 
-                        output.Write(miVal.Replace('.', ','));
+                        output.Write(miVal.Replace(',', '.'));
                         output.Write(";");
                     }
                 }
@@ -159,7 +159,7 @@ namespace engNet.Csv
                         }
 
 
-                        output.Write(miVal.Replace('.', ','));
+                        output.Write(miVal.Replace(',', '.'));
                         output.Write(";");
                     }
                 }
