@@ -2841,6 +2841,7 @@ namespace Logica
                                     ReducirParabola(i, 1);
                                 }
                             }
+                            i = -1;
                         }
                         //Dibujar_r(p1, p2);
                         //Dibujar_r(p3, p4);
@@ -3037,7 +3038,8 @@ namespace Logica
             double c = Lista_parabolas[p].parabola[2];
             double d, e, f;
             //double x0 = (-b) / (2 * a);
-            double xm = Lista_parabolas[p].polilinea_perfil[Lista_parabolas[p].polilinea_perfil.Count / 2].p.X;
+            double xm = (Lista_parabolas[p].polilinea_perfil[0].p.X + 
+                        Lista_parabolas[p].polilinea_perfil[Lista_parabolas[p].polilinea_perfil.Count-1].p.X)/2;
             double ym = Lista_parabolas[p].polilinea_perfil[Lista_parabolas[p].polilinea_perfil.Count / 2].p.Y;
             if ((Lista_parabolas[p].polilinea_perfil[0].pendiente > 0 && Lista_parabolas[p].polilinea_perfil[Lista_parabolas[p].polilinea_perfil.Count - 1].pendiente < 0))
             {
