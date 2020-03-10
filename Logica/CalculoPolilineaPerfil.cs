@@ -2748,8 +2748,7 @@ namespace Logica
                     }
                     else
                     {
-                        //Dibujar_r(p1, p2);
-                        //Dibujar_r(p3, p4);
+                       
                     }
                 }
             }
@@ -2757,7 +2756,7 @@ namespace Logica
         
         public void CalcularEntreParabolas()
         {
-            
+            int contador = 0;
             for (int i=0;i< Lista_parabolas.Count-1;i++)
             {
                 double a = 0, b = 0, c = 0, d = 0, e = 0, f = 0;
@@ -2785,9 +2784,10 @@ namespace Logica
                 double y2 = (r2 * r2) * d + r2 * e + f;//x^2+x+c
                 Point2d p1 = new Point2d(x2, y );
                 Point2d p2 = new Point2d(r2, y2 );
+
+               
                 if (x2<r2)
                 {
-                    //Dibujar_r(p1, p2);
                 }
                 else
                 {
@@ -2795,10 +2795,13 @@ namespace Logica
                     y2 = (r1 * r1) * d + r1 * e + f;//x^2+x+c
                     Point2d p3 = new Point2d(x1, y );
                     Point2d p4 = new Point2d(r1, y2 );
-
+                    if (Lista_parabolas[i].polilinea_perfil[0].p.X > 1140 && Lista_parabolas[i].polilinea_perfil[0].p.X < 1170)
+                    {
+                        //Dibujar_r(p3, p4, 5);
+                    }
+                    
                     if (x1 < r1)
                     {
-                        //Dibujar_r(p3, p4);
                     }
                     else
                     {
@@ -2814,8 +2817,10 @@ namespace Logica
                                 ReducirParabola(i, 1);
                                 ReducirParabola(i + 1, 2);
                             }
-
                             i = -1;
+
+
+
                         }
                         else
                         {
@@ -3038,10 +3043,18 @@ namespace Logica
             double c = Lista_parabolas[p].parabola[2];
             double d, e, f;
             //double x0 = (-b) / (2 * a);
-            double xm = (Lista_parabolas[p].polilinea_perfil[0].p.X + 
-                        Lista_parabolas[p].polilinea_perfil[Lista_parabolas[p].polilinea_perfil.Count-1].p.X)/2;
+            double xm = (Lista_parabolas[p].polilinea_perfil[0].p.X + Lista_parabolas[p].polilinea_perfil[Lista_parabolas[p].polilinea_perfil.Count-1].p.X)/2;
+            if (p==0)
+            {
+                xm = Lista_parabolas[p].polilinea_perfil[0].p.X;
+            }
+            if (p == Lista_parabolas.Count-1)
+            {
+                xm = Lista_parabolas[p].polilinea_perfil[Lista_parabolas[p].polilinea_perfil.Count - 1].p.X;
+            }
             double ym = Lista_parabolas[p].polilinea_perfil[Lista_parabolas[p].polilinea_perfil.Count / 2].p.Y;
-            if ((Lista_parabolas[p].polilinea_perfil[0].pendiente > 0 && Lista_parabolas[p].polilinea_perfil[Lista_parabolas[p].polilinea_perfil.Count - 1].pendiente < 0))
+            //Se quitan estos 2 apartados para que la parabola reduzca sobre el punto medio y no sobre cotas maximas o minimas
+            /*if ((Lista_parabolas[p].polilinea_perfil[0].pendiente > 0 && Lista_parabolas[p].polilinea_perfil[Lista_parabolas[p].polilinea_perfil.Count - 1].pendiente < 0))
             {
                 for (int i=0;i< Lista_parabolas[p].polilinea_perfil.Count-1;i++)
                 {
@@ -3062,15 +3075,15 @@ namespace Logica
                         ym = Lista_parabolas[p].polilinea_perfil[i].p.Y;
                     }
                 }
-            }
+            }*/
 
             if (op==1)
             {
-                d = a - 0.00001;
+                d = a - 0.0000001;
             }
             else
             {
-                d = a + 0.00001;
+                d = a + 0.0000001;
             }
 
             /*e = b * d / a;
@@ -4258,6 +4271,11 @@ namespace Logica
         public void Acuerdo_Entre_Pendientes()
         {
             bool salir = false;
+            int conta_parabolas = 0;
+            if (Lista_parabolas[0].polilinea_perfil[0].p.X==0)
+            {
+                conta_parabolas++;
+            }
             while (!salir)
             {
                 for (int i = 0; i < Lista_rectas.Count - 1; i++)
@@ -4266,9 +4284,17 @@ namespace Logica
                     {
                         if (Lista_rectas[i].Puntos[0].X > Lista_rectas[i + 1].Puntos[0].X)
                         {
-                            Lista_parabolas.RemoveAt(i);
+                            Lista_parabolas.RemoveAt(conta_parabolas);
                             Lista_rectas.Clear();
                             salir = true;
+                            if (Lista_parabolas[0].polilinea_perfil[0].p.X == 0)
+                            {
+                                conta_parabolas=1;
+                            }
+                            else
+                            {
+                                conta_parabolas = 0;
+                            }
                             break;
                         }
                         else
@@ -4337,14 +4363,15 @@ namespace Logica
                             punto_perfil = new PuntoPerfil(punto);
                             poli.Add(punto_perfil);
                             p = new Parabola(para, poli);
-                            Lista_Parabolas.Insert(i, p);
-                            Lista_parabolas.RemoveAt(i + 1);
+                            Lista_Parabolas.Insert(conta_parabolas, p);
+                            Lista_parabolas.RemoveAt(conta_parabolas + 1);
                             Lista_rectas[i].Puntos.RemoveAt(1);
                             Lista_rectas[i].Puntos.Add(new Point2d(x1, y1));
                             Lista_rectas[i + 1].Puntos.Insert(0, new Point2d(x2, y2));
                             Lista_rectas[i + 1].Puntos.RemoveAt(1);
                         }
                     }
+                    conta_parabolas++;
                 }
                 if (salir)
                 {
@@ -4448,7 +4475,7 @@ namespace Logica
                         }
                         else
                         {
-                            if (Lista_rectas.Count > Lista_parabolas.Count)
+                            if (Lista_rectas.Count < Lista_parabolas.Count)
                             {
                                 double x2 = Lista_parabolas[Lista_parabolas.Count - 1].parabola[0];
                                 double x1 = Lista_parabolas[Lista_parabolas.Count - 1].parabola[1];
@@ -4543,7 +4570,7 @@ namespace Logica
                         }
                         else
                         {
-                            if (Lista_rectas.Count > Lista_parabolas.Count)
+                            if (Lista_rectas.Count < Lista_parabolas.Count)
                             {
                                 double x2 = Lista_parabolas[Lista_parabolas.Count - 1].parabola[0];
                                 double x1 = Lista_parabolas[Lista_parabolas.Count - 1].parabola[1];

@@ -1724,13 +1724,14 @@ namespace interfaz {
             calculoPolilineaPerfil.Dibujar_Acuerdos(1);
             calculoPolilineaPerfil.CalcularEntreParabolas();
             calculoPolilineaPerfil.CalculoEntreParabolas_Dibujar();
-
+            
             calculoPolilineaPerfil.Componente_Inicial();
             calculoPolilineaPerfil.Componente_Final();
-            
-            calculoPolilineaPerfil.Acuerdo_Entre_Pendientes();
             calculoPolilineaPerfil.Dibujar_Rectas(2);
             calculoPolilineaPerfil.Dibujar_Acuerdos(2);
+            calculoPolilineaPerfil.Acuerdo_Entre_Pendientes();
+            calculoPolilineaPerfil.Dibujar_Rectas(3);
+            calculoPolilineaPerfil.Dibujar_Acuerdos(3);
 
             calculoPolilineaPerfil.CrearTrazado();
 

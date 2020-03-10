@@ -611,9 +611,19 @@ namespace Logica {
                         polilinea[i].Recta = 1;
                         polilinea[i - 1].Recta = 1;
                     } else {
-                        polilinea[i + 1].Curva = 1;
-                        polilinea[i].Curva = 1;
-                        polilinea[i - 1].Curva = 1;
+                        if (polilinea[i].R==0 && polilinea[i+1].R == 0)
+                        {
+                            polilinea[i - 1].Curva = 1;
+                            polilinea[i + 1].Recta = 1;
+                            polilinea[i].Recta = 1;
+                        }
+                        else
+                        {
+                            polilinea[i + 1].Curva = 1;
+                            polilinea[i].Curva = 1;
+                            polilinea[i - 1].Curva = 1;
+                        }
+                        
                     }
                 }
             }
@@ -1813,7 +1823,7 @@ namespace Logica {
                                 {
                                     if (componentes[i].creacion != 2)
                                     {
-                                        //                                componentes[i].ca_cp = true;
+                                    //                                    componentes[i].ca_cp = true;
                                     }
                                     else
                                     {
@@ -2028,6 +2038,9 @@ namespace Logica {
                                     }
                                     else
                                     {*/
+                                    double r1 = 0,r2=0;
+                                    r1 = componentes[componenteIndex - 1].radio;
+                                    r2 = componentes[componenteIndex + 1].radio;
                                     if (componenteIndex - 1 == 0 || componenteIndex + 1 == componentes.Count - 1)
                                     {
                                         if (componentes[componenteIndex].creacion == 1 || componentes[componenteIndex].creacion == 2)
@@ -2038,7 +2051,7 @@ namespace Logica {
                                             }
                                             else
                                             {
-                                                Reducir_radio(componenteIndex - 1);
+                                                Reducir_radio_pro(componenteIndex - 1,r2);
                                             }
 
                                             if (componenteIndex + 1 == componentes.Count - 1)
@@ -2047,7 +2060,7 @@ namespace Logica {
                                             }
                                             else
                                             {
-                                                Reducir_radio(componenteIndex + 1);
+                                                Reducir_radio_pro(componenteIndex + 1,r1);
                                             }
                                         }
                                         else
@@ -2062,7 +2075,7 @@ namespace Logica {
                                                 }
                                                 else
                                                 {
-                                                    Reducir_radio(componenteIndex - 1);
+                                                    Reducir_radio_pro(componenteIndex - 1,r2);
                                                 }
 
                                                 if (componenteIndex + 1 == componentes.Count - 1)
@@ -2071,7 +2084,7 @@ namespace Logica {
                                                 }
                                                 else
                                                 {
-                                                    Reducir_radio(componenteIndex + 1);
+                                                    Reducir_radio_pro(componenteIndex + 1,r1);
                                                 }
                                             }
                                             else
@@ -2090,7 +2103,7 @@ namespace Logica {
                                         }
                                         else
                                         {
-                                            Reducir_radio(componenteIndex - 1);
+                                            Reducir_radio_pro(componenteIndex - 1,r2);
                                         }
 
                                         if (componenteIndex + 1 == componentes.Count - 1)
@@ -2099,7 +2112,7 @@ namespace Logica {
                                         }
                                         else
                                         {
-                                            Reducir_radio(componenteIndex + 1);
+                                            Reducir_radio_pro(componenteIndex + 1,r1);
                                         }
                                     }
 
@@ -14138,6 +14151,69 @@ namespace Logica {
                
             }
             
+        }
+        /// <summary>
+        /// Reducimos el radio proporcionalmente
+        /// </summary>
+        /// <param name="comp">componente a reducir</param>
+        /// <param name="r_r">radio del otro circulo</param>
+        /// <returns></returns>
+        private bool Reducir_radio_pro(int comp,double r_r)
+        {
+
+            Point2d a = new Point2d(componentes[comp].xc, componentes[comp].yc);
+            double v_x_1 = (componentes[comp].lista_puntos[1].p.X - componentes[comp].xc) / componentes[comp].radio;
+            double v_y_1 = (componentes[comp].lista_puntos[1].p.Y - componentes[comp].yc) / componentes[comp].radio;
+            double r_reducir = componentes[comp].radio / (componentes[comp].radio + r_r) ;
+            componentes[comp].xc = componentes[comp].xc + (componentes[comp].radio * r_reducir / 100) * v_x_1;
+            componentes[comp].yc = componentes[comp].yc + (componentes[comp].radio * r_reducir / 100) * v_y_1;
+            componentes[comp].radio = Math.Sqrt(Math.Pow(componentes[comp].xc - componentes[comp].lista_puntos[1].p.X, 2) + Math.Pow(componentes[comp].yc - componentes[comp].lista_puntos[1].p.Y, 2));
+            double[] azimuts = new double[2];
+            azimuts = azimut_e_s(componentes[comp]);
+            if (componentes[comp].direccion == EjeDeTrazado.puntosDelEje.EjeTrazado.sentidoCurva.Horario)
+            {
+                double xx = componentes[comp].xc - (componentes[comp].radio) * Math.Sin((azimuts[0] + 90) * Math.PI / 180);
+                double yy = componentes[comp].yc - (componentes[comp].radio) * Math.Cos((azimuts[0] + 90) * Math.PI / 180);
+                componentes[comp].lista_puntos[0].Cambiar_X_Y(xx, yy);
+                double xx2 = componentes[comp].xc - (componentes[comp].radio) * Math.Sin((azimuts[1] + 90) * Math.PI / 180);
+                double yy2 = componentes[comp].yc - (componentes[comp].radio) * Math.Cos((azimuts[1] + 90) * Math.PI / 180);
+                componentes[comp].lista_puntos[2].Cambiar_X_Y(xx2, yy2);
+            }
+            else
+            {
+                double xx = componentes[comp].xc + (componentes[comp].radio) * Math.Sin((azimuts[0] + 90) * Math.PI / 180);
+                double yy = componentes[comp].yc + (componentes[comp].radio) * Math.Cos((azimuts[0] + 90) * Math.PI / 180);
+                componentes[comp].lista_puntos[0].Cambiar_X_Y(xx, yy);
+                double xx2 = componentes[comp].xc + (componentes[comp].radio) * Math.Sin((azimuts[1] + 90) * Math.PI / 180);
+                double yy2 = componentes[comp].yc + (componentes[comp].radio) * Math.Cos((azimuts[1] + 90) * Math.PI / 180);
+                componentes[comp].lista_puntos[2].Cambiar_X_Y(xx2, yy2);
+            }
+            if (componentes.Count - 1 >= comp + 1)
+            {
+                if (componentes[comp + 1].Tipo == 1 && componentes[comp + 1].creacion == 2)
+                {
+                    componentes.RemoveAt(comp + 1);
+                }
+            }
+            if ((comp - 1) >= 0)
+            {
+                if (componentes[comp - 1].Tipo == 1 && componentes[comp - 1].creacion == 2)
+                {
+                    componentes.RemoveAt(comp - 1);
+                    return true;
+                }
+            }
+
+            return false;
+            /*
+            if (getSentidoCurva(azimuts[0], azimuts[1]) == EjeDeTrazado.puntosDelEje.EjeTrazado.sentidoCurva.Horario)
+            {
+                Dibujar_c(componentes[comp].xc, componentes[comp].yc, componentes[comp].radio, azimuts[1] + 90, azimuts[0] + 90);
+            }
+            else
+            {
+                Dibujar_c(componentes[comp].xc, componentes[comp].yc, componentes[comp].radio, azimuts[0] - 90, azimuts[1] - 90);
+            }*/
         }
         private bool Reducir_radio(int comp) {
 
