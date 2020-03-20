@@ -728,6 +728,21 @@ namespace EjeDeTrazado.componentes
             return puntos;
 
         }
+        public override List<double[]> getComponentPoints_p()
+        {
+            var puntos = new List<double[]>();
+            double i = 0;
+
+            while ((getPkIni + i) < getPkFinal())
+            {
+                puntos.Add(getPointAtDist(getPkIni + i));
+                i += 0.01;
+
+            }
+            puntos.Add(new double[] { getPuntoSalida.coordenadaX, getPuntoSalida.coordenadaY });
+            return puntos;
+
+        }
         public override List<double[]> getComponentPoints(double pk)
         {
             var puntos = new List<double[]>();
@@ -780,6 +795,36 @@ namespace EjeDeTrazado.componentes
                         i++;
                     }
                 }
+
+            }
+            puntos.Add(new double[] { getPuntoSalida.coordenadaX, getPuntoSalida.coordenadaY });
+            return puntos;
+
+        }
+        public override List<double[]> getComponentPoints_p(double pk)
+        {
+            var puntos = new List<double[]>();
+            double i = 0;
+
+            while ((getPkIni + i) < getPkFinal())
+            {
+                puntos.Add(getPointAtDist(getPkIni + i));
+                i += 0.01;
+
+            }
+            puntos.Add(new double[] { getPuntoSalida.coordenadaX, getPuntoSalida.coordenadaY });
+            return puntos;
+
+        }
+        public override List<double[]> getComponentPoints_p(double pk, double pk_fin)
+        {
+            var puntos = new List<double[]>();
+            double i = 0;
+
+            while ((getPkIni + i) < getPkFinal())
+            {
+                puntos.Add(getPointAtDist(getPkIni + i));
+                i += 0.01;
 
             }
             puntos.Add(new double[] { getPuntoSalida.coordenadaX, getPuntoSalida.coordenadaY });

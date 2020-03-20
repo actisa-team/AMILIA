@@ -36,7 +36,8 @@ namespace interfaz {
         private CalculoPolilineaPerfil calculoPolilineaPerfil;
         private CalculoPolilineaPreferencias calculoPolilineaPreferenciasPerfil;
         private List<Point3d> Lista_original_3d = new List<Point3d>();
-
+        private List<Point2d> Lista_original_2d = new List<Point2d>();
+        
         /// <summary>
         /// es donde inicializa la interfaz
         /// </summary>
@@ -166,6 +167,14 @@ namespace interfaz {
                             Lista_original_3d = new List<Point3d>();
                         }
                         Lista_original_3d.Add(new Point3d(double.Parse(separadas[0]), double.Parse(separadas[1]), double.Parse(separadas[2])));
+                    }
+                    if (separadas.Count() >1)
+                    {
+                        if (counter == 1)
+                        {
+                            Lista_original_2d = new List<Point2d>();
+                        }
+                        Lista_original_2d.Add(new Point2d(double.Parse(separadas[0]), double.Parse(separadas[1])));
                     }
                     counter++;
 
@@ -697,7 +706,7 @@ namespace interfaz {
                     this.calculoPolilinea.removeAllViabilidadListener();
                     this.calculoPolilinea.addViabilidadListener(this);
 
-                    List<ViabilidadComponentesStatus> trazaViabilidadComponentes = calculoPolilinea.viabilidad();
+                    List<ViabilidadComponentesStatus> trazaViabilidadComponentes = calculoPolilinea.viabilidad(this.calculoPolilineaPreferencias.Gran_r);
 
                     calculoPolilinea.Dibujar_entidades(3);
 
@@ -743,7 +752,7 @@ namespace interfaz {
             {
                 calculoPolilinea.Dibujar_entidades(4);
                 calculoPolilinea.Crear_Trazado(this.calculoPolilineaPreferencias.Gran_r);
-                calculoPolilinea.Dibujar_Todo(this.calculoPolilineaPreferencias.Rotulacion, this.calculoPolilineaPreferencias.Rotu);
+                calculoPolilinea.Dibujar_Todo(this.calculoPolilineaPreferencias.Rotulacion, this.calculoPolilineaPreferencias.Rotu, Lista_original_2d);
             }
             catch
             {
@@ -852,7 +861,7 @@ namespace interfaz {
 
                         calculoPolilinea.Dibujar_entidades(4);
                         calculoPolilinea.Crear_Trazado(this.calculoPolilineaPreferencias.Gran_r);
-                        calculoPolilinea.Dibujar_Todo(this.calculoPolilineaPreferencias.Rotulacion, this.calculoPolilineaPreferencias.Rotu);
+                        calculoPolilinea.Dibujar_Todo(this.calculoPolilineaPreferencias.Rotulacion, this.calculoPolilineaPreferencias.Rotu, Lista_original_2d);
                     }
                     catch {
                         MessageBox.Show("Se ha detectado un error al crear la entidad. Se dibujará lo creado");
@@ -1749,6 +1758,13 @@ namespace interfaz {
         {
             dsApp a = new dsApp();
             Logica.GuardarPolilinea2d Gp2d = new GuardarPolilinea2d(ref a);
+            Lista_original_2d = new List<Point2d>();
+            foreach (DataRow r in a.Polilinea.Rows)
+            {
+                string x = (string)r["X"];
+                string y = (string)r["Y"];
+                Lista_original_2d.Add(new Point2d(double.Parse(x), double.Parse(y)));
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)

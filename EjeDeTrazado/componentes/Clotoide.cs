@@ -799,6 +799,72 @@ namespace EjeDeTrazado.componentes
             return puntos;
 
         }
+        public override List<double[]> getComponentPoints_p()
+        {
+            var puntos = new List<double[]>();
+            double i = 0;
+            if (le_r > 0)
+            {
+                if (this.mTipo == EjeDeTrazado.puntosDelEje.EjeTrazado.tipoClotoide.salida)
+                {
+                    return (getComponentPoints_p(0, le_r));
+                }
+                return (getComponentPoints_p(le_r));
+            }
+            else
+            {
+                while ((getPkIni + i) < getPkFinal())
+                {
+                    puntos.Add(getPointAtDist(getPkIni + i));
+                    i += 0.01;
+
+                }
+                puntos.Add(new double[] { getPuntoSalida.coordenadaX, getPuntoSalida.coordenadaY });
+                return puntos;
+            }
+
+
+        }
+        public override List<double[]> getComponentPoints_p(double pk)
+        {
+            var puntos = new List<double[]>();
+            double i = 0;
+
+            while ((getPkIni + i) < getPkFinal())
+            {
+                if (getPkIni + i >= pk)
+                {
+                    puntos.Add(getPointAtDist(getPkIni + i));
+                }
+
+                i += 0.01;
+
+            }
+            puntos.Add(new double[] { getPuntoSalida.coordenadaX, getPuntoSalida.coordenadaY });
+            return puntos;
+
+        }
+        public override List<double[]> getComponentPoints_p(double pk, double pk_fin)
+        {
+            var puntos = new List<double[]>();
+            double i = 0;
+
+            while ((getPkIni + i) < pk_fin)
+            {
+                if (getPkIni + i >= pk)
+                {
+                    puntos.Add(getPointAtDist(getPkIni + i));
+                }
+
+                i += 0.01;
+
+            }
+            puntos.Add(getPointAtDist(pk_fin));
+            //base.setPuntoSalida=new Punto3d(puntos[puntos.Count-1][0], puntos[puntos.Count - 1][1],0);
+            //puntos.Add(new double[] { getPuntoSalida.coordenadaX, getPuntoSalida.coordenadaY });
+            return puntos;
+
+        }
         public double Azimut { get { return mAzimut; } }
 
         //public double getAzimut(double iDx, double iDy)

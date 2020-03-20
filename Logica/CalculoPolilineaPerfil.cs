@@ -3096,6 +3096,55 @@ namespace Logica
             Lista_parabolas[p].parabola[2] = f;
 
         }
+        public void Distancia_Puntos_Resultado(List<EjeDeTrazado.componentes.Componente> Mcomponenetes, List<Point3d> lista_original_3d)
+        {
+            List<Point3d> Polilinea3d = new List<Point3d>();
+
+            Point3d p3d = new Point3d();
+            foreach (var componente in Mcomponenetes)
+            {
+                foreach (var componentPoint in componente.getComponentPoints())
+                {
+                    p3d = new Point3d(componentPoint[0], componentPoint[1], 0);
+                    Polilinea3d.Add(p3d);
+                }
+            }
+            Polilinea3d = Erroneos(Polilinea3d);
+            Polilinea3d = Dividir_Segmentos_Largos(Polilinea3d);
+            foreach (Point3d p in lista_original_3d)
+            {
+                Polilinea3d_original.Add(p);
+            }
+            List<double> distancias = new List<double>();
+            List<Point3d> Polilinea3d_aux = new List<Point3d>();
+            List<Point3d> polilinea_aux = new List<Point3d>();
+            int punto_p_o = 0;//punto de la polilinea original seleccionado
+            int punto_ini = 0, punto_fin = Polilinea3d.Count - 1;
+            double distancia = 0;
+            double distancia_g = 0;
+            Point3d p_aux = new Point3d(Polilinea3d[0].X, Polilinea3d[0].Y, Polilinea3d_original[0].Z);
+            Polilinea3d_aux.Add(p_aux);
+            for (int i = 1; i < Polilinea3d_original.Count; i++)
+            {
+                distancia_g = Distancia(new Point2d(Polilinea3d[0].X, Polilinea3d[0].Y), new Point2d(Polilinea3d_original[i].X, Polilinea3d_original[i].Y));
+                for (int t = 0; t < Polilinea3d.Count; t++)
+                {
+                    distancia = Distancia(new Point2d(Polilinea3d[t].X, Polilinea3d[t].Y), new Point2d(Polilinea3d_original[i].X, Polilinea3d_original[i].Y));
+                    if (distancia_g > distancia)
+                    {
+                        punto_p_o = t;
+                        distancia_g = distancia;
+                    }
+
+                }
+                distancias.Add(distancia_g);
+                p_aux = new Point3d(Polilinea3d[punto_p_o].X, Polilinea3d[punto_p_o].Y, Polilinea3d_original[i].Z);
+                Polilinea3d_aux.Add(p_aux);
+            }
+            p_aux = new Point3d(Polilinea3d[Polilinea3d.Count - 1].X, Polilinea3d[Polilinea3d.Count - 1].Y, Polilinea3d_original[Polilinea3d_original.Count - 1].Z);
+            Polilinea3d_aux.Add(p_aux);
+            Polilinea3d_original = Polilinea3d_aux;
+        }
         public void Cotas_Trazado(List<EjeDeTrazado.componentes.Componente> Mcomponenetes,List<Point3d> lista_original_3d)
         {
             List<Point3d> Polilinea3d = new List<Point3d>();
@@ -3175,7 +3224,6 @@ namespace Logica
                             punto_p_o = t;
                             distancia_g = distancia;
                         }
-                        
                     }
                     p_aux = new Point3d(Polilinea3d[punto_p_o].X, Polilinea3d[punto_p_o].Y, Polilinea3d_original[i].Z);
                     Polilinea3d_aux.Add(p_aux);
@@ -3276,10 +3324,10 @@ namespace Logica
             {
                 p1 = new Point2d(polilinea[i].X, polilinea[i].Y);
                 p2 = new Point2d(polilinea[i+1].X, polilinea[i+1].Y);
-                if (Distancia(p1,p2)>0.1)
+                if (Distancia(p1,p2)>0.01)
                 {
                     polilinea_temp.Add(polilinea[i]);
-                    partes = (int)Math.Truncate(Distancia(p1, p2)*10);
+                    partes = (int)Math.Truncate(Distancia(p1, p2)*100);
                     if (partes>1)
                     {
                         segmento = Dividir_Segmento(polilinea[i+1], polilinea[i], partes);
