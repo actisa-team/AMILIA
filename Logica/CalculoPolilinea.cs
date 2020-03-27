@@ -1762,6 +1762,10 @@ namespace Logica {
             {
 
                 componentes = componentes_general[w];
+                for(int i = 0; i < componentes.Count; i++)
+                {
+                    componentes[i].desplazamientos = 0;
+                }
                 casos = true;
                 if (componentes.Count>1)
                 {
@@ -3087,7 +3091,47 @@ namespace Logica {
             {
                 if (componentes[i - 1].Tipo == 2 && componentes[i + 1].Tipo == 2 && componentes[i - 1].direccion == componentes[i + 1].direccion)
                 {
-                    componentes.RemoveAt(i);
+                    if (componentes[i].desplazamientos < 1200)
+                    {
+                        double xx = 0, xx2 = 0, yy = 0, yy2 = 0;
+                        if (componentes[i].xc < componentes[i].lista_puntos[0].p.X)
+                        {
+                            xx += 0.0001;
+                            xx2 += 0.0001;
+                        }
+                        else
+                        {
+                            xx -= 0.0001;
+                            xx2 -= 0.0001;
+                        }
+                        if (componentes[i].yc < componentes[i].lista_puntos[0].p.Y)
+                        {
+                            yy += 0.0001;
+                            yy2 += 0.0001;
+                        }
+                        else
+                        {
+                            yy -= 0.0001;
+                            yy2 -= 0.0001;
+                        }
+                        Point2d p1 = new Point2d(componentes[i].lista_puntos[0].p.X + xx, componentes[i].lista_puntos[0].p.Y + yy);
+                        Point2d p2 = new Point2d(componentes[i].lista_puntos[componentes[i].lista_puntos.Count - 1].p.X + xx2, componentes[i].lista_puntos[componentes[i].lista_puntos.Count - 1].p.Y + yy2);
+                        if (componentes[i].lista_puntos.Count > 2)
+                        {
+                            for (int x = 1; x < componentes[i].lista_puntos.Count - 1; x++)
+                            {
+                                componentes[i].lista_puntos.RemoveAt(x);
+                            }
+                        }
+                        componentes[i].lista_puntos[0].p = p1;
+                        componentes[i].lista_puntos[1].p = p2;
+                        componentes[i].desplazamientos++;
+                    }
+                    else
+                    {
+                        componentes.RemoveAt(i);
+                    }
+                    
                 }
                 else
                 {
@@ -3382,7 +3426,18 @@ namespace Logica {
                 for (int i = 0; i <= componentes.Count - 1; i++) {
                     if (componentes[i].caso4 == true) {
                         //hacer caso 4
-                        Reducir_radio(i);
+                        if (i == 0)
+                        {
+                            Reducir_radio_inicial(i);
+                        }
+                        else if (i == componentes.Count - 1)
+                        {
+                            Reducir_radio_final(i);
+                        }
+                        else
+                        {
+                            Reducir_radio(i);
+                        }
                         hacer_caso = false;
                         break;
                     }
@@ -3391,7 +3446,18 @@ namespace Logica {
                     for (int i = 0; i <= componentes.Count - 1; i++) {
                         if (componentes[i].caso5 == true) {
                             //hacer caso 5
-                            Reducir_radio(i);
+                            if (i==0)
+                            {
+                                Reducir_radio_inicial(i);
+                            }else if (i== componentes.Count - 1)
+                            {
+                                Reducir_radio_final(i);
+                            }
+                            else
+                            {
+                                Reducir_radio(i);
+                            }
+                            
                             hacer_caso = false;
                             break;
                         }
@@ -6419,8 +6485,15 @@ namespace Logica {
 
                 //}
             }
+            DialogResult result = MessageBox.Show("¿Desea crear un archivo de errores del trazado?\nNOTA: si el trazado es largo puede tardar varias minutos.", "Error de trazado", MessageBoxButtons.YesNo);
+            if (result == DialogResult.Yes)
+            {
+                Distancia_Puntos_Resultado(mcomponenetes, Lista_original_2d);
+            }
+
             if (rotu)
             {
+                MessageBox.Show("Rotulando");
                 Set_Pks();
                 engCadNet.oLayer.addLayer("Rotulacion-Curva", 1, false);
                 engCadNet.oLayer.addLayer("Rotulacion-Recta", 2, false);
@@ -6486,29 +6559,29 @@ namespace Logica {
                 r.Dibujar_Final(mcomponenetes[mcomponenetes.Count - 1]);
                 EjeDeTrazado.InfoComponentes info = new EjeDeTrazado.InfoComponentes(mcomponenetes, new List<Vertice>(0));
                 string nombre_informe = "";
-                System.Windows.Forms.SaveFileDialog saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-
-                saveFileDialog1.Filter = "csv files (*.csv)|*.csv|All files (*.*)|*.*";
-                saveFileDialog1.FilterIndex = 2;
-                saveFileDialog1.RestoreDirectory = true;
-                saveFileDialog1.DefaultExt = "csv";
-                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                DialogResult resultinforme = MessageBox.Show("¿Desea crear un archivo del informe del trazado?", "Informe del trazado", MessageBoxButtons.YesNo);
+                if (resultinforme == DialogResult.Yes)
                 {
-                    nombre_informe = saveFileDialog1.FileName;
-                    List<EjeDeTrazado.oInformeEje> aa = info.escribirInforme(nombre_informe);
-                }
-                else
-                {
-                }
 
+                    System.Windows.Forms.SaveFileDialog saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+                    saveFileDialog1.Title = "Fuardar informe del trazado";
+                    saveFileDialog1.Filter = "csv files (*.csv)|*.csv|All files (*.*)|*.*";
+                    saveFileDialog1.FilterIndex = 2;
+                    saveFileDialog1.RestoreDirectory = true;
+                    saveFileDialog1.DefaultExt = "csv";
+                    if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                    {
+                        nombre_informe = saveFileDialog1.FileName;
+                        List<EjeDeTrazado.oInformeEje> aa = info.escribirInforme(nombre_informe);
+                    }
+                    else
+                    {
+                    }
+                }
                 
             }
 
-            DialogResult result = MessageBox.Show("¿Desea crear un archivo de errores del trazado?\nNOTA: si el trazado es largo puede tardar varias minutos.", "Error de trazado", MessageBoxButtons.YesNo);
-            if (result == DialogResult.Yes)
-            {
-                Distancia_Puntos_Resultado(mcomponenetes, Lista_original_2d);
-            }
+            
 
             
 
@@ -25688,7 +25761,7 @@ namespace Logica {
         {
             string nombre_informe = "";
             System.Windows.Forms.SaveFileDialog saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-
+            saveFileDialog1.Title = "Guardar informe de error de trazado";
             saveFileDialog1.Filter = "csv files (*.csv)|*.csv|All files (*.*)|*.*";
             saveFileDialog1.FilterIndex = 2;
             saveFileDialog1.RestoreDirectory = true;

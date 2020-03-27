@@ -1719,7 +1719,9 @@ namespace interfaz {
             calculoPolilineaPerfil.MatrizAcuerdo3();
 
 
-
+            /*
+             * para visualizar tablas de puntos y parabolas
+             */
             /*PolilineaInfoPanel polilineaInfoPanel = new PolilineaInfoPanel(calculoPolilineaPerfil.Polilinea_Perfil);
             polilineaInfoPanel.Show();
             PolilineaInfoPanel polilineaInfoPanel2 = new PolilineaInfoPanel(calculoPolilineaPerfil.Lista_Parabolas);

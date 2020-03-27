@@ -38,6 +38,7 @@ namespace Logica
          */
         public bool V_pr { get; set; }
         public bool V_ur { get; set; }
+        public int desplazamientos { get; set; }
         /*
          * Viabilidad rectas intermedias
          */
