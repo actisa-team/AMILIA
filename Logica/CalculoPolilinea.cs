@@ -22204,7 +22204,7 @@ namespace Logica {
             List<Tuple<List<Punto>, double[], int>> Listas_rectas) {
             Punto p1 = new Punto();
             int p_anteriores = 0;
-            if (Listas_curvas[0].Item4[0] < 600000)
+            if (Listas_curvas[0].Item4[0] < 200000)
             {
                 for (int i = puntos_I_F[0][0] - 1; i >= 0; i--)
                 {

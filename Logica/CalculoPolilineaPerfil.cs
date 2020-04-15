@@ -4250,71 +4250,87 @@ namespace Logica
 
         public void Componente_Inicial()
         {
-            double a = Lista_parabolas[0].parabola[0];
-            double b = Lista_parabolas[0].parabola[1];
-            double c = Lista_parabolas[0].parabola[2];
-            double x0 = polilinea_perfil[0].p.X;
-            double y0 = polilinea_perfil[0].p.Y;
-            //double xt = Math.Sqrt(((-y0 + c) / a));
-            double xt = Math.Sqrt(((-y0 + c) / a));
-            double yt = (xt * xt) * a + xt * b + c;
-            if (double.IsNaN(xt))
+            if (Lista_parabolas.Count>0)
             {
-                Lista_parabolas[0].polilinea_perfil.Insert(0, polilinea_perfil[0]);
+                double a = Lista_parabolas[0].parabola[0];
+                double b = Lista_parabolas[0].parabola[1];
+                double c = Lista_parabolas[0].parabola[2];
+                double x0 = polilinea_perfil[0].p.X;
+                double y0 = polilinea_perfil[0].p.Y;
+                //double xt = Math.Sqrt(((-y0 + c) / a));
+                double xt = Math.Sqrt(((-y0 + c) / a));
+                double yt = (xt * xt) * a + xt * b + c;
+                if (double.IsNaN(xt))
+                {
+                    
+                }
+                else
+                {
+                    List<Point2d> l_p = new List<Point2d>();
+                    Point2d p1 = new Point2d(x0, y0);
+                    Point2d p2 = new Point2d(xt, yt);
+                    l_p.Add(p1);
+                    l_p.Add(p2);
+                    Pendiente p = new Pendiente(l_p);
+                    Lista_rectas.Insert(0, p);
+                }
             }
             else
             {
-                List<Point2d> l_p = new List<Point2d>();
-                Point2d p1 = new Point2d(x0, y0);
-                Point2d p2 = new Point2d(xt, yt);
-                l_p.Add(p1);
-                l_p.Add(p2);
-                Pendiente p = new Pendiente(l_p);
-                Lista_rectas.Insert(0, p);
+                
             }
+            
             
         }
         public void Componente_Final()
         {
-            double a = Lista_parabolas[Lista_parabolas.Count-1].parabola[0];
-            double b = Lista_parabolas[Lista_parabolas.Count - 1].parabola[1];
-            double c = Lista_parabolas[Lista_parabolas.Count - 1].parabola[2];
-            double x0 = polilinea_perfil[polilinea_perfil.Count-1].p.X;
-            double y0 = polilinea_perfil[polilinea_perfil.Count - 1].p.Y;
-
-            double ac = a;
-            double bc = 2 * a * x0;
-            double cc = y0 - x0 * b - c;
-            double r1 = (bc + (Math.Sqrt(Math.Pow(bc, 2) - 4 * ac * cc))) / (2 * ac);
-            double r2 = (bc - (Math.Sqrt(Math.Pow(bc, 2) - 4 * ac * cc))) / (2 * ac);
-
-            double yt1 = (r1 * r1) * a + r1 * b + c;
-            double yt2 = (r2 * r2) * a + r2 * b + c;
-            double xt = 0, yt = 0;
-            if (r1<x0)
+            if (Lista_parabolas.Count>0)
             {
-                xt = r1;
-                yt = yt1;
+                double a = Lista_parabolas[Lista_parabolas.Count - 1].parabola[0];
+                double b = Lista_parabolas[Lista_parabolas.Count - 1].parabola[1];
+                double c = Lista_parabolas[Lista_parabolas.Count - 1].parabola[2];
+                double x0 = polilinea_perfil[polilinea_perfil.Count - 1].p.X;
+                double y0 = polilinea_perfil[polilinea_perfil.Count - 1].p.Y;
+
+                double ac = a;
+                double bc = 2 * a * x0;
+                double cc = y0 - x0 * b - c;
+                double r1 = (bc + (Math.Sqrt(Math.Pow(bc, 2) - 4 * ac * cc))) / (2 * ac);
+                double r2 = (bc - (Math.Sqrt(Math.Pow(bc, 2) - 4 * ac * cc))) / (2 * ac);
+
+                double yt1 = (r1 * r1) * a + r1 * b + c;
+                double yt2 = (r2 * r2) * a + r2 * b + c;
+                double xt = 0, yt = 0;
+                if (r1 < x0)
+                {
+                    xt = r1;
+                    yt = yt1;
+                }
+                else
+                {
+                    xt = r2;
+                    yt = yt2;
+                }
+                if (double.IsNaN(xt))
+                {
+                    Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil.Add(polilinea_perfil[polilinea_perfil.Count - 1]);
+                }
+                else
+                {
+                    List<Point2d> l_p = new List<Point2d>();
+                    Point2d p1 = new Point2d(x0, y0);
+                    Point2d p2 = new Point2d(xt, yt);
+                    l_p.Add(p2);
+                    l_p.Add(p1);
+                    Pendiente p = new Pendiente(l_p);
+                    Lista_rectas.Add(p);
+                }
             }
             else
             {
-                xt = r2;
-                yt = yt2;
+                
             }
-            if (double.IsNaN(xt))
-            {
-                Lista_parabolas[Lista_parabolas.Count-1].polilinea_perfil.Add(polilinea_perfil[polilinea_perfil.Count-1]);
-            }
-            else
-            {
-                List<Point2d> l_p = new List<Point2d>();
-                Point2d p1 = new Point2d(x0, y0);
-                Point2d p2 = new Point2d(xt, yt);
-                l_p.Add(p2);
-                l_p.Add(p1);
-                Pendiente p = new Pendiente(l_p);
-                Lista_rectas.Add(p);
-            }
+            
         }
         public void Acuerdo_Entre_Pendientes()
         {

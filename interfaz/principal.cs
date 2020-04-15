@@ -1726,29 +1726,38 @@ namespace interfaz {
             polilineaInfoPanel.Show();
             PolilineaInfoPanel polilineaInfoPanel2 = new PolilineaInfoPanel(calculoPolilineaPerfil.Lista_Parabolas);
             polilineaInfoPanel2.Show();*/
-            calculoPolilineaPerfil.Quitar_Acuerdos(distancia,separacion,pendiente);
             
-            calculoPolilineaPerfil.PuntoInflexion();
-            //calculoPolilineaPerfil.Fusion_Acuerdos();
+                calculoPolilineaPerfil.Quitar_Acuerdos(distancia, separacion, pendiente);
+            try
+            {
+                calculoPolilineaPerfil.PuntoInflexion();
+                //calculoPolilineaPerfil.Fusion_Acuerdos();
 
-            
-            calculoPolilineaPerfil.Dibujar_Acuerdos(1);
-            calculoPolilineaPerfil.CalcularEntreParabolas();
-            calculoPolilineaPerfil.CalculoEntreParabolas_Dibujar();
-            
-            calculoPolilineaPerfil.Componente_Inicial();
-            calculoPolilineaPerfil.Componente_Final();
-            calculoPolilineaPerfil.Dibujar_Rectas(2);
-            calculoPolilineaPerfil.Dibujar_Acuerdos(2);
-            calculoPolilineaPerfil.Acuerdo_Entre_Pendientes();
-            calculoPolilineaPerfil.Dibujar_Rectas(3);
-            calculoPolilineaPerfil.Dibujar_Acuerdos(3);
 
-            calculoPolilineaPerfil.CrearTrazado();
+                calculoPolilineaPerfil.Dibujar_Acuerdos(1);
+                calculoPolilineaPerfil.CalcularEntreParabolas();
+                calculoPolilineaPerfil.CalculoEntreParabolas_Dibujar();
 
-            calculoPolilineaPerfil.Rotular(rotu);
+                calculoPolilineaPerfil.Componente_Inicial();
+                calculoPolilineaPerfil.Componente_Final();
+                calculoPolilineaPerfil.Dibujar_Rectas(2);
+                calculoPolilineaPerfil.Dibujar_Acuerdos(2);
+                calculoPolilineaPerfil.Acuerdo_Entre_Pendientes();
+                calculoPolilineaPerfil.Dibujar_Rectas(3);
+                calculoPolilineaPerfil.Dibujar_Acuerdos(3);
+
+                calculoPolilineaPerfil.CrearTrazado();
+
+                calculoPolilineaPerfil.Rotular(rotu);
+
+                calculoPolilineaPerfil.Informe();
+            }
+            catch
+            {
+                MessageBox.Show("No se crea ningun acuerdo. Cambie los parametros y comience de nuevo.");
+                calculoPolilineaPerfil = null;
+            }
             
-            calculoPolilineaPerfil.Informe();
         }
 
         private void materialLabel23_Click(object sender, EventArgs e)
