@@ -281,6 +281,10 @@ namespace interfaz {
             double rotulacion=100;
             bool rotu = false;
             int suavizado = 0;
+            bool dividir = false;
+            double rectas = 20;
+            double curvas = 40;
+            bool dividir_curvas=false;
             if (filtrado1CheckBox.Checked == true) {
                 opcion = 1;
                 grados = 0;
@@ -411,6 +415,53 @@ namespace interfaz {
                 {
                     suavizado = 5;
                 }
+                
+                if (materialCheckBox5.Checked)
+                {
+                    dividir = true;
+                }
+                else
+                {
+                    dividir = false;
+                }
+                if (materialCheckBox6.Checked)
+                {
+                    dividir_curvas = true;
+                }
+                else
+                {
+                    dividir_curvas = false;
+                }
+                if (!string.IsNullOrEmpty(textBox2.Text))
+                {
+                    if (double.Parse(textBox2.Text)>=rectas)
+                    {
+                        rectas = double.Parse(textBox2.Text);
+                    }
+                    else
+                    {
+                        if (dividir)
+                        {
+                            MessageBox.Show("El valor de la division de la recta no puede ser inferior a: " + rectas + "m, por lo que se utilizara este valor");
+                        }
+                        
+                    }                   
+                }
+                if (!string.IsNullOrEmpty(textBox5.Text))
+                {
+                    if (double.Parse(textBox5.Text) >= curvas)
+                    {
+                        curvas = double.Parse(textBox5.Text);
+                    }
+                    else
+                    {
+                        if (dividir_curvas)
+                        {
+                            MessageBox.Show("El valor de la division de la curva no puede ser inferior a: " + curvas + "m, por lo que se utilizara este valor");
+                        }
+                        
+                    }
+                }
             }
 
             CalculoPolilineaPreferencias ca = new CalculoPolilineaPreferencias();
@@ -430,6 +481,10 @@ namespace interfaz {
             ca.Orden = orden;
             ca.Rotu = rotu;
             ca.Suavizado = suavizado;
+            ca.Dividir = dividir;
+            ca.Rectas = rectas;
+            ca.Dividir_curvas = dividir_curvas;
+            ca.Curvas = curvas;
             return ca;
         }
         private CalculoPolilineaPreferencias obtenerParametrosCalculoPolilineaPerfil()
@@ -659,19 +714,25 @@ namespace interfaz {
                     {
                         calculoPolilinea.Seleccionar_Polilinea(i);
                         calculoPolilinea.Entidades_Curvas(calculoPolilineaPreferencias.T_max, calculoPolilineaPreferencias.P_cluster);
-                        calculoPolilinea.Recorrido();
-                        calculoPolilinea.Combinacion(calculoPolilineaPreferencias.T_med, calculoPolilineaPreferencias.T_max, calculoPolilineaPreferencias.N_curvas, calculoPolilineaPreferencias.Puntos_cluster, calculoPolilineaPreferencias.Gran_r);
+                        calculoPolilinea.Recorrido(calculoPolilineaPreferencias.Dividir_curvas,calculoPolilineaPreferencias.Curvas);
+                        calculoPolilinea.Combinacion(calculoPolilineaPreferencias.T_med, calculoPolilineaPreferencias.T_max, calculoPolilineaPreferencias.N_curvas,
+                            calculoPolilineaPreferencias.Puntos_cluster, calculoPolilineaPreferencias.Gran_r,calculoPolilineaPreferencias.Dividir_curvas);
                         calculoPolilinea.Limpiar(i);
 
                     }
                     
                     calculoPolilinea.Unir_Componentes();
                     calculoPolilinea.Dibujar_entidades(1);
+
                     calculoPolilinea.Aniadir_Rectar_Radio_Grande();
-                    
-                    calculoPolilinea.Comprobacion();
+
+                    calculoPolilinea.Comprobacion(calculoPolilineaPreferencias.Dividir, calculoPolilineaPreferencias.T_max, calculoPolilineaPreferencias.T_med,calculoPolilineaPreferencias.Rectas);
+                    if (calculoPolilineaPreferencias.Dividir_curvas)
+                    {
+                        calculoPolilinea.Recta_curva_dividida();
+                    }
                     calculoPolilinea.Dibujar_entidades(2);
-                    
+
                     VerificacionComponentesStatus verificacionComponentesStatus = calculoPolilinea.obtenerEstadoVerificacionDeComponentes();
                     List_verificacion.Add(verificacionComponentesStatus);
                     aniadir_a_list(calculoPolilinea.Componentes);
@@ -1492,14 +1553,14 @@ namespace interfaz {
                     {
                         calculoPolilinea.Seleccionar_Polilinea(i);
                         calculoPolilinea.Entidades_Curvas(0.000001, 40);
-                        calculoPolilinea.Recorrido();
-                        calculoPolilinea.Combinacion(0.000001, 0.000001, 0, 50, calculoPolilineaPreferencias.Gran_r);
+                        calculoPolilinea.Recorrido(false,40);
+                        calculoPolilinea.Combinacion(0.000001, 0.000001, 0, 50, calculoPolilineaPreferencias.Gran_r,false);
                         calculoPolilinea.Limpiar(i);
 
                     }
                     calculoPolilinea.Unir_Componentes();
                     calculoPolilinea.Dibujar_entidades(1);
-                    calculoPolilinea.Comprobacion();
+                    calculoPolilinea.Comprobacion(false,0.01,0.01,20);
                     calculoPolilinea.Dibujar_entidades(2);
 
                     VerificacionComponentesStatus verificacionComponentesStatus = calculoPolilinea.obtenerEstadoVerificacionDeComponentes();
@@ -1555,7 +1616,10 @@ namespace interfaz {
                 materialLabel33.Visible = true;
                 button8.Visible = true;
                 button18.Visible = true;
-
+                materialCheckBox5.Visible = true;
+                textBox2.Visible = true;
+                materialCheckBox6.Visible = true;
+                textBox5.Visible = true;
 
             }
             if (materialCheckBox1_opciones.Checked == false)
@@ -1584,6 +1648,10 @@ namespace interfaz {
                 materialLabel33.Visible = false;
                 button8.Visible = false;
                 button18.Visible = false;
+                materialCheckBox5.Visible = false;
+                textBox2.Visible = false;
+                materialCheckBox6.Visible = false;
+                textBox5.Visible = false;
             }
         }
 
@@ -2053,6 +2121,24 @@ namespace interfaz {
         private void button18_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Nº de suavizados que le hacemos a la polilinea para minimizar errores.");
+        }
+
+        private void materialCheckBox5_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void materialCheckBox6_CheckedChanged(object sender, EventArgs e)
+        {
+            if (materialCheckBox6.Checked)
+            {
+                clusterizacionTextField.Text = "5";
+                nCurvasMaxTextField.Text = "0";
+            }
+            else
+            {
+
+            }
         }
     }
 }

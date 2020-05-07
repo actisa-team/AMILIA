@@ -68,6 +68,10 @@
             this.materialLabel2 = new MaterialSkin.Controls.MaterialLabel();
             this.materialDivider1 = new MaterialSkin.Controls.MaterialDivider();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.materialCheckBox6 = new MaterialSkin.Controls.MaterialCheckBox();
+            this.materialCheckBox5 = new MaterialSkin.Controls.MaterialCheckBox();
             this.button18 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -730,6 +734,10 @@
             // 
             this.tabPage3.AutoScroll = true;
             this.tabPage3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.tabPage3.Controls.Add(this.textBox5);
+            this.tabPage3.Controls.Add(this.textBox2);
+            this.tabPage3.Controls.Add(this.materialCheckBox6);
+            this.tabPage3.Controls.Add(this.materialCheckBox5);
             this.tabPage3.Controls.Add(this.button18);
             this.tabPage3.Controls.Add(this.button8);
             this.tabPage3.Controls.Add(this.textBox1);
@@ -775,6 +783,60 @@
             this.tabPage3.Text = "tabPage3";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // textBox5
+            // 
+            this.textBox5.Location = new System.Drawing.Point(420, 123);
+            this.textBox5.Name = "textBox5";
+            this.textBox5.Size = new System.Drawing.Size(70, 20);
+            this.textBox5.TabIndex = 121;
+            this.textBox5.Text = "40";
+            this.textBox5.Visible = false;
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(168, 125);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(70, 20);
+            this.textBox2.TabIndex = 120;
+            this.textBox2.Text = "20";
+            this.textBox2.Visible = false;
+            // 
+            // materialCheckBox6
+            // 
+            this.materialCheckBox6.AutoSize = true;
+            this.materialCheckBox6.Depth = 0;
+            this.materialCheckBox6.Font = new System.Drawing.Font("Roboto", 10F);
+            this.materialCheckBox6.Location = new System.Drawing.Point(280, 120);
+            this.materialCheckBox6.Margin = new System.Windows.Forms.Padding(0);
+            this.materialCheckBox6.MouseLocation = new System.Drawing.Point(-1, -1);
+            this.materialCheckBox6.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialCheckBox6.Name = "materialCheckBox6";
+            this.materialCheckBox6.Ripple = true;
+            this.materialCheckBox6.Size = new System.Drawing.Size(113, 30);
+            this.materialCheckBox6.TabIndex = 119;
+            this.materialCheckBox6.Text = "Dividir curvas";
+            this.materialCheckBox6.UseVisualStyleBackColor = true;
+            this.materialCheckBox6.Visible = false;
+            this.materialCheckBox6.CheckedChanged += new System.EventHandler(this.materialCheckBox6_CheckedChanged);
+            // 
+            // materialCheckBox5
+            // 
+            this.materialCheckBox5.AutoSize = true;
+            this.materialCheckBox5.Depth = 0;
+            this.materialCheckBox5.Font = new System.Drawing.Font("Roboto", 10F);
+            this.materialCheckBox5.Location = new System.Drawing.Point(10, 120);
+            this.materialCheckBox5.Margin = new System.Windows.Forms.Padding(0);
+            this.materialCheckBox5.MouseLocation = new System.Drawing.Point(-1, -1);
+            this.materialCheckBox5.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialCheckBox5.Name = "materialCheckBox5";
+            this.materialCheckBox5.Ripple = true;
+            this.materialCheckBox5.Size = new System.Drawing.Size(111, 30);
+            this.materialCheckBox5.TabIndex = 118;
+            this.materialCheckBox5.Text = "Dividir rectas";
+            this.materialCheckBox5.UseVisualStyleBackColor = true;
+            this.materialCheckBox5.Visible = false;
+            this.materialCheckBox5.CheckedChanged += new System.EventHandler(this.materialCheckBox5_CheckedChanged);
+            // 
             // button18
             // 
             this.button18.BackColor = System.Drawing.Color.White;
@@ -784,7 +846,7 @@
             this.button18.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
             this.button18.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button18.Image = ((System.Drawing.Image)(resources.GetObject("button18.Image")));
-            this.button18.Location = new System.Drawing.Point(491, 123);
+            this.button18.Location = new System.Drawing.Point(758, 121);
             this.button18.Name = "button18";
             this.button18.Size = new System.Drawing.Size(27, 23);
             this.button18.TabIndex = 117;
@@ -811,7 +873,7 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(420, 125);
+            this.textBox1.Location = new System.Drawing.Point(687, 123);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(70, 20);
             this.textBox1.TabIndex = 104;
@@ -824,7 +886,7 @@
             this.materialLabel33.Depth = 0;
             this.materialLabel33.Font = new System.Drawing.Font("Roboto", 11F);
             this.materialLabel33.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialLabel33.Location = new System.Drawing.Point(276, 126);
+            this.materialLabel33.Location = new System.Drawing.Point(524, 124);
             this.materialLabel33.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel33.Name = "materialLabel33";
             this.materialLabel33.Size = new System.Drawing.Size(106, 19);
@@ -2208,5 +2270,9 @@
         private System.Windows.Forms.Button button16;
         private System.Windows.Forms.Button button17;
         private System.Windows.Forms.Button button18;
+        private MaterialCheckBox materialCheckBox5;
+        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox textBox2;
+        private MaterialCheckBox materialCheckBox6;
     }
 }

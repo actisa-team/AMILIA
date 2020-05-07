@@ -17,6 +17,10 @@
         private double rotulacion;
         private bool rotu;
         private int suavizado;
+        private bool dividir;
+        private bool dividir_curvas;
+        private double rectas;
+        private double curvas;
 
         int[] orden;
 
@@ -36,5 +40,9 @@
         public double Rotulacion { get => rotulacion; set => rotulacion = value; }
         public bool Rotu { get => rotu; set => rotu = value; }
         public int[] Orden { get => orden; set => orden = value; }
+        public bool Dividir { get => dividir; set => dividir=value; }
+        public double Curvas { get => curvas; set => curvas = value; }
+        public bool Dividir_curvas { get => dividir_curvas; set => dividir_curvas = value; }
+        public double Rectas { get => rectas; set => rectas = value; }
     }
 }
