@@ -66,7 +66,7 @@ namespace Logica {
         public CalculoPolilinea() {
 
         }
-        public CalculoPolilinea(ref dsApp a, int opcion, double ratio, ref int giro, ref int sentido, ref int gl) {
+        public CalculoPolilinea(ref dsApp a, int opcion, double ratio, ref int giro, ref int sentido, ref int gl,double dist, ref int p_dis) {
             try {
                 bool dibujar = true;
                 if (a.Polilinea.Rows.Count == 0) {
@@ -84,6 +84,7 @@ namespace Logica {
                     polilinea.Add(p);
                 }
                 RellenarDatos();
+                p_dis=Eliminar_Distancia_m(dist);
                 FiltradoDisrupcion(false, ref giro);
                 FiltradoCambioSentido(false, ref sentido);
                 FiltradoGiroLongitud(ratio, false, ref gl);
@@ -92,7 +93,7 @@ namespace Logica {
 
             }
         }
-        public CalculoPolilinea(ref dsApp a, int opcion, double ratio, int it, int suavizado) {
+        public CalculoPolilinea(ref dsApp a, int opcion, double ratio, int it, int suavizado,double dis_eliminar) {
             try {
                 bool dibujar = true;
                 if (a.Polilinea.Rows.Count == 0) {
@@ -115,6 +116,10 @@ namespace Logica {
                     }
 
                     Guardar();
+                    if (dis_eliminar>0)
+                    {
+                        Eliminar_Distancia(dis_eliminar);
+                    }
                     Vaciar_Puntos();
                     RellenarDatos();
                     if (dibujar)
@@ -235,7 +240,7 @@ namespace Logica {
 
             }
         }
-        public CalculoPolilinea(ref dsApp a, int opcion, double ratio, int[] orden, int it, int suavizado) {
+        public CalculoPolilinea(ref dsApp a, int opcion, double ratio, int[] orden, int it, int suavizado,double dis_eliminar) {
             try {
                 bool dibujar = true;
                 if (a.Polilinea.Rows.Count == 0) {
@@ -258,7 +263,10 @@ namespace Logica {
                 if (dibujar) {
                     Dibujar(0);
                 }
-
+                if (dis_eliminar > 0)
+                {
+                    Eliminar_Distancia(dis_eliminar);
+                }
                 if (it == 1)//1 si 2 no
                 {
                     while (salir()) {
@@ -550,8 +558,9 @@ namespace Logica {
         /// <summary>
         /// Le de el valor de "Recta" o "Curva" a ciertos puntos de la polilinea
         /// </summary>
-        public void Set_recta_curva()//grupo recta y curva
+        public void Set_recta_curva(double p_cluster)//grupo recta y curva
         {
+            double p_cl = p_cluster / 100;//porcentaje de clusterizacion
             bool cambio_modificado = false;
             for (int i = 1; i < polilinea.Count - 1; i++) {
                 if (i == 2) {
@@ -598,9 +607,9 @@ namespace Logica {
                     polilinea[i].Curva = 1;
 
                 } else {
-                    if (((polilinea[i + 1].minimop == true) && (Math.Abs((polilinea[i + 1].Rp - polilinea[i].Rp) / polilinea[i + 1].Rp) < 0.25)) || ((polilinea[i - 1].minimop == true) && (Math.Abs((polilinea[i - 1].Rp - polilinea[i].Rp) / polilinea[i - 1].Rp) < 0.25))) {
+                    if (((polilinea[i + 1].minimop == true) && (Math.Abs((polilinea[i + 1].Rp - polilinea[i].Rp) / polilinea[i + 1].Rp) < p_cl)) || ((polilinea[i - 1].minimop == true) && (Math.Abs((polilinea[i - 1].Rp - polilinea[i].Rp) / polilinea[i - 1].Rp) < p_cl))) {
                         polilinea[i].Curva = 1;
-                    } else if (((polilinea[i + 1].minimo == true) && (Math.Abs((polilinea[i + 1].R - polilinea[i].R) / polilinea[i + 1].R) < 0.25)) || ((polilinea[i - 1].minimo == true) && (Math.Abs((polilinea[i - 1].R - polilinea[i].R) / polilinea[i - 1].R) < 0.25))) {
+                    } else if (((polilinea[i + 1].minimo == true) && (Math.Abs((polilinea[i + 1].R - polilinea[i].R) / polilinea[i + 1].R) < p_cl)) || ((polilinea[i - 1].minimo == true) && (Math.Abs((polilinea[i - 1].R - polilinea[i].R) / polilinea[i - 1].R) < p_cl))) {
                         polilinea[i].Curva = 1;
                     }
                 }
@@ -1091,6 +1100,7 @@ namespace Logica {
                     azs -= 90;
                     aze2 -= 90;
                     azs2 -= 90;
+                    
                     if (aze > azs)
                     {
                         aze -= 360;
@@ -1098,6 +1108,14 @@ namespace Logica {
                     if (aze2 > azs2)
                     {
                         azs2 += 360;
+                    }
+                    if (az_fin2>360)
+                    {
+                        az_fin2 -= 360;
+                    }
+                    if (az_fin2<0)
+                    {
+                        az_fin2 += 360;
                     }
                     if (aze < az_fin && az_fin < azs2)
                     {
@@ -1114,10 +1132,20 @@ namespace Logica {
                     }
                     else
                     {
-                        xx = xx_2;
+                        if (aze < az_fin2 && az_fin2 < azs2)
+                        {
+                            if ((d1 + d2) > (d3 + d4))
+                            {
+                                xx = xx_2;
+                                yy = yy_2;
+                                xx2 = xx2_2;
+                                yy2 = yy2_2;
+                            }
+                        }
+                       /* xx = xx_2;
                         yy = yy_2;
                         xx2 = xx2_2;
-                        yy2 = yy2_2;
+                        yy2 = yy2_2;*/
                     }
                 }
                 else
@@ -1135,6 +1163,19 @@ namespace Logica {
                     {
                         azs2 -=360;
                     }
+                    if (aze>360 && azs2 > 360)
+                    {
+                        aze -= 360;
+                        azs2 -= 360;
+                    }
+                    if (az_fin2 > 360)
+                    {
+                        az_fin2 -= 360;
+                    }
+                    if (az_fin2 < 0)
+                    {
+                        az_fin2 += 360;
+                    }
                     if (aze>az_fin && az_fin > azs2)
                     {
                         if (aze > az_fin2 && az_fin2 > azs2)
@@ -1150,6 +1191,16 @@ namespace Logica {
                     }
                     else
                     {
+                        /*if (aze > az_fin2 && az_fin2 > azs2)
+                        {
+                            if ((d1 + d2) > (d3 + d4))
+                            {
+                                xx = xx_2;
+                                yy = yy_2;
+                                xx2 = xx2_2;
+                                yy2 = yy2_2;
+                            }
+                        }*/
                         xx = xx_2;
                         yy = yy_2;
                         xx2 = xx2_2;
@@ -1252,10 +1303,10 @@ namespace Logica {
  //               if ((componentes[i].radio - componentes[i+1].radio/ componentes[i].radio)<0.25)
  //               {
                     List<Punto> lista = new List<Punto>();
-                    /*for (int r = componentes[i].ini; r <= componentes[i + 1].fin; r++)
-                    {
-                        lista.Add(new Punto(polilinea[r].p));
-                    }*/
+                /*for (int r = componentes[i].ini; r <= componentes[i + 1].fin; r++)
+                {
+                    lista.Add(new Punto(polilinea[r].p));
+                }*/
                 for (int r = 0; r <= componentes[i].lista_puntos.Count - 1; r++)
                 {
                     lista.Add(new Punto(componentes[i].lista_puntos[r].p));
@@ -2712,7 +2763,7 @@ namespace Logica {
                 }
             }
             
-            while (casos)
+            while (casos && contador<80000 )
             {
                 contador++;
                 this.Reiniciar_casos();
@@ -2948,30 +2999,54 @@ namespace Logica {
                         case 4:
                             if (componenteIndex == 0)
                             {
-                                Reducir_radio_inicial(componenteIndex);
+                                if (componentes[componenteIndex].Tipo==2)
+                                {
+                                    Reducir_radio_inicial(componenteIndex);
+                                }
+                                
                             }
                             else if (componenteIndex == componentes.Count - 1)
                             {
-                                Reducir_radio_final(componenteIndex);
+                                if (componentes[componenteIndex].Tipo == 2)
+                                {
+                                    Reducir_radio_final(componenteIndex);
+                                }
+                                    
                             }
                             else
                             {
-                                Reducir_radio(componenteIndex);
+                                if (componentes[componenteIndex].Tipo == 2)
+                                {
+                                    Reducir_radio(componenteIndex);
+                                }
+                                    
                             }
 
                             break;
                         case 5:
                             if (componenteIndex == 0)
                             {
-                                Reducir_radio_inicial(componenteIndex);
+                                if (componentes[componenteIndex].Tipo == 2)
+                                {
+                                    Reducir_radio_inicial(componenteIndex);
+                                }
+                                    
                             }
                             else if (componenteIndex == componentes.Count - 1)
                             {
-                                Reducir_radio_final(componenteIndex);
+                                if (componentes[componenteIndex].Tipo == 2)
+                                {
+                                    Reducir_radio_final(componenteIndex);
+                                }
+                                    
                             }
                             else
                             {
-                                Reducir_radio(componenteIndex);
+                                if (componentes[componenteIndex].Tipo == 2)
+                                {
+                                    Reducir_radio(componenteIndex);
+                                }
+                                    
                             }
                             break;
                         case 1:
@@ -2991,20 +3066,36 @@ namespace Logica {
                                 {
                                     if (componenteIndex - 1 == 0)
                                     {
-                                        Reducir_radio_inicial(componenteIndex - 1);
+                                        if (componentes[componenteIndex-1].Tipo == 2)
+                                        {
+                                            Reducir_radio_inicial(componenteIndex - 1);
+                                        }
+                                            
                                     }
                                     else
                                     {
-                                        Reducir_radio(componenteIndex - 1);
+                                        if (componentes[componenteIndex-1].Tipo == 2)
+                                        {
+                                            Reducir_radio(componenteIndex - 1);
+                                        }
+                                            
                                     }
 
                                     if (componenteIndex + 1 == componentes.Count - 1)
                                     {
-                                        Reducir_radio_final(componenteIndex + 1);
+                                        if (componentes[componenteIndex+1].Tipo == 2)
+                                        {
+                                            Reducir_radio_final(componenteIndex + 1);
+                                        }
+                                            
                                     }
                                     else
                                     {
-                                        Reducir_radio(componenteIndex + 1);
+                                        if (componentes[componenteIndex+1].Tipo == 2)
+                                        {
+                                            Reducir_radio(componenteIndex + 1);
+                                        }
+                                            
                                     }
                                 }
                                 else
@@ -3017,20 +3108,36 @@ namespace Logica {
                             {
                                 if (componenteIndex - 1 == 0)
                                 {
-                                    Reducir_radio_inicial(componenteIndex - 1);
+                                    if (componentes[componenteIndex-1].Tipo == 2)
+                                    {
+                                        Reducir_radio_inicial(componenteIndex - 1);
+                                    }
+                                        
                                 }
                                 else
                                 {
-                                    Reducir_radio(componenteIndex - 1);
+                                    if (componentes[componenteIndex-1].Tipo == 2)
+                                    {
+                                        Reducir_radio(componenteIndex - 1);
+                                    }
+                                       
                                 }
 
                                 if (componenteIndex + 1 == componentes.Count - 1)
                                 {
-                                    Reducir_radio_final(componenteIndex + 1);
+                                    if (componentes[componenteIndex+1].Tipo == 2)
+                                    {
+                                        Reducir_radio_final(componenteIndex + 1);
+                                    }
+                                        
                                 }
                                 else
                                 {
-                                    Reducir_radio(componenteIndex + 1);
+                                    if (componentes[componenteIndex+1].Tipo == 2) 
+                                    {
+                                        Reducir_radio(componenteIndex + 1);
+                                    }
+                                        
                                 }
                             }
 
@@ -3069,7 +3176,6 @@ namespace Logica {
 
                     //se añade la iteracion actual a la traza completa de viabilidad
                     trazaViabilidadComponentes.Add(viabilidadComponentesStatus);
-
                 }
                 else
                 {
@@ -3631,6 +3737,11 @@ namespace Logica {
                         componentes[i].lista_puntos[0].p = p1;
                         componentes[i].lista_puntos[1].p = p2;
                         componentes[i].desplazamientos++;
+                        if (i>70)
+                        {
+                            Dibujar_entidad(i);
+                        }
+                        
                     }
                     else
                     {
@@ -5883,16 +5994,16 @@ namespace Logica {
                         if (Math.Abs(p.Az - p_a.Az) > 180) {
                             p.CambioAz = p.Az + 360 - p_a.Az;
                         } else {
-                            p.CambioAz = Math.Truncate(p.Az * 100000) - Math.Truncate(p_a.Az * 100000);
+                            p.CambioAz = p.Az - p_a.Az;
                         }
                     } else {
-                        p.CambioAz = Math.Truncate(p.Az * 100000) - Math.Truncate(p_a.Az * 100000);
+                        p.CambioAz = p.Az - p_a.Az;
                     }
 
 
                     if (i < polilinea.Count) {
                         Punto p_aa = polilinea[i - 2];
-                        if (p.CambioAz == 0) {
+                        if ( Math.Truncate(p.CambioAz * 100000) == 0) {
                             p_a.Tipogiro = p_aa.Tipogiro;
                         } else {
                             if (getSentidoCurva(p_a.Az, p.Az) == EjeTrazado.sentidoCurva.Horario) {
@@ -6108,16 +6219,16 @@ namespace Logica {
                         if (Math.Abs(p.Az - p_a.Az) > 180) {
                             p.CambioAz = p.Az + 360 - p_a.Az;
                         } else {
-                            p.CambioAz = Math.Truncate(p.Az * 100000) - Math.Truncate(p_a.Az * 100000);
+                            p.CambioAz = p.Az - p_a.Az;
                         }
                     } else {
-                        p.CambioAz = Math.Truncate(p.Az * 100000) - Math.Truncate(p_a.Az * 100000);
+                        p.CambioAz = p.Az - p_a.Az;
                     }
 
 
                     if (i < l.Count) {
                         Punto p_aa = l[i - 2];
-                        if (p.CambioAz == 0) {
+                        if ( Math.Truncate(p.CambioAz * 100000) == 0) {
                             p_a.Tipogiro = p_aa.Tipogiro;
                         } else {
                             if (getSentidoCurva(p_a.Az, p.Az) == EjeTrazado.sentidoCurva.Horario) {
@@ -6504,6 +6615,7 @@ namespace Logica {
             Database AcCurDb2 = acDoc2.Database;
             ini = (ini - (2 * ini) - 90) * Math.PI / 180;
             fin = (fin - (2 * fin) - 90) * Math.PI / 180;
+            bool dibujar = true;
             using (DocumentLock docLock = acDoc2.LockDocument()) {
                 if (apartado == 1) {
                     engCadNet.oLayer.addLayer("Curva-1", 1, false);
@@ -6534,61 +6646,72 @@ namespace Logica {
                 }
                 else
                 {
-                    engCadNet.oLayer.addLayer("Curva-Flotante", 4, false);
+                    dibujar = false;
+                    //engCadNet.oLayer.addLayer("Curva-Flotante", 4, false);
                 }
-                using (Transaction acTrans = HostApplicationServices.WorkingDatabase.TransactionManager.StartTransaction()) {
-                    BlockTable acBlkTbl;
-                    acBlkTbl = acTrans.GetObject(AcCurDb2.BlockTableId,
-                        OpenMode.ForRead) as BlockTable;
-                    BlockTableRecord acBlkTblRec;
-                    acBlkTblRec = acTrans.GetObject(acBlkTbl[BlockTableRecord.ModelSpace],
-                        OpenMode.ForWrite) as BlockTableRecord;
+                if (dibujar)
+                {
+                    using (Transaction acTrans = HostApplicationServices.WorkingDatabase.TransactionManager.StartTransaction())
+                    {
+                        BlockTable acBlkTbl;
+                        acBlkTbl = acTrans.GetObject(AcCurDb2.BlockTableId,
+                            OpenMode.ForRead) as BlockTable;
+                        BlockTableRecord acBlkTblRec;
+                        acBlkTblRec = acTrans.GetObject(acBlkTbl[BlockTableRecord.ModelSpace],
+                            OpenMode.ForWrite) as BlockTableRecord;
 
-                    Editor e = Application.DocumentManager.MdiActiveDocument.Editor;
-                    Document d = Application.DocumentManager.MdiActiveDocument;
-                    Arc curva = new Arc(new Point3d(x, y, 0), r, ini, fin);
-                    /*Circle circulo = new Circle();
-                    circulo.Center = new Point3d(x, y, 0);
+                        Editor e = Application.DocumentManager.MdiActiveDocument.Editor;
+                        Document d = Application.DocumentManager.MdiActiveDocument;
+                        Arc curva = new Arc(new Point3d(x, y, 0), r, ini, fin);
+                        /*Circle circulo = new Circle();
+                        circulo.Center = new Point3d(x, y, 0);
 
-                    circulo.Radius = r;*/
-                    if (apartado == 1) {
-                        curva.Layer = "Curva-1";
-                    }
-                    else if (apartado == 11)
-                    {
-                        curva.Layer = "Curva-1.1";
-                    }
-                    else if (apartado == 12)
-                    {
-                        curva.Layer = "Curva-1.2";
-                    }
-                    else if (apartado == 13)
-                    {
-                        curva.Layer = "Curva-1.3";
-                    }
-                    else if (apartado == 14)
-                    {
-                        curva.Layer = "Curva-1.4";
-                    }
-                    else if (apartado == 2) {
-                        curva.Layer = "Curva-2";
-                    } else if (apartado == 3) {
-                        curva.Layer = "Curva-3";
-                    } else if (apartado == 4)
-                    {
-                        curva.Layer = "Curva-4";
-                    }
-                    else
-                    {
-                        curva.Layer = "Curva-Flotante";
-                    }
+                        circulo.Radius = r;*/
+                        if (apartado == 1)
+                        {
+                            curva.Layer = "Curva-1";
+                        }
+                        else if (apartado == 11)
+                        {
+                            curva.Layer = "Curva-1.1";
+                        }
+                        else if (apartado == 12)
+                        {
+                            curva.Layer = "Curva-1.2";
+                        }
+                        else if (apartado == 13)
+                        {
+                            curva.Layer = "Curva-1.3";
+                        }
+                        else if (apartado == 14)
+                        {
+                            curva.Layer = "Curva-1.4";
+                        }
+                        else if (apartado == 2)
+                        {
+                            curva.Layer = "Curva-2";
+                        }
+                        else if (apartado == 3)
+                        {
+                            curva.Layer = "Curva-3";
+                        }
+                        else if (apartado == 4)
+                        {
+                            curva.Layer = "Curva-4";
+                        }
+                        else
+                        {
+                            curva.Layer = "Curva-Flotante";
+                        }
 
-                    acBlkTblRec.AppendEntity(curva);
+                        acBlkTblRec.AppendEntity(curva);
 
-                    acTrans.AddNewlyCreatedDBObject(curva, true);
+                        acTrans.AddNewlyCreatedDBObject(curva, true);
 
-                    acTrans.Commit();
+                        acTrans.Commit();
+                    }
                 }
+                
             }
         }
         private void Dibujar_Clotoide(EjeDeTrazado.componentes.Clotoide Clo) {
@@ -11541,6 +11664,7 @@ namespace Logica {
                 afines_p.Add(new List<int>());
             }
             double distancia = 0;
+            int contador = 0;
             if (dividir_curvas)
             {
                 for (int i = 0; i < polilinea.Count; i++)
@@ -11558,6 +11682,7 @@ namespace Logica {
                         else
                         {
                             distancia += Distancia(polilinea[i - 1].p, polilinea[i].p);
+                            contador++;
                             if (polilinea[i].seccion_giro > polilinea[i - 1].seccion_giro)
                             {
                                 if (polilinea[i].Recta == 1)
@@ -11571,8 +11696,9 @@ namespace Logica {
                                     lista.Add(i - 1);
                                 }
                                 distancia = 0;
+                                contador = 0;
                             }
-                            else if (distancia > curvas)
+                            else if (distancia > curvas && contador>40)
                             {
                                 if (polilinea[i].Recta == 1)
                                 {
@@ -11596,6 +11722,7 @@ namespace Logica {
                                 recorrido2_p.Add(new List<int>());
                                 afines_p.Add(new List<int>());
                                 distancia = 0;
+                                contador = 0;
                             }
                         }
 
@@ -14417,7 +14544,7 @@ namespace Logica {
 
                     Rellenar_Curva(componentes[i]);
                     double lon = 2 * Math.PI * componentes[i].radio*(Math.Abs(azimuts[0] - azimuts[1])/360);
-                    if (Math.Abs(azimuts[0] - azimuts[1]) < 2 && (componentes[i].radio < curva_g || lon<20)) {//si la variacion de az es <1.5, en radio es menor que el que se indica y la longitud de arco es menor a 20
+                    if (Math.Abs(azimuts[0] - azimuts[1]) < 2 && (componentes[i].radio < curva_g || lon<40)) {//si la variacion de az es <1.5, en radio es menor que el que se indica y la longitud de arco es menor a 40
                         componentes[i].Tipo = 1;
                         List<Punto> Recta_inicial = new List<Punto>();
                         if (componentes[i].ini!=0 && componentes[i].fin != 0)
@@ -14960,110 +15087,148 @@ namespace Logica {
         }
         private void Reducir_radio_final(int comp)//incompleto
         {
-            Point2d a = new Point2d(componentes[comp].xc, componentes[comp].yc);
-            double v_x_1 = (componentes[comp].lista_puntos[2].p.X - componentes[comp].xc) / componentes[comp].radio;
-            double v_y_1 = (componentes[comp].lista_puntos[2].p.Y - componentes[comp].yc) / componentes[comp].radio;
-
-            componentes[comp].xc = componentes[comp].xc + (componentes[comp].radio*1 / 100) * v_x_1;
-            componentes[comp].yc = componentes[comp].yc + (componentes[comp].radio*1 / 100) * v_y_1;
-            componentes[comp].radio = Math.Sqrt(Math.Pow(componentes[comp].xc - componentes[comp].lista_puntos[2].p.X, 2) + Math.Pow(componentes[comp].yc - componentes[comp].lista_puntos[2].p.Y, 2));
-            double[] azimuts = new double[2];
-            azimuts = azimut_e_s(componentes[comp]);
-            if (componentes[comp].direccion == EjeDeTrazado.puntosDelEje.EjeTrazado.sentidoCurva.Horario) {
-                double az = 0;
-                if (azimuts[0] < azimuts[1]) {
-                    az = (azimuts[0] + azimuts[1]) / 2;
-                } else {
-                    az = (azimuts[0] + (azimuts[1] + 360)) / 2;
-                    if (az > 360) {
-                        az -= 360;
-                    } else if (az < 0) {
-                        az += 360;
-                    }
-                }
-                double xx = componentes[comp].xc - (componentes[comp].radio) * Math.Sin((azimuts[0] + 90) * Math.PI / 180);
-                double yy = componentes[comp].yc - (componentes[comp].radio) * Math.Cos((azimuts[0] + 90) * Math.PI / 180);
-                componentes[comp].lista_puntos[0].Cambiar_X_Y(xx, yy);
-                double xx2 = componentes[comp].xc - (componentes[comp].radio) * Math.Sin((az + 90) * Math.PI / 180);
-                double yy2 = componentes[comp].yc - (componentes[comp].radio) * Math.Cos((az + 90) * Math.PI / 180);
-                componentes[comp].lista_puntos[1].Cambiar_X_Y(xx2, yy2);
-            } else {
-                double az = 0;
-                if (azimuts[0] > azimuts[1]) {
-                    az = (azimuts[0] + azimuts[1]) / 2;
-                } else {
-                    az = (azimuts[1] + (azimuts[0] + 360)) / 2;
-                    if (az > 360) {
-                        az -= 360;
-                    } else if (az < 0) {
-                        az += 360;
-                    }
-                }
-                double xx = componentes[comp].xc + (componentes[comp].radio) * Math.Sin((azimuts[0] + 90) * Math.PI / 180);
-                double yy = componentes[comp].yc + (componentes[comp].radio) * Math.Cos((azimuts[0] + 90) * Math.PI / 180);
-                componentes[comp].lista_puntos[0].Cambiar_X_Y(xx, yy);
-                double xx2 = componentes[comp].xc + (componentes[comp].radio) * Math.Sin((az + 90) * Math.PI / 180);
-                double yy2 = componentes[comp].yc + (componentes[comp].radio) * Math.Cos((az + 90) * Math.PI / 180);
-                componentes[comp].lista_puntos[1].Cambiar_X_Y(xx2, yy2);
-                //Dibujar_entidad(comp);
-            }
-            if (componentes[comp - 1].Tipo == 1 && componentes[comp - 1].creacion == 2)
+            if (componentes[comp].Tipo==2)
             {
-                componentes.RemoveAt(comp - 1);
+                Point2d a = new Point2d(componentes[comp].xc, componentes[comp].yc);
+                double v_x_1 = (componentes[comp].lista_puntos[2].p.X - componentes[comp].xc) / componentes[comp].radio;
+                double v_y_1 = (componentes[comp].lista_puntos[2].p.Y - componentes[comp].yc) / componentes[comp].radio;
+
+                componentes[comp].xc = componentes[comp].xc + (componentes[comp].radio * 1 / 100) * v_x_1;
+                componentes[comp].yc = componentes[comp].yc + (componentes[comp].radio * 1 / 100) * v_y_1;
+                componentes[comp].radio = Math.Sqrt(Math.Pow(componentes[comp].xc - componentes[comp].lista_puntos[2].p.X, 2) + Math.Pow(componentes[comp].yc - componentes[comp].lista_puntos[2].p.Y, 2));
+                double[] azimuts = new double[2];
+                azimuts = azimut_e_s(componentes[comp]);
+                if (componentes[comp].direccion == EjeDeTrazado.puntosDelEje.EjeTrazado.sentidoCurva.Horario)
+                {
+                    double az = 0;
+                    if (azimuts[0] < azimuts[1])
+                    {
+                        az = (azimuts[0] + azimuts[1]) / 2;
+                    }
+                    else
+                    {
+                        az = (azimuts[0] + (azimuts[1] + 360)) / 2;
+                        if (az > 360)
+                        {
+                            az -= 360;
+                        }
+                        else if (az < 0)
+                        {
+                            az += 360;
+                        }
+                    }
+                    double xx = componentes[comp].xc - (componentes[comp].radio) * Math.Sin((azimuts[0] + 90) * Math.PI / 180);
+                    double yy = componentes[comp].yc - (componentes[comp].radio) * Math.Cos((azimuts[0] + 90) * Math.PI / 180);
+                    componentes[comp].lista_puntos[0].Cambiar_X_Y(xx, yy);
+                    double xx2 = componentes[comp].xc - (componentes[comp].radio) * Math.Sin((az + 90) * Math.PI / 180);
+                    double yy2 = componentes[comp].yc - (componentes[comp].radio) * Math.Cos((az + 90) * Math.PI / 180);
+                    componentes[comp].lista_puntos[1].Cambiar_X_Y(xx2, yy2);
+                }
+                else
+                {
+                    double az = 0;
+                    if (azimuts[0] > azimuts[1])
+                    {
+                        az = (azimuts[0] + azimuts[1]) / 2;
+                    }
+                    else
+                    {
+                        az = (azimuts[1] + (azimuts[0] + 360)) / 2;
+                        if (az > 360)
+                        {
+                            az -= 360;
+                        }
+                        else if (az < 0)
+                        {
+                            az += 360;
+                        }
+                    }
+                    double xx = componentes[comp].xc + (componentes[comp].radio) * Math.Sin((azimuts[0] + 90) * Math.PI / 180);
+                    double yy = componentes[comp].yc + (componentes[comp].radio) * Math.Cos((azimuts[0] + 90) * Math.PI / 180);
+                    componentes[comp].lista_puntos[0].Cambiar_X_Y(xx, yy);
+                    double xx2 = componentes[comp].xc + (componentes[comp].radio) * Math.Sin((az + 90) * Math.PI / 180);
+                    double yy2 = componentes[comp].yc + (componentes[comp].radio) * Math.Cos((az + 90) * Math.PI / 180);
+                    componentes[comp].lista_puntos[1].Cambiar_X_Y(xx2, yy2);
+                    //Dibujar_entidad(comp);
+                }
+                if (componentes[comp - 1].Tipo == 1 && componentes[comp - 1].creacion == 2)
+                {
+                    componentes.RemoveAt(comp - 1);
+                }
             }
+            
         }
         private void Reducir_radio_inicial(int comp)//incompleto
         {
-            Point2d a = new Point2d(componentes[comp].xc, componentes[comp].yc);
-            double v_x_1 = (componentes[comp].lista_puntos[0].p.X - componentes[comp].xc) / componentes[comp].radio;
-            double v_y_1 = (componentes[comp].lista_puntos[0].p.Y - componentes[comp].yc) / componentes[comp].radio;
-
-            componentes[comp].xc = componentes[comp].xc + (componentes[comp].radio * 1 / 100) * v_x_1;
-            componentes[comp].yc = componentes[comp].yc + (componentes[comp].radio * 1 / 100) * v_y_1;
-            componentes[comp].radio = Math.Sqrt(Math.Pow(componentes[comp].xc - componentes[comp].lista_puntos[0].p.X, 2) + Math.Pow(componentes[comp].yc - componentes[comp].lista_puntos[0].p.Y, 2));
-            double[] azimuts = new double[2];
-            azimuts = azimut_e_s(componentes[comp]);
-            if (componentes[comp].direccion == EjeDeTrazado.puntosDelEje.EjeTrazado.sentidoCurva.Horario) {
-                double az = 0;
-                if (azimuts[0] < azimuts[1]) {
-                    az = (azimuts[0] + azimuts[1]) / 2;
-                } else {
-                    az = (azimuts[0] + (azimuts[1] + 360)) / 2;
-                    if (az > 360) {
-                        az -= 360;
-                    } else if (az < 0) {
-                        az += 360;
-                    }
-                }
-                double xx = componentes[comp].xc - (componentes[comp].radio) * Math.Sin((az + 90) * Math.PI / 180);
-                double yy = componentes[comp].yc - (componentes[comp].radio) * Math.Cos((az + 90) * Math.PI / 180);
-                componentes[comp].lista_puntos[1].Cambiar_X_Y(xx, yy);
-                double xx2 = componentes[comp].xc - (componentes[comp].radio) * Math.Sin((azimuts[1] + 90) * Math.PI / 180);
-                double yy2 = componentes[comp].yc - (componentes[comp].radio) * Math.Cos((azimuts[1] + 90) * Math.PI / 180);
-                componentes[comp].lista_puntos[2].Cambiar_X_Y(xx2, yy2);
-            } else {
-                double az = 0;
-                if (azimuts[0] > azimuts[1]) {
-                    az = (azimuts[0] + azimuts[1]) / 2;
-                } else {
-                    az = (azimuts[1] + (azimuts[0] + 360)) / 2;
-                    if (az > 360) {
-                        az -= 360;
-                    } else if (az < 0) {
-                        az += 360;
-                    }
-                }
-                double xx = componentes[comp].xc + (componentes[comp].radio) * Math.Sin((az + 90) * Math.PI / 180);
-                double yy = componentes[comp].yc + (componentes[comp].radio) * Math.Cos((az + 90) * Math.PI / 180);
-                componentes[comp].lista_puntos[1].Cambiar_X_Y(xx, yy);
-                double xx2 = componentes[comp].xc + (componentes[comp].radio) * Math.Sin((azimuts[1] + 90) * Math.PI / 180);
-                double yy2 = componentes[comp].yc + (componentes[comp].radio) * Math.Cos((azimuts[1] + 90) * Math.PI / 180);
-                componentes[comp].lista_puntos[2].Cambiar_X_Y(xx2, yy2);
-            }
-            if (componentes[comp + 1].Tipo == 1 && componentes[comp + 1].creacion == 2)
+            if (componentes[comp].Tipo==2)
             {
-                componentes.RemoveAt(comp + 1);
+                Point2d a = new Point2d(componentes[comp].xc, componentes[comp].yc);
+                double v_x_1 = (componentes[comp].lista_puntos[0].p.X - componentes[comp].xc) / componentes[comp].radio;
+                double v_y_1 = (componentes[comp].lista_puntos[0].p.Y - componentes[comp].yc) / componentes[comp].radio;
+
+                componentes[comp].xc = componentes[comp].xc + (componentes[comp].radio * 1 / 100) * v_x_1;
+                componentes[comp].yc = componentes[comp].yc + (componentes[comp].radio * 1 / 100) * v_y_1;
+                componentes[comp].radio = Math.Sqrt(Math.Pow(componentes[comp].xc - componentes[comp].lista_puntos[0].p.X, 2) + Math.Pow(componentes[comp].yc - componentes[comp].lista_puntos[0].p.Y, 2));
+                double[] azimuts = new double[2];
+                azimuts = azimut_e_s(componentes[comp]);
+                if (componentes[comp].direccion == EjeDeTrazado.puntosDelEje.EjeTrazado.sentidoCurva.Horario)
+                {
+                    double az = 0;
+                    if (azimuts[0] < azimuts[1])
+                    {
+                        az = (azimuts[0] + azimuts[1]) / 2;
+                    }
+                    else
+                    {
+                        az = (azimuts[0] + (azimuts[1] + 360)) / 2;
+                        if (az > 360)
+                        {
+                            az -= 360;
+                        }
+                        else if (az < 0)
+                        {
+                            az += 360;
+                        }
+                    }
+                    double xx = componentes[comp].xc - (componentes[comp].radio) * Math.Sin((az + 90) * Math.PI / 180);
+                    double yy = componentes[comp].yc - (componentes[comp].radio) * Math.Cos((az + 90) * Math.PI / 180);
+                    componentes[comp].lista_puntos[1].Cambiar_X_Y(xx, yy);
+                    double xx2 = componentes[comp].xc - (componentes[comp].radio) * Math.Sin((azimuts[1] + 90) * Math.PI / 180);
+                    double yy2 = componentes[comp].yc - (componentes[comp].radio) * Math.Cos((azimuts[1] + 90) * Math.PI / 180);
+                    componentes[comp].lista_puntos[2].Cambiar_X_Y(xx2, yy2);
+                }
+                else
+                {
+                    double az = 0;
+                    if (azimuts[0] > azimuts[1])
+                    {
+                        az = (azimuts[0] + azimuts[1]) / 2;
+                    }
+                    else
+                    {
+                        az = (azimuts[1] + (azimuts[0] + 360)) / 2;
+                        if (az > 360)
+                        {
+                            az -= 360;
+                        }
+                        else if (az < 0)
+                        {
+                            az += 360;
+                        }
+                    }
+                    double xx = componentes[comp].xc + (componentes[comp].radio) * Math.Sin((az + 90) * Math.PI / 180);
+                    double yy = componentes[comp].yc + (componentes[comp].radio) * Math.Cos((az + 90) * Math.PI / 180);
+                    componentes[comp].lista_puntos[1].Cambiar_X_Y(xx, yy);
+                    double xx2 = componentes[comp].xc + (componentes[comp].radio) * Math.Sin((azimuts[1] + 90) * Math.PI / 180);
+                    double yy2 = componentes[comp].yc + (componentes[comp].radio) * Math.Cos((azimuts[1] + 90) * Math.PI / 180);
+                    componentes[comp].lista_puntos[2].Cambiar_X_Y(xx2, yy2);
+                }
+                if (componentes[comp + 1].Tipo == 1 && componentes[comp + 1].creacion == 2)
+                {
+                    componentes.RemoveAt(comp + 1);
+                }
             }
+            
         }
         public void Rellenar_Componente_Curva(Componente compo) {
             double xc = ((compo.lista_puntos[1 + 1].p.Y + compo.lista_puntos[1].p.Y) * 0.5 + ((compo.lista_puntos[1 + 1].p.X - compo.lista_puntos[1].p.X) * (compo.lista_puntos[1 + 1].p.X + compo.lista_puntos[1].p.X) * 0.5 / (compo.lista_puntos[1 + 1].p.Y - compo.lista_puntos[1].p.Y)) - (compo.lista_puntos[1].p.Y + compo.lista_puntos[1 - 1].p.Y) * 0.5 - ((compo.lista_puntos[1].p.X - compo.lista_puntos[1 - 1].p.X) * (compo.lista_puntos[1].p.X + compo.lista_puntos[1 - 1].p.X) * 0.5 / (compo.lista_puntos[1].p.Y - compo.lista_puntos[1 - 1].p.Y))) / (((compo.lista_puntos[1 + 1].p.X - compo.lista_puntos[1].p.X) / (compo.lista_puntos[1 + 1].p.Y - compo.lista_puntos[1].p.Y)) - ((compo.lista_puntos[1].p.X - compo.lista_puntos[1 - 1].p.X) / (compo.lista_puntos[1].p.Y - compo.lista_puntos[1 - 1].p.Y)));
@@ -16140,7 +16305,7 @@ namespace Logica {
             List<double> azimuts = new List<double>();
             List<Point2d> Puntos_rectas = new List<Point2d>();
             List<object> entidades = new List<object>();
-            
+
             bool puntos_ultimos = false;
             bool salir = true;
             bool terminar = false;
@@ -16148,261 +16313,83 @@ namespace Logica {
             bool pregunta2 = true;
             bool pregunta3 = true;
             bool pregunta4 = true;
+            componentes.RemoveAt(0);
+            componentes.RemoveAt(1);
             for (int w = 0; w < componentes_general.Count; w++)
-            {
-                bool curva_gran_radio = false;
-                componentes = componentes_general[w];
-                salir = true;
-                if (componentes.Count > 1)
                 {
-                    for (int i = 0; i < componentes.Count - 1; i++)
+                    bool curva_gran_radio = false;
+                    componentes = componentes_general[w];
+                    salir = true;
+                    if (componentes.Count > 1)
                     {
-                        if (componentes[i].Tipo == 2 && (double.IsNaN(componentes[i].xc) || double.IsNaN(componentes[i].yc)))
+                        for (int i = 0; i < componentes.Count - 1; i++)
                         {
-                            componentes.RemoveAt(i);
-                            i--;
+                            if (componentes[i].Tipo == 2 && (double.IsNaN(componentes[i].xc) || double.IsNaN(componentes[i].yc)))
+                            {
+                                componentes.RemoveAt(i);
+                                i--;
+                            }
                         }
-                    }
-                    for (int i = 0; i < componentes.Count; i++)
-                    {
-                        componentes[i].index = i;
-                    }
-                    componentes_iniciales.Clear();
-                    foreach (Componente c in componentes)
-                    {
-
-                        componentes_iniciales.Add(c);
-                    }
-                    DateTime tiempo1 = DateTime.Now;
-                    DateTime tiempo3;
-                    DateTime tiempo4;
-                    TimeSpan total_b;
-                    while (salir)
-                    {
-                        do
+                        for (int i = 0; i < componentes.Count; i++)
                         {
-                            salir = false;
-                            curva_gran_radio = false;
-                            bool ultima_clo_crc = false;
-                            bool primera_clo_crc = false;
-                            int intermedias = 1;
-                            puntos_ultimos = false;
-                            int puntos_rectas_ultimos = -1;
-                            bool aniadido = false;
-                            bool c_granr_final = false;
-                            bool c_granr_final_i = false;
-                            while (azimuts.Count > 0)
+                            componentes[i].index = i;
+                        }
+                        componentes_iniciales.Clear();
+                        foreach (Componente c in componentes)
+                        {
+
+                            componentes_iniciales.Add(c);
+                        }
+                        DateTime tiempo1 = DateTime.Now;
+                        DateTime tiempo3;
+                        DateTime tiempo4;
+                        TimeSpan total_b;
+                        while (salir)
+                        {
+                            do
                             {
-                                azimuts.RemoveAt(0);
-                            }
-                            while (Puntos_rectas.Count > 0)
-                            {
-                                Puntos_rectas.RemoveAt(0);
-                            }
-                            while (entidades.Count > 0)
-                            {
-                                entidades.RemoveAt(0);
-                            }
-                            contador++;
-                            this.Reiniciar_casos_solapes();
-                            this.Rellenar_Componentes();
-                            //primera clotoide
-                            if (componentes.Count == 2)
-                            {
-                                if (componentes[0].Tipo == 1 && componentes[1].Tipo == 2)//si es recta--curva
+                                salir = false;
+                                curva_gran_radio = false;
+                                bool ultima_clo_crc = false;
+                                bool primera_clo_crc = false;
+                                int intermedias = 1;
+                                puntos_ultimos = false;
+                                int puntos_rectas_ultimos = -1;
+                                bool aniadido = false;
+                                bool c_granr_final = false;
+                                bool c_granr_final_i = false;
+                                while (azimuts.Count > 0)
                                 {
-
-                                    int cont = 0;
-                                    tiempo3 = DateTime.Now;
-                                    while (cont < 1000)//el 1000 se pone para las comprobaciones
-                                    {
-                                        tiempo4 = DateTime.Now;
-                                        total_b = new TimeSpan(tiempo4.Ticks - tiempo3.Ticks);
-                                        if (total_b.TotalSeconds > 300)
-                                        {
-                                            terminar = true;
-                                            break;
-                                        }
-                                        Rellenar_Recta(componentes[0]);
-                                        Rellenar_Curva(componentes[1]);
-                                        cont++;
-                                        EjeDeTrazado.componentes.Clotoide Clo = Recta_Curva(componentes[0], componentes[1], 1);
-
-                                        if (Clo.getPuntoEntrada == Clo.getPuntoSalida || double.IsNaN(Clo.getQe()))
-                                        {
-                                            if (componentes[1].direccion == EjeTrazado.sentidoCurva.Antihorario)
-                                            {
-                                                //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
-                                                Girar_Recta(0, Girar_acercar_ini_fin(componentes[0].lista_puntos, componentes[1], componentes[0].azr, 1), componentes[0].azr);
-                                            }
-                                            else
-                                            {
-                                                //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
-                                                Girar_Recta(0, Girar_acercar_ini_fin(componentes[0].lista_puntos, componentes[1], componentes[0].azr, 1), componentes[0].azr);
-                                            }
-                                            //Dibujar_entidad(0);
-
-                                        }
-                                        else
-                                        {
-                                            if ((componentes[0].lista_puntos[0].p.X < componentes[0].lista_puntos[1].p.X && componentes[0].lista_puntos[0].p.X < Clo.getPointAtDist(0)[0]) ||
-                                                (componentes[0].lista_puntos[0].p.X > componentes[0].lista_puntos[1].p.X && componentes[0].lista_puntos[0].p.X > Clo.getPointAtDist(0)[0]))
-                                            {
-                                                //Dibujar_Clotoide(Clo);
-                                                aniadido = true;
-                                                azimuts.Add(Az_Clotoide(Clo));
-                                                break;
-                                            }
-                                            else
-                                            {
-                                                if (componentes[1].direccion == EjeTrazado.sentidoCurva.Antihorario)
-                                                {
-                                                    //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
-                                                    Girar_Recta(0, -0.01, componentes[0].azr);
-
-                                                }
-                                                else
-                                                {
-                                                    //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
-                                                    Girar_Recta(0, 0.01, componentes[0].azr);
-                                                }
-
-                                            }
-                                        }
-                                    }
-                                    if (!aniadido)
-                                    {
-                                        azimuts.Add(-1);
-                                    }
-
-                                    aniadido = false;
+                                    azimuts.RemoveAt(0);
                                 }
-                                else if (componentes[0].Tipo == 2 && componentes[1].Tipo == 1)//curva
+                                while (Puntos_rectas.Count > 0)
                                 {
-                                    int cont = 0;
-                                    while (cont < 1000)//el 1000 se pone para las comprobaciones
-                                    {
-                                        Rellenar_Recta(componentes[1]);
-                                        Rellenar_Curva(componentes[0]);
-                                        cont++;
-                                        EjeDeTrazado.componentes.Clotoide Clo = Curva_Recta(componentes[0], componentes[1], 1);
-
-                                        if (Clo.getPuntoEntrada == Clo.getPuntoSalida || double.IsNaN(Clo.getQe()))
-                                        {
-                                            if (componentes[0].direccion == EjeTrazado.sentidoCurva.Antihorario)
-                                            {
-                                                //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
-                                                Girar_Recta(1, Girar_acercar_ini_fin(componentes[1].lista_puntos, componentes[0], componentes[1].azr, 1), componentes[1].azr);
-                                            }
-                                            else
-                                            {
-                                                //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
-                                                Girar_Recta(1, Girar_acercar_ini_fin(componentes[1].lista_puntos, componentes[0], componentes[1].azr, 1), componentes[1].azr);
-                                            }
-                                            //Dibujar_entidad(0);
-
-                                        }
-                                        else
-                                        {
-                                            if ((componentes[1].lista_puntos[1].p.X < componentes[1].lista_puntos[0].p.X && componentes[1].lista_puntos[1].p.X < Clo.getPointAtDist(0)[0]) ||
-                                                (componentes[1].lista_puntos[1].p.X > componentes[1].lista_puntos[0].p.X && componentes[1].lista_puntos[1].p.X > Clo.getPointAtDist(0)[0]))
-                                            {
-                                                //Dibujar_Clotoide(Clo);
-                                                aniadido = true;
-                                                azimuts.Add(Az_Clotoide(Clo));
-                                                break;
-                                            }
-                                            else
-                                            {
-                                                if (componentes[0].direccion == EjeTrazado.sentidoCurva.Antihorario)
-                                                {
-                                                    //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
-                                                    Girar_Recta(1, -0.01, componentes[1].azr);
-
-                                                }
-                                                else
-                                                {
-                                                    //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
-                                                    Girar_Recta(1, 0.01, componentes[1].azr);
-                                                }
-
-                                            }
-                                        }
-                                    }
-                                    if (!aniadido)
-                                    {
-                                        azimuts.Add(-1);
-                                    }
-
-                                    aniadido = false;
+                                    Puntos_rectas.RemoveAt(0);
                                 }
-                                else//curva--curva
+                                while (entidades.Count > 0)
                                 {
-                                    Rellenar_Curva(componentes[0]);
-                                    Rellenar_Curva(componentes[1]);
-                                    EjeDeTrazado.componentes.Clotoide Clo = Curva_Curva_M(componentes[0], componentes[1]);
-                                    //EjeDeTrazado.componentes.Clotoide Clo = Curva_Curva(componentes[0], componentes[1]);
-
-                                    if (Clo == null)
-                                    {
-                                        componentes[0].v_a_p = true;
-                                        azimuts.Add(-1);
-                                        azimuts.Add(-1);
-                                    }
-                                    else
-                                    {
-                                        if (Comprobar(Clo))
-                                        {
-                                            //azimuts.Add(Az_Clotoide_Curvas_MS(Clo)[0]);
-                                            //azimuts.Add(Az_Clotoide_Curvas_MS(Clo)[1]);
-                                            if (Clo.mTipo == EjeDeTrazado.puntosDelEje.EjeTrazado.tipoClotoide.salida)
-                                            {
-                                                azimuts.Add(Az_Clotoide_Curvas_MS_Antihoraria_Prueba(Clo, 0)[0]);
-                                                azimuts.Add(Az_Clotoide_Curvas_MS_Antihoraria_Prueba(Clo, 0)[1]);
-                                            }
-                                            else
-                                            {
-                                                azimuts.Add(Az_Clotoide_Curvas_MS_Prueba(Clo, 0)[0]);
-                                                azimuts.Add(Az_Clotoide_Curvas_MS_Prueba(Clo, 0)[1]);
-                                            }
-
-                                        }
-                                        else
-                                        {
-                                            componentes[0].v_a_p = true;
-                                            azimuts.Add(-1);
-                                            azimuts.Add(-1);
-                                        }
-                                    }
-                                    primera_clo_crc = true;
+                                    entidades.RemoveAt(0);
                                 }
-                            }
-                            else
-                            {
-                                if (componentes[0].Tipo == 1 && componentes[1].Tipo == 2)//si es recta--curva
+                                contador++;
+                                this.Reiniciar_casos_solapes();
+                                this.Rellenar_Componentes();
+                                //primera clotoide
+                                if (componentes.Count == 2)
                                 {
-                                    //se ha creado para curva de gran radio final
-                                    if ((componentes[1].radio > gran_r) ||
-                                        (componentes[1].curva_creada && componentes[2].Tipo == 1 && Math.Abs(componentes[0].azr - componentes[2].azr) < 2))
+                                    if (componentes[0].Tipo == 1 && componentes[1].Tipo == 2)//si es recta--curva
                                     {
-                                        Point2d pri = componentes[0].lista_puntos[0].p;
-                                        Puntos_rectas.Add(pri);
-                                        EjeDeTrazado.componentes.Curva Curva = Curva_Gran_Radio(componentes[0], componentes[1], componentes[2]);
-                                        double[] pr2 = Curva.getPointAtDist(0);
-                                        Puntos_rectas.Add(new Point2d(pr2[0], pr2[1]));
-                                        double[] pr3 = Curva.getPointAtDist(Curva.getPkFinal());
-                                        Puntos_rectas.Add(new Point2d(pr3[0], pr3[1]));
-                                        curva_gran_radio = true;
-                                        azimuts.Add(componentes[0].azr);
-                                        azimuts.Add(componentes[2].azr);
-                                        intermedias = 2;
-                                        c_granr_final_i = true;
-                                    }
-                                    else
-                                    {
+
                                         int cont = 0;
+                                        tiempo3 = DateTime.Now;
                                         while (cont < 1000)//el 1000 se pone para las comprobaciones
                                         {
+                                            tiempo4 = DateTime.Now;
+                                            total_b = new TimeSpan(tiempo4.Ticks - tiempo3.Ticks);
+                                            if (total_b.TotalSeconds > 300)
+                                            {
+                                                terminar = true;
+                                                break;
+                                            }
                                             Rellenar_Recta(componentes[0]);
                                             Rellenar_Curva(componentes[1]);
                                             cont++;
@@ -16457,102 +16444,479 @@ namespace Logica {
 
                                         aniadido = false;
                                     }
-                                    
-                                }
-                                else if (componentes[0].Tipo == 2 && componentes[1].Tipo == 1 && componentes[2].Tipo == 2)//curva--recta--curva
-                                {
-                                    EjeDeTrazado.componentes.Clotoide[] Clotoides = new EjeDeTrazado.componentes.Clotoide[2];
-                                    Clotoides = Curva_Recta_Curva(componentes[0], componentes[1], componentes[2]);
-                                    if (Clotoides[0] == null)
+                                    else if (componentes[0].Tipo == 2 && componentes[1].Tipo == 1)//curva
                                     {
-                                        componentes[0].v_m_g = true;
-                                        azimuts.Add(-1);
-                                        Puntos_rectas.Add(new Point2d());
-                                    }
-                                    else
-                                    {
-                                        if (contador > 3000)
+                                        int cont = 0;
+                                        while (cont < 1000)//el 1000 se pone para las comprobaciones
                                         {
-                                            //Dibujar_Clotoide(Clotoides[0]);
-                                        }
-                                        azimuts.Add(Az_Clotoide(Clotoides[0]));
-                                        double[] pr1 = Clotoides[0].getPointAtDist(Clotoides[0].getPkFinal());
-                                        Puntos_rectas.Add(new Point2d(pr1[0], pr1[1]));
-                                    }
-                                    if (Clotoides[1] == null)
-                                    {
-                                        componentes[1].v_m_g = true;
-                                        azimuts.Add(-1);
-                                        Puntos_rectas.Add(new Point2d());
-                                    }
-                                    else
-                                    {
-                                        if (contador > 3000)
-                                        {
-                                            //Dibujar_Clotoide(Clotoides[1]);
-                                        }
-                                        double[] pr2 = Clotoides[1].getPointAtDist(0);
-                                        Puntos_rectas.Add(new Point2d(pr2[0], pr2[1]));
-                                        azimuts.Add(Az_Clotoide(Clotoides[1]));
-                                    }
-                                    intermedias = 2;
-                                    primera_clo_crc = true;
-                                }
-                                else//curva--curva
-                                {
-                                    Rellenar_Curva(componentes[0]);
-                                    Rellenar_Curva(componentes[1]);
-                                    EjeDeTrazado.componentes.Clotoide Clo = Curva_Curva_M(componentes[0], componentes[1]);
-                                    //EjeDeTrazado.componentes.Clotoide Clo = Curva_Curva(componentes[0], componentes[1]);
+                                            Rellenar_Recta(componentes[1]);
+                                            Rellenar_Curva(componentes[0]);
+                                            cont++;
+                                            EjeDeTrazado.componentes.Clotoide Clo = Curva_Recta(componentes[0], componentes[1], 1);
 
-                                    if (Clo == null)
-                                    {
-                                        componentes[0].v_a_p = true;
-                                        azimuts.Add(-1);
-                                        azimuts.Add(-1);
-                                    }
-                                    else
-                                    {
-                                        if (Comprobar(Clo))
-                                        {
-                                            //azimuts.Add(Az_Clotoide_Curvas_MS(Clo)[0]);
-                                            //azimuts.Add(Az_Clotoide_Curvas_MS(Clo)[1]);
-                                            if (Clo.mTipo == EjeDeTrazado.puntosDelEje.EjeTrazado.tipoClotoide.salida)
+                                            if (Clo.getPuntoEntrada == Clo.getPuntoSalida || double.IsNaN(Clo.getQe()))
                                             {
-                                                azimuts.Add(Az_Clotoide_Curvas_MS_Antihoraria_Prueba(Clo, 0)[0]);
-                                                azimuts.Add(Az_Clotoide_Curvas_MS_Antihoraria_Prueba(Clo, 0)[1]);
+                                                if (componentes[0].direccion == EjeTrazado.sentidoCurva.Antihorario)
+                                                {
+                                                    //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
+                                                    Girar_Recta(1, Girar_acercar_ini_fin(componentes[1].lista_puntos, componentes[0], componentes[1].azr, 1), componentes[1].azr);
+                                                }
+                                                else
+                                                {
+                                                    //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
+                                                    Girar_Recta(1, Girar_acercar_ini_fin(componentes[1].lista_puntos, componentes[0], componentes[1].azr, 1), componentes[1].azr);
+                                                }
+                                                //Dibujar_entidad(0);
+
                                             }
                                             else
                                             {
-                                                azimuts.Add(Az_Clotoide_Curvas_MS_Prueba(Clo, 0)[0]);
-                                                azimuts.Add(Az_Clotoide_Curvas_MS_Prueba(Clo, 0)[1]);
-                                            }
+                                                if ((componentes[1].lista_puntos[1].p.X < componentes[1].lista_puntos[0].p.X && componentes[1].lista_puntos[1].p.X < Clo.getPointAtDist(0)[0]) ||
+                                                    (componentes[1].lista_puntos[1].p.X > componentes[1].lista_puntos[0].p.X && componentes[1].lista_puntos[1].p.X > Clo.getPointAtDist(0)[0]))
+                                                {
+                                                    //Dibujar_Clotoide(Clo);
+                                                    aniadido = true;
+                                                    azimuts.Add(Az_Clotoide(Clo));
+                                                    break;
+                                                }
+                                                else
+                                                {
+                                                    if (componentes[0].direccion == EjeTrazado.sentidoCurva.Antihorario)
+                                                    {
+                                                        //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
+                                                        Girar_Recta(1, -0.01, componentes[1].azr);
 
+                                                    }
+                                                    else
+                                                    {
+                                                        //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
+                                                        Girar_Recta(1, 0.01, componentes[1].azr);
+                                                    }
+
+                                                }
+                                            }
                                         }
-                                        else
+                                        if (!aniadido)
+                                        {
+                                            azimuts.Add(-1);
+                                        }
+
+                                        aniadido = false;
+                                    }
+                                    else//curva--curva
+                                    {
+                                        Rellenar_Curva(componentes[0]);
+                                        Rellenar_Curva(componentes[1]);
+                                        EjeDeTrazado.componentes.Clotoide Clo = Curva_Curva_M(componentes[0], componentes[1]);
+                                        //EjeDeTrazado.componentes.Clotoide Clo = Curva_Curva(componentes[0], componentes[1]);
+
+                                        if (Clo == null)
                                         {
                                             componentes[0].v_a_p = true;
                                             azimuts.Add(-1);
                                             azimuts.Add(-1);
                                         }
-                                    }
-                                    primera_clo_crc = true;
-                                }
-                            }
+                                        else
+                                        {
+                                            if (Comprobar(Clo))
+                                            {
+                                                //azimuts.Add(Az_Clotoide_Curvas_MS(Clo)[0]);
+                                                //azimuts.Add(Az_Clotoide_Curvas_MS(Clo)[1]);
+                                                if (Clo.mTipo == EjeDeTrazado.puntosDelEje.EjeTrazado.tipoClotoide.salida)
+                                                {
+                                                    azimuts.Add(Az_Clotoide_Curvas_MS_Antihoraria_Prueba(Clo, 0)[0]);
+                                                    azimuts.Add(Az_Clotoide_Curvas_MS_Antihoraria_Prueba(Clo, 0)[1]);
+                                                }
+                                                else
+                                                {
+                                                    azimuts.Add(Az_Clotoide_Curvas_MS_Prueba(Clo, 0)[0]);
+                                                    azimuts.Add(Az_Clotoide_Curvas_MS_Prueba(Clo, 0)[1]);
+                                                }
 
-                            //ultima clotoide
-                            if (componentes.Count > 3)
-                            {
-                                if (componentes[componentes.Count - 2].Tipo == 2 && componentes[componentes.Count - 1].Tipo == 1)//si es curva--recta
-                                {
-                                    //se ha creado para curva de gran radio final
-                                    if ((componentes[componentes.Count - 2].radio>gran_r && componentes[componentes.Count - 3].Tipo == 1) || 
-                                        (componentes[componentes.Count - 2].curva_creada && componentes[componentes.Count - 3].Tipo == 1 && Math.Abs(componentes[componentes.Count - 3].azr- componentes[componentes.Count - 1].azr)<2))
-                                    {
-                                        c_granr_final = true;
+                                            }
+                                            else
+                                            {
+                                                componentes[0].v_a_p = true;
+                                                azimuts.Add(-1);
+                                                azimuts.Add(-1);
+                                            }
+                                        }
+                                        primera_clo_crc = true;
                                     }
-                                    else
+                                }
+                                else
+                                {
+                                    if (componentes[0].Tipo == 1 && componentes[1].Tipo == 2)//si es recta--curva
                                     {
+                                        //se ha creado para curva de gran radio final
+                                        if ((componentes[1].radio > gran_r && componentes[0].Tipo==1 && componentes[2].Tipo==1) ||
+                                            (componentes[1].curva_creada && componentes[2].Tipo == 1 && Math.Abs(componentes[0].azr - componentes[2].azr) < 2))
+                                        {
+                                            Point2d pri = componentes[0].lista_puntos[0].p;
+                                            Puntos_rectas.Add(pri);
+                                            EjeDeTrazado.componentes.Curva Curva = Curva_Gran_Radio(componentes[0], componentes[1], componentes[2]);
+                                            double[] pr2 = Curva.getPointAtDist(0);
+                                            Puntos_rectas.Add(new Point2d(pr2[0], pr2[1]));
+                                            double[] pr3 = Curva.getPointAtDist(Curva.getPkFinal());
+                                            Puntos_rectas.Add(new Point2d(pr3[0], pr3[1]));
+                                            curva_gran_radio = true;
+                                        if (componentes[1].direccion== EjeTrazado.sentidoCurva.Antihorario && componentes[0].azr> componentes[2].azr)
+                                        {
+                                            azimuts.Add(componentes[0].azr);
+                                            azimuts.Add(componentes[2].azr);
+                                        }
+                                        else if (componentes[1].direccion == EjeTrazado.sentidoCurva.Horario && componentes[0].azr < componentes[2].azr)
+                                        {
+                                            azimuts.Add(componentes[0].azr);
+                                            azimuts.Add(componentes[2].azr);
+                                        }
+                                        else
+                                        {
+                                            azimuts.Add(componentes[1].azte);
+                                            azimuts.Add(componentes[1].azts);
+                                        }
+                                            
+                                            intermedias = 2;
+                                            c_granr_final_i = true;
+                                        }
+                                        else
+                                        {
+                                            int cont = 0;
+                                            while (cont < 1000)//el 1000 se pone para las comprobaciones
+                                            {
+                                                Rellenar_Recta(componentes[0]);
+                                                Rellenar_Curva(componentes[1]);
+                                                cont++;
+                                                EjeDeTrazado.componentes.Clotoide Clo = Recta_Curva(componentes[0], componentes[1], 1);
+
+                                                if (Clo.getPuntoEntrada == Clo.getPuntoSalida || double.IsNaN(Clo.getQe()))
+                                                {
+                                                    if (componentes[1].direccion == EjeTrazado.sentidoCurva.Antihorario)
+                                                    {
+                                                        //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
+                                                        Girar_Recta(0, Girar_acercar_ini_fin(componentes[0].lista_puntos, componentes[1], componentes[0].azr, 1), componentes[0].azr);
+                                                    }
+                                                    else
+                                                    {
+                                                        //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
+                                                        Girar_Recta(0, Girar_acercar_ini_fin(componentes[0].lista_puntos, componentes[1], componentes[0].azr, 1), componentes[0].azr);
+                                                    }
+                                                    //Dibujar_entidad(0);
+
+                                                }
+                                                else
+                                                {
+                                                    if ((componentes[0].lista_puntos[0].p.X < componentes[0].lista_puntos[1].p.X && componentes[0].lista_puntos[0].p.X < Clo.getPointAtDist(0)[0]) ||
+                                                        (componentes[0].lista_puntos[0].p.X > componentes[0].lista_puntos[1].p.X && componentes[0].lista_puntos[0].p.X > Clo.getPointAtDist(0)[0]))
+                                                    {
+                                                        //Dibujar_Clotoide(Clo);
+                                                        aniadido = true;
+                                                        azimuts.Add(Az_Clotoide(Clo));
+                                                        break;
+                                                    }
+                                                    else
+                                                    {
+                                                        if (componentes[1].direccion == EjeTrazado.sentidoCurva.Antihorario)
+                                                        {
+                                                            //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
+                                                            Girar_Recta(0, -0.01, componentes[0].azr);
+
+                                                        }
+                                                        else
+                                                        {
+                                                            //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
+                                                            Girar_Recta(0, 0.01, componentes[0].azr);
+                                                        }
+
+                                                    }
+                                                }
+                                            }
+                                            if (!aniadido)
+                                            {
+                                                azimuts.Add(-1);
+                                            }
+
+                                            aniadido = false;
+                                        }
+
+                                    }
+                                    else if (componentes[0].Tipo == 2 && componentes[1].Tipo == 1 && componentes[2].Tipo == 2)//curva--recta--curva
+                                    {
+                                        EjeDeTrazado.componentes.Clotoide[] Clotoides = new EjeDeTrazado.componentes.Clotoide[2];
+                                        Clotoides = Curva_Recta_Curva(componentes[0], componentes[1], componentes[2]);
+                                        if (Clotoides[0] == null)
+                                        {
+                                            componentes[0].v_m_g = true;
+                                            azimuts.Add(-1);
+                                            Puntos_rectas.Add(new Point2d());
+                                        }
+                                        else
+                                        {
+                                            if (contador > 3000)
+                                            {
+                                                //Dibujar_Clotoide(Clotoides[0]);
+                                            }
+                                            azimuts.Add(Az_Clotoide(Clotoides[0]));
+                                            double[] pr1 = Clotoides[0].getPointAtDist(Clotoides[0].getPkFinal());
+                                            Puntos_rectas.Add(new Point2d(pr1[0], pr1[1]));
+                                        }
+                                        if (Clotoides[1] == null)
+                                        {
+                                            componentes[1].v_m_g = true;
+                                            azimuts.Add(-1);
+                                            Puntos_rectas.Add(new Point2d());
+                                        }
+                                        else
+                                        {
+                                            if (contador > 3000)
+                                            {
+                                                //Dibujar_Clotoide(Clotoides[1]);
+                                            }
+                                            double[] pr2 = Clotoides[1].getPointAtDist(0);
+                                            Puntos_rectas.Add(new Point2d(pr2[0], pr2[1]));
+                                            azimuts.Add(Az_Clotoide(Clotoides[1]));
+                                        }
+                                        intermedias = 2;
+                                        primera_clo_crc = true;
+                                    }
+                                    else//curva--curva
+                                    {
+                                        Rellenar_Curva(componentes[0]);
+                                        Rellenar_Curva(componentes[1]);
+                                        EjeDeTrazado.componentes.Clotoide Clo = Curva_Curva_M(componentes[0], componentes[1]);
+                                        //EjeDeTrazado.componentes.Clotoide Clo = Curva_Curva(componentes[0], componentes[1]);
+
+                                        if (Clo == null)
+                                        {
+                                            componentes[0].v_a_p = true;
+                                            azimuts.Add(-1);
+                                            azimuts.Add(-1);
+                                        }
+                                        else
+                                        {
+                                            if (Comprobar(Clo))
+                                            {
+                                                //azimuts.Add(Az_Clotoide_Curvas_MS(Clo)[0]);
+                                                //azimuts.Add(Az_Clotoide_Curvas_MS(Clo)[1]);
+                                                if (Clo.mTipo == EjeDeTrazado.puntosDelEje.EjeTrazado.tipoClotoide.salida)
+                                                {
+                                                    azimuts.Add(Az_Clotoide_Curvas_MS_Antihoraria_Prueba(Clo, 0)[0]);
+                                                    azimuts.Add(Az_Clotoide_Curvas_MS_Antihoraria_Prueba(Clo, 0)[1]);
+                                                }
+                                                else
+                                                {
+                                                    azimuts.Add(Az_Clotoide_Curvas_MS_Prueba(Clo, 0)[0]);
+                                                    azimuts.Add(Az_Clotoide_Curvas_MS_Prueba(Clo, 0)[1]);
+                                                }
+
+                                            }
+                                            else
+                                            {
+                                                componentes[0].v_a_p = true;
+                                                azimuts.Add(-1);
+                                                azimuts.Add(-1);
+                                            }
+                                        }
+                                        primera_clo_crc = true;
+                                    }
+                                }
+
+                                //ultima clotoide
+                                if (componentes.Count > 3)
+                                {
+                                    if (componentes[componentes.Count - 2].Tipo == 2 && componentes[componentes.Count - 1].Tipo == 1)//si es curva--recta
+                                    {
+                                        //se ha creado para curva de gran radio final
+                                        if ((componentes[componentes.Count - 2].radio > gran_r && componentes[componentes.Count - 3].Tipo == 1) ||
+                                            (componentes[componentes.Count - 2].curva_creada && componentes[componentes.Count - 3].Tipo == 1 && Math.Abs(componentes[componentes.Count - 3].azr - componentes[componentes.Count - 1].azr) < 2))
+                                        {
+                                            c_granr_final = true;
+                                        }
+                                        else
+                                        {
+                                            int cont = 0;
+                                            tiempo3 = DateTime.Now;
+                                            while (cont < 1000)//el 1000 se pone para las comprobaciones
+                                            {
+                                                tiempo4 = DateTime.Now;
+                                                total_b = new TimeSpan(tiempo4.Ticks - tiempo3.Ticks);
+                                                if (total_b.TotalSeconds > 300)
+                                                {
+                                                    terminar = true;
+                                                    break;
+                                                }
+                                                Rellenar_Recta(componentes[componentes.Count - 1]);
+                                                Rellenar_Curva(componentes[componentes.Count - 2]);
+                                                cont++;
+                                                EjeDeTrazado.componentes.Clotoide Clo = Curva_Recta(componentes[componentes.Count - 2], componentes[componentes.Count - 1], 2);
+
+                                                if (Clo == null)
+                                                {
+                                                    if (componentes[componentes.Count - 2].direccion == EjeTrazado.sentidoCurva.Antihorario)
+                                                    {
+                                                        //Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
+                                                        Girar_Recta(componentes.Count - 1, Girar_acercar_ini_fin(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr, 2), componentes[componentes.Count - 1].azr);
+
+                                                    }
+                                                    else
+                                                    {
+                                                        //Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
+                                                        Girar_Recta(componentes.Count - 1, Girar_acercar_ini_fin(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr, 2), componentes[componentes.Count - 1].azr);
+
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    if (Clo.getPuntoEntrada == Clo.getPuntoSalida || double.IsNaN(Clo.getQe()))
+                                                    {
+                                                        if (componentes[componentes.Count - 2].direccion == EjeTrazado.sentidoCurva.Antihorario)
+                                                        {
+                                                            //Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
+                                                            Girar_Recta(componentes.Count - 1, Girar_acercar_ini_fin(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr, 2), componentes[componentes.Count - 1].azr);
+
+                                                        }
+                                                        else
+                                                        {
+                                                            //Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
+                                                            Girar_Recta(componentes.Count - 1, Girar_acercar_ini_fin(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr, 2), componentes[componentes.Count - 1].azr);
+
+                                                        }
+                                                        //Dibujar_entidad(componentes.Count - 1);
+                                                    }
+                                                    else
+                                                    {
+                                                        if (((componentes[componentes.Count - 1].lista_puntos[0].p.X < componentes[componentes.Count - 1].lista_puntos[1].p.X) && (Clo.getPointAtDist(Clo.getPkFinal())[0] <= componentes[componentes.Count - 1].lista_puntos[1].p.X)) ||
+                                                            ((componentes[componentes.Count - 1].lista_puntos[0].p.X > componentes[componentes.Count - 1].lista_puntos[1].p.X) && (Clo.getPointAtDist(Clo.getPkFinal())[0] >= componentes[componentes.Count - 1].lista_puntos[1].p.X)))
+                                                        {
+                                                            //Dibujar_Clotoide(Clo);
+                                                            aniadido = true;
+                                                            azimuts.Add(Az_Clotoide(Clo));
+
+                                                            break;
+                                                        }
+                                                        /*if ((componentes[componentes.Count - 1].lista_puntos[0].p.X < Clo.getPointAtDist(Clo.getPkFinal())[0] && Clo.getPointAtDist(Clo.getPkFinal())[0] < componentes[componentes.Count - 1].lista_puntos[1].p.X) || (componentes[componentes.Count - 1].lista_puntos[0].p.X > Clo.getPointAtDist(Clo.getPkFinal())[0] && Clo.getPointAtDist(Clo.getPkFinal())[0] > componentes[componentes.Count - 1].lista_puntos[1].p.X))
+                                                        {
+                                                            Dibujar_Clotoide(Clo);
+                                                            break;
+                                                        }*/
+                                                        else
+                                                        {
+
+                                                            if (componentes[componentes.Count - 2].direccion == EjeTrazado.sentidoCurva.Antihorario)
+                                                            {
+                                                                //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
+                                                                Girar_Recta(componentes.Count - 1, 0.01, componentes[componentes.Count - 1].azr);
+
+
+                                                            }
+                                                            else
+                                                            {
+                                                                //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
+                                                                Girar_Recta(componentes.Count - 1, -0.01, componentes[componentes.Count - 1].azr);
+
+                                                            }
+                                                            /*if (componentes[componentes.Count - 2].direccion == EjeTrazado.sentidoCurva.Antihorario) {
+                                                                //Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
+                                                                Girar_Recta(componentes.Count - 1, Girar_acercar_ini_fin(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr,2), componentes[componentes.Count - 1].azr);
+                                                            } else {
+                                                                //Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
+                                                                Girar_Recta(componentes.Count - 1, Girar_acercar_ini_fin(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr,2), componentes[componentes.Count - 1].azr);
+                                                            }*/
+                                                            //Dibujar_entidad(componentes.Count - 1);
+                                                        }
+
+                                                    }
+                                                }
+
+                                            }
+                                            if (!aniadido)
+                                            {
+                                                azimuts.Add(-1);
+                                            }
+
+                                            aniadido = false;
+                                        }
+
+
+                                    }
+                                    else if (componentes[componentes.Count - 1].Tipo == 2 && componentes[componentes.Count - 2].Tipo == 1)//curva--recta--curva
+                                    {
+                                        EjeDeTrazado.componentes.Clotoide[] Clotoides = new EjeDeTrazado.componentes.Clotoide[2];
+                                        Clotoides = Curva_Recta_Curva(componentes[componentes.Count - 3], componentes[componentes.Count - 2], componentes[componentes.Count - 1]);
+                                        //Dibujar_Clotoide(Clotoides[0]);
+                                        //Dibujar_Clotoide(Clotoides[1]);
+                                        if (Clotoides[0] == null)
+                                        {
+                                            componentes[componentes.Count - 3].v_m_g = true;
+                                            azimuts.Add(-1);
+                                            Puntos_rectas.Add(new Point2d());
+                                        }
+                                        else
+                                        {
+                                            azimuts.Add(Az_Clotoide(Clotoides[0]));
+                                            puntos_rectas_ultimos = Puntos_rectas.Count;
+                                            double[] pr1 = Clotoides[0].getPointAtDist(Clotoides[0].getPkFinal());
+                                            Puntos_rectas.Add(new Point2d(pr1[0], pr1[1]));
+                                        }
+                                        if (Clotoides[1] == null)
+                                        {
+                                            componentes[componentes.Count - 1].v_m_g = true;
+                                            azimuts.Add(-1);
+                                            Puntos_rectas.Add(new Point2d());
+                                        }
+                                        else
+                                        {
+                                            double[] pr2 = Clotoides[1].getPointAtDist(0);
+                                            Puntos_rectas.Add(new Point2d(pr2[0], pr2[1]));
+                                            azimuts.Add(Az_Clotoide(Clotoides[1]));
+                                        }
+                                        puntos_ultimos = true;
+                                        ultima_clo_crc = true;
+                                    }
+                                    else//curva--curva
+                                    {
+                                        Rellenar_Curva(componentes[componentes.Count - 2]);
+                                        Rellenar_Curva(componentes[componentes.Count - 1]);
+                                        EjeDeTrazado.componentes.Clotoide Clo = Curva_Curva_M(componentes[componentes.Count - 2], componentes[componentes.Count - 1]);
+                                        //EjeDeTrazado.componentes.Clotoide Clo = Curva_Curva(componentes[componentes.Count - 2], componentes[componentes.Count - 1]);
+                                        if (Clo == null)
+                                        {
+                                            componentes[componentes.Count - 2].v_a_p = true;
+                                            azimuts.Add(-1);
+                                            azimuts.Add(-1);
+                                        }
+                                        else
+                                        {
+                                            if (Comprobar(Clo))
+                                            {
+                                                //azimuts.Add(Az_Clotoide_Curvas_MS(Clo)[0]);
+                                                //azimuts.Add(Az_Clotoide_Curvas_MS(Clo)[1]);
+                                                if (Clo.mTipo == EjeDeTrazado.puntosDelEje.EjeTrazado.tipoClotoide.salida)
+                                                {
+                                                    azimuts.Add(Az_Clotoide_Curvas_MS_Antihoraria_Prueba(Clo, componentes.Count - 2)[0]);
+                                                    azimuts.Add(Az_Clotoide_Curvas_MS_Antihoraria_Prueba(Clo, componentes.Count - 2)[1]);
+                                                }
+                                                else
+                                                {
+                                                    azimuts.Add(Az_Clotoide_Curvas_MS_Prueba(Clo, componentes.Count - 2)[0]);
+                                                    azimuts.Add(Az_Clotoide_Curvas_MS_Prueba(Clo, componentes.Count - 2)[1]);
+                                                }
+                                            }
+                                            else
+                                            {
+                                                componentes[componentes.Count - 2].v_a_p = true;
+                                                azimuts.Add(-1);
+                                                azimuts.Add(-1);
+                                            }
+                                        }
+                                        ultima_clo_crc = true;
+                                    }
+                                }
+                                else if (componentes.Count == 3 && !c_granr_final_i)
+                                {
+                                    if (componentes[componentes.Count - 2].Tipo == 2 && componentes[componentes.Count - 1].Tipo == 1)//si es curva--recta
+                                    {
+
                                         int cont = 0;
                                         tiempo3 = DateTime.Now;
                                         while (cont < 1000)//el 1000 se pone para las comprobaciones
@@ -16568,8 +16932,7 @@ namespace Logica {
                                             Rellenar_Curva(componentes[componentes.Count - 2]);
                                             cont++;
                                             EjeDeTrazado.componentes.Clotoide Clo = Curva_Recta(componentes[componentes.Count - 2], componentes[componentes.Count - 1], 2);
-
-                                            if (Clo == null)
+                                            if (Clo.getPuntoEntrada == Clo.getPuntoSalida || double.IsNaN(Clo.getQe()))
                                             {
                                                 if (componentes[componentes.Count - 2].direccion == EjeTrazado.sentidoCurva.Antihorario)
                                                 {
@@ -16583,70 +16946,39 @@ namespace Logica {
                                                     Girar_Recta(componentes.Count - 1, Girar_acercar_ini_fin(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr, 2), componentes[componentes.Count - 1].azr);
 
                                                 }
+                                                //Dibujar_entidad(componentes.Count - 1);
                                             }
                                             else
                                             {
-                                                if (Clo.getPuntoEntrada == Clo.getPuntoSalida || double.IsNaN(Clo.getQe()))
+                                                if (((componentes[componentes.Count - 1].lista_puntos[0].p.X < componentes[componentes.Count - 1].lista_puntos[1].p.X) && (Clo.getPointAtDist(Clo.getPkFinal())[0] <= componentes[componentes.Count - 1].lista_puntos[1].p.X)) ||
+                                                    ((componentes[componentes.Count - 1].lista_puntos[0].p.X > componentes[componentes.Count - 1].lista_puntos[1].p.X) && (Clo.getPointAtDist(Clo.getPkFinal())[0] >= componentes[componentes.Count - 1].lista_puntos[1].p.X)))
+                                                {
+                                                    //Dibujar_Clotoide(Clo);
+                                                    aniadido = true;
+                                                    azimuts.Add(Az_Clotoide(Clo));
+                                                    break;
+                                                }
+                                                /*if ((componentes[componentes.Count - 1].lista_puntos[0].p.X < Clo.getPointAtDist(Clo.getPkFinal())[0] && Clo.getPointAtDist(Clo.getPkFinal())[0] < componentes[componentes.Count - 1].lista_puntos[1].p.X) || (componentes[componentes.Count - 1].lista_puntos[0].p.X > Clo.getPointAtDist(Clo.getPkFinal())[0] && Clo.getPointAtDist(Clo.getPkFinal())[0] > componentes[componentes.Count - 1].lista_puntos[1].p.X))
+                                                {
+                                                    Dibujar_Clotoide(Clo);
+                                                    break;
+                                                }*/
+                                                else
                                                 {
                                                     if (componentes[componentes.Count - 2].direccion == EjeTrazado.sentidoCurva.Antihorario)
                                                     {
                                                         //Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
                                                         Girar_Recta(componentes.Count - 1, Girar_acercar_ini_fin(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr, 2), componentes[componentes.Count - 1].azr);
-
                                                     }
                                                     else
                                                     {
                                                         //Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
                                                         Girar_Recta(componentes.Count - 1, Girar_acercar_ini_fin(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr, 2), componentes[componentes.Count - 1].azr);
-
                                                     }
                                                     //Dibujar_entidad(componentes.Count - 1);
                                                 }
-                                                else
-                                                {
-                                                    if (((componentes[componentes.Count - 1].lista_puntos[0].p.X < componentes[componentes.Count - 1].lista_puntos[1].p.X) && (Clo.getPointAtDist(Clo.getPkFinal())[0] <= componentes[componentes.Count - 1].lista_puntos[1].p.X)) ||
-                                                        ((componentes[componentes.Count - 1].lista_puntos[0].p.X > componentes[componentes.Count - 1].lista_puntos[1].p.X) && (Clo.getPointAtDist(Clo.getPkFinal())[0] >= componentes[componentes.Count - 1].lista_puntos[1].p.X)))
-                                                    {
-                                                        //Dibujar_Clotoide(Clo);
-                                                        aniadido = true;
-                                                        azimuts.Add(Az_Clotoide(Clo));
 
-                                                        break;
-                                                    }
-                                                    /*if ((componentes[componentes.Count - 1].lista_puntos[0].p.X < Clo.getPointAtDist(Clo.getPkFinal())[0] && Clo.getPointAtDist(Clo.getPkFinal())[0] < componentes[componentes.Count - 1].lista_puntos[1].p.X) || (componentes[componentes.Count - 1].lista_puntos[0].p.X > Clo.getPointAtDist(Clo.getPkFinal())[0] && Clo.getPointAtDist(Clo.getPkFinal())[0] > componentes[componentes.Count - 1].lista_puntos[1].p.X))
-                                                    {
-                                                        Dibujar_Clotoide(Clo);
-                                                        break;
-                                                    }*/
-                                                    else
-                                                    {
-
-                                                        if (componentes[componentes.Count - 2].direccion == EjeTrazado.sentidoCurva.Antihorario)
-                                                        {
-                                                            //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
-                                                            Girar_Recta(componentes.Count - 1, 0.01, componentes[componentes.Count - 1].azr);
-
-
-                                                        }
-                                                        else
-                                                        {
-                                                            //Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
-                                                            Girar_Recta(componentes.Count - 1, -0.01, componentes[componentes.Count - 1].azr);
-
-                                                        }
-                                                        /*if (componentes[componentes.Count - 2].direccion == EjeTrazado.sentidoCurva.Antihorario) {
-                                                            //Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
-                                                            Girar_Recta(componentes.Count - 1, Girar_acercar_ini_fin(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr,2), componentes[componentes.Count - 1].azr);
-                                                        } else {
-                                                            //Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
-                                                            Girar_Recta(componentes.Count - 1, Girar_acercar_ini_fin(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr,2), componentes[componentes.Count - 1].azr);
-                                                        }*/
-                                                        //Dibujar_entidad(componentes.Count - 1);
-                                                    }
-
-                                                }
                                             }
-
                                         }
                                         if (!aniadido)
                                         {
@@ -16654,314 +16986,17 @@ namespace Logica {
                                         }
 
                                         aniadido = false;
-                                    }
-                                    
 
-                                }
-                                else if (componentes[componentes.Count - 1].Tipo == 2 && componentes[componentes.Count - 2].Tipo == 1)//curva--recta--curva
-                                {
-                                    EjeDeTrazado.componentes.Clotoide[] Clotoides = new EjeDeTrazado.componentes.Clotoide[2];
-                                    Clotoides = Curva_Recta_Curva(componentes[componentes.Count - 3], componentes[componentes.Count - 2], componentes[componentes.Count - 1]);
-                                    //Dibujar_Clotoide(Clotoides[0]);
-                                    //Dibujar_Clotoide(Clotoides[1]);
-                                    if (Clotoides[0] == null)
-                                    {
-                                        componentes[componentes.Count - 3].v_m_g = true;
-                                        azimuts.Add(-1);
-                                        Puntos_rectas.Add(new Point2d());
                                     }
-                                    else
+                                    else if (componentes[componentes.Count - 2].Tipo == 2 && componentes[componentes.Count - 1].Tipo == 2)//curva--curva
                                     {
-                                        azimuts.Add(Az_Clotoide(Clotoides[0]));
-                                        puntos_rectas_ultimos = Puntos_rectas.Count;
-                                        double[] pr1 = Clotoides[0].getPointAtDist(Clotoides[0].getPkFinal());
-                                        Puntos_rectas.Add(new Point2d(pr1[0], pr1[1]));
-                                    }
-                                    if (Clotoides[1] == null)
-                                    {
-                                        componentes[componentes.Count - 1].v_m_g = true;
-                                        azimuts.Add(-1);
-                                        Puntos_rectas.Add(new Point2d());
-                                    }
-                                    else
-                                    {
-                                        double[] pr2 = Clotoides[1].getPointAtDist(0);
-                                        Puntos_rectas.Add(new Point2d(pr2[0], pr2[1]));
-                                        azimuts.Add(Az_Clotoide(Clotoides[1]));
-                                    }
-                                    puntos_ultimos = true;
-                                    ultima_clo_crc = true;
-                                }
-                                else//curva--curva
-                                {
-                                    Rellenar_Curva(componentes[componentes.Count - 2]);
-                                    Rellenar_Curva(componentes[componentes.Count - 1]);
-                                    EjeDeTrazado.componentes.Clotoide Clo = Curva_Curva_M(componentes[componentes.Count - 2], componentes[componentes.Count - 1]);
-                                    //EjeDeTrazado.componentes.Clotoide Clo = Curva_Curva(componentes[componentes.Count - 2], componentes[componentes.Count - 1]);
-                                    if (Clo == null)
-                                    {
-                                        componentes[componentes.Count - 2].v_a_p = true;
-                                        azimuts.Add(-1);
-                                        azimuts.Add(-1);
-                                    }
-                                    else
-                                    {
-                                        if (Comprobar(Clo))
-                                        {
-                                            //azimuts.Add(Az_Clotoide_Curvas_MS(Clo)[0]);
-                                            //azimuts.Add(Az_Clotoide_Curvas_MS(Clo)[1]);
-                                            if (Clo.mTipo == EjeDeTrazado.puntosDelEje.EjeTrazado.tipoClotoide.salida)
-                                            {
-                                                azimuts.Add(Az_Clotoide_Curvas_MS_Antihoraria_Prueba(Clo, componentes.Count - 2)[0]);
-                                                azimuts.Add(Az_Clotoide_Curvas_MS_Antihoraria_Prueba(Clo, componentes.Count - 2)[1]);
-                                            }
-                                            else
-                                            {
-                                                azimuts.Add(Az_Clotoide_Curvas_MS_Prueba(Clo, componentes.Count - 2)[0]);
-                                                azimuts.Add(Az_Clotoide_Curvas_MS_Prueba(Clo, componentes.Count - 2)[1]);
-                                            }
-                                        }
-                                        else
-                                        {
-                                            componentes[componentes.Count - 2].v_a_p = true;
-                                            azimuts.Add(-1);
-                                            azimuts.Add(-1);
-                                        }
-                                    }
-                                    ultima_clo_crc = true;
-                                }
-                            }
-                            else if (componentes.Count == 3)
-                            {
-                                if (componentes[componentes.Count - 2].Tipo == 2 && componentes[componentes.Count - 1].Tipo == 1)//si es curva--recta
-                                {
-
-                                    int cont = 0;
-                                    tiempo3 = DateTime.Now;
-                                    while (cont < 1000)//el 1000 se pone para las comprobaciones
-                                    {
-                                        tiempo4 = DateTime.Now;
-                                        total_b = new TimeSpan(tiempo4.Ticks - tiempo3.Ticks);
-                                        if (total_b.TotalSeconds > 300)
-                                        {
-                                            terminar = true;
-                                            break;
-                                        }
-                                        Rellenar_Recta(componentes[componentes.Count - 1]);
                                         Rellenar_Curva(componentes[componentes.Count - 2]);
-                                        cont++;
-                                        EjeDeTrazado.componentes.Clotoide Clo = Curva_Recta(componentes[componentes.Count - 2], componentes[componentes.Count - 1], 2);
-                                        if (Clo.getPuntoEntrada == Clo.getPuntoSalida || double.IsNaN(Clo.getQe()))
-                                        {
-                                            if (componentes[componentes.Count - 2].direccion == EjeTrazado.sentidoCurva.Antihorario)
-                                            {
-                                                //Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
-                                                Girar_Recta(componentes.Count - 1, Girar_acercar_ini_fin(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr, 2), componentes[componentes.Count - 1].azr);
-
-                                            }
-                                            else
-                                            {
-                                                //Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
-                                                Girar_Recta(componentes.Count - 1, Girar_acercar_ini_fin(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr, 2), componentes[componentes.Count - 1].azr);
-
-                                            }
-                                            //Dibujar_entidad(componentes.Count - 1);
-                                        }
-                                        else
-                                        {
-                                            if (((componentes[componentes.Count - 1].lista_puntos[0].p.X < componentes[componentes.Count - 1].lista_puntos[1].p.X) && (Clo.getPointAtDist(Clo.getPkFinal())[0] <= componentes[componentes.Count - 1].lista_puntos[1].p.X)) ||
-                                                ((componentes[componentes.Count - 1].lista_puntos[0].p.X > componentes[componentes.Count - 1].lista_puntos[1].p.X) && (Clo.getPointAtDist(Clo.getPkFinal())[0] >= componentes[componentes.Count - 1].lista_puntos[1].p.X)))
-                                            {
-                                                //Dibujar_Clotoide(Clo);
-                                                aniadido = true;
-                                                azimuts.Add(Az_Clotoide(Clo));
-                                                break;
-                                            }
-                                            /*if ((componentes[componentes.Count - 1].lista_puntos[0].p.X < Clo.getPointAtDist(Clo.getPkFinal())[0] && Clo.getPointAtDist(Clo.getPkFinal())[0] < componentes[componentes.Count - 1].lista_puntos[1].p.X) || (componentes[componentes.Count - 1].lista_puntos[0].p.X > Clo.getPointAtDist(Clo.getPkFinal())[0] && Clo.getPointAtDist(Clo.getPkFinal())[0] > componentes[componentes.Count - 1].lista_puntos[1].p.X))
-                                            {
-                                                Dibujar_Clotoide(Clo);
-                                                break;
-                                            }*/
-                                            else
-                                            {
-                                                if (componentes[componentes.Count - 2].direccion == EjeTrazado.sentidoCurva.Antihorario)
-                                                {
-                                                    //Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
-                                                    Girar_Recta(componentes.Count - 1, Girar_acercar_ini_fin(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr, 2), componentes[componentes.Count - 1].azr);
-                                                }
-                                                else
-                                                {
-                                                    //Girar_Recta(componentes.Count - 1, Girar_acercar(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr), componentes[componentes.Count - 1].azr);
-                                                    Girar_Recta(componentes.Count - 1, Girar_acercar_ini_fin(componentes[componentes.Count - 1].lista_puntos, componentes[componentes.Count - 2], componentes[componentes.Count - 1].azr, 2), componentes[componentes.Count - 1].azr);
-                                                }
-                                                //Dibujar_entidad(componentes.Count - 1);
-                                            }
-
-                                        }
-                                    }
-                                    if (!aniadido)
-                                    {
-                                        azimuts.Add(-1);
-                                    }
-
-                                    aniadido = false;
-
-                                }
-                                else if (componentes[componentes.Count - 2].Tipo == 2 && componentes[componentes.Count - 1].Tipo == 2)//curva--curva
-                                {
-                                    Rellenar_Curva(componentes[componentes.Count - 2]);
-                                    Rellenar_Curva(componentes[componentes.Count - 1]);
-                                    EjeDeTrazado.componentes.Clotoide Clo = Curva_Curva_M(componentes[componentes.Count - 2], componentes[componentes.Count - 1]);
-                                    //EjeDeTrazado.componentes.Clotoide Clo = Curva_Curva(componentes[componentes.Count - 2], componentes[componentes.Count - 1]);
-                                    if (Clo == null)
-                                    {
-                                        componentes[componentes.Count - 2].v_a_p = true;
-                                        azimuts.Add(-1);
-                                        azimuts.Add(-1);
-                                    }
-                                    else
-                                    {
-                                        if (Comprobar(Clo))
-                                        {
-                                            azimuts.Add(Az_Clotoide_Curvas_MS(Clo)[0]);
-                                            azimuts.Add(Az_Clotoide_Curvas_MS(Clo)[1]);
-                                        }
-                                        else
-                                        {
-                                            componentes[componentes.Count - 2].v_a_p = true;
-                                            azimuts.Add(-1);
-                                            azimuts.Add(-1);
-                                        }
-                                    }
-                                    ultima_clo_crc = true;
-                                }
-                            }
-                            //Clotoides intermedias
-                            if (componentes.Count > 3)
-                            {
-                                for (int i = intermedias; i < componentes.Count - 2; i++)
-                                {
-                                    //se busca si una recta esta entre 2 curvas para crear una clotoide de entrada y otra de salida
-                                    if (componentes[i - 1].Tipo == 2 && componentes[i + 1].Tipo == 2 && componentes[i].Tipo == 1)
-                                    {
-                                        if (curva_gran_radio)
-                                        {
-                                            if (componentes[i].Tipo == 1 && componentes[i + 1].Tipo == 2)
-                                            {
-                                                if (i+2< componentes.Count)
-                                                {
-                                                    if (componentes[i].Tipo == 1 && componentes[i + 2].Tipo == 1 && (componentes[i + 1].radio > gran_r || componentes[i + 1].curva_creada))
-                                                    {
-                                                        EjeDeTrazado.componentes.Curva Curva = Curva_Gran_Radio(componentes[i], componentes[i + 1], componentes[i + 2]);
-                                                        double[] pr2 = Curva.getPointAtDist(0);
-                                                        Puntos_rectas.Add(new Point2d(pr2[0], pr2[1]));
-                                                        double[] pr3 = Curva.getPointAtDist(Curva.getPkFinal());
-                                                        Puntos_rectas.Add(new Point2d(pr3[0], pr3[1]));
-                                                        curva_gran_radio = true;
-                                                        azimuts.Add(componentes[i].azr);
-                                                        azimuts.Add(componentes[i + 2].azr);
-                                                    }
-                                                    else
-                                                    {
-                                                        curva_gran_radio = false;
-                                                        EjeDeTrazado.componentes.Clotoide Clor = Recta_Curva(componentes[i], componentes[i + 1], 1);
-                                                        double[] prp = Clor.getPointAtDist(0);
-                                                        Puntos_rectas.Add(new Point2d(prp[0], prp[1]));
-                                                        azimuts.Add(Az_Clotoide(Clor));
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    curva_gran_radio = false;
-                                                    EjeDeTrazado.componentes.Clotoide Clo = Recta_Curva(componentes[i], componentes[i + 1], 1);
-                                                    double[] pr = Clo.getPointAtDist(0);
-                                                    Puntos_rectas.Add(new Point2d(pr[0], pr[1]));
-                                                    azimuts.Add(Az_Clotoide(Clo));
-                                                }
-                                                
-                                            }
-                                        }
-                                        else
-                                        {
-                                            if (componentes[i].Tipo == 1 && componentes[i + 2].Tipo == 1 && 
-                                                ((componentes[i + 1].radio > gran_r || componentes[i + 1].curva_creada)) /*&& 
-                                                (componentes[i].creacion != 2 && componentes[i + 2].creacion != 2) && 
-                                                (componentes[i].creacion != 1 && componentes[i + 2].creacion != 1)*/)
-                                            /*if (componentes[i].Tipo == 1 && componentes[i + 2].Tipo == 1 &&
-                                            (Math.Abs(componentes[i].azr - componentes[i + 2].azr) <= 2 && componentes[i + 1].radio > gran_r) &&
-                                            (componentes[i].creacion != 2 && componentes[i + 2].creacion != 2) &&
-                                            (componentes[i].creacion != 1 && componentes[i + 2].creacion != 1))*/
-                                            {
-
-                                                EjeDeTrazado.componentes.Clotoide Clo = Curva_Recta(componentes[i - 1], componentes[i], 2);
-                                                if (Clo != null)
-                                                {
-                                                    azimuts.Add(Az_Clotoide(Clo));
-                                                    double[] pr1 = Clo.getPointAtDist(Clo.getPkFinal());
-                                                    Puntos_rectas.Add(new Point2d(pr1[0], pr1[1]));
-                                                    EjeDeTrazado.componentes.Curva Curva = Curva_Gran_Radio(componentes[i], componentes[i + 1], componentes[i + 2]);
-                                                    double[] pr2 = Curva.getPointAtDist(0);
-                                                    Puntos_rectas.Add(new Point2d(pr2[0], pr2[1]));
-                                                    double[] pr3 = Curva.getPointAtDist(Curva.getPkFinal());
-                                                    Puntos_rectas.Add(new Point2d(pr3[0], pr3[1]));
-                                                    curva_gran_radio = true;
-                                                    azimuts.Add(componentes[i].azr);
-                                                    azimuts.Add(componentes[i + 2].azr);
-                                                }
-                                                else
-                                                {
-                                                    azimuts.Add(-1);
-                                                    azimuts.Add(-1);
-                                                    componentes[i - 1].v_m_g = true;
-                                                }
-
-                                            }
-                                            else
-                                            {
-                                                EjeDeTrazado.componentes.Clotoide[] Clotoides = new EjeDeTrazado.componentes.Clotoide[2];
-                                                Clotoides = Curva_Recta_Curva(componentes[i - 1], componentes[i], componentes[i + 1]);
-                                                if (Clotoides[0] == null)
-                                                {
-                                                    componentes[i - 1].v_m_g = true;
-                                                    azimuts.Add(-1);
-                                                    Puntos_rectas.Add(new Point2d());
-                                                }
-                                                else
-                                                {
-                                                    azimuts.Add(Az_Clotoide(Clotoides[0]));
-                                                    double[] pr1 = Clotoides[0].getPointAtDist(Clotoides[0].getPkFinal());
-                                                    Puntos_rectas.Add(new Point2d(pr1[0], pr1[1]));
-                                                }
-                                                if (Clotoides[1] == null)
-                                                {
-                                                    componentes[i + 1].v_m_g = true;
-                                                    azimuts.Add(-1);
-                                                    Puntos_rectas.Add(new Point2d());
-                                                }
-                                                else
-                                                {
-                                                    double[] pr2 = Clotoides[1].getPointAtDist(0);
-                                                    Puntos_rectas.Add(new Point2d(pr2[0], pr2[1]));
-                                                    azimuts.Add(Az_Clotoide(Clotoides[1]));
-                                                }
-                                            }
-                                        }
-                                    }
-                                    if (componentes[i].Tipo == 2 && componentes[i + 1].Tipo == 2)
-                                    {
-
-                                        Rellenar_Curva(componentes[i]);
-                                        Rellenar_Curva(componentes[i + 1]);
-                                        EjeDeTrazado.componentes.Clotoide Clo = null;
-                                        if (componentes[i].direccion == componentes[i + 1].direccion)
-                                        {
-                                            Clo = Curva_Curva_M(componentes[i], componentes[i + 1]);
-                                        }
-
-                                        //EjeDeTrazado.componentes.Clotoide Clo = Curva_Curva(componentes[i], componentes[i + 1]);
+                                        Rellenar_Curva(componentes[componentes.Count - 1]);
+                                        EjeDeTrazado.componentes.Clotoide Clo = Curva_Curva_M(componentes[componentes.Count - 2], componentes[componentes.Count - 1]);
+                                        //EjeDeTrazado.componentes.Clotoide Clo = Curva_Curva(componentes[componentes.Count - 2], componentes[componentes.Count - 1]);
                                         if (Clo == null)
                                         {
-                                            componentes[i].v_a_p = true;
+                                            componentes[componentes.Count - 2].v_a_p = true;
                                             azimuts.Add(-1);
                                             azimuts.Add(-1);
                                         }
@@ -16969,81 +17004,233 @@ namespace Logica {
                                         {
                                             if (Comprobar(Clo))
                                             {
-                                                if (Clo.mTipo == EjeDeTrazado.puntosDelEje.EjeTrazado.tipoClotoide.salida)
+                                                azimuts.Add(Az_Clotoide_Curvas_MS(Clo)[0]);
+                                                azimuts.Add(Az_Clotoide_Curvas_MS(Clo)[1]);
+                                            }
+                                            else
+                                            {
+                                                componentes[componentes.Count - 2].v_a_p = true;
+                                                azimuts.Add(-1);
+                                                azimuts.Add(-1);
+                                            }
+                                        }
+                                        ultima_clo_crc = true;
+                                    }
+                                }
+                                //Clotoides intermedias
+                                if (componentes.Count > 3)
+                                {
+                                    for (int i = intermedias; i < componentes.Count - 2; i++)
+                                    {
+                                        //se busca si una recta esta entre 2 curvas para crear una clotoide de entrada y otra de salida
+                                        if (componentes[i - 1].Tipo == 2 && componentes[i + 1].Tipo == 2 && componentes[i].Tipo == 1)
+                                        {
+                                            if (curva_gran_radio)
+                                            {
+                                                if (componentes[i].Tipo == 1 && componentes[i + 1].Tipo == 2)
                                                 {
-                                                    /*double az11=Az_Clotoide_Curvas_MS_Antihoraria_Prueba(Clo, i)[0];
-                                                    double az21 = Az_Clotoide_Curvas_MS_Antihoraria_Prueba(Clo, i)[1];
-                                                    double az111 = Az_Clotoide_Curvas_MS_Antihoraria_Prueba(Clo, i+1)[0];
-                                                    double az211 = Az_Clotoide_Curvas_MS_Antihoraria_Prueba(Clo, i+1)[1];*/
-                                                    azimuts.Add(Az_Clotoide_Curvas_MS_Antihoraria_Prueba(Clo, i)[0]);
-                                                    azimuts.Add(Az_Clotoide_Curvas_MS_Antihoraria_Prueba(Clo, i)[1]);
-                                                    /*azimuts.Add(Az_Clotoide_Curvas_MS_Antihoraria(Clo)[0]);
-                                                    azimuts.Add(Az_Clotoide_Curvas_MS_Antihoraria(Clo)[1]);*/
+                                                    if (i + 2 < componentes.Count)
+                                                    {
+                                                        if (componentes[i].Tipo == 1 && componentes[i + 2].Tipo == 1 && (componentes[i + 1].radio > gran_r || componentes[i + 1].curva_creada) ||
+                                                            (componentes[i].Tipo == 1 && componentes[i + 2].Tipo == 1 && Math.Abs(componentes[i].azr - componentes[i + 2].azr) <= 2))
+                                                        {
+                                                            EjeDeTrazado.componentes.Curva Curva = Curva_Gran_Radio(componentes[i], componentes[i + 1], componentes[i + 2]);
+                                                            double[] pr2 = Curva.getPointAtDist(0);
+                                                            Puntos_rectas.Add(new Point2d(pr2[0], pr2[1]));
+                                                            double[] pr3 = Curva.getPointAtDist(Curva.getPkFinal());
+                                                            Puntos_rectas.Add(new Point2d(pr3[0], pr3[1]));
+                                                            curva_gran_radio = true;
+                                                           /* azimuts.Add(componentes[i].azr);
+                                                            azimuts.Add(componentes[i + 2].azr);*/
+                                                        if (componentes[i+1].direccion == EjeTrazado.sentidoCurva.Antihorario && componentes[i].azr > componentes[i+2].azr)
+                                                        {
+                                                            azimuts.Add(componentes[i].azr);
+                                                            azimuts.Add(componentes[i+2].azr);
+                                                        }
+                                                        else if (componentes[i+1].direccion == EjeTrazado.sentidoCurva.Horario && componentes[i].azr < componentes[i+2].azr)
+                                                        {
+                                                            azimuts.Add(componentes[i].azr);
+                                                            azimuts.Add(componentes[i+2].azr);
+                                                        }
+                                                        else
+                                                        {
+                                                            azimuts.Add(componentes[i+1].azte);
+                                                            azimuts.Add(componentes[i+1].azts);
+                                                        }
+                                                    }
+                                                        else
+                                                        {
+                                                            curva_gran_radio = false;
+                                                            EjeDeTrazado.componentes.Clotoide Clor = Recta_Curva(componentes[i], componentes[i + 1], 1);
+                                                            double[] prp = Clor.getPointAtDist(0);
+                                                            Puntos_rectas.Add(new Point2d(prp[0], prp[1]));
+                                                            azimuts.Add(Az_Clotoide(Clor));
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        curva_gran_radio = false;
+                                                        EjeDeTrazado.componentes.Clotoide Clo = Recta_Curva(componentes[i], componentes[i + 1], 1);
+                                                        double[] pr = Clo.getPointAtDist(0);
+                                                        Puntos_rectas.Add(new Point2d(pr[0], pr[1]));
+                                                        azimuts.Add(Az_Clotoide(Clo));
+                                                    }
+
+                                                }
+                                            }
+                                            else
+                                            {
+                                                if ((componentes[i].Tipo == 1 && componentes[i + 2].Tipo == 1 && (componentes[i + 1].radio > gran_r || componentes[i + 1].curva_creada))|| 
+                                                    (componentes[i].Tipo == 1 && componentes[i + 2].Tipo == 1 && Math.Abs(componentes[i].azr - componentes[i + 2].azr) <= 2)) /*&& 
+                                                (componentes[i].creacion != 2 && componentes[i + 2].creacion != 2) && 
+                                                (componentes[i].creacion != 1 && componentes[i + 2].creacion != 1)*/
+                                                /*if (componentes[i].Tipo == 1 && componentes[i + 2].Tipo == 1 &&
+                                                (Math.Abs(componentes[i].azr - componentes[i + 2].azr) <= 2 && componentes[i + 1].radio > gran_r) &&
+                                                (componentes[i].creacion != 2 && componentes[i + 2].creacion != 2) &&
+                                                (componentes[i].creacion != 1 && componentes[i + 2].creacion != 1))*/
+                                                {
+
+                                                    EjeDeTrazado.componentes.Clotoide Clo = Curva_Recta(componentes[i - 1], componentes[i], 2);
+                                                    if (Clo != null)
+                                                    {
+                                                        azimuts.Add(Az_Clotoide(Clo));
+                                                        double[] pr1 = Clo.getPointAtDist(Clo.getPkFinal());
+                                                        Puntos_rectas.Add(new Point2d(pr1[0], pr1[1]));
+                                                        EjeDeTrazado.componentes.Curva Curva = Curva_Gran_Radio(componentes[i], componentes[i + 1], componentes[i + 2]);
+                                                        double[] pr2 = Curva.getPointAtDist(0);
+                                                        Puntos_rectas.Add(new Point2d(pr2[0], pr2[1]));
+                                                        double[] pr3 = Curva.getPointAtDist(Curva.getPkFinal());
+                                                        Puntos_rectas.Add(new Point2d(pr3[0], pr3[1]));
+                                                        curva_gran_radio = true;
+                                                        /*azimuts.Add(componentes[i].azr);
+                                                        azimuts.Add(componentes[i + 2].azr);*/
+                                                    if (componentes[i + 1].direccion == EjeTrazado.sentidoCurva.Antihorario && componentes[i].azr > componentes[i + 2].azr)
+                                                    {
+                                                        azimuts.Add(componentes[i].azr);
+                                                        azimuts.Add(componentes[i + 2].azr);
+                                                    }
+                                                    else if (componentes[i + 1].direccion == EjeTrazado.sentidoCurva.Horario && componentes[i].azr < componentes[i + 2].azr)
+                                                    {
+                                                        azimuts.Add(componentes[i].azr);
+                                                        azimuts.Add(componentes[i + 2].azr);
+                                                    }
+                                                    else
+                                                    {
+                                                        azimuts.Add(componentes[i + 1].azte);
+                                                        azimuts.Add(componentes[i + 1].azts);
+                                                    }
+                                                }
+                                                    else
+                                                    {
+                                                    Puntos_rectas.Add(new Point2d());
+                                                    Puntos_rectas.Add(new Point2d());
+                                                    Puntos_rectas.Add(new Point2d());
+                                                    azimuts.Add(-1);
+                                                    azimuts.Add(-1);
+                                                    azimuts.Add(-1);
+                                                        componentes[i - 1].v_m_g = true;
+                                                    }
+
                                                 }
                                                 else
                                                 {
-                                                    /*double az12=Az_Clotoide_Curvas_MS_Prueba(Clo, i)[0];
-                                                    double az22=Az_Clotoide_Curvas_MS_Prueba(Clo, i)[1];
-                                                    double az122 = Az_Clotoide_Curvas_MS_Prueba(Clo, i+1)[0];
-                                                    double az222 = Az_Clotoide_Curvas_MS_Prueba(Clo, i+1)[1];*/
-                                                    azimuts.Add(Az_Clotoide_Curvas_MS_Prueba(Clo, i)[0]);
-                                                    azimuts.Add(Az_Clotoide_Curvas_MS_Prueba(Clo, i)[1]);
-                                                    /*azimuts.Add(Az_Clotoide_Curvas_MS(Clo)[0]);
-                                                    azimuts.Add(Az_Clotoide_Curvas_MS(Clo)[1]);*/
+                                                    EjeDeTrazado.componentes.Clotoide[] Clotoides = new EjeDeTrazado.componentes.Clotoide[2];
+                                                    Clotoides = Curva_Recta_Curva(componentes[i - 1], componentes[i], componentes[i + 1]);
+                                                    if (Clotoides[0] == null)
+                                                    {
+                                                        componentes[i - 1].v_m_g = true;
+                                                        azimuts.Add(-1);
+                                                        Puntos_rectas.Add(new Point2d());
+                                                    }
+                                                    else
+                                                    {
+                                                        azimuts.Add(Az_Clotoide(Clotoides[0]));
+                                                        double[] pr1 = Clotoides[0].getPointAtDist(Clotoides[0].getPkFinal());
+                                                        Puntos_rectas.Add(new Point2d(pr1[0], pr1[1]));
+                                                    }
+                                                    if (Clotoides[1] == null)
+                                                    {
+                                                        componentes[i + 1].v_m_g = true;
+                                                        azimuts.Add(-1);
+                                                        Puntos_rectas.Add(new Point2d());
+                                                    }
+                                                    else
+                                                    {
+                                                        double[] pr2 = Clotoides[1].getPointAtDist(0);
+                                                        Puntos_rectas.Add(new Point2d(pr2[0], pr2[1]));
+                                                        azimuts.Add(Az_Clotoide(Clotoides[1]));
+                                                    }
                                                 }
-
                                             }
-                                            else
+                                        }
+                                        if (componentes[i].Tipo == 2 && componentes[i + 1].Tipo == 2)
+                                        {
+
+                                            Rellenar_Curva(componentes[i]);
+                                            Rellenar_Curva(componentes[i + 1]);
+                                            EjeDeTrazado.componentes.Clotoide Clo = null;
+                                            if (componentes[i].direccion == componentes[i + 1].direccion)
+                                            {
+                                                Clo = Curva_Curva_M(componentes[i], componentes[i + 1]);
+                                            }
+
+                                            //EjeDeTrazado.componentes.Clotoide Clo = Curva_Curva(componentes[i], componentes[i + 1]);
+                                            if (Clo == null)
                                             {
                                                 componentes[i].v_a_p = true;
                                                 azimuts.Add(-1);
                                                 azimuts.Add(-1);
                                             }
-                                        }
+                                            else
+                                            {
+                                                if (Comprobar(Clo))
+                                                {
+                                                    if (Clo.mTipo == EjeDeTrazado.puntosDelEje.EjeTrazado.tipoClotoide.salida)
+                                                    {
+                                                        /*double az11=Az_Clotoide_Curvas_MS_Antihoraria_Prueba(Clo, i)[0];
+                                                        double az21 = Az_Clotoide_Curvas_MS_Antihoraria_Prueba(Clo, i)[1];
+                                                        double az111 = Az_Clotoide_Curvas_MS_Antihoraria_Prueba(Clo, i+1)[0];
+                                                        double az211 = Az_Clotoide_Curvas_MS_Antihoraria_Prueba(Clo, i+1)[1];*/
+                                                        azimuts.Add(Az_Clotoide_Curvas_MS_Antihoraria_Prueba(Clo, i)[0]);
+                                                        azimuts.Add(Az_Clotoide_Curvas_MS_Antihoraria_Prueba(Clo, i)[1]);
+                                                        /*azimuts.Add(Az_Clotoide_Curvas_MS_Antihoraria(Clo)[0]);
+                                                        azimuts.Add(Az_Clotoide_Curvas_MS_Antihoraria(Clo)[1]);*/
+                                                    }
+                                                    else
+                                                    {
+                                                        /*double az12=Az_Clotoide_Curvas_MS_Prueba(Clo, i)[0];
+                                                        double az22=Az_Clotoide_Curvas_MS_Prueba(Clo, i)[1];
+                                                        double az122 = Az_Clotoide_Curvas_MS_Prueba(Clo, i+1)[0];
+                                                        double az222 = Az_Clotoide_Curvas_MS_Prueba(Clo, i+1)[1];*/
+                                                        azimuts.Add(Az_Clotoide_Curvas_MS_Prueba(Clo, i)[0]);
+                                                        azimuts.Add(Az_Clotoide_Curvas_MS_Prueba(Clo, i)[1]);
+                                                        /*azimuts.Add(Az_Clotoide_Curvas_MS(Clo)[0]);
+                                                        azimuts.Add(Az_Clotoide_Curvas_MS(Clo)[1]);*/
+                                                    }
 
+                                                }
+                                                else
+                                                {
+                                                    componentes[i].v_a_p = true;
+                                                    azimuts.Add(-1);
+                                                    azimuts.Add(-1);
+                                                }
+                                            }
+
+                                        }
                                     }
                                 }
-                            }
 
 
-                            if (ultima_clo_crc && primera_clo_crc)
-                            {
-                                double azfin = azimuts[2];
-                                double azfin2 = azimuts[3];
-                                azimuts.RemoveAt(2);
-                                azimuts.Add(azfin);
-                                azimuts.RemoveAt(2);
-                                azimuts.Add(azfin2);
-                                if (Puntos_rectas.Count > 2)
-                                {
-                                    if (puntos_ultimos)
-                                    {
-                                        if (puntos_rectas_ultimos >= 0)
-                                        {
-                                            Point2d punto1 = new Point2d(Puntos_rectas[puntos_rectas_ultimos].X, Puntos_rectas[puntos_rectas_ultimos].Y);
-                                            Point2d punto2 = new Point2d(Puntos_rectas[puntos_rectas_ultimos + 1].X, Puntos_rectas[puntos_rectas_ultimos + 1].Y);
-                                            Puntos_rectas.RemoveAt(puntos_rectas_ultimos);
-                                            Puntos_rectas.RemoveAt(puntos_rectas_ultimos);
-                                            Puntos_rectas.Add(punto1);
-                                            Puntos_rectas.Add(punto2);
-                                        }
-
-                                    }
-
-                                }
-
-                            }
-                            else if (ultima_clo_crc)
-                            {
-                                if (c_granr_final_i)
+                                if (ultima_clo_crc && primera_clo_crc)
                                 {
                                     double azfin = azimuts[2];
                                     double azfin2 = azimuts[3];
                                     azimuts.RemoveAt(2);
                                     azimuts.Add(azfin);
-                                    azimuts.RemoveAt(3);
+                                    azimuts.RemoveAt(2);
                                     azimuts.Add(azfin2);
-                                    if (Puntos_rectas.Count > 1)
+                                    if (Puntos_rectas.Count > 2)
                                     {
                                         if (puntos_ultimos)
                                         {
@@ -17056,328 +17243,367 @@ namespace Logica {
                                                 Puntos_rectas.Add(punto1);
                                                 Puntos_rectas.Add(punto2);
                                             }
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    double azfin = azimuts[1];
-                                    double azfin2 = azimuts[2];
-                                    azimuts.RemoveAt(1);
-                                    azimuts.Add(azfin);
-                                    azimuts.RemoveAt(1);
-                                    azimuts.Add(azfin2);
-                                    if (Puntos_rectas.Count > 1)
-                                    {
-                                        if (puntos_ultimos)
-                                        {
-                                            if (puntos_rectas_ultimos >= 0)
-                                            {
-                                                Point2d punto1 = new Point2d(Puntos_rectas[puntos_rectas_ultimos].X, Puntos_rectas[puntos_rectas_ultimos].Y);
-                                                Point2d punto2 = new Point2d(Puntos_rectas[puntos_rectas_ultimos + 1].X, Puntos_rectas[puntos_rectas_ultimos + 1].Y);
-                                                Puntos_rectas.RemoveAt(puntos_rectas_ultimos);
-                                                Puntos_rectas.RemoveAt(puntos_rectas_ultimos);
-                                                Puntos_rectas.Add(punto1);
-                                                Puntos_rectas.Add(punto2);
-                                            }
-                                        }
-                                    }
-                                }
-                                
 
-                            }
-                            else
-                            {
-                                if (primera_clo_crc)
-                                {
-                                    if (azimuts.Count > 2)
-                                    {
-                                        if (c_granr_final)
-                                        {
-                                            if (Puntos_rectas.Count % 2 == 1)
-                                            {
-                                                Point2d pr1 = componentes[componentes.Count - 1].lista_puntos[componentes[componentes.Count - 1].lista_puntos.Count - 1].p;
-                                                Puntos_rectas.Add(pr1);
-                                            }
                                         }
-                                        else
-                                        {
-                                            double azfin = azimuts[2];
-                                            azimuts.RemoveAt(2);
-                                            azimuts.Add(azfin);
-                                        }
-                                        
+
                                     }
 
                                 }
+                                else if (ultima_clo_crc)
+                                {
+                                    if (c_granr_final_i)
+                                    {
+                                        double azfin = azimuts[2];
+                                        double azfin2 = azimuts[3];
+                                        azimuts.RemoveAt(2);
+                                        azimuts.Add(azfin);
+                                        azimuts.RemoveAt(3);
+                                        azimuts.Add(azfin2);
+                                        if (Puntos_rectas.Count > 1)
+                                        {
+                                            if (puntos_ultimos)
+                                            {
+                                                if (puntos_rectas_ultimos >= 0)
+                                                {
+                                                    Point2d punto1 = new Point2d(Puntos_rectas[puntos_rectas_ultimos].X, Puntos_rectas[puntos_rectas_ultimos].Y);
+                                                    Point2d punto2 = new Point2d(Puntos_rectas[puntos_rectas_ultimos + 1].X, Puntos_rectas[puntos_rectas_ultimos + 1].Y);
+                                                    Puntos_rectas.RemoveAt(puntos_rectas_ultimos);
+                                                    Puntos_rectas.RemoveAt(puntos_rectas_ultimos);
+                                                    Puntos_rectas.Add(punto1);
+                                                    Puntos_rectas.Add(punto2);
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        double azfin = azimuts[1];
+                                        double azfin2 = azimuts[2];
+                                        azimuts.RemoveAt(1);
+                                        azimuts.Add(azfin);
+                                        azimuts.RemoveAt(1);
+                                        azimuts.Add(azfin2);
+                                        if (Puntos_rectas.Count > 1)
+                                        {
+                                            if (puntos_ultimos)
+                                            {
+                                                if (puntos_rectas_ultimos >= 0)
+                                                {
+                                                    Point2d punto1 = new Point2d(Puntos_rectas[puntos_rectas_ultimos].X, Puntos_rectas[puntos_rectas_ultimos].Y);
+                                                    Point2d punto2 = new Point2d(Puntos_rectas[puntos_rectas_ultimos + 1].X, Puntos_rectas[puntos_rectas_ultimos + 1].Y);
+                                                    Puntos_rectas.RemoveAt(puntos_rectas_ultimos);
+                                                    Puntos_rectas.RemoveAt(puntos_rectas_ultimos);
+                                                    Puntos_rectas.Add(punto1);
+                                                    Puntos_rectas.Add(punto2);
+                                                }
+                                            }
+                                        }
+                                    }
+
+
+                                }
                                 else
                                 {
-                                    if (componentes.Count > 2)
+                                    if (primera_clo_crc)
                                     {
-                                        if (c_granr_final)
+                                        if (azimuts.Count > 2)
                                         {
-                                            if (Puntos_rectas.Count%2==1)
+                                            if (c_granr_final)
                                             {
-                                                Point2d pr1 = componentes[componentes.Count - 1].lista_puntos[componentes[componentes.Count - 1].lista_puntos.Count - 1].p;
-                                                Puntos_rectas.Add(pr1);
+                                                if (Puntos_rectas.Count % 2 == 1)
+                                                {
+                                                    Point2d pr1 = componentes[componentes.Count - 1].lista_puntos[componentes[componentes.Count - 1].lista_puntos.Count - 1].p;
+                                                    Puntos_rectas.Add(pr1);
+                                                }
                                             }
-                                            
-                                        }
-                                        else
-                                        {
-                                            if (c_granr_final_i)
+                                            else
                                             {
                                                 double azfin = azimuts[2];
                                                 azimuts.RemoveAt(2);
                                                 azimuts.Add(azfin);
                                             }
+
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        if (componentes.Count > 2)
+                                        {
+                                            if (c_granr_final)
+                                            {
+                                                if (Puntos_rectas.Count % 2 == 1)
+                                                {
+                                                    Point2d pr1 = componentes[componentes.Count - 1].lista_puntos[componentes[componentes.Count - 1].lista_puntos.Count - 1].p;
+                                                    Puntos_rectas.Add(pr1);
+                                                }
+
+                                            }
                                             else
                                             {
-                                                double azfin = azimuts[1];
-                                                azimuts.RemoveAt(1);
-                                                azimuts.Add(azfin);
+                                                if (c_granr_final_i)
+                                                {
+                                                    if (componentes.Count>3)
+                                                    {
+                                                        double azfin = azimuts[2];
+                                                        azimuts.RemoveAt(2);
+                                                        azimuts.Add(azfin);
+                                                    }
+                                                    
+                                                }
+                                                else
+                                                {
+                                                    if (componentes.Count > 2)
+                                                    {
+                                                        double azfin = azimuts[1];
+                                                        azimuts.RemoveAt(1);
+                                                        azimuts.Add(azfin);
+                                                    }
+                                                        
+                                                }
+
                                             }
-                                            
+
                                         }
-                                        
+
                                     }
 
                                 }
 
-                            }
+                                Casos_Solapes(azimuts, Puntos_rectas, gran_r);
+                                Crear_Casos();
 
-                            Casos_Solapes(azimuts, Puntos_rectas, gran_r);
-                            Crear_Casos();
+                                ViabilidadComponentesStatus viabilidadEnlacesStatus = this.populateViabilidadEnlacesStatus();
 
-                            ViabilidadComponentesStatus viabilidadEnlacesStatus = this.populateViabilidadEnlacesStatus();
+                                if (viabilidadEnlacesStatus.ViabilidadComponentes.Any() && this.viabilidadListeners.Any())
+                                {
+                                    viabilidadEnlacesStatus.CasoResuelto = viabilidadEnlacesStatus.ViabilidadComponentes.ElementAt(0);
+                                    this.viabilidadListeners.ForEach(listener => listener.onNewViabilidadStatus("enlaces", viabilidadEnlacesStatus, this.componentes, whileIndex));
+                                }
 
-                            if (viabilidadEnlacesStatus.ViabilidadComponentes.Any() && this.viabilidadListeners.Any())
-                            {
-                                viabilidadEnlacesStatus.CasoResuelto = viabilidadEnlacesStatus.ViabilidadComponentes.ElementAt(0);
-                                this.viabilidadListeners.ForEach(listener => listener.onNewViabilidadStatus("enlaces", viabilidadEnlacesStatus, this.componentes, whileIndex));
-                            }
-
-                            if (contador == 20000)
-                            {
-                                DialogResult result = MessageBox.Show("Se han ejecutado " + contador + " iteraciones. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
-                                if (result == DialogResult.No)
+                                if (contador == 20000)
                                 {
-                                    terminar = true;
-                                }
-                            }
-                            if (contador == 40000)
-                            {
-                                DialogResult result = MessageBox.Show("Se han ejecutado " + contador + " iteraciones. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
-                                if (result == DialogResult.No)
-                                {
-                                    terminar = true;
-                                }
-                            }
-                            if (contador == 60000)
-                            {
-                                DialogResult result = MessageBox.Show("Se han ejecutado " + contador + " iteraciones. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
-                                if (result == DialogResult.No)
-                                {
-                                    terminar = true;
-                                }
-                            }
-                            if (contador == 80000)
-                            {
-                                DialogResult result = MessageBox.Show("Se han ejecutado " + contador + " iteraciones. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
-                                if (result == DialogResult.No)
-                                {
-                                    terminar = true;
-                                }
-                            }
-                            DateTime tiempo2 = DateTime.Now;
-                            TimeSpan total = new TimeSpan(tiempo2.Ticks - tiempo1.Ticks);
-                            if (total.TotalSeconds > 600 && total.TotalSeconds < 700 && pregunta1)
-                            {
-                                DialogResult result = MessageBox.Show("Se ha ejecutado durante 10 minutos. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
-                                if (result == DialogResult.No)
-                                {
-                                    terminar = true;
-                                }
-                                pregunta1 = false;
-                            }
-                            if (total.TotalSeconds > 1200 && total.TotalSeconds < 1300 && pregunta2)
-                            {
-                                DialogResult result = MessageBox.Show("Se ha ejecutado durante 20 minutos. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
-                                if (result == DialogResult.No)
-                                {
-                                    terminar = true;
-                                }
-                                pregunta2 = false;
-                            }
-                            if (total.TotalSeconds > 1800 && total.TotalSeconds < 1900 && pregunta2)
-                            {
-                                DialogResult result = MessageBox.Show("Se ha ejecutado durante 30 minutos. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
-                                if (result == DialogResult.No)
-                                {
-                                    terminar = true;
-                                }
-                                pregunta3 = false;
-                            }
-                            if (total.TotalSeconds > 2400 && total.TotalSeconds < 2500 && pregunta2)
-                            {
-                                DialogResult result = MessageBox.Show("Se ha ejecutado durante 40 minutos. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
-                                if (result == DialogResult.No)
-                                {
-                                    terminar = true;
-                                }
-                                pregunta4 = false;
-                            }
-                            //Console.Write("TIEMPO: " + total.ToString());
-                            //mostrarCasos_Enlaces();
-                            Modificacion(viabilidadEnlacesStatus, gran_r);
-                            //Comprobar_RCR();
-                            ultima_clo_crc = false;
-
-                            //se añade la iteracion actual a la traza completa de viabilidad del enlace
-                            trazaViabilidadEnlaces.Add(viabilidadEnlacesStatus);
-
-                            whileIndex++;
-                            for (int i = 0; i < componentes.Count && !salir; i++)
-                            {
-                                if (componentes[i].Tipo == 2)
-                                {
-                                    if (componentes[i].solape > solapes)
+                                    DialogResult result = MessageBox.Show("Se han ejecutado " + contador + " iteraciones. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
+                                    if (result == DialogResult.No)
                                     {
-                                        for (int t = 0; t < componentes_iniciales.Count; t++)
+                                        terminar = true;
+                                    }
+                                }
+                                if (contador == 40000)
+                                {
+                                    DialogResult result = MessageBox.Show("Se han ejecutado " + contador + " iteraciones. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
+                                    if (result == DialogResult.No)
+                                    {
+                                        terminar = true;
+                                    }
+                                }
+                                if (contador == 60000)
+                                {
+                                    DialogResult result = MessageBox.Show("Se han ejecutado " + contador + " iteraciones. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
+                                    if (result == DialogResult.No)
+                                    {
+                                        terminar = true;
+                                    }
+                                }
+                                if (contador == 80000)
+                                {
+                                    DialogResult result = MessageBox.Show("Se han ejecutado " + contador + " iteraciones. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
+                                    if (result == DialogResult.No)
+                                    {
+                                        terminar = true;
+                                    }
+                                }
+                                DateTime tiempo2 = DateTime.Now;
+                                TimeSpan total = new TimeSpan(tiempo2.Ticks - tiempo1.Ticks);
+                                if (total.TotalSeconds > 600 && total.TotalSeconds < 700 && pregunta1)
+                                {
+                                    DialogResult result = MessageBox.Show("Se ha ejecutado durante 10 minutos. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
+                                    if (result == DialogResult.No)
+                                    {
+                                        terminar = true;
+                                    }
+                                    pregunta1 = false;
+                                }
+                                if (total.TotalSeconds > 1200 && total.TotalSeconds < 1300 && pregunta2)
+                                {
+                                    DialogResult result = MessageBox.Show("Se ha ejecutado durante 20 minutos. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
+                                    if (result == DialogResult.No)
+                                    {
+                                        terminar = true;
+                                    }
+                                    pregunta2 = false;
+                                }
+                                if (total.TotalSeconds > 1800 && total.TotalSeconds < 1900 && pregunta2)
+                                {
+                                    DialogResult result = MessageBox.Show("Se ha ejecutado durante 30 minutos. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
+                                    if (result == DialogResult.No)
+                                    {
+                                        terminar = true;
+                                    }
+                                    pregunta3 = false;
+                                }
+                                if (total.TotalSeconds > 2400 && total.TotalSeconds < 2500 && pregunta2)
+                                {
+                                    DialogResult result = MessageBox.Show("Se ha ejecutado durante 40 minutos. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
+                                    if (result == DialogResult.No)
+                                    {
+                                        terminar = true;
+                                    }
+                                    pregunta4 = false;
+                                }
+                                //Console.Write("TIEMPO: " + total.ToString());
+                                //mostrarCasos_Enlaces();
+                                Modificacion(viabilidadEnlacesStatus, gran_r);
+                                //Comprobar_RCR();
+                                ultima_clo_crc = false;
+
+                                //se añade la iteracion actual a la traza completa de viabilidad del enlace
+                                trazaViabilidadEnlaces.Add(viabilidadEnlacesStatus);
+
+                                whileIndex++;
+                                for (int i = 0; i < componentes.Count && !salir; i++)
+                                {
+                                    if (componentes[i].Tipo == 2)
+                                    {
+                                        if (componentes[i].solape > solapes)
                                         {
-                                            if (componentes[i].index == componentes_iniciales[t].index)
+                                            for (int t = 0; t < componentes_iniciales.Count; t++)
                                             {
-                                                if (componentes_iniciales[t].Tipo == 2)
+                                                if (componentes[i].index == componentes_iniciales[t].index)
                                                 {
-                                                    if (t + 1 < componentes_iniciales.Count - 1)
+                                                    if (componentes_iniciales[t].Tipo == 2)
                                                     {
-                                                        if (componentes_iniciales[t + 1].Tipo == 1)
+                                                        if (t + 1 < componentes_iniciales.Count - 1)
                                                         {
-                                                            componentes_iniciales.RemoveAt(t + 1);
-                                                        }
-                                                    }
-                                                    if ((t == componentes_iniciales.Count - 1 || t == 0) && Componentes[i].Clusterizada)
-                                                    {
-                                                        if (t == 0)
-                                                        {
-                                                            componentes_iniciales.RemoveAt(t + 1);
-
-                                                        }
-                                                        else
-                                                        {
-                                                            componentes_iniciales.RemoveAt(t - 1);
-                                                            t -= 1;
-                                                        }
-
-                                                    }
-                                                    else
-                                                    {
-                                                        if (t == componentes_iniciales.Count - 1)
-                                                        {
-                                                            if (t - 2 > 0)
+                                                            if (componentes_iniciales[t + 1].Tipo == 1)
                                                             {
-                                                                if (componentes_iniciales[t - 2].Tipo == 2)
-                                                                {
-                                                                    componentes_iniciales.RemoveAt(t - 2);
-                                                                    componentes[componentes.Count - 1].solape = 0;
-                                                                    t -= 1;
-                                                                }
+                                                                componentes_iniciales.RemoveAt(t + 1);
                                                             }
                                                         }
+                                                        if ((t == componentes_iniciales.Count - 1 || t == 0) && Componentes[i].Clusterizada)
+                                                        {
+                                                            if (t == 0)
+                                                            {
+                                                                componentes_iniciales.RemoveAt(t + 1);
+
+                                                            }
+                                                            else
+                                                            {
+                                                                componentes_iniciales.RemoveAt(t - 1);
+                                                                t -= 1;
+                                                            }
+
+                                                        }
                                                         else
                                                         {
-                                                            componentes_iniciales.RemoveAt(t);
+                                                            if (t == componentes_iniciales.Count - 1)
+                                                            {
+                                                                if (t - 2 > 0)
+                                                                {
+                                                                    if (componentes_iniciales[t - 2].Tipo == 2)
+                                                                    {
+                                                                        componentes_iniciales.RemoveAt(t - 2);
+                                                                        componentes[componentes.Count - 1].solape = 0;
+                                                                        t -= 1;
+                                                                    }
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                componentes_iniciales.RemoveAt(t);
+                                                            }
                                                         }
-                                                    }
 
-                                                    if (t - 1 > 0)
-                                                    {
-                                                        if (componentes_iniciales[t - 1].Tipo == 1)
+                                                        if (t - 1 > 0)
                                                         {
-                                                            componentes_iniciales.RemoveAt(t - 1);
+                                                            if (componentes_iniciales[t - 1].Tipo == 1)
+                                                            {
+                                                                componentes_iniciales.RemoveAt(t - 1);
+                                                            }
                                                         }
-                                                    }
 
-                                                    //MessageBox.Show("Se ha borrado una entidad");
-                                                    Crear_Nuevas_Componentes();
-                                                    salir = true;
-                                                    break;
+                                                        //MessageBox.Show("Se ha borrado una entidad");
+                                                        Crear_Nuevas_Componentes();
+                                                        salir = true;
+                                                        break;
+                                                    }
                                                 }
                                             }
                                         }
                                     }
-                                }
-                                else
-                                {
-                                    if (componentes[i].solape > solapes * 10)
+                                    else
                                     {
-                                        for (int t = 0; t < componentes_iniciales.Count; t++)
+                                        if (componentes[i].solape > solapes * 10)
                                         {
-                                            if (componentes[i].index == componentes_iniciales[t].index)
+                                            for (int t = 0; t < componentes_iniciales.Count; t++)
                                             {
-                                                if (componentes_iniciales[t].Tipo == 2)
+                                                if (componentes[i].index == componentes_iniciales[t].index)
                                                 {
-                                                    if (t + 1 < componentes_iniciales.Count - 1)
+                                                    if (componentes_iniciales[t].Tipo == 2)
                                                     {
-                                                        if (componentes_iniciales[t + 1].Tipo == 1)
+                                                        if (t + 1 < componentes_iniciales.Count - 1)
                                                         {
-                                                            componentes_iniciales.RemoveAt(t + 1);
+                                                            if (componentes_iniciales[t + 1].Tipo == 1)
+                                                            {
+                                                                componentes_iniciales.RemoveAt(t + 1);
+                                                            }
                                                         }
-                                                    }
 
-                                                    componentes_iniciales.RemoveAt(t);
-                                                    if (t - 1 > 0)
-                                                    {
-                                                        if (componentes_iniciales[t - 1].Tipo == 1)
+                                                        componentes_iniciales.RemoveAt(t);
+                                                        if (t - 1 > 0)
                                                         {
-                                                            componentes_iniciales.RemoveAt(t - 1);
+                                                            if (componentes_iniciales[t - 1].Tipo == 1)
+                                                            {
+                                                                componentes_iniciales.RemoveAt(t - 1);
+                                                            }
                                                         }
-                                                    }
 
-                                                    //MessageBox.Show("Se ha borrado una entidad");
-                                                    Crear_Nuevas_Componentes();
-                                                    salir = true;
-                                                    break;
+                                                        //MessageBox.Show("Se ha borrado una entidad");
+                                                        Crear_Nuevas_Componentes();
+                                                        salir = true;
+                                                        break;
+                                                    }
                                                 }
                                             }
                                         }
                                     }
+                                    if (salir)
+                                    {
+                                        break;
+                                    }
                                 }
-                                if (salir)
-                                {
-                                    break;
-                                }
+                                Comprobar_Curvas();
+                                //&& contador < 10000
+                            } while (!salir && this.Comprobar_casos_solapes() && !terminar);
+                            if (salir && !terminar)
+                            {
+                                viabilidad_1(gran_r);
                             }
-                            Comprobar_Curvas();
-                            //&& contador < 10000
-                        } while (!salir && this.Comprobar_casos_solapes() && !terminar );
-                        if (salir && !terminar)
-                        {
-                            viabilidad_1(gran_r);
-                        }
-                        if (terminar)
-                        {
-                            salir = false;
+                            if (terminar)
+                            {
+                                salir = false;
+                            }
                         }
                     }
                 }
-            }
-            List<Componente> lista_aux = new List<Componente>();
-            for (int i = 0; i < componentes_general.Count; i++)
-            {
-                for (int t = 0; t < componentes_general[i].Count; t++)
+                List<Componente> lista_aux = new List<Componente>();
+                for (int i = 0; i < componentes_general.Count; i++)
                 {
-                    lista_aux.Add(componentes_general[i][t]);
+                    for (int t = 0; t < componentes_general[i].Count; t++)
+                    {
+                        lista_aux.Add(componentes_general[i][t]);
+                    }
                 }
-            }
-            componentes = lista_aux;
+                componentes = lista_aux;
+
+                if (!terminar)
+                {
+                    Introducir_Curvas(gran_r, solapes);
+                }
+
+                return trazaViabilidadEnlaces;
+
             
-            if (!terminar)
-            {
-                Introducir_Curvas(gran_r, solapes);
-            }
-            
-            return trazaViabilidadEnlaces;
         }
         public List<ViabilidadComponentesStatus> Enlaces2(double gran_r, int solapes)
         {
@@ -18665,43 +18891,32 @@ namespace Logica {
                 {
                     if (componentes[0].Tipo == 1 && componentes[1].Tipo == 2)//si es recta--curva
                     {
-
-                        int cont = 0;
-                        while (cont < 1000)//el 1000 se pone para las comprobaciones
+                        if (componentes[0].Tipo == 1 && componentes[2].Tipo == 1 &&
+                                            (Math.Abs(componentes[0].azr - componentes[2].azr) <= 2 || componentes[1].radio > gran_r))
                         {
-                            Rellenar_Recta(componentes[0]);
-                            Rellenar_Curva(componentes[1]);
-                            cont++;
-                            EjeDeTrazado.componentes.Clotoide Clo = Recta_Curva(componentes[0], componentes[1], 1);
-                            if (Clo.getPuntoEntrada == Clo.getPuntoSalida || double.IsNaN(Clo.getQe()))
+                            EjeDeTrazado.componentes.Curva Curva = Curva_Gran_Radio(componentes[0], componentes[1], componentes[2]);
+
+                            curva_gran_radio = true;
+                            double xx = componentes[0].lista_puntos[0].p.X;
+                            double yy = componentes[0].lista_puntos[0].p.Y;
+                            tadLayShare.puntos.Punto3d pl1 = new tadLayShare.puntos.Punto3d(xx, yy, 0);
+                            tadLayShare.puntos.Punto3d pl2 = new tadLayShare.puntos.Punto3d(Curva.getPointAtDist(0)[0], Curva.getPointAtDist(0)[1], 0);
+                            EjeDeTrazado.componentes.Linea linea = new EjeDeTrazado.componentes.Linea(pl1, pl2, 0, 0, componentes[1].azr);
+                            mcomponenetes.Add(linea);
+                            mcomponenetes.Add(Curva);
+                            clo_salida = false;
+                            Clo_Entre_Curvas = null;
+                        }
+                        else
+                        {
+                            int cont = 0;
+                            while (cont < 1000)//el 1000 se pone para las comprobaciones
                             {
-                                if (componentes[1].direccion == EjeTrazado.sentidoCurva.Antihorario)
-                                {
-                                    Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
-                                }
-                                else
-                                {
-                                    Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
-                                }
-                                //Dibujar_entidad(0);
-
-                            }
-                            else
-                            {
-                                if ((componentes[0].lista_puntos[0].p.X < componentes[0].lista_puntos[1].p.X && componentes[0].lista_puntos[0].p.X < Clo.getPointAtDist(0)[0]) ||
-                                    (componentes[0].lista_puntos[0].p.X > componentes[0].lista_puntos[1].p.X && componentes[0].lista_puntos[0].p.X > Clo.getPointAtDist(0)[0]))
-                                {
-                                    //Dibujar_Clotoide(Clo);
-
-                                    tadLayShare.puntos.Punto3d pl1 = new tadLayShare.puntos.Punto3d(componentes[0].lista_puntos[0].p.X, componentes[0].lista_puntos[0].p.Y, 0);
-                                    tadLayShare.puntos.Punto3d pl2 = new tadLayShare.puntos.Punto3d(Clo.getPointAtDist(0)[0], Clo.getPointAtDist(0)[1], 0);
-
-                                    EjeDeTrazado.componentes.Linea linea = new EjeDeTrazado.componentes.Linea(pl1, pl2, 0, 0, componentes[0].azr);
-                                    mcomponenetes.Add(linea);
-                                    mcomponenetes.Add(Clo);
-                                    break;
-                                }
-                                else
+                                Rellenar_Recta(componentes[0]);
+                                Rellenar_Curva(componentes[1]);
+                                cont++;
+                                EjeDeTrazado.componentes.Clotoide Clo = Recta_Curva(componentes[0], componentes[1], 1);
+                                if (Clo.getPuntoEntrada == Clo.getPuntoSalida || double.IsNaN(Clo.getQe()))
                                 {
                                     if (componentes[1].direccion == EjeTrazado.sentidoCurva.Antihorario)
                                     {
@@ -18711,9 +18926,39 @@ namespace Logica {
                                     {
                                         Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
                                     }
+                                    //Dibujar_entidad(0);
+
+                                }
+                                else
+                                {
+                                    if ((componentes[0].lista_puntos[0].p.X < componentes[0].lista_puntos[1].p.X && componentes[0].lista_puntos[0].p.X < Clo.getPointAtDist(0)[0]) ||
+                                        (componentes[0].lista_puntos[0].p.X > componentes[0].lista_puntos[1].p.X && componentes[0].lista_puntos[0].p.X > Clo.getPointAtDist(0)[0]))
+                                    {
+                                        //Dibujar_Clotoide(Clo);
+
+                                        tadLayShare.puntos.Punto3d pl1 = new tadLayShare.puntos.Punto3d(componentes[0].lista_puntos[0].p.X, componentes[0].lista_puntos[0].p.Y, 0);
+                                        tadLayShare.puntos.Punto3d pl2 = new tadLayShare.puntos.Punto3d(Clo.getPointAtDist(0)[0], Clo.getPointAtDist(0)[1], 0);
+
+                                        EjeDeTrazado.componentes.Linea linea = new EjeDeTrazado.componentes.Linea(pl1, pl2, 0, 0, componentes[0].azr);
+                                        mcomponenetes.Add(linea);
+                                        mcomponenetes.Add(Clo);
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        if (componentes[1].direccion == EjeTrazado.sentidoCurva.Antihorario)
+                                        {
+                                            Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
+                                        }
+                                        else
+                                        {
+                                            Girar_Recta(0, Girar_acercar(componentes[0].lista_puntos, componentes[1], componentes[0].azr), componentes[0].azr);
+                                        }
+                                    }
                                 }
                             }
                         }
+                        
                     }
                     else if (componentes[0].Tipo == 2 && componentes[1].Tipo == 1 && componentes[2].Tipo == 2)//curva--recta--curva
                     {
@@ -18786,7 +19031,8 @@ namespace Logica {
                                 {
                                     if (curva_gran_radio)
                                     {
-                                        if (componentes[i].Tipo == 1 && componentes[i + 2].Tipo == 1 && (Math.Abs(componentes[i].azr - componentes[i + 2].azr) <= 2 || componentes[i + 1].radio > gran_r))
+                                        if (componentes[i].Tipo == 1 && componentes[i + 2].Tipo == 1 && 
+                                            (Math.Abs(componentes[i].azr - componentes[i + 2].azr) <= 2 || componentes[i + 1].radio > gran_r))
                                         {
 
                                             EjeDeTrazado.componentes.Curva Curva = Curva_Gran_Radio(componentes[i], componentes[i + 1], componentes[i + 2]);
@@ -18826,7 +19072,8 @@ namespace Logica {
                                     {
 
                                         //if (componentes[i].Tipo == 1 && componentes[i + 2].Tipo == 1 && (Math.Abs(componentes[i].azr - componentes[i + 2].azr) <= 2 || componentes[i + 1].radio > gran_r) && (componentes[i].creacion != 2 && componentes[i + 2].creacion != 2))
-                                        if (componentes[i].Tipo == 1 && componentes[i + 2].Tipo == 1 && (Math.Abs(componentes[i].azr - componentes[i + 2].azr) <= 2 || componentes[i + 1].radio > gran_r))
+                                        if (componentes[i].Tipo == 1 && componentes[i + 2].Tipo == 1 && 
+                                            (Math.Abs(componentes[i].azr - componentes[i + 2].azr) <= 2 || componentes[i + 1].radio > gran_r))
                                         {
                                             EjeDeTrazado.componentes.Clotoide Clo = Curva_Recta(componentes[i - 1], componentes[i], 2);
 
@@ -20351,15 +20598,44 @@ namespace Logica {
                 }
             }
             /*
+             * Caso 6
+             */
+            if (modificar)
+            {
+                for (int i = 0; i < componentes.Count - 1; i++)
+                {
+                    if (componentes[i].caso6_e == true)
+                    {
+                        if (i == 76 || i == 75 || i == 77)
+                        {
+
+                        }
+                        ViabilidadComponente via = viabilidadEnlacesStatus.ViabilidadComponentes.Where(viabilidad => viabilidad.Componente.Equals(Componentes[i]) && viabilidad.Caso == 6).FirstOrDefault();
+                        viabilidadEnlacesStatus.CasoResuelto = via;
+                        modificar = Resolver_caso6(i);
+                        if (!modificar)
+                        {
+                            if (i >= 0 && i <= componentes.Count - 1)
+                            {
+                                componentes[i].solape += 1;
+                            }
+                            else
+                            {
+
+                            }
+                            break;
+                        }
+                    }
+                }
+                Rellenar_Componentes();
+                this.viabilidad_Extremos();
+            }
+            /*
              * Caso 3
              */
             if (modificar) {
                 for (int i = 0; i <= componentes.Count - 1; i++) {
                     if (componentes[i].caso3_e == true) {
-                        if (i == 76 || i == 75 || i == 77)
-                        {
-
-                        }
                         ViabilidadComponente via = viabilidadEnlacesStatus.ViabilidadComponentes.Where(viabilidad => viabilidad.Componente.Equals(Componentes[i]) && viabilidad.Caso == 3).FirstOrDefault();
                         viabilidadEnlacesStatus.CasoResuelto = via;
                         modificar = Resolver_caso3(i);
@@ -20405,36 +20681,7 @@ namespace Logica {
                     }
                 }
             }
-            /*
-             * Caso 6
-             */
-            if (modificar) {
-                for (int i = 0; i < componentes.Count - 1; i++) {
-                    if (componentes[i].caso6_e == true) {
-                        if (i == 76 || i == 75 || i == 77)
-                        {
-
-                        }
-                        ViabilidadComponente via = viabilidadEnlacesStatus.ViabilidadComponentes.Where(viabilidad => viabilidad.Componente.Equals(Componentes[i]) && viabilidad.Caso == 6).FirstOrDefault();
-                        viabilidadEnlacesStatus.CasoResuelto = via;
-                        modificar = Resolver_caso6(i);
-                        if (!modificar) 
-                        {
-                            if (i >= 0 && i <= componentes.Count - 1)
-                            {
-                                componentes[i].solape += 1;
-                            }
-                            else
-                            {
-
-                            }
-                            break; 
-                        }
-                    }
-                }
-                Rellenar_Componentes();
-                this.viabilidad_Extremos();
-            }
+            
             /*
              * Caso 7
              */
@@ -21542,7 +21789,7 @@ namespace Logica {
             tadLayShare.puntos.Punto3d p2 = new tadLayShare.puntos.Punto3d(xm_1, ym_1, 0);
             tadLayShare.puntos.Punto3d p3 = new tadLayShare.puntos.Punto3d(xm_0, ym_0, 0);
 
-                Dibujar_r(p3, p2);
+               // Dibujar_r(p3, p2);
             //azimut recta
             Punto p_az = new Punto();
             //xc = x_p_1;
@@ -21746,7 +21993,7 @@ namespace Logica {
             int contador = 0;
             while (!salir) {
                 contador++;
-                if (contador > 15000) {
+                if (contador > 10001) {
                     break;
                 }
                 if (!accion) {
@@ -23384,7 +23631,7 @@ namespace Logica {
                             componentes[i].fin = fin;
                             Rellenar_Recta(componentes[i]);
                             //i += cont_r - 1;
-                            //i--;
+                            i--;
                         }
                     }
                 }
@@ -23400,88 +23647,7 @@ namespace Logica {
                 MessageBox.Show("No se respeta la tolerancia en la recta comprendida entre:"+mensaje);
 
             }
-            /*           for (double x=0;x<2;x+=0.1)
-                       {
-                           for (int i = 0; i < componentes.Count - 1; i++)
-                           {
-                               /*
-                                * segunda comprobación: si hay 2 rectas o mas entre 2 curvas en el mismo sentido se crea una sola recta 
-                                */
-            /*                   List<Tuple<List<Punto>, double[], int>> Listas_rectas = new List<Tuple<List<Punto>, double[], int>>();//para rectas
-                               int cont_r = 2;
-                               if (componentes[i].Tipo == 1 && componentes[i + 1].Tipo == 1)
-                               {
-                                   Rellenar_Recta(componentes[i]);
-                                   Rellenar_Recta(componentes[i + 1]);
-                                   double dis1 = Distancia(componentes[i].lista_puntos[0].p, componentes[i].lista_puntos[componentes[i].lista_puntos.Count - 1].p);
-                                   double dis2 = Distancia(componentes[i + 1].lista_puntos[0].p, componentes[i + 1].lista_puntos[componentes[i + 1].lista_puntos.Count - 1].p);
-                                   double dis = Distancia(componentes[i].lista_puntos[0].p, componentes[i + 1].lista_puntos[componentes[i + 1].lista_puntos.Count - 1].p);
-                                   List<Punto> Recta_inicial = new List<Punto>();
-                                   if ((Math.Abs(componentes[i].azr - componentes[i + 1].azr) < x && (dis1<10 || dis2<10)) || (Math.Abs(componentes[i].azr - componentes[i + 1].azr) < 360 && Math.Abs(componentes[i].azr - componentes[i + 1].azr) > 358))
-                                   {
 
-                                       foreach (Punto p in componentes[i].lista_puntos)
-                                       {
-                                           Recta_inicial.Add(p);
-                                       }
-                                       foreach (Punto p in componentes[i + 1].lista_puntos)
-                                       {
-                                           Recta_inicial.Add(p);
-                                       }
-                                       if (componentes.Count > cont_r + i)
-                                       {
-                                           if (componentes[i + cont_r].Tipo == 1)
-                                           {
-                                               Rellenar_Recta(componentes[i + cont_r]);
-                                           }
-                                           while (componentes[i + cont_r].Tipo == 1 && (Math.Abs(componentes[i].azr - componentes[i + cont_r].azr) < x) || (Math.Abs(componentes[i].azr - componentes[i + cont_r].azr) < 360 && Math.Abs(componentes[i].azr - componentes[i + cont_r].azr) > 358))
-                                           {
-                                               foreach (Punto p in componentes[i + cont_r].lista_puntos)
-                                               {
-                                                   Recta_inicial.Add(p);
-                                               }
-
-                                               cont_r++;
-                                               if (componentes.Count == cont_r + i)
-                                               {
-                                                   break;
-                                               }
-                                               Rellenar_Recta(componentes[i + cont_r]);
-                                           }
-                                       }
-                                       cont_r--;
-                                       if (componentes[i].azr > 340 || componentes[i].azr < 20 || (componentes[i].azr > 160 && componentes[i].azr < 200))
-                                       {
-                                           Listas_rectas.Add(ajuste_recta_vertical(Recta_inicial, 0));
-                                       }
-                                       else
-                                       {
-                                           Listas_rectas.Add(ajuste_recta(Recta_inicial, 0));
-                                       }
-
-                                       int ini = componentes[i].ini;
-                                       int fin = componentes[i + cont_r].fin;
-                                       int borrar = cont_r;
-                                       while (borrar > 1)
-                                       {
-                                           componentes.RemoveAt(borrar + i);
-                                           borrar--;
-                                       }
-                                       componentes.RemoveAt(i + 1);
-                                       componentes.RemoveAt(i);
-                                       componentes.Insert(i, new Componente(Listas_rectas[Listas_rectas.Count - 1].Item1[0], 1));
-                                       componentes[i].add(Listas_rectas[Listas_rectas.Count - 1].Item1[Listas_rectas[Listas_rectas.Count - 1].Item1.Count - 1]);
-                                       componentes[i].ini = ini;
-                                       componentes[i].fin = fin;
-                                       Rellenar_Recta(componentes[i]);
-                                       //i += cont_r - 1;
-                                       //i--;
-                                   }
-
-                               }
-                           }
-                       }
-*/
             for (int i = 0; i < componentes.Count - 1; i++)
                            {
                                List<Tuple<List<Punto>, double[], int>> Listas_rectas = new List<Tuple<List<Punto>, double[], int>>();//para rectas
@@ -23765,6 +23931,124 @@ namespace Logica {
                 }
             }
 
+
+            for (int i=1;i<componentes.Count-2;i++) 
+            {
+                if (componentes[i].Tipo==2 && componentes[i+1].Tipo == 2 && componentes[i].direccion == componentes[i + 1].direccion)
+                {
+                    if (componentes[i].direccion== EjeDeTrazado.puntosDelEje.EjeTrazado.sentidoCurva.Horario)
+                    {
+                        if (componentes[i].azte< componentes[i+1].azts)
+                        {
+                            if (componentes[i+1].azts- componentes[i].azte<10)
+                            {
+                                if (componentes[i].radio > componentes[i+1].radio)
+                                {
+                                    if (componentes[i].radio- componentes[i+1].radio< componentes[i].radio*0.25)
+                                    {
+                                        Clusterizar(i);
+                                        i--;
+                                    }
+                                }
+                                else
+                                {
+                                    if (componentes[i+1].radio - componentes[i].radio < componentes[i+1].radio * 0.25)
+                                    {
+                                        Clusterizar(i);
+                                        i--;
+                                    }
+                                }
+                                //clusterizar
+                            }
+                        }
+                        else
+                        {
+                            if (360- componentes[i].azte +componentes[i + 1].azts<10)
+                            {
+                                if (componentes[i].radio > componentes[i + 1].radio)
+                                {
+                                    if (componentes[i].radio - componentes[i + 1].radio < componentes[i].radio * 0.25)
+                                    {
+                                        Clusterizar(i);
+                                        i--;
+                                    }
+                                }
+                                else
+                                {
+                                    if (componentes[i + 1].radio - componentes[i].radio < componentes[i + 1].radio * 0.25)
+                                    {
+                                        Clusterizar(i);
+                                        i--;
+                                    }
+                                }
+                                //clusterizar
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (componentes[i].azte> componentes[i + 1].azts)
+                        {
+                            if (componentes[i].azte - componentes[i+1].azts < 10)
+                            {
+                                if (componentes[i].radio > componentes[i + 1].radio)
+                                {
+                                    if (componentes[i].radio - componentes[i + 1].radio < componentes[i].radio * 0.25)
+                                    {
+                                        Clusterizar(i); 
+                                        i--;
+
+                                    }
+                                }
+                                else
+                                {
+                                    if (componentes[i + 1].radio - componentes[i].radio < componentes[i + 1].radio * 0.25)
+                                    {
+
+                                        Clusterizar(i);
+                                        i--;
+                                    }
+                                }
+                                //clusterizar
+                            }
+                        }
+                        else
+                        {
+                            if (360 - componentes[i+1].azts + componentes[i].azte < 10)
+                            {
+                                if (componentes[i].radio > componentes[i + 1].radio)
+                                {
+                                    if (componentes[i].radio - componentes[i + 1].radio < componentes[i].radio * 0.25)
+                                    {
+                                        Clusterizar(i);
+                                        i--;
+                                    }
+                                }
+                                else
+                                {
+                                    if (componentes[i + 1].radio - componentes[i].radio < componentes[i + 1].radio * 0.25)
+                                    {
+                                        Clusterizar(i);
+                                        i--;
+                                    }
+                                }
+                                //clusterizar
+                            }
+                        }
+                    }
+
+                }
+            }
+            for (int i=1;i<componentes.Count-1;i++)
+            {
+                if (componentes[i].radio>6000 && componentes[i+1].radio > 6000 && componentes[i + 1].direccion== componentes[i].direccion)
+                {
+                    if (Math.Abs(componentes[i].azte- componentes[i+1].azts)<2)
+                    {
+                        Clusterizar(i);
+                    }
+                }
+            }
             this.Rellenar_Componentes();
 
         }
@@ -23884,7 +24168,7 @@ namespace Logica {
                 tadLayShare.puntos.Punto3d p2 = new tadLayShare.puntos.Punto3d(componentes[i + 1].lista_puntos[0].p.X, componentes[i + 1].lista_puntos[0].p.Y, 0);
                 tadLayShare.puntos.Punto3d p3 = new tadLayShare.puntos.Punto3d(componentes[i + 1].lista_puntos[1].p.X, componentes[i + 1].lista_puntos[1].p.Y, 0);
 
-                Dibujar_r(p2, p3);
+                //Dibujar_r(p2, p3);
             }
             
         }
@@ -24306,12 +24590,13 @@ namespace Logica {
 //                            if ((componentes[i-1].radio - componentes[i].radio / componentes[i-1].radio) < 0.25)
 //                            {
                                 List<Punto> lista = new List<Punto>();
-                                /*for (int r = componentes[i - 1].ini; r <= componentes[i].fin; r++) {
-                                    lista.Add(new Punto(polilinea[r].p));
-                                }*/
-                            for (int r = 0; r <= componentes[i-1].lista_puntos.Count - 1; r++)
+                            /*for (int r = componentes[i - 1].ini; r <= componentes[i].fin; r++) {
+                                lista.Add(new Punto(polilinea[r].p));
+                            }*/
+
+                            for (int r = 0; r <= componentes[i - 1].lista_puntos.Count - 1; r++)
                             {
-                                lista.Add(new Punto(componentes[i-1].lista_puntos[r].p));
+                                lista.Add(new Punto(componentes[i - 1].lista_puntos[r].p));
                             }
                             for (int r = 0; r <= componentes[i].lista_puntos.Count - 1; r++)
                             {
@@ -24359,14 +24644,14 @@ namespace Logica {
 //                            if ((componentes[i-1].radio - componentes[i].radio / componentes[i-1].radio) < 0.25)
 //                            {
                                 List<Punto> lista = new List<Punto>();
-                                /*for (int r = componentes[i - 1].ini; r <= componentes[i].fin; r++) {
-                                    lista.Add(new Punto(polilinea[r].p));
-                                }*/
-                            for (int r = 0; r <= componentes[i-1].lista_puntos.Count - 1; r++)
+                            /*for (int r = componentes[i - 1].ini; r <= componentes[i].fin; r++) {
+                                lista.Add(new Punto(polilinea[r].p));
+                            }*/
+                            for (int r = 0; r <= componentes[i - 1].lista_puntos.Count - 1; r++)
                             {
-                                lista.Add(new Punto(componentes[i-1].lista_puntos[r].p));
+                                lista.Add(new Punto(componentes[i - 1].lista_puntos[r].p));
                             }
-                            for (int r = 0; r <= componentes[i ].lista_puntos.Count - 1; r++)
+                            for (int r = 0; r <= componentes[i].lista_puntos.Count - 1; r++)
                             {
                                 lista.Add(new Punto(componentes[i].lista_puntos[r].p));
                             }
@@ -24559,15 +24844,15 @@ namespace Logica {
 //                        if ((componentes[i-1].radio - componentes[i].radio / componentes[i-1].radio) < 0.25)
 //                        {
                             List<Punto> lista = new List<Punto>();
-                            /*for (int r = componentes[i - 1].ini; r <= componentes[i].fin; r++)
-                            {
-                                lista.Add(new Punto(polilinea[r].p));
-                            }*/
-                        for (int r = 0; r <= componentes[i-1].lista_puntos.Count - 1; r++)
+                        /*for (int r = componentes[i - 1].ini; r <= componentes[i].fin; r++)
                         {
-                            lista.Add(new Punto(componentes[i-1].lista_puntos[r].p));
+                            lista.Add(new Punto(polilinea[r].p));
+                        }*/
+                        for (int r = 0; r <= componentes[i - 1].lista_puntos.Count - 1; r++)
+                        {
+                            lista.Add(new Punto(componentes[i - 1].lista_puntos[r].p));
                         }
-                        for (int r = 0; r <= componentes[i ].lista_puntos.Count - 1; r++)
+                        for (int r = 0; r <= componentes[i].lista_puntos.Count - 1; r++)
                         {
                             lista.Add(new Punto(componentes[i].lista_puntos[r].p));
                         }
@@ -24768,13 +25053,13 @@ namespace Logica {
 //                            if ((componentes[i-1].radio - componentes[i].radio / componentes[i-1].radio) < 0.25)
 //                            {
                                 List<Punto> lista = new List<Punto>();
-                                /*for (int r = componentes[i-1].ini; r <= componentes[i].fin; r++)
-                                {
-                                    lista.Add(new Punto(polilinea[r].p));
-                                }*/
-                            for (int r = 0; r <= componentes[i-1].lista_puntos.Count - 1; r++)
+                            /*for (int r = componentes[i-1].ini; r <= componentes[i].fin; r++)
                             {
-                                lista.Add(new Punto(componentes[i-1].lista_puntos[r].p));
+                                lista.Add(new Punto(polilinea[r].p));
+                            }*/
+                            for (int r = 0; r <= componentes[i - 1].lista_puntos.Count - 1; r++)
+                            {
+                                lista.Add(new Punto(componentes[i - 1].lista_puntos[r].p));
                             }
                             for (int r = 0; r <= componentes[i].lista_puntos.Count - 1; r++)
                             {
@@ -24821,10 +25106,10 @@ namespace Logica {
 //                            if ((componentes[i].radio - componentes[i + 1].radio / componentes[i].radio) < 0.25)
 //                            {
                                 List<Punto> lista = new List<Punto>();
-                                /*for (int r = componentes[i].ini; r <= componentes[i + 1].fin; r++)
-                                {
-                                    lista.Add(new Punto(polilinea[r].p));
-                                }*/
+                            /*for (int r = componentes[i].ini; r <= componentes[i + 1].fin; r++)
+                            {
+                                lista.Add(new Punto(polilinea[r].p));
+                            }*/
                             for (int r = 0; r <= componentes[i].lista_puntos.Count - 1; r++)
                             {
                                 lista.Add(new Punto(componentes[i].lista_puntos[r].p));
@@ -24939,6 +25224,7 @@ namespace Logica {
                             {
                                 lista.Add(new Punto(componentes[i + 1].lista_puntos[r].p));
                             }
+
                             Tuple<double, double, double> Curva = this.Clusterizacion(lista);
                             Crear_Curva_2Puntos(lista[0], lista[lista.Count - 1], Curva.Item1, Curva.Item2, Curva.Item3, i);
                             //Crear_Curva(componentes[i].ini, componentes[i + 1].fin, Curva.Item1, Curva.Item2, Curva.Item3, i);
@@ -25132,13 +25418,13 @@ namespace Logica {
 //                        if ((componentes[i - 1].radio - componentes[i].radio / componentes[i - 1].radio) < 0.25)
 //                        {
                             List<Punto> lista = new List<Punto>();
-                            /*for (int r = componentes[i - 1].ini; r <= componentes[i].fin; r++)
-                            {
-                                lista.Add(new Punto(polilinea[r].p));
-                            }*/
-                        for (int r = 0; r <= componentes[i-1].lista_puntos.Count - 1; r++)
+                        /*for (int r = componentes[i - 1].ini; r <= componentes[i].fin; r++)
                         {
-                            lista.Add(new Punto(componentes[i-1].lista_puntos[r].p));
+                            lista.Add(new Punto(polilinea[r].p));
+                        }*/
+                        for (int r = 0; r <= componentes[i - 1].lista_puntos.Count - 1; r++)
+                        {
+                            lista.Add(new Punto(componentes[i - 1].lista_puntos[r].p));
                         }
                         for (int r = 0; r <= componentes[i].lista_puntos.Count - 1; r++)
                         {
@@ -25190,13 +25476,13 @@ namespace Logica {
 //                        if ((componentes[i - 1].radio - componentes[i].radio / componentes[i - 1].radio) < 0.25)
 //                        {
                             List<Punto> lista = new List<Punto>();
-                            /*for (int r = componentes[i - 1].ini; r <= componentes[i].fin; r++)
-                            {
-                                lista.Add(new Punto(polilinea[r].p));
-                            }*/
-                        for (int r = 0; r <= componentes[i-1].lista_puntos.Count - 1; r++)
+                        /*for (int r = componentes[i - 1].ini; r <= componentes[i].fin; r++)
                         {
-                            lista.Add(new Punto(componentes[i-1].lista_puntos[r].p));
+                            lista.Add(new Punto(polilinea[r].p));
+                        }*/
+                        for (int r = 0; r <= componentes[i - 1].lista_puntos.Count - 1; r++)
+                        {
+                            lista.Add(new Punto(componentes[i - 1].lista_puntos[r].p));
                         }
                         for (int r = 0; r <= componentes[i].lista_puntos.Count - 1; r++)
                         {
@@ -26707,7 +26993,7 @@ namespace Logica {
                             }
                             else
                             {
-                                Dibujar_Curva(curva);
+                                //Dibujar_Curva(curva);
                                 reiniciar = true;
                             }
                             
@@ -27037,6 +27323,80 @@ namespace Logica {
                     }
                 }
             }
+        }
+        /// <summary>
+        /// elimina los puntos que se encuentran a menor distancia que la que se pasa por parametro
+        /// </summary>
+        /// <param name="dis">distancia</param>
+        public void Eliminar_Distancia(double dis)
+        {
+            int contador = 0;
+            for (int i=0;i<polilinea.Count-1;i++)
+            {
+                if (Distancia(polilinea[i].p,polilinea[i+1].p)<dis)
+                {
+                    polilinea.RemoveAt(i+1);
+                    i--;
+                    contador++;
+                }
+            }
+            MessageBox.Show("Se han eliminado "+ contador+ " puntos cercanos");
+        }
+        /// <summary>
+        /// elimina los puntos que se encuentran a menor distancia que la que se pasa por parametro
+        /// </summary>
+        /// <param name="dis">distancia</param>
+        public int Eliminar_Distancia_m(double dis)
+        {
+            int contador = 0;
+            List<Punto> polilinea_aux = new List<Punto>();
+            foreach (Punto p in polilinea)
+            {
+                polilinea_aux.Add(new Punto(p));
+            }
+            for (int i = 0; i < polilinea_aux.Count - 1; i++)
+            {
+                if (Distancia(polilinea_aux[i].p, polilinea_aux[i + 1].p) < dis)
+                {
+                    i--;
+                    polilinea_aux.RemoveAt(i + 1);
+                    contador++;
+                }
+            }
+            return contador;
+        }
+        /// <summary>
+        /// clusteriza 2 curvas
+        /// </summary>
+        /// <param name="i"></param>
+        public void Clusterizar(int i)
+        {
+            List<Punto> lista = new List<Punto>();
+            if (componentes[i].ini>0 && componentes[i+1].fin>0)
+            {
+                for (int r= componentes[i].ini;r< componentes[i+1].fin; r++)
+                {
+                    lista.Add(new Punto(polilinea[r].p));
+                }
+            }
+            else
+            {
+                for (int r = 0; r <= componentes[i].lista_puntos.Count - 1; r++)
+                {
+                    lista.Add(new Punto(componentes[i].lista_puntos[r].p));
+                }
+                for (int r = 0; r <= componentes[i+1].lista_puntos.Count - 1; r++)
+                {
+                    lista.Add(new Punto(componentes[i+1].lista_puntos[r].p));
+                }
+            }
+            Tuple<double, double, double> Curva = this.Clusterizacion(lista);
+            Crear_Curva_2Puntos(lista[0], lista[lista.Count - 1], Curva.Item1, Curva.Item2, Curva.Item3, i);
+            //Crear_Curva(componentes[i - 1].ini, componentes[i].fin, Curva.Item1, Curva.Item2, Curva.Item3, i - 1);
+            componentes[i].direccion = componentes[i+1].direccion;
+            componentes[i].Clusterizada = true;
+            componentes.RemoveAt(i+1);
+            componentes.RemoveAt(i+1);
         }
     }
 

@@ -21,9 +21,10 @@
         private bool dividir_curvas;
         private double rectas;
         private double curvas;
+        private double dis_eliminar;
 
         int[] orden;
-
+        public double Dis_eliminar { get => dis_eliminar; set => dis_eliminar = value; }
         public int Suavizado { get => suavizado; set => suavizado = value; }
         public int Opcion { get => opcion; set => opcion = value; }
         public double Grados { get => grados; set => grados = value; }
