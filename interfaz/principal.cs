@@ -925,7 +925,6 @@ namespace interfaz {
                     }
                 }
             }
-
         }
         /// <summary>
         /// Se ejecuta el tercer paso para la obtención del trazado

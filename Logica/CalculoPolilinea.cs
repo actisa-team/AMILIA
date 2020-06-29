@@ -2303,7 +2303,7 @@ namespace Logica {
                 casos = true;
                 if (componentes.Count>1)
                 {
-                    while (casos)
+                    while (casos )
                     {
                         contador++;
                         this.Reiniciar_casos();
@@ -2312,7 +2312,7 @@ namespace Logica {
                         if (componentes[0].Tipo == 1 && componentes[1].Tipo == 2)
                         {
                             distancia = Distancia(new Point2d(componentes[0].lista_puntos[0].p.X, componentes[0].lista_puntos[0].p.Y), new Point2d(componentes[1].xc, componentes[1].yc));
-                            if (Math.Round(distancia, 6) <= Math.Round(componentes[1].radio, 6))
+                            if (Math.Round(distancia, 3) <= Math.Round(componentes[1].radio, 3))
                             {
                                 componentes[0].V_pr = true;
                             }
@@ -3737,10 +3737,7 @@ namespace Logica {
                         componentes[i].lista_puntos[0].p = p1;
                         componentes[i].lista_puntos[1].p = p2;
                         componentes[i].desplazamientos++;
-                        if (i>70)
-                        {
-                            Dibujar_entidad(i);
-                        }
+
                         
                     }
                     else
@@ -3894,7 +3891,7 @@ namespace Logica {
                 if (i == 0)
                 {
                     double d = Distancia(componentes[0].lista_puntos[0].p, new Point2d(componentes[1].xc, componentes[1].yc));
-                    if (Math.Truncate(d * 10000) <= Math.Truncate(componentes[1].radio * 10000))
+                    if (Math.Round(d,3) <= Math.Round(componentes[1].radio,3))
                     {
                         componentes[1].lista_puntos.RemoveAt(0);
                         componentes[1].lista_puntos.Insert(0, componentes[0].lista_puntos[0]);
@@ -11011,7 +11008,7 @@ namespace Logica {
                 r1 = Math.Abs(c.xc - l.Item2[0]);
             }
             //List<Punto> l_p = Girar_Recta_2(l.Item1, 0.1, p);
-            List<Punto> l_p = Girar_Recta_2_Buena(l.Item1, 0.1, p, az);
+            List<Punto> l_p = Girar_Recta_2_Buena(l.Item1, giro, p, az);
             l = ajuste_recta(l_p, 0);
             double r2 = Distancia_P_R(l.Item2[0], l.Item2[1], c.xc, c.yc);
 
@@ -11498,6 +11495,10 @@ namespace Logica {
             if (componentes_temp.Count>0)
             {
                 n = componentes_temp[componentes_temp.Count - 1].fin+2;
+                if (componentes_temp[componentes_temp.Count - 1].fin==0 && pol>0)
+                {
+                    n = Listas_Polilineas[pol-1].Count + 2;
+                }
             }
             foreach (Componente c in componentes)
             {
@@ -16313,12 +16314,13 @@ namespace Logica {
             bool pregunta2 = true;
             bool pregunta3 = true;
             bool pregunta4 = true;
-            componentes.RemoveAt(0);
-            componentes.RemoveAt(1);
+
             for (int w = 0; w < componentes_general.Count; w++)
                 {
+
                     bool curva_gran_radio = false;
                     componentes = componentes_general[w];
+                
                     salir = true;
                     if (componentes.Count > 1)
                     {
@@ -16548,9 +16550,10 @@ namespace Logica {
                                 {
                                     if (componentes[0].Tipo == 1 && componentes[1].Tipo == 2)//si es recta--curva
                                     {
-                                        //se ha creado para curva de gran radio final
-                                        if ((componentes[1].radio > gran_r && componentes[0].Tipo==1 && componentes[2].Tipo==1) ||
-                                            (componentes[1].curva_creada && componentes[2].Tipo == 1 && Math.Abs(componentes[0].azr - componentes[2].azr) < 2))
+                                    //se ha creado para curva de gran radio final
+                                    
+                                        if (componentes[0].Tipo == 1 && componentes[2].Tipo == 1 && (componentes[1].radio > gran_r || componentes[1].curva_creada) ||
+                                                        (componentes[0].Tipo == 1 && componentes[2].Tipo == 1 && Math.Abs(componentes[0].azr - componentes[2].azr) <= 2))
                                         {
                                             Point2d pri = componentes[0].lista_puntos[0].p;
                                             Puntos_rectas.Add(pri);
@@ -17370,7 +17373,7 @@ namespace Logica {
 
                                 }
 
-                                Casos_Solapes(azimuts, Puntos_rectas, gran_r);
+                                Casos_Solapes(azimuts, Puntos_rectas, gran_r, c_granr_final_i);
                                 Crear_Casos();
 
                                 ViabilidadComponentesStatus viabilidadEnlacesStatus = this.populateViabilidadEnlacesStatus();
@@ -17473,6 +17476,13 @@ namespace Logica {
                                                 {
                                                     if (componentes_iniciales[t].Tipo == 2)
                                                     {
+                                                    if (componentes_iniciales[t-1].Tipo==1 && componentes_iniciales[t + 1].Tipo == 1)
+                                                    {
+                                                        componentes_iniciales.RemoveAt(t);
+                                                        Crear_Nuevas_Componentes_2(t,w);
+                                                    }
+                                                    else
+                                                    {
                                                         if (t + 1 < componentes_iniciales.Count - 1)
                                                         {
                                                             if (componentes_iniciales[t + 1].Tipo == 1)
@@ -17524,6 +17534,8 @@ namespace Logica {
 
                                                         //MessageBox.Show("Se ha borrado una entidad");
                                                         Crear_Nuevas_Componentes();
+                                                    }
+                                                        
                                                         salir = true;
                                                         break;
                                                     }
@@ -17574,7 +17586,7 @@ namespace Logica {
                                 }
                                 Comprobar_Curvas();
                                 //&& contador < 10000
-                            } while (!salir && this.Comprobar_casos_solapes() && !terminar);
+                            } while (!salir && this.Comprobar_casos_solapes() && !terminar );
                             if (salir && !terminar)
                             {
                                 viabilidad_1(gran_r);
@@ -18492,7 +18504,7 @@ namespace Logica {
 
                             }
 
-                            Casos_Solapes(azimuts, Puntos_rectas, gran_r);
+                            Casos_Solapes(azimuts, Puntos_rectas, gran_r,false);
                             Crear_Casos();
 
                             ViabilidadComponentesStatus viabilidadEnlacesStatus = this.populateViabilidadEnlacesStatus();
@@ -18718,6 +18730,32 @@ namespace Logica {
             }
             componentes = lista_aux;
             return trazaViabilidadEnlaces;
+        }
+        /// <summary>
+        /// regresa a las componentes anteriores y crea otro trozo en la polilinea
+        /// </summary>
+        public void Crear_Nuevas_Componentes_2(int t,int w)
+        {
+            for (int i = 0; i < componentes_iniciales.Count; i++)
+            {
+                componentes_iniciales[i].index = i;
+            }
+            componentes.Clear();
+            List<Componente> l = new List<Componente>();
+            foreach (Componente c in componentes_iniciales)
+            {
+                if (c.index<t)
+                {
+                    componentes.Add(c);
+                }
+                else
+                {
+                    l.Add(c);
+                }
+                
+            }
+            componentes_general.Insert(w+1,l);
+
         }
         public void Crear_Nuevas_Componentes()
         {
@@ -19032,7 +19070,7 @@ namespace Logica {
                                     if (curva_gran_radio)
                                     {
                                         if (componentes[i].Tipo == 1 && componentes[i + 2].Tipo == 1 && 
-                                            (Math.Abs(componentes[i].azr - componentes[i + 2].azr) <= 2 || componentes[i + 1].radio > gran_r))
+                                            (Math.Abs(componentes[i].azr - componentes[i + 2].azr) <= 2 || (componentes[i + 1].radio > gran_r || componentes[i + 1].curva_creada)))
                                         {
 
                                             EjeDeTrazado.componentes.Curva Curva = Curva_Gran_Radio(componentes[i], componentes[i + 1], componentes[i + 2]);
@@ -19073,7 +19111,7 @@ namespace Logica {
 
                                         //if (componentes[i].Tipo == 1 && componentes[i + 2].Tipo == 1 && (Math.Abs(componentes[i].azr - componentes[i + 2].azr) <= 2 || componentes[i + 1].radio > gran_r) && (componentes[i].creacion != 2 && componentes[i + 2].creacion != 2))
                                         if (componentes[i].Tipo == 1 && componentes[i + 2].Tipo == 1 && 
-                                            (Math.Abs(componentes[i].azr - componentes[i + 2].azr) <= 2 || componentes[i + 1].radio > gran_r))
+                                            (Math.Abs(componentes[i].azr - componentes[i + 2].azr) <= 2 || (componentes[i + 1].radio > gran_r || componentes[i + 1].curva_creada)))
                                         {
                                             EjeDeTrazado.componentes.Clotoide Clo = Curva_Recta(componentes[i - 1], componentes[i], 2);
 
@@ -19092,7 +19130,58 @@ namespace Logica {
                                             }
                                             else
                                             {
-                                                xx = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaX;
+                                                if (clo_salida)
+                                                {
+                                                    double[] pr1 = Clo.getPointAtDist(Clo.getPkFinal());
+                                                    if (Clo_Entre_Curvas.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.clotoideEntrada)
+                                                    {
+                                                        xx = Clo_Entre_Curvas.getPointAtDist(Clo_Entre_Curvas.getPkFinal())[0];
+                                                        yy = Clo_Entre_Curvas.getPointAtDist(Clo_Entre_Curvas.getPkFinal())[1];
+                                                    }
+                                                    else
+                                                    {
+                                                        xx = Clo_Entre_Curvas.getPointAtDist(Clo_Entre_Curvas.getLe_r())[0];
+                                                        yy = Clo_Entre_Curvas.getPointAtDist(Clo_Entre_Curvas.getLe_r())[1];
+                                                    }
+                                                    if (Distancia(new Point2d(xx, yy), new Point2d(Clo.getPointAtDist(0)[0], Clo.getPointAtDist(0)[1])) < 0.0001)
+                                                    {
+
+                                                    }
+                                                    else
+                                                    {
+                                                        Punto3d p3d = new Punto3d(xx, yy, 0);
+                                                        Punto3d p3d2 = new Punto3d(Clo.getPointAtDist(0)[0], Clo.getPointAtDist(0)[1], 0);
+                                                        Punto3d p3dc = new Punto3d(componentes[i - 1].xc, componentes[i - 1].yc, 0);
+                                                        EjeDeTrazado.componentes.Curva Curvaa = new EjeDeTrazado.componentes.Curva(p3d, p3d2, p3dc, componentes[i - 1].radio, 0, 0, componentes[i - 1].direccion);
+                                                        mcomponenetes.Add(Curvaa);
+                                                    }
+
+                                                    clo_salida = false;
+                                                    Clo_Entre_Curvas = null;
+                                                }
+                                                else
+                                                {
+                                                    double[] pr1 = Clo.getPointAtDist(Clo.getPkFinal());
+                                                    xx = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaX;
+                                                    yy = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaY;
+                                                    if (Distancia(new Point2d(xx, yy), new Point2d(Clo.getPointAtDist(0)[0], Clo.getPointAtDist(0)[1])) < 0.0001)
+                                                    {
+
+                                                    }
+                                                    else
+                                                    {
+                                                        Punto3d p3d = new Punto3d(xx, yy, 0);
+                                                        Punto3d p3d2 = new Punto3d(Clo.getPointAtDist(0)[0], Clo.getPointAtDist(0)[1], 0);
+                                                        Punto3d p3dc = new Punto3d(componentes[i - 1].xc, componentes[i - 1].yc, 0);
+                                                        EjeDeTrazado.componentes.Curva Curvaa = new EjeDeTrazado.componentes.Curva(p3d, p3d2, p3dc, componentes[i - 1].radio, 0, 0, componentes[i - 1].direccion);
+                                                        mcomponenetes.Add(Curvaa);
+                                                    }
+
+                                                }
+
+
+
+                                                /*xx = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaX;
                                                 yy = mcomponenetes[mcomponenetes.Count - 1].getPuntoSalida.coordenadaY;
                                                 if (Distancia(new Point2d(xx, yy), new Point2d(Clo.getPointAtDist(0)[0], Clo.getPointAtDist(0)[1])) < 0.0001)
                                                 {
@@ -19105,7 +19194,7 @@ namespace Logica {
                                                     Punto3d p3dc = new Punto3d(componentes[i - 1].xc, componentes[i - 1].yc, 0);
                                                     EjeDeTrazado.componentes.Curva Curvaa = new EjeDeTrazado.componentes.Curva(p3d, p3d2, p3dc, componentes[i - 1].radio, 0, 0, componentes[i - 1].direccion);
                                                     mcomponenetes.Add(Curvaa);
-                                                }
+                                                }*/
                                             }
                                             
                                             
@@ -19680,7 +19769,7 @@ namespace Logica {
 
             return false;
         }
-        private void Casos_Solapes(List<double> azimuts, List<Point2d> Puntos_rectas, double gran_r) {
+        private void Casos_Solapes(List<double> azimuts, List<Point2d> Puntos_rectas, double gran_r,bool c_granr_ini) {
             int conta_az = 0;
             int conta_puntos = 0;
             double az_temp_1, az_temp_2;
@@ -19759,7 +19848,11 @@ namespace Logica {
                     }
                 }
             }
-
+            if (c_granr_ini)
+            {
+                conta_puntos++;
+                conta_puntos++;
+            }
             for (int i = 1; i < componentes.Count - 1; i++)
             {
                 if (componentes[i - 1].Tipo == 2 && componentes[i].Tipo == 1 && componentes[i + 1].Tipo == 2)
@@ -23804,14 +23897,49 @@ namespace Logica {
                     {
                         radio = d2 /(dif_az * Math.PI / 180);
                     }
-                   //EjeDeTrazado.componentes.Curva curva = Curva_No_Paso(componentes[i], radio / 3, componentes[i + 1]);
-                    EjeDeTrazado.componentes.Curva curva=Curva_Gran_Radio(componentes[i],radio/3, componentes[i+1]);
-                    componentes.Insert(i+1,new Componente(new Punto(new Point2d(curva.getPuntoEntrada.coordenadaX, curva.getPuntoEntrada.coordenadaY)), 2));
-                    componentes[i + 1].add(new Punto(new Point2d(curva.puntoMedioCurva.coordenadaX, curva.puntoMedioCurva.coordenadaY)));
-                    componentes[i + 1].add(new Punto(new Point2d(curva.getPuntoSalida.coordenadaX, curva.getPuntoSalida.coordenadaY)));
-                    componentes[i + 1].radio = curva.getRadio;
-                    componentes[i + 1].curva_creada = true;
-                    
+                    if (Comprobar_curva_nueva(componentes[i], componentes[i + 1], vert))
+                    {
+
+
+                        //EjeDeTrazado.componentes.Curva curva = Curva_No_Paso(componentes[i], radio / 3, componentes[i + 1]);
+                        EjeDeTrazado.componentes.Curva curva = Curva_Gran_Radio(componentes[i], radio / 3, componentes[i + 1]);
+                        componentes.Insert(i + 1, new Componente(new Punto(new Point2d(curva.getPuntoEntrada.coordenadaX, curva.getPuntoEntrada.coordenadaY)), 2));
+                        componentes[i + 1].add(new Punto(new Point2d(curva.puntoMedioCurva.coordenadaX, curva.puntoMedioCurva.coordenadaY)));
+                        componentes[i + 1].add(new Punto(new Point2d(curva.getPuntoSalida.coordenadaX, curva.getPuntoSalida.coordenadaY)));
+                        componentes[i + 1].radio = curva.getRadio;
+                        componentes[i + 1].curva_creada = true;
+                    }
+                    else
+                    {
+                        List<Punto> Recta_inicial = new List<Punto>();
+                        List<Tuple<List<Punto>, double[], int>> Listas_rectas = new List<Tuple<List<Punto>, double[], int>>();//para rectas
+                        foreach (Punto p in componentes[i].lista_puntos)
+                        {
+                            Recta_inicial.Add(p);
+                        }
+                        foreach (Punto p in componentes[i + 1].lista_puntos)
+                        {
+                            Recta_inicial.Add(p);
+                        }
+                        if (componentes[i].azr > 340 || componentes[i].azr < 20 || (componentes[i].azr > 160 && componentes[i].azr < 200))
+                        {
+                            Listas_rectas.Add(ajuste_recta_vertical(Recta_inicial, 0));
+                        }
+                        else
+                        {
+                            Listas_rectas.Add(ajuste_recta(Recta_inicial, 0));
+                        }
+
+                        int ini = componentes[i].ini;
+                        int fin = componentes[i + 1].fin;
+                        componentes.RemoveAt(i + 1);
+                        componentes.RemoveAt(i);
+                        componentes.Insert(i, new Componente(Listas_rectas[Listas_rectas.Count - 1].Item1[0], 1));
+                        componentes[i].add(Listas_rectas[Listas_rectas.Count - 1].Item1[Listas_rectas[Listas_rectas.Count - 1].Item1.Count - 1]);
+                        componentes[i].ini = ini;
+                        componentes[i].fin = fin;
+                        Rellenar_Recta(componentes[i]);
+                    }
                     //Dibujar_Curva(curva);
                 }
             }
@@ -24360,7 +24488,15 @@ namespace Logica {
                 }
                 else
                 {
-                    az2 =az1+ (az3 + (360-az1)) / 2;
+                    if (r>5000 && az1<300 && az3>45)
+                    {
+                        az2 = (az3 + az1) / 2;
+                    }
+                    else
+                    {
+                        az2 = az1 + (az3 + (360 - az1)) / 2;
+                    }
+                    
                 }
             }
             else
@@ -24371,7 +24507,15 @@ namespace Logica {
                 }
                 else
                 {
-                    az2 =az1- ((360-az3) + az1) / 2;
+                    if (r > 5000 && az3 < 300 && az1 > 45)
+                    {
+                        az2 = (az3 + az1) / 2;
+                    }
+                    else
+                    {
+                        az2 = az1 - ((360 - az3) + az1) / 2;
+                    }
+                    
                 }
             }
             double xx2 = xc - (r) * Math.Sin((az2 + 90) * Math.PI / 180);
@@ -27397,6 +27541,37 @@ namespace Logica {
             componentes[i].Clusterizada = true;
             componentes.RemoveAt(i+1);
             componentes.RemoveAt(i+1);
+        }
+        public bool Comprobar_curva_nueva(Componente c1, Componente c2, double[] vert)
+        {
+            double x1 = c1.lista_puntos[0].p.X;
+            double x2 = c1.lista_puntos[c1.lista_puntos.Count-1].p.X;
+            double x3 = c2.lista_puntos[0].p.X;
+            double x4 = c2.lista_puntos[c2.lista_puntos.Count - 1].p.X;
+            double xi = vert[0];
+            if (x2>x1 && xi>x1)
+            {
+                if (x4>x3 && xi<x4)
+                {
+                    return true;
+                }
+                if (x4<x3 && xi>x4)
+                {
+                    return true;
+                }
+            }
+            if (x2<x1 && xi<x1)
+            {
+                if (x4 > x3 && xi < x4)
+                {
+                    return true;
+                }
+                if (x4 < x3 && xi > x4)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 
