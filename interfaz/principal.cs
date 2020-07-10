@@ -666,7 +666,15 @@ namespace interfaz {
                 }
 
             }
-
+            double dis = 0;
+            if (!string.IsNullOrEmpty(textBox_eliminar.Text))
+            {
+                dis = int.Parse(textBox_eliminar.Text);
+            }
+            else
+            {
+                dis = 0;
+            }
             CalculoPolilineaPreferencias caPerfil = new CalculoPolilineaPreferencias();
             caPerfil.Opcion = opcion;
             caPerfil.Grados = grados;
@@ -684,6 +692,7 @@ namespace interfaz {
             caPerfil.Orden = orden;
             caPerfil.Rotu = rotu;
             caPerfil.Suavizado = suavizados;
+            caPerfil.Dis_eliminar=dis;
             return caPerfil;
         }
         /// <summary>
@@ -976,7 +985,7 @@ namespace interfaz {
                     }
                     finally
                     {
-                        calculoPolilinea.Crear_Trazado_Error(this.calculoPolilineaPreferencias.Gran_r);
+                        //calculoPolilinea.Crear_Trazado_Error(this.calculoPolilineaPreferencias.Gran_r);
                     }
 
                     
@@ -1535,7 +1544,7 @@ namespace interfaz {
 
                     if (aplicarMultiplesFiltradosCheckBox.Checked == false)
                     {
-                        this.calculoPolilineaPerfil = new CalculoPolilineaPerfil(ref dsApp, calculoPolilineaPreferenciasPerfil.Opcion, calculoPolilineaPreferenciasPerfil.Ratio, calculoPolilineaPreferenciasPerfil.It, escala, n_suavizados);
+                        this.calculoPolilineaPerfil = new CalculoPolilineaPerfil(ref dsApp, calculoPolilineaPreferenciasPerfil.Opcion, calculoPolilineaPreferenciasPerfil.Ratio, calculoPolilineaPreferenciasPerfil.It, escala, n_suavizados,calculoPolilineaPreferenciasPerfil.Dis_eliminar);
                     }
                     else
                     {
@@ -1852,7 +1861,6 @@ namespace interfaz {
                 calculoPolilineaPerfil.Acuerdo_Entre_Pendientes();
                 calculoPolilineaPerfil.Dibujar_Rectas(3);
                 calculoPolilineaPerfil.Dibujar_Acuerdos(3);
-
                 calculoPolilineaPerfil.CrearTrazado();
 
                 calculoPolilineaPerfil.Rotular(rotu);
@@ -1993,7 +2001,7 @@ namespace interfaz {
 
                                 if (aplicarMultiplesFiltradosCheckBox.Checked == false)
                                 {
-                                    this.calculoPolilineaPerfil = new CalculoPolilineaPerfil(ref dsApp, calculoPolilineaPreferenciasPerfil.Opcion, calculoPolilineaPreferenciasPerfil.Ratio, calculoPolilineaPreferenciasPerfil.It, escala, n_suavizados);
+                                    this.calculoPolilineaPerfil = new CalculoPolilineaPerfil(ref dsApp, calculoPolilineaPreferenciasPerfil.Opcion, calculoPolilineaPreferenciasPerfil.Ratio, calculoPolilineaPreferenciasPerfil.It, escala, n_suavizados,calculoPolilineaPreferenciasPerfil.Dis_eliminar);
                                 }
                                 else
                                 {

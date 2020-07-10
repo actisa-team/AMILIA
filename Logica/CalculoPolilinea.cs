@@ -17318,6 +17318,10 @@ namespace Logica {
                                                     Point2d pr1 = componentes[componentes.Count - 1].lista_puntos[componentes[componentes.Count - 1].lista_puntos.Count - 1].p;
                                                     Puntos_rectas.Add(pr1);
                                                 }
+                                                /*if (azimuts.Count%2==1)
+                                                {
+                                                    azimuts.Add(componentes[componentes.Count - 1].azr);
+                                                }*/
                                             }
                                             else
                                             {
@@ -17340,6 +17344,10 @@ namespace Logica {
                                                     Point2d pr1 = componentes[componentes.Count - 1].lista_puntos[componentes[componentes.Count - 1].lista_puntos.Count - 1].p;
                                                     Puntos_rectas.Add(pr1);
                                                 }
+                                                /*if (azimuts.Count % 2 == 1)
+                                                {
+                                                    azimuts.Add(componentes[componentes.Count - 1].azr);
+                                                }*/
 
                                             }
                                             else
@@ -24132,6 +24140,7 @@ namespace Logica {
                         componentes[i].ini = ini;
                         componentes[i].fin = fin;
                         Rellenar_Recta(componentes[i]);
+                        i--;
                     }
                     //Dibujar_Curva(curva);
                 }

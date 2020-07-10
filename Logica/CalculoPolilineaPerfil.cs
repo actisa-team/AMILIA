@@ -44,7 +44,7 @@ namespace Logica
         public List<PuntoPerfil> Polilinea_Perfil { get => polilinea_perfil; set => polilinea_perfil = value; }
         public CalculoPolilineaPerfil() { 
         }
-        public CalculoPolilineaPerfil(ref dsApp a, int opcion, double ratio, int it,int escal,int n_suavizados)
+        public CalculoPolilineaPerfil(ref dsApp a, int opcion, double ratio, int it,int escal,int n_suavizados,double dis)
         {
             MessageBox.Show("Eliga en autocad el punto de inserción.");
             Point3d fstCnr = new Point3d();
@@ -80,6 +80,7 @@ namespace Logica
                         polilinea.Add(p);
                         
                     }
+                    Eliminar_Distancia(dis);
                     double y_alt = polilinea[0].p.Y;
                     for (int i=1;i<polilinea.Count;i++)
                     {
@@ -1684,6 +1685,23 @@ namespace Logica
 
             return miSent;
         }
+        /// <summary>
+        /// elimina los puntos que se encuentran a menor distancia que la que se pasa por parametro
+        /// </summary>
+        /// <param name="dis">distancia</param>
+        public void Eliminar_Distancia(double dis)
+        {
+            int contador = 0;
+            for (int i = 0; i < polilinea.Count - 1; i++)
+            {
+                if (Distancia(polilinea[i].p, polilinea[i + 1].p) < dis)
+                {
+                    polilinea.RemoveAt(i + 1);
+                    i--;
+                    contador++;
+                }
+            }
+        }
         public void RellenarPerfil(double v_ac,int n_suavizados)
         {
             //Rellenamos parametros equivalentes entre punto y punto perfil
@@ -1691,6 +1709,7 @@ namespace Logica
             {
                 polilinea_perfil.Add(new PuntoPerfil(polilinea[i]));
             }
+           
             //Detectamos los vertices
             for (int i = 3; i < polilinea_perfil.Count - 2; i++)
             {
@@ -4336,7 +4355,7 @@ namespace Logica
         {
             bool salir = false;
             int conta_parabolas = 0;
-            if (Lista_parabolas[0].polilinea_perfil[0].p.X==0)
+            if (Lista_parabolas[0].polilinea_perfil[0].p.X==0 || Lista_rectas[0].Puntos[0].X> Lista_parabolas[0].polilinea_perfil[0].p.X)
             {
                 conta_parabolas++;
             }
