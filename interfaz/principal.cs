@@ -282,7 +282,7 @@ namespace interfaz {
             bool rotu = false;
             int suavizado = 0;
             bool dividir = false;
-            double rectas = 20;
+            double rectas = 1;
             double curvas = 40;
             bool dividir_curvas=false;
             if (filtrado1CheckBox.Checked == true) {
@@ -463,6 +463,11 @@ namespace interfaz {
                     }
                 }
             }
+            double grado_rectas = 2;
+            if (!string.IsNullOrEmpty(textBox7.Text))
+            {
+                grado_rectas = double.Parse(textBox7.Text);
+            }
             double dis_eliminar = 0;
             if (checkeliminar.Checked)
             {
@@ -491,6 +496,7 @@ namespace interfaz {
             ca.Dividir_curvas = dividir_curvas;
             ca.Curvas = curvas;
             ca.Dis_eliminar = dis_eliminar;
+            ca.Gr_Rectas = grado_rectas;
             return ca;
         }
         private CalculoPolilineaPreferencias obtenerParametrosCalculoPolilineaPerfil()
@@ -741,7 +747,8 @@ namespace interfaz {
 
                     calculoPolilinea.Aniadir_Rectar_Radio_Grande();
 
-                    calculoPolilinea.Comprobacion(calculoPolilineaPreferencias.Dividir, calculoPolilineaPreferencias.T_max, calculoPolilineaPreferencias.T_med,calculoPolilineaPreferencias.Rectas);
+                    calculoPolilinea.Comprobacion(calculoPolilineaPreferencias.Dividir, calculoPolilineaPreferencias.T_max, 
+                        calculoPolilineaPreferencias.T_med,calculoPolilineaPreferencias.Rectas,calculoPolilineaPreferencias.Gr_Rectas);
                     if (calculoPolilineaPreferencias.Dividir_curvas)
                     {
                         calculoPolilinea.Recta_curva_dividida();
@@ -1031,7 +1038,11 @@ namespace interfaz {
                     } else {
                         this.calculoPolilinea = new CalculoPolilinea(ref dsApp, calculoPolilineaPreferencias.Opcion, calculoPolilineaPreferencias.Ratio, calculoPolilineaPreferencias.Orden, calculoPolilineaPreferencias.It, calculoPolilineaPreferencias.Suavizado, calculoPolilineaPreferencias.Dis_eliminar);
                     }
-
+                    Lista_original_2d.Clear();
+                    foreach (Punto p in this.calculoPolilinea.Polilinea)
+                    {
+                        Lista_original_2d.Add(new Point2d(p.p.X, p.p.Y));
+                    }
                     this.calculoPolilineaStatusTextView.Visible = true;
                     this.pasosEjecutados = 0;
 
@@ -1602,7 +1613,7 @@ namespace interfaz {
                     }
                     calculoPolilinea.Unir_Componentes();
                     calculoPolilinea.Dibujar_entidades(1);
-                    calculoPolilinea.Comprobacion(false,0.01,0.01,20);
+                    calculoPolilinea.Comprobacion(false,0.01,0.01,20,2);
                     calculoPolilinea.Dibujar_entidades(2);
 
                     VerificacionComponentesStatus verificacionComponentesStatus = calculoPolilinea.obtenerEstadoVerificacionDeComponentes();
@@ -1665,6 +1676,10 @@ namespace interfaz {
                 materialLabel34.Visible = true;
                 materialLabel35.Visible = true;
                 materialLabel38.Visible = true;
+                materialLabel42.Visible = true;
+                materialLabel43.Visible = true;
+                textBox7.Visible = true;
+                button19.Visible = true;
 
             }
             if (materialCheckBox1_opciones.Checked == false)
@@ -1700,6 +1715,10 @@ namespace interfaz {
                 materialLabel34.Visible = false;
                 materialLabel35.Visible = false;
                 materialLabel38.Visible = false;
+                materialLabel42.Visible = false;
+                materialLabel43.Visible = false;
+                textBox7.Visible = false;
+                button19.Visible = false;
             }
         }
 
@@ -2231,6 +2250,10 @@ namespace interfaz {
             button1.Enabled = false;
             materialCheckBox1_opciones.Enabled = false;
             RotularCheckBox.Enabled = false;
+            materialLabel42.Enabled = false;
+            materialLabel43.Enabled = false;
+            button19.Enabled = false;
+            textBox7.Enabled = false;
         }
 
         private void materialFlatButton17_Click(object sender, EventArgs e)
@@ -2290,6 +2313,16 @@ namespace interfaz {
             button1.Enabled = true;
             materialCheckBox1_opciones.Enabled = true;
             RotularCheckBox.Enabled = true;
+            materialLabel42.Enabled = true;
+            materialLabel43.Enabled = true;
+            button19.Enabled = true;
+            textBox7.Enabled = true;
+        }
+
+        private void button19_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Se hará un ajuste de recta a todas las rectas consecutivas con una diferencia azimutal menor al valor dado.", "Información");
+
         }
     }
 }

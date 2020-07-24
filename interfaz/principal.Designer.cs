@@ -170,6 +170,10 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.button19 = new System.Windows.Forms.Button();
+            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.materialLabel42 = new MaterialSkin.Controls.MaterialLabel();
+            this.materialLabel43 = new MaterialSkin.Controls.MaterialLabel();
             this.materialTabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -210,7 +214,7 @@
             this.materialTabControl1.Name = "materialTabControl1";
             this.materialTabControl1.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.materialTabControl1.SelectedIndex = 0;
-            this.materialTabControl1.Size = new System.Drawing.Size(798, 526);
+            this.materialTabControl1.Size = new System.Drawing.Size(798, 586);
             this.materialTabControl1.TabIndex = 2;
             // 
             // tabPage1
@@ -823,6 +827,10 @@
             // 
             this.tabPage3.AutoScroll = true;
             this.tabPage3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.tabPage3.Controls.Add(this.materialLabel43);
+            this.tabPage3.Controls.Add(this.button19);
+            this.tabPage3.Controls.Add(this.textBox7);
+            this.tabPage3.Controls.Add(this.materialLabel42);
             this.tabPage3.Controls.Add(this.materialLabel38);
             this.tabPage3.Controls.Add(this.materialLabel35);
             this.tabPage3.Controls.Add(this.materialLabel34);
@@ -870,7 +878,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(790, 500);
+            this.tabPage3.Size = new System.Drawing.Size(790, 560);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "tabPage3";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -1315,7 +1323,7 @@
             this.debugButtonsContainer.Controls.Add(this.ejecutar3Button);
             this.debugButtonsContainer.Controls.Add(this.materialFlatButton2);
             this.debugButtonsContainer.Controls.Add(this.ejecutar2Button);
-            this.debugButtonsContainer.Location = new System.Drawing.Point(10, 248);
+            this.debugButtonsContainer.Location = new System.Drawing.Point(11, 300);
             this.debugButtonsContainer.Name = "debugButtonsContainer";
             this.debugButtonsContainer.Size = new System.Drawing.Size(763, 167);
             this.debugButtonsContainer.TabIndex = 80;
@@ -1666,7 +1674,7 @@
             this.materialFlatButton4.AutoSize = true;
             this.materialFlatButton4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.materialFlatButton4.Depth = 0;
-            this.materialFlatButton4.Location = new System.Drawing.Point(600, 433);
+            this.materialFlatButton4.Location = new System.Drawing.Point(601, 485);
             this.materialFlatButton4.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.materialFlatButton4.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialFlatButton4.Name = "materialFlatButton4";
@@ -1684,7 +1692,7 @@
             this.materialFlatButton3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.materialFlatButton3.Depth = 0;
             this.materialFlatButton3.Enabled = false;
-            this.materialFlatButton3.Location = new System.Drawing.Point(575, 401);
+            this.materialFlatButton3.Location = new System.Drawing.Point(576, 453);
             this.materialFlatButton3.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.materialFlatButton3.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialFlatButton3.Name = "materialFlatButton3";
@@ -1700,7 +1708,7 @@
             this.materialFlatButton6.AutoSize = true;
             this.materialFlatButton6.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.materialFlatButton6.Depth = 0;
-            this.materialFlatButton6.Location = new System.Drawing.Point(325, 424);
+            this.materialFlatButton6.Location = new System.Drawing.Point(326, 476);
             this.materialFlatButton6.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.materialFlatButton6.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialFlatButton6.Name = "materialFlatButton6";
@@ -1717,7 +1725,7 @@
             this.CargarPoliPerfil.AutoSize = true;
             this.CargarPoliPerfil.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.CargarPoliPerfil.Depth = 0;
-            this.CargarPoliPerfil.Location = new System.Drawing.Point(25, 424);
+            this.CargarPoliPerfil.Location = new System.Drawing.Point(26, 476);
             this.CargarPoliPerfil.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.CargarPoliPerfil.MouseState = MaterialSkin.MouseState.HOVER;
             this.CargarPoliPerfil.Name = "CargarPoliPerfil";
@@ -2246,6 +2254,60 @@
             this.pictureBox1.TabIndex = 3;
             this.pictureBox1.TabStop = false;
             // 
+            // button19
+            // 
+            this.button19.BackColor = System.Drawing.Color.White;
+            this.button19.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.button19.FlatAppearance.BorderSize = 0;
+            this.button19.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
+            this.button19.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
+            this.button19.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button19.Image = ((System.Drawing.Image)(resources.GetObject("button19.Image")));
+            this.button19.Location = new System.Drawing.Point(243, 244);
+            this.button19.Name = "button19";
+            this.button19.Size = new System.Drawing.Size(27, 23);
+            this.button19.TabIndex = 127;
+            this.button19.UseVisualStyleBackColor = false;
+            this.button19.Visible = false;
+            this.button19.Click += new System.EventHandler(this.button19_Click);
+            // 
+            // textBox7
+            // 
+            this.textBox7.Location = new System.Drawing.Point(168, 247);
+            this.textBox7.Name = "textBox7";
+            this.textBox7.Size = new System.Drawing.Size(70, 20);
+            this.textBox7.TabIndex = 126;
+            this.textBox7.Text = "2";
+            this.textBox7.Visible = false;
+            // 
+            // materialLabel42
+            // 
+            this.materialLabel42.AutoSize = true;
+            this.materialLabel42.Depth = 0;
+            this.materialLabel42.Font = new System.Drawing.Font("Roboto", 11F);
+            this.materialLabel42.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialLabel42.Location = new System.Drawing.Point(6, 238);
+            this.materialLabel42.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel42.Name = "materialLabel42";
+            this.materialLabel42.Size = new System.Drawing.Size(118, 19);
+            this.materialLabel42.TabIndex = 125;
+            this.materialLabel42.Text = "Grados de unión";
+            this.materialLabel42.Visible = false;
+            // 
+            // materialLabel43
+            // 
+            this.materialLabel43.AutoSize = true;
+            this.materialLabel43.Depth = 0;
+            this.materialLabel43.Font = new System.Drawing.Font("Roboto", 11F);
+            this.materialLabel43.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialLabel43.Location = new System.Drawing.Point(7, 257);
+            this.materialLabel43.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel43.Name = "materialLabel43";
+            this.materialLabel43.Size = new System.Drawing.Size(71, 19);
+            this.materialLabel43.TabIndex = 128;
+            this.materialLabel43.Text = "en rectas";
+            this.materialLabel43.Visible = false;
+            // 
             // principal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2253,7 +2315,7 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(800, 846);
+            this.ClientSize = new System.Drawing.Size(800, 913);
             this.Controls.Add(this.materialFlatButton14);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox3);
@@ -2435,5 +2497,9 @@
         private System.Windows.Forms.TextBox textBox6;
         private MaterialLabel materialLabel41;
         private MaterialLabel materialLabel40;
+        private System.Windows.Forms.Button button19;
+        private System.Windows.Forms.TextBox textBox7;
+        private MaterialLabel materialLabel42;
+        private MaterialLabel materialLabel43;
     }
 }

@@ -19140,7 +19140,7 @@ namespace Logica {
                             double yy = componentes[0].lista_puntos[0].p.Y;
                             tadLayShare.puntos.Punto3d pl1 = new tadLayShare.puntos.Punto3d(xx, yy, 0);
                             tadLayShare.puntos.Punto3d pl2 = new tadLayShare.puntos.Punto3d(Curva.getPointAtDist(0)[0], Curva.getPointAtDist(0)[1], 0);
-                            EjeDeTrazado.componentes.Linea linea = new EjeDeTrazado.componentes.Linea(pl1, pl2, 0, 0, componentes[1].azr);
+                            EjeDeTrazado.componentes.Linea linea = new EjeDeTrazado.componentes.Linea(pl1, pl2, 0, 0, componentes[0].azr);
                             mcomponenetes.Add(linea);
                             mcomponenetes.Add(Curva);
                             clo_salida = false;
@@ -23683,7 +23683,7 @@ namespace Logica {
         /// <summary>
         /// Hace diferentes comprobaciones de las rectas y curvas
         /// </summary>
-        public void Comprobacion(bool dividir,double tmax,double tmed,double dividir_rectas) {
+        public void Comprobacion(bool dividir,double tmax,double tmed,double dividir_rectas,double grado_rectas) {
             /*
              * Toda curva con radio mayor a 60000 se eliminan
              */
@@ -23717,7 +23717,7 @@ namespace Logica {
                         double dis = Distancia(componentes[i].lista_puntos[0].p, componentes[i + 1].lista_puntos[componentes[i + 1].lista_puntos.Count - 1].p);
                         dis_a = dis;
                         List<Punto> Recta_inicial = new List<Punto>();
-                        if ((Math.Abs(componentes[i].azr - componentes[i + 1].azr) < 2) || (Math.Abs(componentes[i].azr - componentes[i + 1].azr) < 360 && Math.Abs(componentes[i].azr - componentes[i + 1].azr) > 358))
+                        if ((Math.Abs(componentes[i].azr - componentes[i + 1].azr) < grado_rectas) || (Math.Abs(componentes[i].azr - componentes[i + 1].azr) < 360 && Math.Abs(componentes[i].azr - componentes[i + 1].azr) > (360- grado_rectas)))
                         {
                             foreach (Punto p in componentes[i].lista_puntos)
                             {
@@ -23741,7 +23741,7 @@ namespace Logica {
                                     {
                                         Rellenar_Recta(componentes[i + cont_r]);
                                     }
-                                    while (componentes[i + cont_r].Tipo == 1 && (Math.Abs(componentes[i].azr - componentes[i + cont_r].azr) < 2) || (Math.Abs(componentes[i].azr - componentes[i + cont_r].azr) < 360 && Math.Abs(componentes[i].azr - componentes[i + cont_r].azr) > 358))
+                                    while (componentes[i + cont_r].Tipo == 1 && (Math.Abs(componentes[i].azr - componentes[i + cont_r].azr) < grado_rectas) || (Math.Abs(componentes[i].azr - componentes[i + cont_r].azr) < 360 && Math.Abs(componentes[i].azr - componentes[i + cont_r].azr) > 360- grado_rectas))
                                     {
                                         foreach (Punto p in componentes[i + cont_r].lista_puntos)
                                         {
@@ -23812,40 +23812,133 @@ namespace Logica {
                 {
                     List<Punto> Recta_inicial = new List<Punto>();
                     List<Tuple<List<Punto>, double[], int>> Listas_rectas = new List<Tuple<List<Punto>, double[], int>>();//para rectas
-                    double dis = Distancia(componentes[i + 1].lista_puntos[0].p, componentes[i + 1].lista_puntos[componentes[i + 1].lista_puntos.Count - 1].p);
-                    if (componentes[i].Tipo == 1 && componentes[i + 1].Tipo == 1 && dis < division_r)
+                    double dis = Distancia(componentes[i].lista_puntos[0].p, componentes[i].lista_puntos[componentes[i].lista_puntos.Count - 1].p);
+                    if (componentes[i].Tipo == 1 && componentes[i + 1].Tipo == 1  && dis < division_r)
                     {
-                        foreach (Punto p in componentes[i].lista_puntos)
-                        {
-                            Recta_inicial.Add(p);
-                        }
-                        foreach (Punto p in componentes[i + 1].lista_puntos)
-                        {
-                            Recta_inicial.Add(p);
-                        }
-
-                        if (componentes[i].azr > 340 || componentes[i].azr < 20 || (componentes[i].azr > 160 && componentes[i].azr < 200))
-                        {
-                            Listas_rectas.Add(ajuste_recta_vertical(Recta_inicial, 0));
-                        }
-                        else
-                        {
-                            Listas_rectas.Add(ajuste_recta(Recta_inicial, 0));
-                        }
-
-                        int ini = componentes[i].ini;
-                        int fin = componentes[i + 1].fin;
-                        componentes.RemoveAt(i + 1);
-                        componentes.RemoveAt(i);
-                        componentes.Insert(i, new Componente(Listas_rectas[Listas_rectas.Count - 1].Item1[0], 1));
-                        componentes[i].add(Listas_rectas[Listas_rectas.Count - 1].Item1[Listas_rectas[Listas_rectas.Count - 1].Item1.Count - 1]);
-                        componentes[i].ini = ini;
-                        componentes[i].fin = fin;
                         Rellenar_Recta(componentes[i]);
-                        i--;
+                        Rellenar_Recta(componentes[i + 1]);
+                        if ((Math.Abs(componentes[i].azr - componentes[i + 1].azr) < 2) || (Math.Abs(componentes[i].azr - componentes[i + 1].azr) < 360 && Math.Abs(componentes[i].azr - componentes[i + 1].azr) > 358))
+                        {
+                            foreach (Punto p in componentes[i].lista_puntos)
+                            {
+                                Recta_inicial.Add(p);
+                            }
+                            foreach (Punto p in componentes[i + 1].lista_puntos)
+                            {
+                                Recta_inicial.Add(p);
+                            }
+
+                            if (componentes[i].azr > 340 || componentes[i].azr < 20 || (componentes[i].azr > 160 && componentes[i].azr < 200))
+                            {
+                                Listas_rectas.Add(ajuste_recta_vertical(Recta_inicial, 0));
+                            }
+                            else
+                            {
+                                Listas_rectas.Add(ajuste_recta(Recta_inicial, 0));
+                            }
+
+                            int ini = componentes[i].ini;
+                            int fin = componentes[i + 1].fin;
+                            componentes.RemoveAt(i + 1);
+                            componentes.RemoveAt(i);
+                            componentes.Insert(i, new Componente(Listas_rectas[Listas_rectas.Count - 1].Item1[0], 1));
+                            componentes[i].add(Listas_rectas[Listas_rectas.Count - 1].Item1[Listas_rectas[Listas_rectas.Count - 1].Item1.Count - 1]);
+                            componentes[i].ini = ini;
+                            componentes[i].fin = fin;
+                            Rellenar_Recta(componentes[i]);
+                            i--;
+                        }
+                            
 
                     }
                 }
+                
+                for (int i = 0; i < componentes.Count - 2; i++)
+                {
+                    List<Punto> Recta_inicial = new List<Punto>();
+                    List<Tuple<List<Punto>, double[], int>> Listas_rectas = new List<Tuple<List<Punto>, double[], int>>();//para rectas
+                    double dis = Distancia(componentes[i + 1].lista_puntos[0].p, componentes[i + 1].lista_puntos[componentes[i + 1].lista_puntos.Count - 1].p);
+                    if (componentes[i].Tipo == 1 && componentes[i + 1].Tipo == 1 && componentes[i + 2].Tipo != 1 && dis < division_r)
+                    {
+                        Rellenar_Recta(componentes[i]);
+                        Rellenar_Recta(componentes[i + 1]);
+                        if ((Math.Abs(componentes[i].azr - componentes[i + 1].azr) < 1) || (Math.Abs(componentes[i].azr - componentes[i + 1].azr) < 360 && Math.Abs(componentes[i].azr - componentes[i + 1].azr) > 358))
+                        {
+                            foreach (Punto p in componentes[i].lista_puntos)
+                            {
+                                Recta_inicial.Add(p);
+                            }
+                            foreach (Punto p in componentes[i + 1].lista_puntos)
+                            {
+                                Recta_inicial.Add(p);
+                            }
+
+                            if (componentes[i].azr > 340 || componentes[i].azr < 20 || (componentes[i].azr > 160 && componentes[i].azr < 200))
+                            {
+                                Listas_rectas.Add(ajuste_recta_vertical(Recta_inicial, 0));
+                            }
+                            else
+                            {
+                                Listas_rectas.Add(ajuste_recta(Recta_inicial, 0));
+                            }
+
+                            int ini = componentes[i].ini;
+                            int fin = componentes[i + 1].fin;
+                            componentes.RemoveAt(i + 1);
+                            componentes.RemoveAt(i);
+                            componentes.Insert(i, new Componente(Listas_rectas[Listas_rectas.Count - 1].Item1[0], 1));
+                            componentes[i].add(Listas_rectas[Listas_rectas.Count - 1].Item1[Listas_rectas[Listas_rectas.Count - 1].Item1.Count - 1]);
+                            componentes[i].ini = ini;
+                            componentes[i].fin = fin;
+                            Rellenar_Recta(componentes[i]);
+                            i--;
+                        }
+                        
+
+                    }
+                }
+                List<Punto> Recta_inicialn = new List<Punto>();
+                List<Tuple<List<Punto>, double[], int>> Listas_rectasn = new List<Tuple<List<Punto>, double[], int>>();//para rectas
+                double disn = Distancia(componentes[componentes.Count-1].lista_puntos[0].p, componentes[componentes.Count - 1].lista_puntos[componentes[componentes.Count - 1].lista_puntos.Count - 1].p);
+                int x = componentes.Count - 2;
+                if (componentes[componentes.Count - 2].Tipo == 1 && componentes[componentes.Count - 1].Tipo == 1  && disn < division_r)
+                {
+                    Rellenar_Recta(componentes[x]);
+                    Rellenar_Recta(componentes[x + 1]);
+                    if ((Math.Abs(componentes[x].azr - componentes[x + 1].azr) < 1) || (Math.Abs(componentes[x].azr - componentes[x + 1].azr) < 360 && Math.Abs(componentes[x].azr - componentes[x + 1].azr) > 358))
+                    {
+                        foreach (Punto p in componentes[x].lista_puntos)
+                        {
+                            Recta_inicialn.Add(p);
+                        }
+                        foreach (Punto p in componentes[x + 1].lista_puntos)
+                        {
+                            Recta_inicialn.Add(p);
+                        }
+
+                        if (componentes[x].azr > 340 || componentes[x].azr < 20 || (componentes[x].azr > 160 && componentes[x].azr < 200))
+                        {
+                            Listas_rectasn.Add(ajuste_recta_vertical(Recta_inicialn, 0));
+                        }
+                        else
+                        {
+                            Listas_rectasn.Add(ajuste_recta(Recta_inicialn, 0));
+                        }
+
+                        int ini = componentes[x].ini;
+                        int fin = componentes[x + 1].fin;
+                        componentes.RemoveAt(x + 1);
+                        componentes.RemoveAt(x);
+                        componentes.Insert(x, new Componente(Listas_rectasn[Listas_rectasn.Count - 1].Item1[0], 1));
+                        componentes[x].add(Listas_rectasn[Listas_rectasn.Count - 1].Item1[Listas_rectasn[Listas_rectasn.Count - 1].Item1.Count - 1]);
+                        componentes[x].ini = ini;
+                        componentes[x].fin = fin;
+                        Rellenar_Recta(componentes[x]);
+                    }
+
+
+                }
+                
             }
             else
             {
@@ -23864,7 +23957,7 @@ namespace Logica {
                         double dis2 = Distancia(componentes[i + 1].lista_puntos[0].p, componentes[i + 1].lista_puntos[componentes[i + 1].lista_puntos.Count - 1].p);
                         double dis = Distancia(componentes[i].lista_puntos[0].p, componentes[i + 1].lista_puntos[componentes[i + 1].lista_puntos.Count - 1].p);
                         List<Punto> Recta_inicial = new List<Punto>();
-                        if ((Math.Abs(componentes[i].azr - componentes[i + 1].azr) < 2) || (Math.Abs(componentes[i].azr - componentes[i + 1].azr) < 360 && Math.Abs(componentes[i].azr - componentes[i + 1].azr) > 358))
+                        if ((Math.Abs(componentes[i].azr - componentes[i + 1].azr) < grado_rectas) || (Math.Abs(componentes[i].azr - componentes[i + 1].azr) < 360 && Math.Abs(componentes[i].azr - componentes[i + 1].azr) > 360- grado_rectas))
                         {
                             foreach (Punto p in componentes[i].lista_puntos)
                             {
@@ -23881,7 +23974,7 @@ namespace Logica {
                                     {
                                         Rellenar_Recta(componentes[i + cont_r]);
                                     }
-                                    while (componentes[i + cont_r].Tipo == 1 && (Math.Abs(componentes[i].azr - componentes[i + cont_r].azr) < 2) || (Math.Abs(componentes[i].azr - componentes[i + cont_r].azr) < 360 && Math.Abs(componentes[i].azr - componentes[i + cont_r].azr) > 358))
+                                    while (componentes[i + cont_r].Tipo == 1 && (Math.Abs(componentes[i].azr - componentes[i + cont_r].azr) < grado_rectas) || (Math.Abs(componentes[i].azr - componentes[i + cont_r].azr) < 360 && Math.Abs(componentes[i].azr - componentes[i + cont_r].azr) > 360- grado_rectas))
                                     {
                                         foreach (Punto p in componentes[i + cont_r].lista_puntos)
                                         {
@@ -23930,7 +24023,7 @@ namespace Logica {
                     }
                 }
             }
-
+            Dibujar_entidades(11);
             if (lista_errores_tolerancias.Count>0)
             {
                 string mensaje = "";
@@ -23954,7 +24047,7 @@ namespace Logica {
                                    double dis2 = Distancia(componentes[i + 1].lista_puntos[0].p, componentes[i + 1].lista_puntos[componentes[i + 1].lista_puntos.Count - 1].p);
                                    double dis = Distancia(componentes[i].lista_puntos[0].p, componentes[i + 1].lista_puntos[componentes[i + 1].lista_puntos.Count - 1].p);
                                    List<Punto> Recta_inicial = new List<Punto>();
-                                   if ((Math.Abs(componentes[i].azr - componentes[i + 1].azr) < 0.2) || (Math.Abs(componentes[i].azr - componentes[i + 1].azr) < 360 && Math.Abs(componentes[i].azr - componentes[i + 1].azr) > 358))
+                                   if ((Math.Abs(componentes[i].azr - componentes[i + 1].azr) < grado_rectas) || (Math.Abs(componentes[i].azr - componentes[i + 1].azr) < 360 && Math.Abs(componentes[i].azr - componentes[i + 1].azr) > 360- grado_rectas))
                                    {
 
                                        foreach (Punto p in componentes[i].lista_puntos)
@@ -23971,7 +24064,7 @@ namespace Logica {
                                            {
                                                Rellenar_Recta(componentes[i + cont_r]);
                                            }
-                                           while (componentes[i + cont_r].Tipo == 1 && (Math.Abs(componentes[i].azr - componentes[i + cont_r].azr) < 0.2) || (Math.Abs(componentes[i].azr - componentes[i + cont_r].azr) < 360 && Math.Abs(componentes[i].azr - componentes[i + cont_r].azr) > 358))
+                                           while (componentes[i + cont_r].Tipo == 1 && (Math.Abs(componentes[i].azr - componentes[i + cont_r].azr) < grado_rectas) || (Math.Abs(componentes[i].azr - componentes[i + cont_r].azr) < 360 && Math.Abs(componentes[i].azr - componentes[i + cont_r].azr) > 360- grado_rectas))
                                            {
                                                foreach (Punto p in componentes[i + cont_r].lista_puntos)
                                                {
@@ -24061,7 +24154,7 @@ namespace Logica {
                       componentes[componentes.Count - 1].cluster = true;
                       componentes.RemoveAt(componentes.Count - 2);*/
                 //Comprobar_RCR();
-                Dibujar_entidades(11);
+               
             
             for (int i = 0; i < componentes.Count - 1; i++)
             {
@@ -26987,16 +27080,16 @@ namespace Logica {
             double[] vertice = new double[2];
             double a_x0 = c1.lista_puntos[0].p.X;
             double a_y0 = c1.lista_puntos[0].p.Y;
-            double b_x1 = c1.lista_puntos[c1.lista_puntos.Count-1].p.X;
-            double b_y1 = c1.lista_puntos[c1.lista_puntos.Count - 1].p.Y;
+            double b_x1 = c1.lista_puntos[1].p.X;
+            double b_y1 = c1.lista_puntos[1].p.Y;
 
             double a_1 = (a_y0 - b_y1) / (a_x0 - b_x1);
             double b_1 = -b_x1 * (a_y0 - b_y1) / (a_x0 - b_x1) + b_y1;
 
             double c_x0 = c3.lista_puntos[0].p.X;
             double c_y0 = c3.lista_puntos[0].p.Y;
-            double d_x1 = c3.lista_puntos[c3.lista_puntos.Count - 1].p.X;
-            double d_y1 = c3.lista_puntos[c3.lista_puntos.Count - 1].p.Y;
+            double d_x1 = c3.lista_puntos[1].p.X;
+            double d_y1 = c3.lista_puntos[1].p.Y;
 
             double c_1 = (c_y0 - d_y1) / (c_x0 - d_x1);
             double d_1 = -d_x1 * ((c_y0 - d_y1) / (c_x0 - d_x1)) + d_y1;

@@ -22,8 +22,10 @@
         private double rectas;
         private double curvas;
         private double dis_eliminar;
+        private double gr_rectas;
 
         int[] orden;
+        public double Gr_Rectas { get => gr_rectas; set => gr_rectas = value; }
         public double Dis_eliminar { get => dis_eliminar; set => dis_eliminar = value; }
         public int Suavizado { get => suavizado; set => suavizado = value; }
         public int Opcion { get => opcion; set => opcion = value; }
