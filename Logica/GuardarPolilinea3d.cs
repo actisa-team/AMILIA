@@ -85,7 +85,7 @@ namespace Logica
                         miLw.entidad.Layer = "Polilinea seleccionada";
                         /*Para 3d*/
                         double x, y, z;
-                        for (int i = 0; i < miLw.entidad.EndParam; i++)
+                        for (int i = 0; i <= miLw.entidad.EndParam; i++)
                         {
                             a.Polilinea3d.Rows.Add(miLw.entidad.GetPointAtParameter(i).X, miLw.entidad.GetPointAtParameter(i).Y, miLw.entidad.GetPointAtParameter(i).Z, i + 1);
                         }

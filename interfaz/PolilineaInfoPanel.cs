@@ -117,6 +117,7 @@ namespace interfaz
             dataTable.Columns.Add("Cambio de giro");
             dataTable.Columns.Add("minimo");
             dataTable.Columns.Add("minimi-p");
+            dataTable.Columns.Add("Cambio_az");
 
             this.polilinea.ForEach(punto => {
                 int puntoIndex = this.polilinea.IndexOf(punto);
@@ -152,7 +153,7 @@ namespace interfaz
                 {
                     C_giro = "Cambio sentido";
                 }
-                dataTable.Rows.Add(puntoIndex,punto.p.X, punto.p.Y, tipo, tipo2, punto.R, punto.Rp, giro, C_giro, punto.minimo, punto.minimop);
+                dataTable.Rows.Add(puntoIndex,punto.p.X, punto.p.Y, tipo, tipo2, punto.R, punto.Rp, giro, C_giro, punto.minimo, punto.minimop,punto.CambioAz);
 
             });
 

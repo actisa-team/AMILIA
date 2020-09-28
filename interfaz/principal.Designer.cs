@@ -74,6 +74,16 @@
             this.materialLabel2 = new MaterialSkin.Controls.MaterialLabel();
             this.materialDivider1 = new MaterialSkin.Controls.MaterialDivider();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.materialCheckBox7 = new MaterialSkin.Controls.MaterialCheckBox();
+            this.materialLabel46 = new MaterialSkin.Controls.MaterialLabel();
+            this.textBox9 = new System.Windows.Forms.TextBox();
+            this.materialLabel45 = new MaterialSkin.Controls.MaterialLabel();
+            this.textBox8 = new System.Windows.Forms.TextBox();
+            this.materialLabel44 = new MaterialSkin.Controls.MaterialLabel();
+            this.materialLabel43 = new MaterialSkin.Controls.MaterialLabel();
+            this.button19 = new System.Windows.Forms.Button();
+            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.materialLabel42 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel38 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel35 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel34 = new MaterialSkin.Controls.MaterialLabel();
@@ -170,10 +180,6 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.button19 = new System.Windows.Forms.Button();
-            this.textBox7 = new System.Windows.Forms.TextBox();
-            this.materialLabel42 = new MaterialSkin.Controls.MaterialLabel();
-            this.materialLabel43 = new MaterialSkin.Controls.MaterialLabel();
             this.materialTabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -240,7 +246,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(790, 500);
+            this.tabPage1.Size = new System.Drawing.Size(790, 560);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -480,7 +486,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(790, 500);
+            this.tabPage2.Size = new System.Drawing.Size(790, 560);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.Click += new System.EventHandler(this.tabPage2_Click);
@@ -827,6 +833,12 @@
             // 
             this.tabPage3.AutoScroll = true;
             this.tabPage3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.tabPage3.Controls.Add(this.materialCheckBox7);
+            this.tabPage3.Controls.Add(this.materialLabel46);
+            this.tabPage3.Controls.Add(this.textBox9);
+            this.tabPage3.Controls.Add(this.materialLabel45);
+            this.tabPage3.Controls.Add(this.textBox8);
+            this.tabPage3.Controls.Add(this.materialLabel44);
             this.tabPage3.Controls.Add(this.materialLabel43);
             this.tabPage3.Controls.Add(this.button19);
             this.tabPage3.Controls.Add(this.textBox7);
@@ -882,6 +894,138 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "tabPage3";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // materialCheckBox7
+            // 
+            this.materialCheckBox7.AutoSize = true;
+            this.materialCheckBox7.Depth = 0;
+            this.materialCheckBox7.Font = new System.Drawing.Font("Roboto", 10F);
+            this.materialCheckBox7.Location = new System.Drawing.Point(274, 244);
+            this.materialCheckBox7.Margin = new System.Windows.Forms.Padding(0);
+            this.materialCheckBox7.MouseLocation = new System.Drawing.Point(-1, -1);
+            this.materialCheckBox7.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialCheckBox7.Name = "materialCheckBox7";
+            this.materialCheckBox7.Ripple = true;
+            this.materialCheckBox7.Size = new System.Drawing.Size(139, 30);
+            this.materialCheckBox7.TabIndex = 134;
+            this.materialCheckBox7.Text = "Puntos huerfanos";
+            this.materialCheckBox7.UseVisualStyleBackColor = true;
+            this.materialCheckBox7.Visible = false;
+            this.materialCheckBox7.CheckedChanged += new System.EventHandler(this.materialCheckBox7_CheckedChanged);
+            // 
+            // materialLabel46
+            // 
+            this.materialLabel46.AutoSize = true;
+            this.materialLabel46.Depth = 0;
+            this.materialLabel46.Font = new System.Drawing.Font("Roboto", 11F);
+            this.materialLabel46.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialLabel46.Location = new System.Drawing.Point(432, 257);
+            this.materialLabel46.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel46.Name = "materialLabel46";
+            this.materialLabel46.Size = new System.Drawing.Size(78, 19);
+            this.materialLabel46.TabIndex = 133;
+            this.materialLabel46.Text = "a la media";
+            this.materialLabel46.Visible = false;
+            // 
+            // textBox9
+            // 
+            this.textBox9.Location = new System.Drawing.Point(687, 247);
+            this.textBox9.Name = "textBox9";
+            this.textBox9.Size = new System.Drawing.Size(70, 20);
+            this.textBox9.TabIndex = 132;
+            this.textBox9.Text = "0.1";
+            this.textBox9.Visible = false;
+            // 
+            // materialLabel45
+            // 
+            this.materialLabel45.AutoSize = true;
+            this.materialLabel45.Depth = 0;
+            this.materialLabel45.Font = new System.Drawing.Font("Roboto", 11F);
+            this.materialLabel45.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialLabel45.Location = new System.Drawing.Point(625, 246);
+            this.materialLabel45.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel45.Name = "materialLabel45";
+            this.materialLabel45.Size = new System.Drawing.Size(58, 19);
+            this.materialLabel45.TabIndex = 131;
+            this.materialLabel45.Text = "Valor K";
+            this.materialLabel45.Visible = false;
+            // 
+            // textBox8
+            // 
+            this.textBox8.Location = new System.Drawing.Point(549, 246);
+            this.textBox8.Name = "textBox8";
+            this.textBox8.Size = new System.Drawing.Size(70, 20);
+            this.textBox8.TabIndex = 130;
+            this.textBox8.Text = "1";
+            this.textBox8.Visible = false;
+            // 
+            // materialLabel44
+            // 
+            this.materialLabel44.AutoSize = true;
+            this.materialLabel44.Depth = 0;
+            this.materialLabel44.Font = new System.Drawing.Font("Roboto", 11F);
+            this.materialLabel44.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialLabel44.Location = new System.Drawing.Point(432, 238);
+            this.materialLabel44.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel44.Name = "materialLabel44";
+            this.materialLabel44.Size = new System.Drawing.Size(110, 19);
+            this.materialLabel44.TabIndex = 129;
+            this.materialLabel44.Text = "Veces superior";
+            this.materialLabel44.Visible = false;
+            // 
+            // materialLabel43
+            // 
+            this.materialLabel43.AutoSize = true;
+            this.materialLabel43.Depth = 0;
+            this.materialLabel43.Font = new System.Drawing.Font("Roboto", 11F);
+            this.materialLabel43.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialLabel43.Location = new System.Drawing.Point(7, 257);
+            this.materialLabel43.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel43.Name = "materialLabel43";
+            this.materialLabel43.Size = new System.Drawing.Size(71, 19);
+            this.materialLabel43.TabIndex = 128;
+            this.materialLabel43.Text = "en rectas";
+            this.materialLabel43.Visible = false;
+            // 
+            // button19
+            // 
+            this.button19.BackColor = System.Drawing.Color.White;
+            this.button19.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.button19.FlatAppearance.BorderSize = 0;
+            this.button19.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
+            this.button19.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
+            this.button19.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button19.Image = ((System.Drawing.Image)(resources.GetObject("button19.Image")));
+            this.button19.Location = new System.Drawing.Point(243, 244);
+            this.button19.Name = "button19";
+            this.button19.Size = new System.Drawing.Size(27, 23);
+            this.button19.TabIndex = 127;
+            this.button19.UseVisualStyleBackColor = false;
+            this.button19.Visible = false;
+            this.button19.Click += new System.EventHandler(this.button19_Click);
+            // 
+            // textBox7
+            // 
+            this.textBox7.Location = new System.Drawing.Point(168, 247);
+            this.textBox7.Name = "textBox7";
+            this.textBox7.Size = new System.Drawing.Size(70, 20);
+            this.textBox7.TabIndex = 126;
+            this.textBox7.Text = "2";
+            this.textBox7.Visible = false;
+            // 
+            // materialLabel42
+            // 
+            this.materialLabel42.AutoSize = true;
+            this.materialLabel42.Depth = 0;
+            this.materialLabel42.Font = new System.Drawing.Font("Roboto", 11F);
+            this.materialLabel42.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialLabel42.Location = new System.Drawing.Point(6, 238);
+            this.materialLabel42.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel42.Name = "materialLabel42";
+            this.materialLabel42.Size = new System.Drawing.Size(118, 19);
+            this.materialLabel42.TabIndex = 125;
+            this.materialLabel42.Text = "Grados de unión";
+            this.materialLabel42.Visible = false;
             // 
             // materialLabel38
             // 
@@ -1265,7 +1409,7 @@
             this.SolapesTextField.Name = "SolapesTextField";
             this.SolapesTextField.Size = new System.Drawing.Size(70, 20);
             this.SolapesTextField.TabIndex = 84;
-            this.SolapesTextField.Text = "2000";
+            this.SolapesTextField.Text = "4000";
             this.SolapesTextField.Visible = false;
             // 
             // materialLabel21
@@ -1767,7 +1911,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(790, 500);
+            this.tabPage4.Size = new System.Drawing.Size(790, 560);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "tabPage4";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -2254,60 +2398,6 @@
             this.pictureBox1.TabIndex = 3;
             this.pictureBox1.TabStop = false;
             // 
-            // button19
-            // 
-            this.button19.BackColor = System.Drawing.Color.White;
-            this.button19.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.button19.FlatAppearance.BorderSize = 0;
-            this.button19.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
-            this.button19.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
-            this.button19.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button19.Image = ((System.Drawing.Image)(resources.GetObject("button19.Image")));
-            this.button19.Location = new System.Drawing.Point(243, 244);
-            this.button19.Name = "button19";
-            this.button19.Size = new System.Drawing.Size(27, 23);
-            this.button19.TabIndex = 127;
-            this.button19.UseVisualStyleBackColor = false;
-            this.button19.Visible = false;
-            this.button19.Click += new System.EventHandler(this.button19_Click);
-            // 
-            // textBox7
-            // 
-            this.textBox7.Location = new System.Drawing.Point(168, 247);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(70, 20);
-            this.textBox7.TabIndex = 126;
-            this.textBox7.Text = "2";
-            this.textBox7.Visible = false;
-            // 
-            // materialLabel42
-            // 
-            this.materialLabel42.AutoSize = true;
-            this.materialLabel42.Depth = 0;
-            this.materialLabel42.Font = new System.Drawing.Font("Roboto", 11F);
-            this.materialLabel42.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialLabel42.Location = new System.Drawing.Point(6, 238);
-            this.materialLabel42.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel42.Name = "materialLabel42";
-            this.materialLabel42.Size = new System.Drawing.Size(118, 19);
-            this.materialLabel42.TabIndex = 125;
-            this.materialLabel42.Text = "Grados de unión";
-            this.materialLabel42.Visible = false;
-            // 
-            // materialLabel43
-            // 
-            this.materialLabel43.AutoSize = true;
-            this.materialLabel43.Depth = 0;
-            this.materialLabel43.Font = new System.Drawing.Font("Roboto", 11F);
-            this.materialLabel43.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialLabel43.Location = new System.Drawing.Point(7, 257);
-            this.materialLabel43.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel43.Name = "materialLabel43";
-            this.materialLabel43.Size = new System.Drawing.Size(71, 19);
-            this.materialLabel43.TabIndex = 128;
-            this.materialLabel43.Text = "en rectas";
-            this.materialLabel43.Visible = false;
-            // 
             // principal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2501,5 +2591,11 @@
         private System.Windows.Forms.TextBox textBox7;
         private MaterialLabel materialLabel42;
         private MaterialLabel materialLabel43;
+        private MaterialLabel materialLabel46;
+        private System.Windows.Forms.TextBox textBox9;
+        private MaterialLabel materialLabel45;
+        private System.Windows.Forms.TextBox textBox8;
+        private MaterialLabel materialLabel44;
+        private MaterialCheckBox materialCheckBox7;
     }
 }

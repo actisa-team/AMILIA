@@ -23,6 +23,8 @@
         private double curvas;
         private double dis_eliminar;
         private double gr_rectas;
+        private double veces;
+        private double k;
 
         int[] orden;
         public double Gr_Rectas { get => gr_rectas; set => gr_rectas = value; }
@@ -47,5 +49,7 @@
         public double Curvas { get => curvas; set => curvas = value; }
         public bool Dividir_curvas { get => dividir_curvas; set => dividir_curvas = value; }
         public double Rectas { get => rectas; set => rectas = value; }
+        public double Veces { get => veces; set => veces = value; }
+        public double K { get => k; set => k = value; }
     }
 }

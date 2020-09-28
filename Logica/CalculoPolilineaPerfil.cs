@@ -106,6 +106,28 @@ namespace Logica
                             Vaciar_Puntos();
                             RellenarDatos();
                         }
+                        else if (opcion == 2)
+                        {
+                            FiltradoCambioSentido(true, ref contador);
+                            if (contador == 0)
+                            {
+                                salida = false;
+                            }
+                            contador = 0;
+                            Vaciar_Puntos();
+                            RellenarDatos();
+                        }
+                        else if (opcion == 3)
+                        {
+                            FiltradoGiroLongitud(ratio, true, ref contador);
+                            if (contador == 0)
+                            {
+                                salida = false;
+                            }
+                            contador = 0;
+                            Vaciar_Puntos();
+                            RellenarDatos();
+                        }
                     }
                     Dibujar(2);
                     foreach (Punto p in polilinea)
