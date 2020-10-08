@@ -26,7 +26,7 @@ namespace Logica
     using Logica.verificacion;
     public class CalculoPolilineaPerfil
     {
-        double ratio,x_ins,y_ins;
+        public double ratio,x_ins,y_ins,x_inicial,y_inicial;
         int escala=1;
         List<Punto> polilinea = new List<Punto>();
         List<Punto> polilinea_inicial = new List<Punto>();
@@ -39,10 +39,57 @@ namespace Logica
         List<List<PuntoPerfil>> lista_sentidos = new List<List<PuntoPerfil>>();
         dsApp datoApp = new dsApp();
         public List<Parabola> Lista_Parabolas { get => Lista_parabolas; set => Lista_parabolas = value; }
+        public List<Pendiente> Lista_Rectas { get => Lista_rectas; set => Lista_rectas = value; }
         public List<Point3d> Polilinea3d_Original { get => Polilinea3d_original; set => Polilinea3d_original = value; }
         public List<Punto> Polilinea { get => polilinea; set => polilinea = value; }
         public List<PuntoPerfil> Polilinea_Perfil { get => polilinea_perfil; set => polilinea_perfil = value; }
+        public List<Punto> Polilinea_Inicial { get => polilinea_inicial; set => polilinea_inicial = value; }
         public CalculoPolilineaPerfil() { 
+        }
+
+        public CalculoPolilineaPerfil(List<Point2d> l,int escal,double x,double y,int n_suavizados)
+        {
+            foreach (Point2d point in l)
+            {
+                Punto p = new Punto(point);
+                polilinea.Add(p);
+            }
+            Insercion(x, y);
+            RellenarDatos();
+            escala = escal;
+            double y_alt = polilinea[0].p.Y;
+            for (int i = 1; i < polilinea.Count; i++)
+            {
+                if (polilinea[0].p.Y < y_alt)
+                {
+                    y_alt = polilinea[0].p.Y;
+                }
+            }
+            y_ins -= (y_alt * escala);
+            foreach (Punto p in polilinea)
+            {
+                polilinea_inicial.Add(p);
+            }
+            polilinea = Duplicar_puntos(polilinea);
+            Vaciar_Puntos();
+            RellenarDatos();
+            polilinea = Duplicar_puntos(polilinea);
+            Vaciar_Puntos();
+            RellenarDatos();
+            polilinea = Duplicar_puntos(polilinea);
+            Vaciar_Puntos();
+            RellenarDatos();
+
+            for (int i = 0; i < n_suavizados; i++)
+            {
+                polilinea = Suavizar(polilinea);
+            }
+
+            Vaciar_Puntos();
+            RellenarDatos();
+
+            Iguales();
+
         }
         public CalculoPolilineaPerfil(ref dsApp a, int opcion, double ratio, int it,int escal,int n_suavizados,double dis)
         {
@@ -1753,7 +1800,7 @@ namespace Logica
                 }
             }
             Reajustar_Cota();
-            Dibujar(3, polilinea_perfil);
+            //Dibujar(3, polilinea_perfil);
             //Calculamos la pendiente y la pendiente_p
             for (int i=1;i<polilinea_perfil.Count;i++)
             {
@@ -3323,6 +3370,37 @@ namespace Logica
         /// <param name="p2">punto 2 del segmento</param>
         /// <param name="partes">partes en las que dividimos el segmento</param>
         /// <returns>puntos intermedios del segmento ya dividido</returns>
+        private List<Point2d> Dividir_Segmento(Point2d p1, Point2d p2, int partes)
+        {
+            List<Point2d> segmento = new List<Point2d>();
+            double r;
+            double x, y;
+
+
+            for (int i = 1; i <= partes; i++)
+            {
+                r = ((double)partes - (double)i) / (double)i;
+                x = (p1.X + r * p2.X) / (1 + r);
+                y = (p1.Y + r * p2.Y) / (1 + r);
+                if (segmento.Count == 0)
+                {
+                    segmento.Add(new Point2d(x, y));
+                }
+                else
+                {
+                    segmento.Add(new Point2d(x, y));
+                }
+
+            }
+            return segmento;
+        }
+        /// <summary>
+        /// Divide un segmento
+        /// </summary>
+        /// <param name="p1">punto 1 del segmento</param>
+        /// <param name="p2">punto 2 del segmento</param>
+        /// <param name="partes">partes en las que dividimos el segmento</param>
+        /// <returns>puntos intermedios del segmento ya dividido</returns>
         private List<Point3d> Dividir_Segmento(Point3d p1, Point3d p2,int partes)
         {
             List<Point3d> segmento = new List<Point3d>();
@@ -3348,6 +3426,47 @@ namespace Logica
                
             }
             return segmento;
+        }
+        /// <summary>
+        /// Crea una polilinea cuyos tramos no tienen mas de 1 metros
+        /// </summary>
+        /// <param name="polilinea">polilinea original a dividir</param>
+        /// <returns>polilinea ya dividida</returns>
+        private List<Point2d> Dividir_Segmentos_Largos(List<Point2d> polilinea)
+        {
+            List<Point2d> polilinea_temp = new List<Point2d>();
+            List<Point2d> segmento = new List<Point2d>();
+            Point2d p1 = new Point2d();
+            Point2d p2 = new Point2d();
+            int partes = 1;
+            for (int i = 0; i < polilinea.Count - 1; i++)
+            {
+                p1 = new Point2d(polilinea[i].X, polilinea[i].Y);
+                p2 = new Point2d(polilinea[i + 1].X, polilinea[i + 1].Y);
+                if (Distancia(p1, p2) > 0.1)
+                {
+                    polilinea_temp.Add(polilinea[i]);
+                    partes = (int)Math.Truncate(Distancia(p1, p2) * 100);
+                    if (partes > 1)
+                    {
+                        segmento = Dividir_Segmento(polilinea[i + 1], polilinea[i], partes);
+                    }
+                    else
+                    {
+                        segmento = Dividir_Segmento(polilinea[i + 1], polilinea[i], 2);
+                    }
+                    for (int t = 0; t < segmento.Count; t++)
+                    {
+                        polilinea_temp.Add(segmento[t]);
+                    }
+                }
+                else
+                {
+                    polilinea_temp.Add(polilinea[i]);
+                }
+            }
+            polilinea_temp.Add(polilinea[polilinea.Count - 1]);
+            return polilinea_temp;
         }
         /// <summary>
         /// Crea una polilinea cuyos tramos no tienen mas de 0.1 metros
@@ -3405,6 +3524,12 @@ namespace Logica
 
             return cota;
         }
+
+        public List<double> Distancia_Puntos_Resultado(Polyline poly, List<Point3d> polilinea3d_Original)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Se elimina el error de un punto erroneo que se detecta a una distancia demasiado grande
         /// </summary>
@@ -4508,6 +4633,39 @@ namespace Logica
             }
 
         }
+        public Polyline CrearTrazado_Automatico()
+        {
+
+            if (Lista_rectas[0].Puntos[0].X < Lista_parabolas[0].polilinea_perfil[0].p.X)
+            {
+                return Dibujar_Trazado_Automatico(1);
+            }
+            else
+            {
+                return Dibujar_Trazado_Automatico(2);
+            }
+
+        }
+        public void Dibujar_Trazado_Automatico_final(Polyline miEje)
+        {
+            using (DocumentLock myDockLock = oCadManager.thisEditor.Document.LockDocument())
+            {
+                using (Transaction tr = oCadManager.StartTransaction())
+                { 
+                    BlockTable bt = (BlockTable)tr.GetObject(oCadManager.thisBase.BlockTableId, OpenMode.ForRead, false);
+                    BlockTableRecord btr = (BlockTableRecord)tr.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite, false);
+                    engCadNet.oLayer.addLayer("Trazado", 2, false);
+                    miEje.Layer = "Trazado";
+
+                    btr.AppendEntity(miEje);
+                    tr.AddNewlyCreatedDBObject(miEje, true);
+
+                    oCadManager.thisEditor.UpdateScreen();
+
+                    tr.Commit();
+                }
+            }
+        }
         /// <summary>
         /// Dibuja el trazado completo
         /// </summary>
@@ -4713,6 +4871,174 @@ namespace Logica
                 }
             }
             
+        }
+        /// <summary>
+        /// Dibuja el trazado completo
+        /// </summary>
+        /// <param name="tipo">1 para empezar por pendiente y 2 para empezar por acuerdo</param>
+        public Polyline Dibujar_Trazado_Automatico(int tipo)
+        {
+            Polyline miEje = new Polyline();
+            if (tipo == 2)
+            {
+                int index = 0;
+                double p2_x = 0;
+                for (int t = 0; t < Lista_rectas.Count && t < Lista_parabolas.Count; t++)
+                {
+                    double x2 = Lista_parabolas[t].parabola[0];
+                    double x1 = Lista_parabolas[t].parabola[1];
+                    double x = Lista_parabolas[t].parabola[2];
+                    double pk_ini = 0;
+                    if (t > 0)
+                    {
+                        pk_ini = p2_x;
+                    }
+
+                    double pk_fin = Lista_parabolas[t].polilinea_perfil[Lista_parabolas[t].polilinea_perfil.Count - 1].p.X;
+                    if (t <= Lista_rectas.Count - 1)
+                    {
+                        pk_fin = Lista_rectas[t].Puntos[0].X;
+                    }
+                    double pk = pk_ini;
+                    double y;
+                    for (int i = 0; pk < pk_fin; i++)
+                    {
+                        y = (pk * pk) * x2 + pk * x1 + x;//x^2+x+c
+
+                        miEje.AddVertexAt(index, new Point2d(pk + x_ins, y * escala + y_ins), 0, 0, 0);
+                        pk = pk + 1;
+                        index++;
+                    }
+                    y = (pk_fin * pk_fin) * x2 + pk_fin * x1 + x;//x^2+x+c
+
+                    miEje.AddVertexAt(index, new Point2d(pk_fin + x_ins, y * escala + y_ins), 0, 0, 0);
+                    index++;
+
+                    double p1_x = Lista_rectas[t].Puntos[0].X;
+                    double p1_y = Lista_rectas[t].Puntos[0].Y;
+                    miEje.AddVertexAt(index, new Point2d(p1_x + x_ins, p1_y * escala + y_ins), 0, 0, 0);
+                    index++;
+                    p2_x = Lista_rectas[t].Puntos[1].X;
+                    double p2_y = Lista_rectas[t].Puntos[1].Y;
+                    miEje.AddVertexAt(index, new Point2d(p2_x + x_ins, p2_y * escala + y_ins), 0, 0, 0);
+                    index++;
+
+                }
+                if (Lista_rectas.Count > Lista_parabolas.Count)
+                {
+                    double p1_x = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].X;
+                    double p1_y = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].Y;
+                    miEje.AddVertexAt(index, new Point2d(p1_x + x_ins, p1_y * escala + y_ins), 0, 0, 0);
+                    index++;
+                    p2_x = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
+                    double p2_y = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].Y;
+                    miEje.AddVertexAt(index, new Point2d(p2_x + x_ins, p2_y * escala + y_ins), 0, 0, 0);
+                    index++;
+                }
+                else
+                {
+                    if (Lista_rectas.Count < Lista_parabolas.Count)
+                    {
+                        double x2 = Lista_parabolas[Lista_parabolas.Count - 1].parabola[0];
+                        double x1 = Lista_parabolas[Lista_parabolas.Count - 1].parabola[1];
+                        double x = Lista_parabolas[Lista_parabolas.Count - 1].parabola[2];
+                        double pk_ini = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
+                        double pk_fin = Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil[Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil.Count - 1].p.X;
+                        double pk = pk_ini;
+                        double y;
+                        for (int i = 0; pk < pk_fin; i++)
+                        {
+                            y = (pk * pk) * x2 + pk * x1 + x;//x^2+x+c
+
+                            miEje.AddVertexAt(index, new Point2d(pk + x_ins, y * escala + y_ins), 0, 0, 0);
+                            pk = pk + 0.1;
+                            index++;
+                        }
+                        y = (pk_fin * pk_fin) * x2 + pk_fin * x1 + x;//x^2+x+c
+
+                        miEje.AddVertexAt(index, new Point2d(pk_fin + x_ins, y * escala + y_ins), 0, 0, 0);
+                        index++;
+                    }
+
+                }
+            }
+            else
+            {
+                
+                int index = 0;
+                for (int t = 0; t < Lista_rectas.Count && t < Lista_parabolas.Count; t++)
+                {
+                    double p1_x = Lista_rectas[t].Puntos[0].X;
+                    double p1_y = Lista_rectas[t].Puntos[0].Y;
+                    miEje.AddVertexAt(index, new Point2d(p1_x + x_ins, p1_y * escala + y_ins), 0, 0, 0);
+                    index++;
+                    double p2_x = Lista_rectas[t].Puntos[1].X;
+                    double p2_y = Lista_rectas[t].Puntos[1].Y;
+                    miEje.AddVertexAt(index, new Point2d(p2_x + x_ins, p2_y * escala + y_ins), 0, 0, 0);
+                    index++;
+                    double x2 = Lista_parabolas[t].parabola[0];
+                    double x1 = Lista_parabolas[t].parabola[1];
+                    double x = Lista_parabolas[t].parabola[2];
+                    double pk_ini = p2_x;
+                    double pk_fin = Lista_parabolas[t].polilinea_perfil[Lista_parabolas[t].polilinea_perfil.Count - 1].p.X;
+                    if (t + 1 <= Lista_rectas.Count - 1)
+                    {
+                        pk_fin = Lista_rectas[t + 1].Puntos[0].X;
+                    }
+                    double pk = pk_ini;
+                    double y;
+                    for (int i = 0; pk < pk_fin; i++)
+                    {
+                        y = (pk * pk) * x2 + pk * x1 + x;//x^2+x+c
+
+                        miEje.AddVertexAt(index, new Point2d(pk + x_ins, y * escala + y_ins), 0, 0, 0);
+                        pk = pk + 1;
+                        index++;
+                    }
+                    y = (pk_fin * pk_fin) * x2 + pk_fin * x1 + x;//x^2+x+c
+
+                    miEje.AddVertexAt(index, new Point2d(pk_fin + x_ins, y * escala + y_ins), 0, 0, 0);
+                    index++;
+                }
+                if (Lista_rectas.Count > Lista_parabolas.Count)
+                {
+                    double p1_x = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].X;
+                    double p1_y = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].Y;
+                    miEje.AddVertexAt(index, new Point2d(p1_x + x_ins, p1_y * escala + y_ins), 0, 0, 0);
+                    index++;
+                    double p2_x = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
+                    double p2_y = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].Y;
+                    miEje.AddVertexAt(index, new Point2d(p2_x + x_ins, p2_y * escala + y_ins), 0, 0, 0);
+                    index++;
+                }
+                else
+                {
+                    if (Lista_rectas.Count < Lista_parabolas.Count)
+                    {
+                        double x2 = Lista_parabolas[Lista_parabolas.Count - 1].parabola[0];
+                        double x1 = Lista_parabolas[Lista_parabolas.Count - 1].parabola[1];
+                        double x = Lista_parabolas[Lista_parabolas.Count - 1].parabola[2];
+                        double pk_ini = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
+                        double pk_fin = Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil[Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil.Count - 1].p.X;
+                        double pk = pk_ini;
+                        double y;
+                        for (int i = 0; pk < pk_fin; i++)
+                        {
+                            y = (pk * pk) * x2 + pk * x1 + x;//x^2+x+c
+
+                            miEje.AddVertexAt(index, new Point2d(pk + x_ins, y * escala + y_ins), 0, 0, 0);
+                            pk = pk + 0.1;
+                            index++;
+                        }
+                        y = (pk_fin * pk_fin) * x2 + pk_fin * x1 + x;//x^2+x+c
+
+                        miEje.AddVertexAt(index, new Point2d(pk_fin + x_ins, y * escala + y_ins), 0, 0, 0);
+                        index++;
+                    }
+
+                }
+            }
+            return miEje;
         }
         public double Buscar_minimo()
         {
@@ -5217,7 +5543,60 @@ namespace Logica
         {
             x_ins = x;
             y_ins = y;
-            
+            x_inicial = x;
+            y_inicial = y;
+        }
+
+        /// <summary>
+        /// Distancia entre el eje real y el trazado
+        /// </summary>
+        /// <param name="Mcomponenetes"></param>
+        /// <param name="lista_original"></param>
+        /// <returns></returns>
+        public List<double> Distancia_Puntos_Resultado(Polyline poly, List<Point2d> lista_original)
+        {
+            List<Tuple<Point2d, int>> Polilinea2d = new List<Tuple<Point2d, int>>();
+            List<Point2d> Polilinea2d_aux = new List<Point2d>();
+            int cont_comp = 0;
+            Point2d p3d = new Point2d();
+            for (int i=0;i<poly.NumberOfVertices; i++)
+            {
+                Polilinea2d_aux.Add(poly.GetPoint2dAt(i));
+            }
+
+            Polilinea2d_aux = Dividir_Segmentos_Largos(Polilinea2d_aux);
+            List<Point2d> Polilinea_original = new List<Point2d>();
+            foreach (Point2d p in lista_original)
+            {
+                Polilinea_original.Add(new Point2d(p.X+ x_inicial, p.Y * escala + y_ins));
+            }
+            List<double> distancias = new List<double>();
+            double distancia = 0;
+            double distancia_g = 0;
+
+            distancia_g = Distancia(new Point2d(Polilinea2d_aux[0].X, Polilinea2d_aux[0].Y), new Point2d(Polilinea_original[0].X, Polilinea_original[0].Y))/escala;
+            distancias.Add(distancia_g);
+            for (int i = 1; i < Polilinea_original.Count; i++)
+            {
+                distancia_g = Distancia(new Point2d(Polilinea2d_aux[0].X, Polilinea2d_aux[0].Y), new Point2d(Polilinea_original[i].X, Polilinea_original[i].Y)) / escala;
+                for (int t = 0; t < Polilinea2d_aux.Count; t++)
+                {
+                    distancia = Distancia(new Point2d(Polilinea2d_aux[t].X, Polilinea2d_aux[t].Y), new Point2d(Polilinea_original[i].X, Polilinea_original[i].Y)) / escala;
+                    if (distancia_g > distancia)
+                    {
+                        distancia_g = distancia;
+                    }
+
+                }
+                distancias.Add(distancia_g);
+                //esto es para que no continue si la distancia es muy grande
+                if (distancia_g > 40)
+                {
+                    break;
+                }
+            }
+            //Informe(Polilinea_original, distancias);
+            return distancias;
         }
     }
 }
