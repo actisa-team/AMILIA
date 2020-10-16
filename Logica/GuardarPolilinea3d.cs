@@ -20,6 +20,7 @@ namespace Logica
         public GuardarPolilinea3d(ref dsApp a)
         {
             Set_Polilinea3d(ref a);
+
             Guardar(ref a);
         }
         public void Guardar(ref dsApp a)

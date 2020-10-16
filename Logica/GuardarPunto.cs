@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Application = Autodesk.AutoCAD.ApplicationServices.Application;
 using Autodesk.AutoCAD.EditorInput;
+using Autodesk.AutoCAD.Interop;
 
 namespace Logica
 {
@@ -27,31 +28,45 @@ namespace Logica
 
         private void Set_Punto(ref Point3d fstCnr)
         {
+
+
+            /*Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+            doc.Window.Focus();
+            doc.SendStringToExecute("\x03\x03", false, true, false);*/
             Document acDoc = Application.DocumentManager.MdiActiveDocument;
-            Database acCurDb = acDoc.Database;
-            using (DocumentLock docLock = acDoc.LockDocument())
+            if (acDoc.CommandInProgress.Count()==0)
             {
-                Editor acEd = acDoc.Editor;
+                Database acCurDb = acDoc.Database;
 
-                // Starts a new transaction with the Transaction Manager.
-                using (Transaction acTrans = acCurDb.TransactionManager.StartTransaction())
+                using (DocumentLock docLock = acDoc.LockDocument())
                 {
-                    // Open the Block table record for read.
-                    BlockTable acBlkTbl = acTrans.GetObject(acCurDb.BlockTableId, OpenMode.ForRead) as BlockTable;
+                    Editor acEd = acDoc.Editor;
 
-                    // Open the Block table record Model Space for write.
-                    BlockTableRecord acBlkTblRec = acTrans.GetObject(acBlkTbl[BlockTableRecord.ModelSpace], OpenMode.ForWrite) as BlockTableRecord;
+                    // Starts a new transaction with the Transaction Manager.
+                    using (Transaction acTrans = acCurDb.TransactionManager.StartTransaction())
+                    {
 
-                    // Prompt for user input.
-                    // Click the first rectangle's corner.
-                    PromptPointOptions fstCnrPtOpt = new PromptPointOptions("\nIndique donde quiere que se imprima el resultado");
-                    PromptPointResult fstCnrPtRes = acDoc.Editor.GetPoint(fstCnrPtOpt);
-                    fstCnr = fstCnrPtRes.Value;
+                        // Open the Block table record for read.
+                        BlockTable acBlkTbl = acTrans.GetObject(acCurDb.BlockTableId, OpenMode.ForRead) as BlockTable;
 
-                    // Saves the changes to the database and closes the transaction.
-                    acTrans.Commit();
+                        // Open the Block table record Model Space for write.
+                        BlockTableRecord acBlkTblRec = acTrans.GetObject(acBlkTbl[BlockTableRecord.ModelSpace], OpenMode.ForWrite) as BlockTableRecord;
+
+                        // Prompt for user input.
+                        // Click the first rectangle's corner.
+                        PromptPointOptions fstCnrPtOpt = new PromptPointOptions("\nIndique donde quiere que se imprima el resultado");
+                        PromptPointResult fstCnrPtRes = acDoc.Editor.GetPoint(fstCnrPtOpt);
+                        fstCnr = fstCnrPtRes.Value;
+                        // Saves the changes to the database and closes the transaction.
+                        acTrans.Commit();
+                    }
                 }
             }
+            else
+            {
+
+            }
+            
         }
 
     }

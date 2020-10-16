@@ -66,7 +66,7 @@ namespace Logica {
         public List<Componente> Componentes { get => componentes; set => componentes = value; }
         public List<Componente> Componentes_iniciales { get => componentes_iniciales; set => componentes_iniciales = value; }
         public List<Punto> Polilinea { get => polilinea; set => polilinea = value; }
-
+        public bool automatico = false;
         public CalculoPolilinea() {
 
         }
@@ -7120,6 +7120,10 @@ namespace Logica {
                 {
                     distancia_max = d;
                 }
+            }
+            if (Lista_original_2d.Count>distancias.Count)
+            {
+                distancia_max = 1000;
             }
             //result = MessageBox.Show("La distancia maxima es de"+distancia_max+"\n¿Desea pintar el trazado resultante?", "Error de trazado", MessageBoxButtons.YesNo);
             if (false)
@@ -17501,7 +17505,7 @@ namespace Logica {
                                     this.viabilidadListeners.ForEach(listener => listener.onNewViabilidadStatus("enlaces", viabilidadEnlacesStatus, this.componentes, whileIndex));
                                 }
 
-                                if (contador == 20000)
+                                if (contador == 20000 && !automatico)
                                 {
                                     DialogResult result = MessageBox.Show("Se han ejecutado " + contador + " iteraciones. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
                                     if (result == DialogResult.No)
@@ -17509,7 +17513,7 @@ namespace Logica {
                                         terminar = true;
                                     }
                                 }
-                                if (contador == 40000)
+                                if (contador == 40000 && !automatico)
                                 {
                                     DialogResult result = MessageBox.Show("Se han ejecutado " + contador + " iteraciones. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
                                     if (result == DialogResult.No)
@@ -17517,7 +17521,7 @@ namespace Logica {
                                         terminar = true;
                                     }
                                 }
-                                if (contador == 60000)
+                                if (contador == 60000 && !automatico)
                                 {
                                     DialogResult result = MessageBox.Show("Se han ejecutado " + contador + " iteraciones. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
                                     if (result == DialogResult.No)
@@ -17525,7 +17529,7 @@ namespace Logica {
                                         terminar = true;
                                     }
                                 }
-                                if (contador == 80000)
+                                if (contador == 80000 && !automatico)
                                 {
                                     DialogResult result = MessageBox.Show("Se han ejecutado " + contador + " iteraciones. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
                                     if (result == DialogResult.No)
@@ -17535,7 +17539,7 @@ namespace Logica {
                                 }
                                 DateTime tiempo2 = DateTime.Now;
                                 TimeSpan total = new TimeSpan(tiempo2.Ticks - tiempo1.Ticks);
-                                if (total.TotalSeconds > 600 && total.TotalSeconds < 700 && pregunta1)
+                                if (total.TotalSeconds > 600 && total.TotalSeconds < 700 && pregunta1 && !automatico)
                                 {
                                     DialogResult result = MessageBox.Show("Se ha ejecutado durante 10 minutos. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
                                     if (result == DialogResult.No)
@@ -17544,7 +17548,7 @@ namespace Logica {
                                     }
                                     pregunta1 = false;
                                 }
-                                if (total.TotalSeconds > 1200 && total.TotalSeconds < 1300 && pregunta2)
+                                if (total.TotalSeconds > 1200 && total.TotalSeconds < 1300 && pregunta2 && !automatico)
                                 {
                                     DialogResult result = MessageBox.Show("Se ha ejecutado durante 20 minutos. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
                                     if (result == DialogResult.No)
@@ -17553,7 +17557,7 @@ namespace Logica {
                                     }
                                     pregunta2 = false;
                                 }
-                                if (total.TotalSeconds > 1800 && total.TotalSeconds < 1900 && pregunta2)
+                                if (total.TotalSeconds > 1800 && total.TotalSeconds < 1900 && pregunta2 && !automatico)
                                 {
                                     DialogResult result = MessageBox.Show("Se ha ejecutado durante 30 minutos. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
                                     if (result == DialogResult.No)
@@ -17562,7 +17566,7 @@ namespace Logica {
                                     }
                                     pregunta3 = false;
                                 }
-                                if (total.TotalSeconds > 2400 && total.TotalSeconds < 2500 && pregunta2)
+                                if (total.TotalSeconds > 2400 && total.TotalSeconds < 2500 && pregunta2 && !automatico)
                                 {
                                     DialogResult result = MessageBox.Show("Se ha ejecutado durante 40 minutos. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
                                     if (result == DialogResult.No)
@@ -17571,6 +17575,15 @@ namespace Logica {
                                     }
                                     pregunta4 = false;
                                 }
+                            if (automatico && total.TotalSeconds>1500)
+                            {
+                                terminar = true;
+                            }
+                            if(automatico && contador>50000)
+                            {
+                                terminar = true;
+                            }
+
                                 //Console.Write("TIEMPO: " + total.ToString());
                                 //mostrarCasos_Enlaces();
                                 Modificacion(viabilidadEnlacesStatus, gran_r);
@@ -18820,7 +18833,7 @@ namespace Logica {
                                 this.viabilidadListeners.ForEach(listener => listener.onNewViabilidadStatus("enlaces", viabilidadEnlacesStatus, this.componentes, whileIndex));
                             }
 
-                            if (contador == 20000)
+                            if (contador == 20000 && !automatico)
                             {
                                 DialogResult result = MessageBox.Show("Se han ejecutado " + contador + " iteraciones. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
                                 if (result == DialogResult.No)
@@ -18828,7 +18841,7 @@ namespace Logica {
                                     terminar = true;
                                 }
                             }
-                            if (contador == 40000)
+                            if (contador == 40000 && !automatico)
                             {
                                 DialogResult result = MessageBox.Show("Se han ejecutado " + contador + " iteraciones. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
                                 if (result == DialogResult.No)
@@ -18836,7 +18849,7 @@ namespace Logica {
                                     terminar = true;
                                 }
                             }
-                            if (contador == 60000)
+                            if (contador == 60000 && !automatico)
                             {
                                 DialogResult result = MessageBox.Show("Se han ejecutado " + contador + " iteraciones. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
                                 if (result == DialogResult.No)
@@ -18844,7 +18857,7 @@ namespace Logica {
                                     terminar = true;
                                 }
                             }
-                            if (contador == 80000)
+                            if (contador == 80000 && !automatico)
                             {
                                 DialogResult result = MessageBox.Show("Se han ejecutado " + contador + " iteraciones. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
                                 if (result == DialogResult.No)
@@ -18854,7 +18867,7 @@ namespace Logica {
                             }
                             DateTime tiempo2 = DateTime.Now;
                             TimeSpan total = new TimeSpan(tiempo2.Ticks - tiempo1.Ticks);
-                            if (total.TotalSeconds > 600 && total.TotalSeconds < 700 && pregunta1)
+                            if (total.TotalSeconds > 600 && total.TotalSeconds < 700 && pregunta1 && !automatico)
                             {
                                 DialogResult result = MessageBox.Show("Se ha ejecutado durante 10 minutos. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
                                 if (result == DialogResult.No)
@@ -18863,7 +18876,7 @@ namespace Logica {
                                 }
                                 pregunta1 = false;
                             }
-                            if (total.TotalSeconds > 1200 && total.TotalSeconds < 1300 && pregunta2)
+                            if (total.TotalSeconds > 1200 && total.TotalSeconds < 1300 && pregunta2 && !automatico)
                             {
                                 DialogResult result = MessageBox.Show("Se ha ejecutado durante 20 minutos. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
                                 if (result == DialogResult.No)
@@ -18872,7 +18885,7 @@ namespace Logica {
                                 }
                                 pregunta2 = false;
                             }
-                            if (total.TotalSeconds > 1800 && total.TotalSeconds < 1900 && pregunta2)
+                            if (total.TotalSeconds > 1800 && total.TotalSeconds < 1900 && pregunta2 && !automatico)
                             {
                                 DialogResult result = MessageBox.Show("Se ha ejecutado durante 30 minutos. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
                                 if (result == DialogResult.No)
@@ -18881,7 +18894,7 @@ namespace Logica {
                                 }
                                 pregunta3 = false;
                             }
-                            if (total.TotalSeconds > 2400 && total.TotalSeconds < 2500 && pregunta2)
+                            if (total.TotalSeconds > 2400 && total.TotalSeconds < 2500 && pregunta2 && !automatico)
                             {
                                 DialogResult result = MessageBox.Show("Se ha ejecutado durante 40 minutos. ¿Quiere continuar?", "Información", MessageBoxButtons.YesNo);
                                 if (result == DialogResult.No)
@@ -18889,6 +18902,14 @@ namespace Logica {
                                     terminar = true;
                                 }
                                 pregunta4 = false;
+                            }
+                            if (automatico && total.TotalSeconds > 1500)
+                            {
+                                terminar = true;
+                            }
+                            if (automatico && contador > 50000)
+                            {
+                                terminar = true;
                             }
                             //Console.Write("TIEMPO: " + total.ToString());
                             //mostrarCasos_Enlaces();
@@ -28371,11 +28392,11 @@ namespace Logica {
                 }
                 if (dis1>dis2)
                 {
-                    dis_com = dis1 * 0.15;
+                    dis_com = dis1 * 0.30;
                 }
                 else
                 {
-                    dis_com = dis2 * 0.15;
+                    dis_com = dis2 * 0.30;
                 }
                 distancia_g = Distancia(new Point2d(Polilinea2d[0].Item1.X, Polilinea2d[0].Item1.Y), new Point2d(Polilinea_original[i].X, Polilinea_original[i].Y));
                 for (int t = 0; t < Polilinea2d.Count; t++)
@@ -28390,7 +28411,7 @@ namespace Logica {
                 
                 distancias.Add(distancia_g);
                 //esto es para que no continue si la distancia es muy grande
-                if ((distancia_g > dis_com && distancia_g>4) || distancia_g> distancia_menor)
+                if ((distancia_g > dis_com && distancia_g>15) || distancia_g> distancia_menor)
                 {
                     break;
                 }
@@ -29229,6 +29250,26 @@ namespace Logica {
                         }
                 }
             }
+        }
+        public void Suavizar_automatico(int suavizado)
+        {
+            for (int i = 0; i < suavizado; i++)
+            {
+                polilinea = Suavizar_ini(polilinea);
+            }
+            if (suavizado > 0)
+            {
+                while (Distancia(new Point2d(polilinea[0].p.X, polilinea[0].p.Y), new Point2d(polilinea[1].p.X, polilinea[1].p.Y)) < 0.20)
+                {
+                    polilinea.RemoveAt(1);
+                }
+                while (Distancia(new Point2d(polilinea[polilinea.Count - 1].p.X, polilinea[polilinea.Count - 1].p.Y), new Point2d(polilinea[polilinea.Count - 2].p.X, polilinea[polilinea.Count - 2].p.Y)) < 0.20)
+                {
+                    polilinea.RemoveAt(polilinea.Count - 2);
+                }
+            }
+            Vaciar_Puntos();
+            RellenarDatos();
         }
     }
 

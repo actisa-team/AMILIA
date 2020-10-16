@@ -83,6 +83,12 @@
     <Compile Include="ComponentesInfoPanel.Designer.cs">
       <DependentUpon>ComponentesInfoPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Detener.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Detener.Designer.cs">
+      <DependentUpon>Detener.cs</DependentUpon>
+    </Compile>
     <Compile Include="info_m3.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -135,6 +141,9 @@
   <ItemGroup>
     <EmbeddedResource Include="ComponentesInfoPanel.resx">
       <DependentUpon>ComponentesInfoPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Detener.resx">
+      <DependentUpon>Detener.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="info_m3.resx">
       <DependentUpon>info_m3.cs</DependentUpon>
