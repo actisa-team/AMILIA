@@ -19,6 +19,7 @@ namespace Logica {
     using Logica.verificacion;
     using System.Diagnostics;
     using System.Security.Cryptography.X509Certificates;
+    using System.Security.Cryptography;
 
     public class CalculoPolilinea {
         public enum tipoCurva { cnp, cnpAnguloReducido, cp, c5000, c2500, noValorado };
@@ -37,7 +38,7 @@ namespace Logica {
         List<Componente> componentes_iniciales = new List<Componente>();
         List<Componente> componentes_temp = new List<Componente>();
         List<EjeDeTrazado.componentes.Componente> mcomponenetes = new List<EjeDeTrazado.componentes.Componente>();
-       
+        
         double ratio;
         //Para curvas
 
@@ -29049,7 +29050,7 @@ namespace Logica {
 
         }
 
-        public int[] Propiedades()
+        public int[] Propiedades(int puntos_iniciales, dsApp dsApp)
         {
             double suma =0;
             double des = 0;
@@ -29057,13 +29058,43 @@ namespace Logica {
             {
                 suma += Distancia(polilinea[i].p, polilinea[i + 1].p);
             }
-            des = suma / (polilinea.Count - 1);
+            if (puntos_iniciales==0)
+            {
+                des = suma / (polilinea.Count()-1);
+            }
+            else
+            {
+                des = suma / (puntos_iniciales);
+            }
+            
             double des_sum = 0;
             int[] r = new int[2];
-            for (int i = 0; i < polilinea.Count - 1; i++)
+
+            if (dsApp!=null) 
             {
-                des_sum +=Math.Abs(Distancia(polilinea[i].p, polilinea[i + 1].p) - des);
+                List<Punto> polilinea_aux = new List<Punto>();
+                foreach (DataRow punt in dsApp.Polilinea.Rows)
+                {
+
+                    string x = (string)punt["X"];
+                    string y = (string)punt["Y"];
+
+                    Punto p = new Punto(new Point2d(double.Parse(x), double.Parse(y)));
+                    polilinea_aux.Add(p);
+                }
+                for (int i = 0; i < polilinea.Count - 1; i++)
+                {
+                    des_sum += Math.Abs(Distancia(polilinea_aux[i].p, polilinea_aux[i + 1].p) - des);
+                }
             }
+            else
+            {
+                for (int i = 0; i < polilinea.Count - 1; i++)
+                {
+                    des_sum += Math.Abs(Distancia(polilinea[i].p, polilinea[i + 1].p) - des);
+                }
+            }
+            
             double des_final = des_sum / (polilinea.Count - 1);
             if (des_final<des)
             {

@@ -816,7 +816,40 @@ namespace interfaz {
                     * a la recta es menor suavizamos 10 veces ese tramos 
                     * 
                     */
-                    int[] r = calculoPolilinea.Propiedades();
+                    int puntos_iniciales = 0;
+                    try
+                    {
+                        if (Lista_original_2d != null)
+                        {
+                            if (Lista_original_2d.Count() > 0)
+                            {
+                                puntos_iniciales = Lista_original_2d.Count() - 1;
+                            }
+                            else if (Lista_original_3d != null)
+                            {
+
+                                puntos_iniciales = Lista_original_3d.Count() - 1;
+                            }
+                        }
+                        else if (Lista_original_3d != null)
+                        {
+                            if (Lista_original_3d.Count() > 0)
+                            {
+                                puntos_iniciales = Lista_original_3d.Count() - 1;
+                            }
+                            else if (Lista_original_2d != null)
+                            {
+
+                                puntos_iniciales = Lista_original_2d.Count() - 1;
+                            }
+                        }
+                    }
+                    catch
+                    {
+
+                    }
+
+                    int[] r = calculoPolilinea.Propiedades(puntos_iniciales,null);
                     tipoA = r[0];
                     tipoC = r[1];
                     calculoPolilinea.Cambios_Sentido(calculoPolilineaPreferencias.T_med);
@@ -942,8 +975,8 @@ namespace interfaz {
                     //calculoPolilinea.Dibujar_entidades(1);
 
                     calculoPolilinea.Aniadir_Rectar_Radio_Grande();
-                    calculoPolilinea.Comprobacion(false, calculoPolilineaPreferencias.T_max,
-                        calculoPolilineaPreferencias.T_med, calculoPolilineaPreferencias.Rectas, grados_union, calculoPolilineaPreferencias.Veces, calculoPolilineaPreferencias.K, false);
+                    calculoPolilinea.Comprobacion(calculoPolilineaPreferencias.Dividir, calculoPolilineaPreferencias.T_max,
+                        calculoPolilineaPreferencias.T_med, calculoPolilineaPreferencias.Rectas, calculoPolilineaPreferencias.Gr_Rectas, calculoPolilineaPreferencias.Veces, calculoPolilineaPreferencias.K, false);
 
                     //calculoPolilinea.Dibujar_entidades(2);
 
@@ -2348,6 +2381,7 @@ namespace interfaz {
                 button5.Visible = true;
                 button6.Visible = true;
                 button7.Visible = true;
+                button20.Visible = true;
                 materialCheckBox1.Visible = true;
                 materialCheckBox3.Visible = true;
                 textBox1.Visible = true;
@@ -2409,6 +2443,7 @@ namespace interfaz {
                 button5.Visible = false;
                 button6.Visible = false;
                 button7.Visible = false;
+                button20.Visible = false;
                 materialCheckBox1.Visible = false;
                 materialCheckBox3.Visible = false;
                 textBox1.Visible = false;
@@ -3031,6 +3066,7 @@ namespace interfaz {
             button5.Enabled = false;
             button6.Enabled = false;
             button7.Enabled = false;
+            button20.Enabled = false;
             materialCheckBox1.Enabled = false;
             materialCheckBox3.Enabled = false;
             textBox1.Enabled = false;
@@ -3101,6 +3137,7 @@ namespace interfaz {
             button5.Enabled = true;
             button6.Enabled = true;
             button7.Enabled = true;
+            button20.Enabled = true;
             materialCheckBox1.Enabled = true;
             materialCheckBox3.Enabled = true;
             textBox1.Enabled = true;
@@ -3247,7 +3284,9 @@ namespace interfaz {
                 contador_tipo2++;
                 if (tipo==1 && contador_tipo2==4 && calculoPolilineaPreferencias.Gr_Rectas==2)
                 {
-                    calculoPolilineaPreferencias.Gr_Rectas = 1;
+                    calculoPolilineaPreferencias.Gr_Rectas = 0.2;
+                    calculoPolilineaPreferencias.Dividir = true;
+                    calculoPolilineaPreferencias.Rectas = 20;
                     contador_tipo2 = 0;
                 }
             }
@@ -3360,9 +3399,9 @@ namespace interfaz {
                         this.pasosEjecutados = 0;
 
 
-
+                        
                         //MessageBox.Show("CalculoPolilinea inicializado");
-                        int[] r = calculoPolilinea.Propiedades();
+                        int[] r = calculoPolilinea.Propiedades(dsApp.Polilinea.Count()-1, dsApp);
                         tipoA = r[0];
                         tipoC = r[1];
                         Nuevos_Datos();
@@ -3376,7 +3415,7 @@ namespace interfaz {
                         repetir_pregunta = false;
                         System.Threading.Thread th = new System.Threading.Thread(Detener);
                         th.Start();
-
+                        
                         DateTime tiempo1 = DateTime.Now;
                         while (contador_tipo2 < 4 && !salir_bucle)
                         {
@@ -3421,10 +3460,12 @@ namespace interfaz {
                             }
                             materialFlatButton17_Click();
                             Nuevos_Datos();
-
+                            if (contador_tipo1==0 && contador_tipo2==0 && tipo==1)
+                            {
+                                progressBar1.Maximum = 42;
+                            }
                             materialLabel47.Text = "Soluciones: " + Lista_Resultados.Count();
                             materialLabel47.Update();
-
                         }
 
                         int dibujar = 0;
@@ -3446,7 +3487,9 @@ namespace interfaz {
                                 calculoPolilinea.DibujarTrazado(Lista_Resultados[dibujar].Item1);
                                 calculoPolilinea.Rotulado_final(Lista_Resultados[dibujar].Item1, this.calculoPolilineaPreferencias.Rotulacion, this.calculoPolilineaPreferencias.Rotu);
                                 calculoPolilinea.Mcomponenetes = Lista_Resultados[dibujar].Item1;
+
                                 progressBar1.Value = 20;
+                                progressBar1.Maximum = 21;
                                 progressBar1.Value++;
                                 MessageBox.Show("Se han encontrado " + resultados + " trazados resultantes. \n\nRevise autocad para ver la salida del algoritmo. Si quiere mejorar el resultado hágalo con el cálculo manual y las opciones avanzadas.");
                             }
@@ -3543,14 +3586,16 @@ namespace interfaz {
                                         calculoPolilinea.Rotulado_final(Lista_Resultados[dibujar].Item1, this.calculoPolilineaPreferencias.Rotulacion, this.calculoPolilineaPreferencias.Rotu);
                                         calculoPolilinea.Mcomponenetes = Lista_Resultados[dibujar].Item1;
                                         progressBar1.Value = 20;
+                                        progressBar1.Maximum = 21;
                                         progressBar1.Value++;
                                         MessageBox.Show("Se han encontrado " + resultados + " trazados resultantes.\n\nRevise autocad para ver la salida del algoritmo. Si quiere mejorar el resultado hágalo con el cálculo manual y las opciones avanzadas.");
                                     }
                                     else
                                     {
                                         progressBar1.Style = ProgressBarStyle.Blocks;
-                                        progressBar1.Maximum = 1;
+                                        
                                         progressBar1.Value = 0;
+                                        progressBar1.Maximum = 1;
                                         MessageBox.Show("No se ha encontrado una solución correcta. Si quiere encontrar un resultado hagalo con el calculo manual y las opciones avanzadas.");
                                     }
 
@@ -3558,8 +3603,9 @@ namespace interfaz {
                                 else
                                 {
                                     progressBar1.Style = ProgressBarStyle.Blocks;
-                                    progressBar1.Maximum = 1;
+                                    
                                     progressBar1.Value = 0;
+                                    progressBar1.Maximum = 1;
                                     MessageBox.Show("No se ha encontrado una solución correcta. Si quiere encontrar un resultado hagalo con el calculo manual y las opciones avanzadas.");
                                 }
                             }
@@ -3656,22 +3702,24 @@ namespace interfaz {
                                     calculoPolilinea.Rotulado_final(Lista_Resultados[dibujar].Item1, this.calculoPolilineaPreferencias.Rotulacion, this.calculoPolilineaPreferencias.Rotu);
                                     calculoPolilinea.Mcomponenetes = Lista_Resultados[dibujar].Item1;
                                     progressBar1.Value = 20;
+                                    progressBar1.Maximum = 1;
                                     progressBar1.Value++;
                                     MessageBox.Show("Se han encontrado " + resultados + " trazados resultantes.\n\nRevise autocad para ver la salida del algoritmo. Si quiere mejorar el resultado hágalo con el cálculo manual y las opciones avanzadas.");
                                 }
                                 else
                                 {
                                     progressBar1.Style = ProgressBarStyle.Blocks;
-                                    progressBar1.Maximum = 1;
                                     progressBar1.Value = 0;
+                                    progressBar1.Maximum = 1;
+                                    
                                     MessageBox.Show("No se ha encontrado una solución correcta. Si quiere encontrar un resultado hagalo con el calculo manual y las opciones avanzadas.");
                                 }
                             }
                             else
                             {
                                 progressBar1.Style = ProgressBarStyle.Blocks;
-                                progressBar1.Maximum = 1;
                                 progressBar1.Value = 0;
+                                progressBar1.Maximum = 1;
                                 MessageBox.Show("No se ha encontrado una solución correcta. Si quiere encontrar un resultado hagalo con el calculo manual y las opciones avanzadas.");
                             }
                         }
@@ -4128,6 +4176,11 @@ namespace interfaz {
                 progressBar1.Value = 0;
                 return false;
             }
+        }
+
+        private void button20_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Si entre 2 curvas hay mas de un punto sin asiganción se comprueba que la distancia entre esos puntos es 'n' veces mas grande que la media de distancias entre curvas y que es 'K' mayor respecto de la distancia total entre curvas.", "Información");
         }
     }
 }
