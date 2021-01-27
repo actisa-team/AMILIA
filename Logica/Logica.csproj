@@ -87,6 +87,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Punto.cs" />
     <Compile Include="PuntoPerfil.cs" />
+    <Compile Include="Resultados.cs" />
     <Compile Include="Rotular.cs" />
     <Compile Include="TrazadoPerfil.cs" />
     <Compile Include="verificacion\VerificacionComponentesStatus.cs" />

@@ -37,6 +37,7 @@ namespace Logica
         List<double> lista_puntos_rectas = new List<double>();
         List<Point3d> Polilinea3d_original = new List<Point3d>();
         List<List<PuntoPerfil>> lista_sentidos = new List<List<PuntoPerfil>>();
+        List<Point3d> Polilinea3d_Acumulada = new List<Point3d>();
         dsApp datoApp = new dsApp();
         public List<Parabola> Lista_Parabolas { get => Lista_parabolas; set => Lista_parabolas = value; }
         public List<Pendiente> Lista_Rectas { get => Lista_rectas; set => Lista_rectas = value; }
@@ -3351,11 +3352,12 @@ namespace Logica
                             polilinea_aux.Add(Polilinea3d_original[i]);
                         }
                     }*/
-               /*     polilinea_aux =Dividir_Segmentos_Largos(polilinea_aux);
-                    Point3d p_aux = new Point3d(Polilinea3d[punto_p_o].X, Polilinea3d[punto_p_o].Y, CotaPunto(Polilinea3d[punto_p_o], Polilinea3d_original));
-                    Polilinea3d_aux.Add(p_aux);
-                    polilinea_aux.Clear();
-                }*/
+                /*     polilinea_aux =Dividir_Segmentos_Largos(polilinea_aux);
+                     Point3d p_aux = new Point3d(Polilinea3d[punto_p_o].X, Polilinea3d[punto_p_o].Y, CotaPunto(Polilinea3d[punto_p_o], Polilinea3d_original));
+                     Polilinea3d_aux.Add(p_aux);
+                     polilinea_aux.Clear();
+                 }*/
+                Polilinea3d_Acumulada = Polilinea3d;
                 Polilinea3d_original = Polilinea3d_aux;
 
                 //Polilinea3d_original = Dividir_Segmentos_Largos(Polilinea3d_original);
@@ -5597,6 +5599,35 @@ namespace Logica
             }
             //Informe(Polilinea_original, distancias);
             return distancias;
+        }
+        public double Get_Acumulada(int ini_r, int fin_r)
+        {
+            double acumulada=0;
+            int ini = 0;
+            int fin = 0;
+            for (int i=0;i<Polilinea3d_Acumulada.Count;i++)
+            {
+                if (Polilinea3d_Acumulada[i].X== Polilinea3d_Original[ini_r].X && Polilinea3d_Acumulada[i].Y == Polilinea3d_Original[ini_r].Y)
+                {
+                    ini = i;
+                }
+                if (Polilinea3d_Acumulada[i].X == Polilinea3d_Original[fin_r].X && Polilinea3d_Acumulada[i].Y == Polilinea3d_Original[fin_r].Y)
+                {
+                    fin = i;
+                }
+            }
+            double x = Polilinea3d_Acumulada[ini].X;
+            double y = Polilinea3d_Acumulada[ini].Y;
+            
+            for (int i = ini+1; i <= fin; i++)
+            {
+                double x2 = Polilinea3d_Acumulada[i].X;
+                double y2 = Polilinea3d_Acumulada[i].Y;
+                acumulada += Math.Sqrt(Math.Pow(x2 - x, 2) + Math.Pow(y2 - y, 2));
+                x = x2;
+                y = y2;
+            }
+            return acumulada;
         }
     }
 }

@@ -25,8 +25,10 @@
         private double gr_rectas;
         private double veces;
         private double k;
+        private bool EliminarClotoide;
+        private double Eliminar_Clotoide;
 
-        int[] orden;
+int[] orden;
         public double Gr_Rectas { get => gr_rectas; set => gr_rectas = value; }
         public double Dis_eliminar { get => dis_eliminar; set => dis_eliminar = value; }
         public int Suavizado { get => suavizado; set => suavizado = value; }
@@ -51,5 +53,7 @@
         public double Rectas { get => rectas; set => rectas = value; }
         public double Veces { get => veces; set => veces = value; }
         public double K { get => k; set => k = value; }
+        public bool EliClo { get => EliminarClotoide; set => EliminarClotoide = value; }
+        public double Eli_Clo { get => Eliminar_Clotoide; set => Eliminar_Clotoide = value; }
     }
 }

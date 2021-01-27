@@ -18,6 +18,7 @@ namespace interfaz {
     using Autodesk.AutoCAD.DatabaseServices;
     using Autodesk.AutoCAD.ApplicationServices;
     using System.Threading.Tasks;
+    using System.Text;
 
     public partial class principal : MaterialForm, IViabilidadListener, IViabilidadStatusInfoPanelListener
     {
@@ -34,7 +35,7 @@ namespace interfaz {
         private List<List<Punto>> List_polilinea = new List<List<Punto>>();
         private List<List<ViabilidadComponentesStatus>> List_traza = new List<List<ViabilidadComponentesStatus>>();
         private List<ViabilidadComponentesStatus> viabilidadEnlaces_hebra = new List<ViabilidadComponentesStatus>();
-        private List<Tuple<List<EjeDeTrazado.componentes.Componente>, double>> Lista_Resultados = new List<Tuple<List<EjeDeTrazado.componentes.Componente>, double>>();
+        private List<Tuple<List<EjeDeTrazado.componentes.Componente>, double,double>> Lista_Resultados = new List<Tuple<List<EjeDeTrazado.componentes.Componente>, double,double>>();
         private List<Tuple<Polyline, double>> Lista_Resultados_Perfil = new List<Tuple<Polyline, double>>();
         private List<Point2d> lista_original_perfil = new List<Point2d>();
         private List<Tuple<List<Parabola>, List<Pendiente>>> Lista_Entidades_Perfil = new List<Tuple<List<Parabola>, List<Pendiente>>>();
@@ -59,6 +60,8 @@ namespace interfaz {
         private double distancia_menor=100;
         public bool salir_bucle = false;
         public bool repetir_pregunta = false;
+        System.Threading.Thread th2;
+        System.Threading.Thread th3;
         /*
          * Perfil
          */
@@ -66,7 +69,7 @@ namespace interfaz {
         private CalculoPolilineaPreferencias calculoPolilineaPreferenciasPerfil;
         private List<Point3d> Lista_original_3d = new List<Point3d>();
         private List<Point2d> Lista_original_2d = new List<Point2d>();
-
+        List<Resultados> L_Resultados = new List<Resultados>();
         /// <summary>
         /// es donde inicializa la interfaz
         /// </summary>
@@ -310,7 +313,7 @@ namespace interfaz {
             double x = 0, y = 0, x2 = 0, y2 = 0;
             double distancia = 0;
             double d_acumulada = 0;
-
+            double acumulada = 0;
             dsApp dsApp = new dsApp();
             dsApp.Polilinea.Rows.Add(0, poli.Polilinea3d_Original[0].Z, 1);
             x = poli.Polilinea3d_Original[0].X;
@@ -320,7 +323,8 @@ namespace interfaz {
                 x2 = poli.Polilinea3d_Original[i].X;
                 y2 = poli.Polilinea3d_Original[i].Y;
                 distancia = Math.Sqrt(Math.Pow(x2 - x, 2) + Math.Pow(y2 - y, 2));
-                d_acumulada += distancia;
+                d_acumulada += poli.Get_Acumulada(i-1,i);
+                //d_acumulada += distancia;
                 dsApp.Polilinea.Rows.Add(d_acumulada, poli.Polilinea3d_Original[i].Z, i + 1);
                 x = x2;
                 y = y2;
@@ -571,8 +575,18 @@ namespace interfaz {
             {
                 dis_eliminar = double.Parse(textBox_eliminar.Text);
             }
-
+            
             CalculoPolilineaPreferencias ca = new CalculoPolilineaPreferencias();
+            if (materialCheckBox12.Checked)
+            {
+                ca.EliClo = true;
+            }
+            else
+            {
+                ca.EliClo = false;
+            }
+
+            ca.Eli_Clo = double.Parse(textBox10.Text);
             ca.Opcion = opcion;
             ca.Grados = grados;
             ca.Metros = metros;
@@ -933,6 +947,8 @@ namespace interfaz {
             if (this.pasosEjecutados > -1)
             {
                 calculoPolilinea = new CalculoPolilinea(Lista_original_2d);
+                calculoPolilinea.EliClo = calculoPolilineaPreferencias.EliClo;
+                calculoPolilinea.Eli_Clo = calculoPolilineaPreferencias.Eli_Clo;
                 if (suavizado>0)
                 {
                     calculoPolilinea.Suavizar_automatico(suavizado);
@@ -1273,7 +1289,7 @@ namespace interfaz {
                 {
                     //calculoPolilinea.Dibujar_entidades(4);
                     calculoPolilinea.Crear_Trazado(this.calculoPolilineaPreferencias.Gran_r);
-                    calculoPolilinea.Dibujar_Todo(this.calculoPolilineaPreferencias.Rotulacion, this.calculoPolilineaPreferencias.Rotu, Lista_original_2d,distancia_menor);
+                    calculoPolilinea.Dibujar_Todo(this.calculoPolilineaPreferencias.Rotulacion, this.calculoPolilineaPreferencias.Rotu, Lista_original_2d,distancia_menor,false);
                 }
 
             }
@@ -1391,7 +1407,7 @@ namespace interfaz {
 
                         //calculoPolilinea.Dibujar_entidades(4);
                         calculoPolilinea.Crear_Trazado(this.calculoPolilineaPreferencias.Gran_r);
-                        calculoPolilinea.Dibujar_Todo(this.calculoPolilineaPreferencias.Rotulacion, this.calculoPolilineaPreferencias.Rotu, Lista_original_2d,distancia_menor);
+                        calculoPolilinea.Dibujar_Todo(this.calculoPolilineaPreferencias.Rotulacion, this.calculoPolilineaPreferencias.Rotu, Lista_original_2d,distancia_menor,false);
                         this.pasosEjecutados = 3;
                         this.paso3EjecutadoTextView.Visible = true;
 
@@ -1461,7 +1477,8 @@ namespace interfaz {
                         //componentesInfoPanel2.Show();
                         //calculoPolilinea.Dibujar_entidades(4);
                         calculoPolilinea.Crear_Trazado(this.calculoPolilineaPreferencias.Gran_r);
-                        Lista_Resultados.Add(calculoPolilinea.Dibujar_Todo(this.calculoPolilineaPreferencias.Rotulacion, this.calculoPolilineaPreferencias.Rotu, Lista_original_2d,distancia_menor));
+                        Lista_Resultados.Add(calculoPolilinea.Dibujar_Todo(this.calculoPolilineaPreferencias.Rotulacion, this.calculoPolilineaPreferencias.Rotu, Lista_original_2d,distancia_menor,true));
+                        
                         if (Lista_Resultados[Lista_Resultados.Count-1].Item2==1000.0)
                         {
                             MessageBox.Show("No ha dado una solución correcta. Pruebe con otros parámetros");
@@ -1548,9 +1565,16 @@ namespace interfaz {
 
                         //calculoPolilinea.Dibujar_entidades(4);
                         calculoPolilinea.Crear_Trazado(this.calculoPolilineaPreferencias.Gran_r);
-                        Lista_Resultados.Add(calculoPolilinea.Dibujar_Todo(this.calculoPolilineaPreferencias.Rotulacion, this.calculoPolilineaPreferencias.Rotu, Lista_original_2d, distancia_menor));
+                        Lista_Resultados.Add(calculoPolilinea.Dibujar_Todo(this.calculoPolilineaPreferencias.Rotulacion, this.calculoPolilineaPreferencias.Rotu, Lista_original_2d, distancia_menor,false));
                         //materialFlatButton17_Click();
-
+                        Resultados r = new Resultados();
+                        r.N_C = N_C;
+                        r.Por_C = P_C;
+                        r.Pun_C = N_P;
+                        r.G_U = calculoPolilineaPreferencias.Gr_Rectas;
+                        r.D_R = calculoPolilineaPreferencias.Dividir;
+                        r.Num_C = calculoPolilinea.Mcomponenetes.Count;
+                        L_Resultados.Add(r);
                         this.pasosEjecutados = 3;
                         //this.paso3EjecutadoTextView.Visible = true;
 
@@ -1597,6 +1621,7 @@ namespace interfaz {
         {
             if (Comprobar_funcion_AUTOCAD())
             {
+                materialLabel48.Text = "";
                 //Resetear estado actual
                 Desabilitar_opciones();
                 this.calculoPolilinea = null;
@@ -1617,6 +1642,8 @@ namespace interfaz {
                 List_traza.Clear();
                 progressBar1.Maximum = 5;
                 progressBar1.Style = ProgressBarStyle.Marquee;
+                distancia_menor = 100;
+                Lista_Resultados = new List<Tuple<List<EjeDeTrazado.componentes.Componente>, double,double>>();
                 if (comprobar())
                 {
                     dsApp dsApp = this.abrirArchivoDeProyecto();
@@ -1641,6 +1668,16 @@ namespace interfaz {
                         }
                         this.calculoPolilineaStatusTextView.Visible = true;
                         this.pasosEjecutados = 0;
+                        if (materialCheckBox12.Checked)
+                        {
+                            calculoPolilinea.EliClo = true;
+                        }
+                        else
+                        {
+                            calculoPolilinea.EliClo = false;
+                        }
+
+                        calculoPolilinea.Eli_Clo = double.Parse(textBox10.Text);
                         //MessageBox.Show("CalculoPolilinea inicializado");
                         ejecutar1ButtonClick();
                     }
@@ -3185,6 +3222,7 @@ namespace interfaz {
                 textBox8.Enabled = false;
                 textBox9.Enabled = false;
             }
+            materialLabel48.Text = "";
         }
         private void materialFlatButton17_Click()
         {
@@ -3212,6 +3250,7 @@ namespace interfaz {
             List_componentes = new List<List<Componente>>();
             List_polilinea = new List<List<Punto>>();
             List_traza = new List<List<ViabilidadComponentesStatus>>();
+            materialLabel48.Text = "";
         }
 
         private void button19_Click(object sender, EventArgs e)
@@ -3247,16 +3286,22 @@ namespace interfaz {
                 {
                     tipo = 1;
                     Set_A1_C1();
+                    materialLabel48.Text = "Tipo:A1-C1";
+                    materialLabel48.Update();
                 }
                 else if (tipoC == 2)
                 {
                     tipo = 2;
                     Set_A1_C2();
+                    materialLabel48.Text = "Tipo:A1-C2";
+                    materialLabel48.Update();
                 }
                 else if (tipoC == 3)
                 {
                     tipo = 3;
                     Set_A1_C3();
+                    materialLabel48.Text = "Tipo:A1-C3";
+                    materialLabel48.Update();
                 }
             }
             else if (tipoA == 2)
@@ -3265,16 +3310,22 @@ namespace interfaz {
                 {
                     tipo = 4;
                     Set_A2_C1();
+                    materialLabel48.Text = "Tipo:A2-C1";
+                    materialLabel48.Update();
                 }
                 else if (tipoC == 2)
                 {
                     tipo = 5;
                     Set_A2_C2();
+                    materialLabel48.Text = "Tipo:A2-C2";
+                    materialLabel48.Update();
                 }
                 else if (tipoC == 3)
                 {
                     tipo = 6;
                     Set_A2_C3();
+                    materialLabel48.Text = "Tipo:A2-C3";
+                    materialLabel48.Update();
                 }
             }
             N_C = List_N_C[contador_tipo2];
@@ -3347,6 +3398,7 @@ namespace interfaz {
             
             if (Comprobar_funcion_AUTOCAD())
             {
+                materialLabel48.Text = "";
                 //Resetear estado actual
                 materialLabel47.Text = "";
                 salir_bucle = false;
@@ -3373,6 +3425,7 @@ namespace interfaz {
                 progressBar1.Maximum = 21;
                 progressBar1.Style = ProgressBarStyle.Blocks;
                 progressBar1.Value = 1;
+                L_Resultados = new List<Resultados>();
                 if (comprobar())
                 {
                     dsApp dsApp = this.abrirArchivoDeProyecto();
@@ -3398,14 +3451,23 @@ namespace interfaz {
                         this.calculoPolilineaStatusTextView.Visible = true;
                         this.pasosEjecutados = 0;
 
-
+                        if (materialCheckBox12.Checked)
+                        {
+                            calculoPolilinea.EliClo = true;
+                        }
+                        else
+                        {
+                            calculoPolilinea.EliClo = false;
+                        }
                         
+                        calculoPolilinea.Eli_Clo = double.Parse(textBox10.Text);
                         //MessageBox.Show("CalculoPolilinea inicializado");
                         int[] r = calculoPolilinea.Propiedades(dsApp.Polilinea.Count()-1, dsApp);
                         tipoA = r[0];
                         tipoC = r[1];
                         Nuevos_Datos();
-                        Lista_Resultados = new List<Tuple<List<EjeDeTrazado.componentes.Componente>, double>>();
+                        
+                        Lista_Resultados = new List<Tuple<List<EjeDeTrazado.componentes.Componente>, double,double>>();
                         distancia_menor = 100;
                         /*(new System.Threading.Thread(() =>
                         {
@@ -3415,11 +3477,13 @@ namespace interfaz {
                         repetir_pregunta = false;
                         System.Threading.Thread th = new System.Threading.Thread(Detener);
                         th.Start();
-                        
+                        progressBar1.Value++;
                         DateTime tiempo1 = DateTime.Now;
+                        th2 = new System.Threading.Thread(App);
+                        th2.Start();
                         while (contador_tipo2 < 4 && !salir_bucle)
                         {
-                            progressBar1.Value++;
+                            //progressBar1.Value++;
                             if (repetir_pregunta)
                             {
                                 if (tiempo_activo)
@@ -3432,7 +3496,14 @@ namespace interfaz {
                                         repetir_pregunta = false;
                                         th.Abort();
                                         th = new System.Threading.Thread(Detener);
-                                        th.Start();
+                                        if (!salir_bucle)
+                                        {
+                                            th.Start();
+                                        }
+                                        else
+                                        {
+                                            th.Abort();
+                                        }
                                     }
                                 }
                                 else
@@ -3444,32 +3515,52 @@ namespace interfaz {
                             }
                             try
                             {
-                                ejecutar1ButtonClick_Automatico(0);
+                                //System.Threading.Thread th2 = new System.Threading.Thread(App);
+                                //th2.Start();
+                                /*ejecutar1ButtonClick_Automatico(0);
                                 calculoPolilinea.automatico = true;
                                 ejecutar2ButtonClick_Automatico();
-                                ejecutar3ButtonClick_Automatico();
-                                if (Lista_Resultados[Lista_Resultados.Count - 1].Item2 < distancia_menor)
+                                ejecutar3ButtonClick_Automatico();*/
+                                
+                                //th2.Interrupt();
+                                if (Lista_Resultados.Count>0)
                                 {
-                                    distancia_menor = Lista_Resultados[Lista_Resultados.Count - 1].Item2;
+                                    if (Lista_Resultados[Lista_Resultados.Count - 1].Item2 < distancia_menor)
+                                    {
+                                        distancia_menor = Lista_Resultados[Lista_Resultados.Count - 1].Item2;
+                                    }
+                                    if (Lista_Resultados[Lista_Resultados.Count - 1].Item2==1000)
+                                    {
+                                        Lista_Resultados.RemoveAt(Lista_Resultados.Count - 1);
+                                    }
                                 }
+                                
 
                             }
                             catch
                             {
 
                             }
-                            materialFlatButton17_Click();
-                            Nuevos_Datos();
-                            if (contador_tipo1==0 && contador_tipo2==0 && tipo==1)
+                            if (th2.IsAlive == false)
                             {
-                                progressBar1.Maximum = 42;
+                                materialFlatButton17_Click();
+                                Nuevos_Datos();
+                                if (contador_tipo1 == 0 && contador_tipo2 == 0 && tipo == 1)
+                                {
+                                    progressBar1.Maximum = 42;
+                                }
+                                materialLabel47.Text = "Soluciones: " + Lista_Resultados.Count();
+                                materialLabel47.Update();
+                                progressBar1.Value++;
+                                th2 = new System.Threading.Thread(App);
+                                th2.Start();
                             }
-                            materialLabel47.Text = "Soluciones: " + Lista_Resultados.Count();
-                            materialLabel47.Update();
                         }
-
+                        th2.Interrupt();
+                        th2.Abort();
                         int dibujar = 0;
                         double minimo = 100;
+                        double medio = 0;
                         if (Lista_Resultados.Count > 0)
                         {
                             resultados = Lista_Resultados.Count;
@@ -3479,6 +3570,10 @@ namespace interfaz {
                                 {
                                     dibujar = i;
                                     minimo = Lista_Resultados[i].Item2;
+                                    if (Lista_Resultados[i].Item3 > 0)
+                                    {
+                                        medio = Lista_Resultados[i].Item3;
+                                    }
                                 }
                             }
                             if (minimo < 100)
@@ -3492,8 +3587,10 @@ namespace interfaz {
                                 progressBar1.Maximum = 21;
                                 progressBar1.Value++;
                                 MessageBox.Show("Se han encontrado " + resultados + " trazados resultantes. \n\nRevise autocad para ver la salida del algoritmo. Si quiere mejorar el resultado hágalo con el cálculo manual y las opciones avanzadas.");
+                                Crear_Informe_Automatico(L_Resultados, dibujar, minimo, medio);
+                                L_Resultados = new List<Resultados>();
                             }
-                            else
+                            else if (!salir_bucle)
                             {
                                 MessageBox.Show("No se ha obtenido un resultado correcto. Se procederá a suavizar la polílinea para buscar otro resultado");
                                 progressBar1.Value = 0;
@@ -3503,8 +3600,10 @@ namespace interfaz {
                                 tipoA = r[0];
                                 tipoC = r[1];
                                 Nuevos_Datos();
-                                Lista_Resultados = new List<Tuple<List<EjeDeTrazado.componentes.Componente>, double>>();
+                                Lista_Resultados = new List<Tuple<List<EjeDeTrazado.componentes.Componente>, double, double>>();
                                 distancia_menor = 100;
+                                th3 = new System.Threading.Thread(App2);
+                                th3.Start();
                                 while (contador_tipo2 < 4 && !salir_bucle)
                                 {
                                     progressBar1.Value++;
@@ -3520,7 +3619,15 @@ namespace interfaz {
                                                 repetir_pregunta = false;
                                                 th.Abort();
                                                 th = new System.Threading.Thread(Detener);
-                                                th.Start();
+                                                if (!salir_bucle)
+                                                {
+                                                    th.Start();
+                                                }
+                                                else
+                                                {
+                                                    th.Abort();
+                                                }
+
                                             }
                                         }
                                         else
@@ -3530,7 +3637,7 @@ namespace interfaz {
                                         }
 
                                     }
-                                    if (contador_tipo2 == 1 && Lista_Resultados.Count == 0)
+                                    /*if (contador_tipo2 == 1 && Lista_Resultados.Count == 0)
                                     {
                                         calculoPolilineaPreferencias.Suavizado = 4;
                                     }
@@ -3541,32 +3648,63 @@ namespace interfaz {
                                     if (contador_tipo2 == 3 && Lista_Resultados.Count == 0)
                                     {
                                         calculoPolilineaPreferencias.Suavizado = 8;
-                                    }
+                                    }*/
                                     try
                                     {
-                                        ejecutar1ButtonClick_Automatico(calculoPolilineaPreferencias.Suavizado);
+                                        if (th3.IsAlive == false)
+                                        {
+                                            materialFlatButton17_Click();
+                                            Nuevos_Datos();
+                                            progressBar1.Value++;
+                                            if (contador_tipo2 == 1 && Lista_Resultados.Count == 0)
+                                            {
+                                                calculoPolilineaPreferencias.Suavizado = 4;
+                                            }
+                                            if (contador_tipo2 == 2 && Lista_Resultados.Count == 0)
+                                            {
+                                                calculoPolilineaPreferencias.Suavizado = 6;
+                                            }
+                                            if (contador_tipo2 == 3 && Lista_Resultados.Count == 0)
+                                            {
+                                                calculoPolilineaPreferencias.Suavizado = 8;
+                                            }
+                                            th3 = new System.Threading.Thread(App2);
+                                            th3.Start();
+                                            materialLabel47.Text = "Soluciones: " + Lista_Resultados.Count();
+                                            materialLabel47.Update();
+
+                                        }
+                                        /*ejecutar1ButtonClick_Automatico(calculoPolilineaPreferencias.Suavizado);
                                         calculoPolilinea.automatico = true;
                                         ejecutar2ButtonClick_Automatico();
 
-                                        ejecutar3ButtonClick_Automatico();
-                                        if (Lista_Resultados[Lista_Resultados.Count - 1].Item2 < distancia_menor)
+                                        ejecutar3ButtonClick_Automatico();*/
+                                        if (Lista_Resultados.Count > 0)
                                         {
-                                            distancia_menor = Lista_Resultados[Lista_Resultados.Count - 1].Item2;
+                                            if (Lista_Resultados[Lista_Resultados.Count - 1].Item2 < distancia_menor)
+                                            {
+                                                distancia_menor = Lista_Resultados[Lista_Resultados.Count - 1].Item2;
+                                            }
+                                            if (Lista_Resultados[Lista_Resultados.Count - 1].Item2 == 1000)
+                                            {
+                                                Lista_Resultados.RemoveAt(Lista_Resultados.Count - 1);
+                                            }
                                         }
-
-                                        materialLabel47.Text = "Soluciones: " + Lista_Resultados.Count();
-                                        materialLabel47.Update();
+                                        /*materialLabel47.Text = "Soluciones: " + Lista_Resultados.Count();
+                                        materialLabel47.Update();*/
                                     }
                                     catch
                                     {
 
                                     }
-                                    materialFlatButton17_Click();
-                                    Nuevos_Datos();
+                                    /*materialFlatButton17_Click();
+                                    Nuevos_Datos();*/
                                 }
-
+                                th3.Interrupt();
+                                th3.Abort();
                                 dibujar = 0;
                                 minimo = 100;
+                                medio = 0;
                                 if (Lista_Resultados.Count > 0)
                                 {
                                     resultados = Lista_Resultados.Count;
@@ -3576,6 +3714,10 @@ namespace interfaz {
                                         {
                                             dibujar = i;
                                             minimo = Lista_Resultados[i].Item2;
+                                            if (Lista_Resultados[i].Item3 > 0)
+                                            {
+                                                medio = Lista_Resultados[i].Item3;
+                                            }
                                         }
                                     }
 
@@ -3589,11 +3731,13 @@ namespace interfaz {
                                         progressBar1.Maximum = 21;
                                         progressBar1.Value++;
                                         MessageBox.Show("Se han encontrado " + resultados + " trazados resultantes.\n\nRevise autocad para ver la salida del algoritmo. Si quiere mejorar el resultado hágalo con el cálculo manual y las opciones avanzadas.");
+                                        Crear_Informe_Automatico(L_Resultados, dibujar, minimo, medio);
+                                        L_Resultados = new List<Resultados>();
                                     }
                                     else
                                     {
                                         progressBar1.Style = ProgressBarStyle.Blocks;
-                                        
+
                                         progressBar1.Value = 0;
                                         progressBar1.Maximum = 1;
                                         MessageBox.Show("No se ha encontrado una solución correcta. Si quiere encontrar un resultado hagalo con el calculo manual y las opciones avanzadas.");
@@ -3603,16 +3747,23 @@ namespace interfaz {
                                 else
                                 {
                                     progressBar1.Style = ProgressBarStyle.Blocks;
-                                    
+
                                     progressBar1.Value = 0;
                                     progressBar1.Maximum = 1;
                                     MessageBox.Show("No se ha encontrado una solución correcta. Si quiere encontrar un resultado hagalo con el calculo manual y las opciones avanzadas.");
                                 }
                             }
-
+                            else
+                            {
+                                progressBar1.Style = ProgressBarStyle.Blocks;
+                                progressBar1.Value = 0;
+                                progressBar1.Maximum = 1;
+                                MessageBox.Show("No se ha encontrado una solución correcta. Si quiere encontrar un resultado hagalo con el calculo manual y las opciones avanzadas.");
+                            }
                         }
-                        else
+                        else if (!salir_bucle)
                         {
+
                             MessageBox.Show("No se ha obtenido un resultado correcto. Se procederá a suavizar la polílinea para buscar otro resultado");
                             progressBar1.Value = 0;
                             calculoPolilineaPreferencias.Suavizado = 2;
@@ -3621,11 +3772,13 @@ namespace interfaz {
                             tipoA = r[0];
                             tipoC = r[1];
                             Nuevos_Datos();
-                            Lista_Resultados = new List<Tuple<List<EjeDeTrazado.componentes.Componente>, double>>();
+                            Lista_Resultados = new List<Tuple<List<EjeDeTrazado.componentes.Componente>, double, double>>();
                             distancia_menor = 100;
+                            th3 = new System.Threading.Thread(App2);
+                            th3.Start();
                             while (contador_tipo2 < 4 && !salir_bucle)
                             {
-                                progressBar1.Value++;
+                                //progressBar1.Value++;
                                 if (repetir_pregunta)
                                 {
                                     if (tiempo_activo)
@@ -3638,7 +3791,14 @@ namespace interfaz {
                                             repetir_pregunta = false;
                                             th.Abort();
                                             th = new System.Threading.Thread(Detener);
-                                            th.Start();
+                                            if (!salir_bucle)
+                                            {
+                                                th.Start();
+                                            }
+                                            else
+                                            {
+                                                th.Abort();
+                                            }
                                         }
                                     }
                                     else
@@ -3648,42 +3808,63 @@ namespace interfaz {
                                     }
 
                                 }
-                                if (contador_tipo2 == 1 && Lista_Resultados.Count == 0)
-                                {
-                                    calculoPolilineaPreferencias.Suavizado = 4;
-                                }
-                                if (contador_tipo2 == 2 && Lista_Resultados.Count == 0)
-                                {
-                                    calculoPolilineaPreferencias.Suavizado = 6;
-                                }
-                                if (contador_tipo2 == 3 && Lista_Resultados.Count == 0)
-                                {
-                                    calculoPolilineaPreferencias.Suavizado = 8;
-                                }
+
+
                                 try
                                 {
-                                    ejecutar1ButtonClick_Automatico(calculoPolilineaPreferencias.Suavizado);
+                                    if (th3.IsAlive == false)
+                                    {
+                                        materialFlatButton17_Click();
+                                        Nuevos_Datos();
+                                        progressBar1.Value++;
+                                        if (contador_tipo2 == 1 && Lista_Resultados.Count == 0)
+                                        {
+                                            calculoPolilineaPreferencias.Suavizado = 4;
+                                        }
+                                        if (contador_tipo2 == 2 && Lista_Resultados.Count == 0)
+                                        {
+                                            calculoPolilineaPreferencias.Suavizado = 6;
+                                        }
+                                        if (contador_tipo2 == 3 && Lista_Resultados.Count == 0)
+                                        {
+                                            calculoPolilineaPreferencias.Suavizado = 8;
+                                        }
+                                        th3 = new System.Threading.Thread(App2);
+                                        th3.Start();
+                                        materialLabel47.Text = "Soluciones: " + Lista_Resultados.Count();
+                                        materialLabel47.Update();
+
+                                    }
+                                    /*ejecutar1ButtonClick_Automatico(calculoPolilineaPreferencias.Suavizado);
                                     calculoPolilinea.automatico = true;
                                     ejecutar2ButtonClick_Automatico();
-                                    ejecutar3ButtonClick_Automatico();
-                                    if (Lista_Resultados[Lista_Resultados.Count - 1].Item2 < distancia_menor)
+                                    ejecutar3ButtonClick_Automatico();*/
+                                    if (Lista_Resultados.Count > 0)
                                     {
-                                        distancia_menor = Lista_Resultados[Lista_Resultados.Count - 1].Item2;
+                                        if (Lista_Resultados[Lista_Resultados.Count - 1].Item2 < distancia_menor)
+                                        {
+                                            distancia_menor = Lista_Resultados[Lista_Resultados.Count - 1].Item2;
+                                        }
+                                        if (Lista_Resultados[Lista_Resultados.Count - 1].Item2 == 1000)
+                                        {
+                                            Lista_Resultados.RemoveAt(Lista_Resultados.Count - 1);
+                                        }
                                     }
-
-                                    materialLabel47.Text = "Soluciones: " + Lista_Resultados.Count();
-                                    materialLabel47.Update();
+                                    /*materialLabel47.Text = "Soluciones: " + Lista_Resultados.Count();
+                                    materialLabel47.Update();*/
                                 }
                                 catch
                                 {
 
                                 }
-                                materialFlatButton17_Click();
-                                Nuevos_Datos();
+                                /*materialFlatButton17_Click();
+                                Nuevos_Datos();*/
                             }
-
+                            th3.Interrupt();
+                            th3.Abort();
                             dibujar = 0;
                             minimo = 100;
+                            medio = 0;
                             if (Lista_Resultados.Count > 0)
                             {
                                 resultados = Lista_Resultados.Count;
@@ -3693,6 +3874,10 @@ namespace interfaz {
                                     {
                                         dibujar = i;
                                         minimo = Lista_Resultados[i].Item2;
+                                        if (Lista_Resultados[i].Item3 > 0)
+                                        {
+                                            medio = Lista_Resultados[i].Item3;
+                                        }
                                     }
                                 }
                                 calculoPolilinea = new CalculoPolilinea();
@@ -3702,16 +3887,18 @@ namespace interfaz {
                                     calculoPolilinea.Rotulado_final(Lista_Resultados[dibujar].Item1, this.calculoPolilineaPreferencias.Rotulacion, this.calculoPolilineaPreferencias.Rotu);
                                     calculoPolilinea.Mcomponenetes = Lista_Resultados[dibujar].Item1;
                                     progressBar1.Value = 20;
-                                    progressBar1.Maximum = 1;
+                                    progressBar1.Maximum = 21;
                                     progressBar1.Value++;
                                     MessageBox.Show("Se han encontrado " + resultados + " trazados resultantes.\n\nRevise autocad para ver la salida del algoritmo. Si quiere mejorar el resultado hágalo con el cálculo manual y las opciones avanzadas.");
+                                    Crear_Informe_Automatico(L_Resultados, dibujar, minimo, medio);
+                                    L_Resultados = new List<Resultados>();
                                 }
                                 else
                                 {
                                     progressBar1.Style = ProgressBarStyle.Blocks;
                                     progressBar1.Value = 0;
                                     progressBar1.Maximum = 1;
-                                    
+
                                     MessageBox.Show("No se ha encontrado una solución correcta. Si quiere encontrar un resultado hagalo con el calculo manual y las opciones avanzadas.");
                                 }
                             }
@@ -3722,6 +3909,13 @@ namespace interfaz {
                                 progressBar1.Maximum = 1;
                                 MessageBox.Show("No se ha encontrado una solución correcta. Si quiere encontrar un resultado hagalo con el calculo manual y las opciones avanzadas.");
                             }
+                        }
+                        else
+                        {
+                            progressBar1.Style = ProgressBarStyle.Blocks;
+                            progressBar1.Value = 0;
+                            progressBar1.Maximum = 1;
+                            MessageBox.Show("No se ha encontrado una solución correcta. Si quiere encontrar un resultado hagalo con el calculo manual y las opciones avanzadas.");
                         }
 
                         Lista_Resultados = null;
@@ -3750,6 +3944,20 @@ namespace interfaz {
                 }
             }
         }
+        private void App()
+        {
+            ejecutar1ButtonClick_Automatico(0);
+            calculoPolilinea.automatico = true;
+            ejecutar2ButtonClick_Automatico();
+            ejecutar3ButtonClick_Automatico();
+        }
+        private void App2()
+        {
+            ejecutar1ButtonClick_Automatico(calculoPolilineaPreferencias.Suavizado);
+            calculoPolilinea.automatico = true;
+            ejecutar2ButtonClick_Automatico();
+            ejecutar3ButtonClick_Automatico();
+        }
         private void Detener()
         {
             try
@@ -3759,7 +3967,19 @@ namespace interfaz {
                 {
                     salir_bucle = true;
                     repetir_pregunta = false;
+                    if (th2!=null)
+                    {
+                        th2.Interrupt();
+                        th2.Abort();
+                    }
+                    if (th3!=null)
+                    {
+                        th3.Interrupt();
+                        th3.Abort();
+                    }
+                    
                     MessageBox.Show("El cálculo de más soluciones se ha cancelado.\n\nEl programa se detendrá despues de calcular la solución que está en progreso.");
+                    
                 }
                 if (result == DialogResult.OK)
                 {
@@ -3901,7 +4121,14 @@ namespace interfaz {
                             repetir_pregunta = false;
                             th.Abort();
                             th = new System.Threading.Thread(Detener);
-                            th.Start();
+                            if (!salir_bucle)
+                            {
+                                th.Start();
+                            }
+                            else
+                            {
+                                th.Abort();
+                            }
                         }
                     }
                     else
@@ -4180,7 +4407,279 @@ namespace interfaz {
 
         private void button20_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Si entre 2 curvas hay mas de un punto sin asiganción se comprueba que la distancia entre esos puntos es 'n' veces mas grande que la media de distancias entre curvas y que es 'K' mayor respecto de la distancia total entre curvas.", "Información");
+            MessageBox.Show("Si entre 2 curvas, hay mas de un punto sin asiganción a elementos geométricos, se comprueba que la distancia entre esos puntos es 'n' veces más grande que la media de distancias entre curvas y que es 'K' mayor respecto de la distancia total entre curvas.", "Información");
+        }
+        private void Crear_Informe_Automatico(List<Resultados> lista,int n,double error,double medio)
+        {
+            DialogResult resultinforme = MessageBox.Show("¿Desea crear un informe de los resultados?", "Resultados", MessageBoxButtons.YesNo);
+            if (resultinforme == DialogResult.Yes)
+            {
+
+                string nombre_informe = "";
+                System.Windows.Forms.SaveFileDialog saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+                saveFileDialog1.Title = "Guardar informe de los resultados";
+                saveFileDialog1.Filter = "csv files (*.csv)|*.csv|All files (*.*)|*.*";
+                saveFileDialog1.FilterIndex = 2;
+                saveFileDialog1.RestoreDirectory = true;
+                saveFileDialog1.DefaultExt = "csv";
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                {       
+                    nombre_informe = saveFileDialog1.FileName;
+                    System.IO.TextWriter output = new StreamWriter(nombre_informe, false, Encoding.BigEndianUnicode);
+                    output.WriteLine();
+                    output.WriteLine();
+                    output.WriteLine();
+                    output.Write("Nº");
+                    output.Write(";");
+                    output.Write("Nº de curvas máximas");
+                    output.Write(";");
+                    output.Write("Porcentaje de clusterización");
+                    output.Write(";");
+                    output.Write("Puntos de clusterización");
+                    output.Write(";");
+                    output.Write("Grados de unión");
+                    output.Write(";");
+                    output.Write("División en rectas");
+                    output.Write(";");
+                    output.Write("Nº Componentes");
+                    output.Write(";");
+                    output.WriteLine();
+                    for (int i=0; i<lista.Count();i++)
+                    {
+                        output.Write(i+1);
+                        output.Write(";");
+                        output.Write(lista[i].N_C);
+                        output.Write(";");
+                        output.Write(lista[i].Por_C);
+                        output.Write(";");
+                        output.Write(lista[i].Pun_C);
+                        output.Write(";");
+                        output.Write(lista[i].G_U);
+                        output.Write(";");
+                        if (lista[i].D_R)
+                        {
+                            output.Write("Si");
+                        }
+                        else
+                        {
+                            output.Write("No");
+                        }
+                        output.Write(";");
+                        output.Write(lista[i].Num_C);
+                        output.Write(";");
+                        output.WriteLine();
+                    }
+                    output.WriteLine();
+                    output.WriteLine();
+                    output.Write(";");
+                    output.Write(";");
+                    output.Write("Mejor resultado:");
+                    output.Write(";");
+                    output.Write(n+1);
+                    output.Write(";");
+                    output.WriteLine();
+                    output.Write(";");
+                    output.Write(";");
+                    output.Write("Error Máximo");
+                    output.Write(";");
+                    output.Write(error);
+                    output.Write(";");
+                    output.Write("Error Medio");
+                    output.Write(";");
+                    output.Write(medio);
+                    output.Write(";");
+                    output.Flush();
+                    output.Close();
+                }
+                else
+                {
+
+                }
+            }
+        }
+
+        private void button21_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Con este algoritmo reducimos el número de clotoides inferiores al parámetro dado siempre que sea posible.", "Información");
+        }
+
+        private void materialCheckBox12_CheckedChanged(object sender, EventArgs e)
+        {
+            if (materialCheckBox12.Checked == true)
+            {
+                textBox10.Enabled = true;
+            }
+            else
+            {
+                textBox10.Enabled = false;
+            }
+        }
+
+        private void materialFlatButton20_Click(object sender, EventArgs e)
+        {
+            if (Comprobar_funcion_AUTOCAD())
+            {
+                materialLabel48.Text = "";
+                //Resetear estado actual
+                materialLabel47.Text = "";
+                salir_bucle = false;
+                this.calculoPolilinea = null;
+                this.pasosEjecutados = -1;
+                this.paso1EjecutadoTextView.Visible = false;
+                this.paso2EjecutadoTextView.Visible = false;
+                this.paso3EjecutadoTextView.Visible = false;
+                this.calculoPolilineaStatusTextView.Visible = false;
+                this.ejecutarViabilidadSinParar = false;
+                this.detenerEnIteracion = false;
+                this.iteracion = -1;
+                materialFlatButton7.Visible = false;
+                materialFlatButton8.Visible = false;
+                materialFlatButton9.Visible = false;
+                List_verificacion.Clear();
+                List_componentes.Clear();
+                List_polilinea.Clear();
+                List_traza.Clear();
+                contador_tipo1 = 0;
+                contador_tipo2 = 0;
+                int resultados;
+
+                L_Resultados = new List<Resultados>();
+                if (comprobar())
+                {
+                    dsApp dsApp = this.abrirArchivoDeProyecto();
+
+                    if (dsApp != null)
+                    {
+                        //obtener parametros de inicializacion de CalculoPolilineaController
+                        this.calculoPolilineaPreferencias = this.obtenerParametrosCalculoPolilinea();
+
+                        if (aplicarMultiplesFiltradosCheckBox.Checked == false)
+                        {
+                            this.calculoPolilinea = new CalculoPolilinea(ref dsApp, calculoPolilineaPreferencias.Opcion, calculoPolilineaPreferencias.Ratio, calculoPolilineaPreferencias.It, calculoPolilineaPreferencias.Suavizado, calculoPolilineaPreferencias.Dis_eliminar);
+                        }
+                        else
+                        {
+                            this.calculoPolilinea = new CalculoPolilinea(ref dsApp, calculoPolilineaPreferencias.Opcion, calculoPolilineaPreferencias.Ratio, calculoPolilineaPreferencias.Orden, calculoPolilineaPreferencias.It, calculoPolilineaPreferencias.Suavizado, calculoPolilineaPreferencias.Dis_eliminar);
+                        }
+                        this.calculoPolilineaStatusTextView.Visible = true;
+                        this.pasosEjecutados = 0;
+                        //MessageBox.Show("CalculoPolilinea inicializado");
+                        int[] r = calculoPolilinea.Propiedades(dsApp.Polilinea.Count() - 1, dsApp);
+                        tipoA = r[0];
+                        tipoC = r[1];
+                        string porcentaje="";
+                        if (tipoA==1 && tipoC==1)
+                        {
+                            for (int i=0;i<5;i++)
+                            {
+                                porcentaje +="- "+A1_C1[i] + "\n";
+                            }
+                            porcentaje += "\nEl número de puntos de clusterización es de 10\n";
+                        }
+                        else if(tipoA == 1 && tipoC == 2)
+                        {
+                            for (int i = 0; i < 5; i++)
+                            {
+                                porcentaje += "- " + A1_C2[i] + "\n";
+                            }
+                            porcentaje += "\nEl número de puntos de clusterización es de 5\n";
+                        }
+                        else if (tipoA == 1 && tipoC == 3)
+                        {
+                            for (int i = 0; i < 5; i++)
+                            {
+                                porcentaje += "- " + A1_C3[i] + "\n";
+                            }
+                            porcentaje += "\nEl número de puntos de clusterización es de 3\n";
+                        }
+                        else if (tipoA == 2 && tipoC == 1)
+                        {
+                            for (int i = 0; i < 5; i++)
+                            {
+                                porcentaje += "- " + A2_C1[i] + "\n";
+                            }
+                            porcentaje += "\nEl número de puntos de clusterización es de 5\n";
+                        }
+                        else if (tipoA == 2 && tipoC == 2)
+                        {
+                            for (int i = 0; i < 5; i++)
+                            {
+                                porcentaje += "- " + A2_C2[i] + "\n";
+                            }
+                            porcentaje += "\nEl número de puntos de clusterización es de 3\n";
+                        }
+                        else if (tipoA == 2 && tipoC == 3)
+                        {
+                            for (int i = 0; i < 5; i++)
+                            {
+                                porcentaje += "- " + A2_C3[i] + "\n";
+                            }
+                            porcentaje += "\nEl número de puntos de clusterización es de 3\n";
+                        }
+                        string mensaje = "El tipo de polilínea es A" + tipoA + " - C" + tipoC + "\n\nSe utilizarán los siguientes valores en el cálculo automático:\n\n" +
+                            "Porcentaje de Clusterización:\n" + porcentaje + "\nCurvas máximas utilizadas: 6, 4, 2, 8.";
+                        if (tipoA==1 && tipoC==1)
+                        {
+                            mensaje += "\nEn este caso se aconseja dividir las rectas en 20 metros y con un grado de unión en rectas de 0.2.";
+                        }
+                        MessageBox.Show(mensaje, "Tipo de polilinea");
+                    }
+                }
+            }
+        }
+
+        private void materialFlatButton21_Click(object sender, EventArgs e)
+        {
+            if (Comprobar_funcion_AUTOCAD())
+            {
+                materialLabel48.Text = "";
+                //Resetear estado actual
+                this.calculoPolilinea = null;
+                this.pasosEjecutados = -1;
+                this.paso1EjecutadoTextView.Visible = false;
+                this.paso2EjecutadoTextView.Visible = false;
+                this.paso3EjecutadoTextView.Visible = false;
+                this.calculoPolilineaStatusTextView.Visible = false;
+                this.ejecutarViabilidadSinParar = false;
+                this.detenerEnIteracion = false;
+                this.iteracion = -1;
+                materialFlatButton7.Visible = false;
+                materialFlatButton8.Visible = false;
+                materialFlatButton9.Visible = false;
+                List_verificacion.Clear();
+                List_componentes.Clear();
+                List_polilinea.Clear();
+                List_traza.Clear();
+                distancia_menor = 100;
+                Lista_Resultados = new List<Tuple<List<EjeDeTrazado.componentes.Componente>, double, double>>();
+                if (comprobar())
+                {
+                    dsApp dsApp = this.abrirArchivoDeProyecto();
+
+                    if (dsApp != null)
+                    {
+                        //obtener parametros de inicializacion de CalculoPolilineaController
+                        this.calculoPolilineaPreferencias = this.obtenerParametrosCalculoPolilinea();
+
+                        if (aplicarMultiplesFiltradosCheckBox.Checked == false)
+                        {
+                            this.calculoPolilinea = new CalculoPolilinea(ref dsApp, calculoPolilineaPreferencias.Opcion, calculoPolilineaPreferencias.Ratio, calculoPolilineaPreferencias.It, calculoPolilineaPreferencias.Suavizado, calculoPolilineaPreferencias.Dis_eliminar,true);
+                        }
+                        else
+                        {
+                            this.calculoPolilinea = new CalculoPolilinea(ref dsApp, calculoPolilineaPreferencias.Opcion, calculoPolilineaPreferencias.Ratio, calculoPolilineaPreferencias.Orden, calculoPolilineaPreferencias.It, calculoPolilineaPreferencias.Suavizado, calculoPolilineaPreferencias.Dis_eliminar,true);
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error de formato o al abrir el archivo del proyecto");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Error. El orden de los filtros esta repetido");
+                }
+            }
         }
     }
 }
