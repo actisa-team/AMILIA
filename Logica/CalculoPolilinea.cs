@@ -62,7 +62,7 @@ namespace Logica {
 
         bool mostrar_enlaces = true;
         bool mostrar_casos = true;
-
+        public bool error_automatico=false;
         List<IViabilidadListener> viabilidadListeners = new List<IViabilidadListener>();
         public List<EjeDeTrazado.componentes.Componente> Mcomponenetes { get => mcomponenetes; set => mcomponenetes = value; }
         public List<Componente> Componentes { get => componentes; set => componentes = value; }
@@ -476,17 +476,56 @@ namespace Logica {
                 {
                     Eliminar_Distancia(dis_eliminar);
                 }
-                if (it == 1)//1 si 2 no
+                if (orden[0] > 0 || orden[1] > 0 || orden[2] > 0)
                 {
-                    while (salir())
+                    if (it == 1)//1 si 2 no
                     {
-                        for (int i = 0; i < polilinea.Count; i++)
+                        while (salir(orden))
                         {
-                            if (double.IsInfinity(polilinea[i].p.X) || double.IsInfinity(polilinea[i].p.Y))
+                            for (int i = 0; i < polilinea.Count; i++)
                             {
-                                polilinea.RemoveAt(i);
+                                if (double.IsInfinity(polilinea[i].p.X) || double.IsInfinity(polilinea[i].p.Y))
+                                {
+                                    polilinea.RemoveAt(i);
+                                }
                             }
+                            int filtrado = 1;
+                            for (int i = 0; i < 3; i++)
+                            {
+                                for (int t = 0; t < 3; t++)
+                                {
+                                    if (orden[t] == filtrado)
+                                    {
+                                        if (t == 0)
+                                        {
+                                            FiltradoDisrupcion2(ref contador);
+                                            contador_total += contador;
+                                            contador = 0;
+                                            RellenarDatos();
+                                        }
+                                        else if (t == 1)
+                                        {
+                                            FiltradoCambioSentido2(ref contador);
+                                            contador_total += contador;
+                                            contador = 0;
+                                            RellenarDatos();
+                                        }
+                                        else if (t == 2)
+                                        {
+                                            FiltradoGiroLongitud2(ratio, ref contador);
+                                            contador_total += contador;
+                                            contador = 0;
+                                            RellenarDatos();
+                                        }
+                                        filtrado++;
+                                    }
+                                }
+                            }
+
                         }
+                    }
+                    else
+                    {
                         int filtrado = 1;
                         for (int i = 0; i < 3; i++)
                         {
@@ -519,45 +558,9 @@ namespace Logica {
                                 }
                             }
                         }
-
                     }
                 }
-                else
-                {
-                    int filtrado = 1;
-                    for (int i = 0; i < 3; i++)
-                    {
-                        for (int t = 0; t < 3; t++)
-                        {
-                            if (orden[t] == filtrado)
-                            {
-                                if (t == 0)
-                                {
-                                    FiltradoDisrupcion2(ref contador);
-                                    contador_total += contador;
-                                    contador = 0;
-                                    RellenarDatos();
-                                }
-                                else if (t == 1)
-                                {
-                                    FiltradoCambioSentido2(ref contador);
-                                    contador_total += contador;
-                                    contador = 0;
-                                    RellenarDatos();
-                                }
-                                else if (t == 2)
-                                {
-                                    FiltradoGiroLongitud2(ratio, ref contador);
-                                    contador_total += contador;
-                                    contador = 0;
-                                    RellenarDatos();
-                                }
-                                filtrado++;
-                            }
-                        }
-                    }
-                }
-                MessageBox.Show("Se han eliminado " + contador_total + " puntos");
+                //MessageBox.Show("Se han eliminado " + contador_total + " puntos");
 
                 DialogResult result = MessageBox.Show("¿Desea guardar el resultado?", "Salir", MessageBoxButtons.YesNo);
 
@@ -649,7 +652,7 @@ namespace Logica {
                 }
                 if (it == 1)//1 si 2 no
                 {
-                    while (salir()) {
+                    while (salir(orden)) {
                         int filtrado = 1;
                         for (int i = 0; i < 3; i++) {
                             for (int t = 0; t < 3; t++) {
@@ -702,7 +705,7 @@ namespace Logica {
                         }
                     }
                 }
-                MessageBox.Show("Se han eliminado " + contador_total + " puntos");
+                /*MessageBox.Show("Se han eliminado " + contador_total + " puntos");
 
                 DialogResult result = MessageBox.Show("¿Desea guardar el resultado?", "Salir", MessageBoxButtons.YesNo);
 
@@ -728,7 +731,7 @@ namespace Logica {
 
 
                 } else if (result == DialogResult.No) {
-                }
+                }*/
                 for (int i = 0; i < suavizado; i++)
                 {
                     polilinea = Suavizar_ini(polilinea);
@@ -5951,18 +5954,28 @@ namespace Logica {
         private double Distancia_P_R(double y, double x, double xc, double yc) {
             return Math.Abs(y * xc - yc + x) / Math.Sqrt(y * y + 1);
         }
-        private bool salir() {
+        private bool salir(int[] orden) {
             int contador = 0;
             int contador2 = 0;
-            FiltradoDisrupcion(false, ref contador);
-            contador2 += contador;
-            contador = 0;
-            FiltradoCambioSentido(false, ref contador);
-            contador2 += contador;
-            contador = 0;
-            FiltradoGiroLongitud(ratio, false, ref contador);
-            contador2 += contador;
-            contador = 0;
+            if (orden[0]>0)
+            {
+                FiltradoDisrupcion(false, ref contador);
+                contador2 += contador;
+                contador = 0;
+            }
+            if (orden[1] > 0)
+            {
+                FiltradoCambioSentido(false, ref contador);
+                contador2 += contador;
+                contador = 0;
+            }
+            if (orden[2] > 0)
+            {
+                FiltradoGiroLongitud(ratio, false, ref contador);
+                contador2 += contador;
+                contador = 0;
+            }
+                
             if (contador2 == 0) {
                 return false;
             } else {
@@ -7467,15 +7480,15 @@ namespace Logica {
         /// </summary>
         /// <param name="rotulacion">porcentaje del tamaño de la rotulación</param>
         /// <param name="rotu">true para rotular el trazado y false para no hacerlo</param>
-        public Tuple<List<EjeDeTrazado.componentes.Componente>, double,double> Dibujar_Todo(double rotulacion,bool rotu,List<Point2d> Lista_original_2d,double distancia_menor,bool informe) {
-
+        public Tuple<List<EjeDeTrazado.componentes.Componente>, double,double,int> Dibujar_Todo(double rotulacion,bool rotu,List<Point2d> Lista_original_2d,double distancia_menor,bool informe,int contador_resultados_numero) {
             List<double> distancias = new List<double>();
             double distancia_max=0;
 
             //DialogResult result = MessageBox.Show("¿Desea crear un archivo de errores del trazado?\nNOTA: si el trazado es largo puede tardar varias minutos.", "Error de trazado", MessageBoxButtons.YesNo);
             if (true)
             {
-                distancias=Distancia_Puntos_Resultado(mcomponenetes, Lista_original_2d, distancia_menor);
+                //Distancia_Puntos_Resultado_prueba(mcomponenetes, Lista_original_2d, distancia_menor);
+                distancias =Distancia_Puntos_Resultado(mcomponenetes, Lista_original_2d, distancia_menor);
             }
             
             
@@ -7487,6 +7500,10 @@ namespace Logica {
                 }
             }
             if (Lista_original_2d.Count>distancias.Count)
+            {
+                distancia_max = 1000;
+            }
+            if (error_automatico && automatico)
             {
                 distancia_max = 1000;
             }
@@ -7592,15 +7609,22 @@ namespace Logica {
 
                     }
                 }*/
-                return Tuple.Create(mcomponenetes, distancia_max, dis_media);
+                return Tuple.Create(mcomponenetes, distancia_max, dis_media, contador_resultados_numero);
             }
             else
             {
-                if (informe && distancia_max!=1000)
+                if (Comprueba_solapes(mcomponenetes))
                 {
-                    Informe(Lista_original_2d, distancias);
+                    if (informe && distancia_max != 1000)
+                    {
+                        Informe(Lista_original_2d, distancias);
+                    }
                 }
-                Tuple<List<EjeDeTrazado.componentes.Componente>, double,double> devolver= Tuple.Create(mcomponenetes, distancia_max, dis_media);
+                else
+                {
+                    distancia_max = 1000;
+                }
+                Tuple<List<EjeDeTrazado.componentes.Componente>, double,double,int> devolver= Tuple.Create(mcomponenetes, distancia_max, dis_media, contador_resultados_numero);
                 return devolver;
             }
 
@@ -15160,8 +15184,19 @@ namespace Logica {
             {
                 if (componentes[i].Tipo==2 && (double.IsNaN(componentes[i].xc) || double.IsNaN(componentes[i].yc)))
                 {
-                    componentes.RemoveAt(i);
-                    i--;
+                    if (i==0)
+                    {
+                        componentes.RemoveAt(i);
+                        componentes.Insert(0, new Componente(polilinea[0], 1));
+                        componentes[0].add(polilinea[1]);
+                    }
+                    else
+                    {
+                        componentes.RemoveAt(i);
+                        i--;
+                    }
+                    
+
                 }
             }
             // Dibujar_c(xc_centro22, yc_centro22, polilinea[2].Rp);
@@ -16795,7 +16830,7 @@ namespace Logica {
             List<double> azimuts = new List<double>();
             List<Point2d> Puntos_rectas = new List<Point2d>();
             List<object> entidades = new List<object>();
-
+            error_automatico = false;
             bool puntos_ultimos = false;
             bool salir = true;
             bool terminar = false;
@@ -18069,10 +18104,12 @@ namespace Logica {
                             if (automatico && total.TotalSeconds>1500)
                             {
                                 terminar = true;
+                                error_automatico = true;
                             }
                             if(automatico && contador>50000)
                             {
                                 terminar = true;
+                                error_automatico = true;
                             }
 
                                 //Console.Write("TIEMPO: " + total.ToString());
@@ -19397,10 +19434,12 @@ namespace Logica {
                             if (automatico && total.TotalSeconds > 1500)
                             {
                                 terminar = true;
+                                error_automatico = true;
                             }
                             if (automatico && contador > 50000)
                             {
                                 terminar = true;
+                                error_automatico = true;
                             }
                             //Console.Write("TIEMPO: " + total.ToString());
                             //mostrarCasos_Enlaces();
@@ -20848,7 +20887,7 @@ namespace Logica {
 
                         if (componentes[i].azte > componentes[i].azts)
                         {
-                            if (azimuts[conta_az] > 0 && azimuts[conta_az] < componentes[i].azts)
+                            if (azimuts[conta_az] > 0 && azimuts[conta_az] <180 && azimuts[conta_az] < componentes[i].azts)
                             {
                                 az_temp_1 = azimuts[conta_az] + 360;
                             }
@@ -20856,7 +20895,7 @@ namespace Logica {
                             {
                                 az_temp_1 = azimuts[conta_az];
                             }
-                            if (azimuts[conta_az + 1] > 0 && azimuts[conta_az + 1] < componentes[i].azte)
+                            if (azimuts[conta_az + 1] > 0 && azimuts[conta_az + 1] <180 && azimuts[conta_az + 1] < componentes[i].azte)
                             {
                                 az_temp_2 = azimuts[conta_az + 1] + 360;
                             }
@@ -21072,7 +21111,7 @@ namespace Logica {
                     {
                         if (componentes[i].azte < componentes[i].azts)
                         {
-                            if (azimuts[conta_az] > 0 && azimuts[conta_az] < componentes[i].azte)
+                            if (azimuts[conta_az] > 0 && azimuts[conta_az] < 180 && azimuts[conta_az] < componentes[i].azte)
                             {
                                 az_temp_1 = azimuts[conta_az] + 360;
                             }
@@ -21080,7 +21119,7 @@ namespace Logica {
                             {
                                 az_temp_1 = azimuts[conta_az];
                             }
-                            if (azimuts[conta_az + 1] > 0 && azimuts[conta_az + 1] < componentes[i].azte)
+                            if (azimuts[conta_az + 1] > 0 && azimuts[conta_az + 1] < 180 && azimuts[conta_az + 1] < componentes[i].azte)
                             {
                                 az_temp_2 = azimuts[conta_az + 1] + 360;
                             }
@@ -24081,7 +24120,7 @@ namespace Logica {
                 } else {
                     direccion = 2;//der a izq
                 }
-                p_raux = Rellenar_centro(c2.lista_puntos[c1.lista_puntos.Count - 2], xc, yc, direccion);
+                p_raux = Rellenar_centro(c2.lista_puntos[c2.lista_puntos.Count - 2], xc, yc, direccion);
                 p_raux.dis_raux = Math.Pow(Math.Pow(xc - c2.lista_puntos[0].p.X, 2) + Math.Pow(yc - c2.lista_puntos[0].p.Y, 2), 0.5);
             } else {
                 if (c1.lista_puntos[c1.lista_puntos.Count - 2].p.X < c1.lista_puntos[c1.lista_puntos.Count - 1].p.X) {
@@ -27671,7 +27710,7 @@ namespace Logica {
                                     if (((componentes[componentes.Count - 1].lista_puntos[0].p.X < componentes[componentes.Count - 1].lista_puntos[1].p.X) && (Clo.getPointAtDist(Clo.getPkFinal())[0] <= componentes[componentes.Count - 1].lista_puntos[1].p.X)) ||
                                         ((componentes[componentes.Count - 1].lista_puntos[0].p.X > componentes[componentes.Count - 1].lista_puntos[1].p.X) && (Clo.getPointAtDist(Clo.getPkFinal())[0] >= componentes[componentes.Count - 1].lista_puntos[1].p.X)))
                                     {
-                                        //Dibujar_Clotoide(Clo);
+                                        Dibujar_Clotoide(Clo);
                                         break;
                                     }
                                     /*if ((componentes[componentes.Count - 1].lista_puntos[0].p.X < Clo.getPointAtDist(Clo.getPkFinal())[0] && Clo.getPointAtDist(Clo.getPkFinal())[0] < componentes[componentes.Count - 1].lista_puntos[1].p.X) || (componentes[componentes.Count - 1].lista_puntos[0].p.X > Clo.getPointAtDist(Clo.getPkFinal())[0] && Clo.getPointAtDist(Clo.getPkFinal())[0] > componentes[componentes.Count - 1].lista_puntos[1].p.X))
@@ -27912,11 +27951,11 @@ namespace Logica {
                                 {
                                     if (Clo.getTipo == EjeDeTrazado.puntosDelEje.EjeTrazado.tipoClotoide.salida)
                                     {
-                                        //Dibujar_Clotoide(Clo, 0, Clo.getLe_r());
+                                        Dibujar_Clotoide(Clo, 0, Clo.getLe_r());
                                     }
                                     else
                                     {
-                                        //Dibujar_Clotoide(Clo);
+                                        Dibujar_Clotoide(Clo);
                                     }
 
 
@@ -28890,6 +28929,13 @@ namespace Logica {
             distancia_g = Distancia(new Point2d(Polilinea2d[0].Item1.X, Polilinea2d[0].Item1.Y), new Point2d(Polilinea_original[0].X, Polilinea_original[0].Y));
             distancias.Add(distancia_g);
             double dis1,dis2,dis_com;
+            int puntoGuardado = 0;
+            int puntoGuardadofin = Polilinea2d.Count;
+            double distancia_total = 0;
+            for (int i = 0; i < Polilinea_original.Count-1; i++)
+            {
+                distancia_total+= Distancia(new Point2d(Polilinea_original[i].X, Polilinea_original[i].Y), new Point2d(Polilinea_original[i+1].X, Polilinea_original[i+1].Y));
+            }
             for (int i = 1; i < Polilinea_original.Count; i++)
             {
                 dis1= Distancia(new Point2d(Polilinea_original[i-1].X, Polilinea_original[i-1].Y), new Point2d(Polilinea_original[i].X, Polilinea_original[i].Y));
@@ -28910,19 +28956,35 @@ namespace Logica {
                     dis_com = dis2 * 0.30;
                 }
                 distancia_g = Distancia(new Point2d(Polilinea2d[0].Item1.X, Polilinea2d[0].Item1.Y), new Point2d(Polilinea_original[i].X, Polilinea_original[i].Y));
-                for (int t = 0; t < Polilinea2d.Count; t++)
+                if (Polilinea2d.Count>100000)
+                {
+                    puntoGuardadofin = Polilinea2d.Count/2+ puntoGuardado;
+                }
+                if (puntoGuardadofin>= Polilinea2d.Count)
+                {
+                    puntoGuardadofin = Polilinea2d.Count;
+                }
+                for (int t = puntoGuardado; t < puntoGuardadofin; t++)
                 {
                     distancia = Distancia(new Point2d(Polilinea2d[t].Item1.X, Polilinea2d[t].Item1.Y), new Point2d(Polilinea_original[i].X, Polilinea_original[i].Y));
                     if (distancia_g > distancia)
                     {
                         punto_p_o = Polilinea2d[t].Item2;
                         distancia_g = distancia;
+                        if (Polilinea2d.Count > 100000)
+                        {
+                            puntoGuardado = t;
+                        }
+                        else
+                        {
+                            puntoGuardado = 0;
+                        }   
                     }
                 }
                 
                 distancias.Add(distancia_g);
                 //esto es para que no continue si la distancia es muy grande
-                if ((distancia_g > dis_com && distancia_g>15) || distancia_g> distancia_menor)
+                if ((distancia_g > dis_com && distancia_g>15) || distancia_g> distancia_menor || distancia_total*0.1< distancia_g)
                 {
                     break;
                 }
@@ -28930,7 +28992,155 @@ namespace Logica {
             //Informe(Polilinea_original, distancias);
             return distancias;
         }
+        public void Distancia_Puntos_Resultado_prueba(List<EjeDeTrazado.componentes.Componente> Mcomponenetes, List<Point2d> lista_original, double distancia_menor)
+        {
+            List<Point2d> Polilinea_original = new List<Point2d>();
+            foreach (Point2d p in lista_original)
+            {
+                Polilinea_original.Add(p);
+            }
+            double x_min, x_max, y_min, y_max;
+            x_min = Polilinea_original[0].X;
+            x_max = Polilinea_original[0].X;
+            y_min = Polilinea_original[0].Y;
+            y_max = Polilinea_original[0].Y;
+            for (int i=1;i<Polilinea_original.Count;i++)
+            {
+                if (Polilinea_original[i].X< x_min)
+                {
+                    x_min = Polilinea_original[i].X;
+                }
+                if (Polilinea_original[i].X > x_max)
+                {
+                    x_max = Polilinea_original[i].X;
+                }
+                if (Polilinea_original[i].Y < y_min)
+                {
+                    y_min = Polilinea_original[i].Y;
+                }
+                if (Polilinea_original[i].Y > y_max)
+                {
+                    y_max = Polilinea_original[i].Y;
+                }
+            }
 
+            double distancia_total = 0;
+            for (int i = 0; i < Polilinea_original.Count - 1; i++)
+            {
+                distancia_total += Distancia(new Point2d(Polilinea_original[i].X, Polilinea_original[i].Y), new Point2d(Polilinea_original[i + 1].X, Polilinea_original[i + 1].Y));
+            }
+            List<Tuple<Point2d, int>> Polilinea2d = new List<Tuple<Point2d, int>>();
+            List<Point2d> Polilinea2d_aux = new List<Point2d>();
+            int cont_comp = 0;
+            Point2d p3d = new Point2d();
+            foreach (var componente in Mcomponenetes)
+            {
+                foreach (var componentPoint in componente.getComponentPoints_p())
+                {
+                    p3d = new Point2d(componentPoint[0], componentPoint[1]);
+                    if (componente.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.linea)
+                    {
+                        Polilinea2d_aux.Add(p3d);
+                    }
+                    else
+                    {
+                        Polilinea2d.Add(Tuple.Create(p3d, cont_comp));
+                    }
+
+                }
+                if (componente.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.linea)
+                {
+                    Polilinea2d_aux = Dividir_Segmentos_Largos(Polilinea2d_aux);
+                    for (int i = 0; i < Polilinea2d_aux.Count; i++)
+                    {
+                        Polilinea2d.Add(Tuple.Create(Polilinea2d_aux[i], cont_comp));
+                    }
+                }
+                Polilinea2d_aux.Clear();
+                cont_comp++;
+            }
+            Polilinea2d = Erroneos(Polilinea2d);
+            for (int i = 0; i < Polilinea2d.Count; i++)
+            {
+                if (Polilinea2d[i].Item1.X < x_min)
+                {
+                    x_min = Polilinea2d[i].Item1.X;
+                }
+                if (Polilinea2d[i].Item1.X > x_max)
+                {
+                    x_max = Polilinea2d[i].Item1.X;
+                }
+                if (Polilinea2d[i].Item1.Y < y_min)
+                {
+                    y_min = Polilinea2d[i].Item1.Y;
+                }
+                if (Polilinea2d[i].Item1.Y > y_max)
+                {
+                    y_max = Polilinea2d[i].Item1.Y;
+                }
+            }
+            x_min -= 250;
+            x_max += 250;
+            y_min -= 250;
+            y_max += 250;
+            List<Tuple<int, int, Point2d>> List_Polilinea_original = new List<Tuple<int, int, Point2d>>();
+            for (int i=0;i<Polilinea_original.Count;i++)
+            {
+                List_Polilinea_original.Add(Tuple.Create((int)(Polilinea_original[i].X- x_min)/50, (int)(Polilinea_original[i].Y - y_min) / 50, Polilinea_original[i]));
+            }
+            List<Tuple<int, int, Point2d>> List_Polilinea2d = new List<Tuple<int, int, Point2d>>();
+            for (int i = 0; i < Polilinea2d.Count; i++)
+            {
+                List_Polilinea2d.Add(Tuple.Create((int)(Polilinea2d[i].Item1.X - x_min) / 50, (int)(Polilinea2d[i].Item1.Y - y_min) / 50, Polilinea2d[i].Item1));
+            }
+            double dis1, dis2, dis_com,distancia_g, distancia;
+            List<double> distancias = new List<double>();
+            distancia_g = Distancia(new Point2d(Polilinea2d[0].Item1.X, Polilinea2d[0].Item1.Y), new Point2d(Polilinea_original[0].X, Polilinea_original[0].Y));
+            distancias.Add(distancia_g);
+            for (int i = 1; i < List_Polilinea_original.Count; i++)
+            {
+                List<Tuple<int, int, Point2d>> L_Trazado = List_Polilinea2d.Where(w => w.Item1 == List_Polilinea_original[i].Item1 - 1 ||
+                                                                                                  w.Item1 == List_Polilinea_original[i].Item1 ||
+                                                                                                  w.Item1 == List_Polilinea_original[i].Item1 + 1 ||
+                                                                                                  w.Item2 == List_Polilinea_original[i].Item2 - 1 ||
+                                                                                                  w.Item2 == List_Polilinea_original[i].Item2 ||
+                                                                                                  w.Item2 == List_Polilinea_original[i].Item2 + 1).ToList();
+                dis1 = Distancia(new Point2d(List_Polilinea_original[i - 1].Item3.X, List_Polilinea_original[i - 1].Item3.Y), new Point2d(List_Polilinea_original[i].Item3.X, List_Polilinea_original[i].Item3.Y));
+                if (i < List_Polilinea_original.Count - 1)
+                {
+                    dis2 = Distancia(new Point2d(List_Polilinea_original[i + 1].Item3.X, List_Polilinea_original[i + 1].Item3.Y), new Point2d(List_Polilinea_original[i].Item3.X, List_Polilinea_original[i].Item3.Y));
+                }
+                else
+                {
+                    dis2 = dis1;
+                }
+                if (dis1 > dis2)
+                {
+                    dis_com = dis1 * 0.30;
+                }
+                else
+                {
+                    dis_com = dis2 * 0.30;
+                }
+                distancia_g = Distancia(new Point2d(L_Trazado[0].Item3.X, L_Trazado[0].Item3.Y), new Point2d(List_Polilinea_original[i].Item3.X, List_Polilinea_original[i].Item3.Y));
+                for (int t = 0; t < L_Trazado.Count-1; t++)
+                {
+                    distancia = Distancia(new Point2d(L_Trazado[t].Item3.X, L_Trazado[t].Item3.Y), new Point2d(List_Polilinea_original[i].Item3.X, List_Polilinea_original[i].Item3.Y));
+                    if (distancia_g > distancia)
+                    {
+                        distancia_g = distancia;
+                    }
+                }
+
+                distancias.Add(distancia_g);
+                //esto es para que no continue si la distancia es muy grande
+                if ((distancia_g > dis_com && distancia_g > 15) || distancia_g > distancia_menor || distancia_total * 0.1 < distancia_g)
+                {
+                    break;
+                }
+            }
+                
+        }
 
         /// <summary>
         /// Crea una polilinea cuyos tramos no tienen mas de 1 metros
@@ -29648,7 +29858,8 @@ namespace Logica {
             
             double des_sum = 0;
             int[] r = new int[2];
-
+            int contador_restante = 0;
+            double des_final = 0;
             if (dsApp!=null) 
             {
                 List<Punto> polilinea_aux = new List<Punto>();
@@ -29661,20 +29872,53 @@ namespace Logica {
                     Punto p = new Punto(new Point2d(double.Parse(x), double.Parse(y)));
                     polilinea_aux.Add(p);
                 }
-                for (int i = 0; i < polilinea.Count - 1; i++)
+                for (int i = 0; i < polilinea_aux.Count - 1; i++)
                 {
-                    des_sum += Math.Abs(Distancia(polilinea_aux[i].p, polilinea_aux[i + 1].p) - des);
+                    if (Math.Abs(Distancia(polilinea_aux[i].p, polilinea_aux[i + 1].p))> (des*4))
+                    {
+                        contador_restante++;
+                    }
+                    else
+                    {
+                        des_sum += Math.Abs(Distancia(polilinea_aux[i].p, polilinea_aux[i + 1].p) - des);
+                    }
+                }
+                if (contador_restante > 0)
+                {
+                    des_final = des_sum / (polilinea_aux.Count - 1 - contador_restante);
+                }
+                else
+                {
+                    des_final = des_sum / (polilinea_aux.Count - 1);
                 }
             }
             else
             {
                 for (int i = 0; i < polilinea.Count - 1; i++)
                 {
-                    des_sum += Math.Abs(Distancia(polilinea[i].p, polilinea[i + 1].p) - des);
+                    if (Math.Abs(Distancia(polilinea[i].p, polilinea[i + 1].p)) > (des * 4))
+                    {
+                        contador_restante++;
+                    }
+                    else
+                    {
+                        des_sum += Math.Abs(Distancia(polilinea[i].p, polilinea[i + 1].p) - des);
+                    }
+                   
                 }
+                if (contador_restante > 0)
+                {
+                    des_final = des_sum / (polilinea.Count - 1 - contador_restante);
+                }
+                else
+                {
+                    des_final = des_sum / (polilinea.Count - 1);
+                }
+
             }
             
-            double des_final = des_sum / (polilinea.Count - 1);
+
+
             if (des_final<des)
             {
                 r[0] = 1;
@@ -29726,6 +29970,7 @@ namespace Logica {
 
         public void DibujarTrazado(List<EjeDeTrazado.componentes.Componente> trazado)
         {
+
             using (DocumentLock myDockLock = oCadManager.thisEditor.Document.LockDocument())
             {
                 using (Transaction tr = oCadManager.StartTransaction())
@@ -29749,7 +29994,7 @@ namespace Logica {
                     }
                     engCadNet.oLayer.addLayer("Trazado", 4, false);
                     miEje.Layer = "Trazado";
-
+                    
                     btr.AppendEntity(miEje);
                     tr.AddNewlyCreatedDBObject(miEje, true);
 
@@ -29895,9 +30140,82 @@ namespace Logica {
         }
 
        
+        public int Contar_Puntos_Cluster()
+        {
+            int contador = 0;
+            List<int> lista_puntos = new List<int>();
+            try
+            {
+                for (int i = 1; i < polilinea.Count; i++)
+                {
 
+                    if (Math.Abs(polilinea[i - 1].R - polilinea[i].R) < (polilinea[i].R * 0.01))
+                    {
+                        contador++;
+                    }
+                    else
+                    {
+                        if (contador > 3)
+                        {
+                            lista_puntos.Add(contador);
+                        }
 
+                        contador = 0;
+                    }
+                }
+                if (lista_puntos.Count > 0)
+                {
+                    if (lista_puntos.Min() <= 3)
+                    {
+                        return 0;
+                    }
+                    return lista_puntos.Min();
+                }
+                return 0;
+            }
+            catch
+            {
+                return 0;
+            }
+            
+        }
 
+        public bool Comprueba_solapes(List<EjeDeTrazado.componentes.Componente> trazado)
+        {
+            CalculoPolilinea cp;
+            List<Point2d> lista = new List<Point2d>();
+            foreach (var componente in trazado)
+            {
+                foreach (var componentPoint in componente.getComponentPoints())
+                {
+                    lista.Add(new Point2d(componentPoint[0], componentPoint[1]));
+                }
+            }
+            cp = new CalculoPolilinea(lista);
+            for (int i=1;i<cp.polilinea.Count-2;i++)
+            {
+                if (cp.polilinea[i].CambioAz > 90 && Distancia(cp.polilinea[i-1].p, cp.polilinea[i].p)>0.01)
+                {
+                    if ((cp.polilinea[i].Az<90 && cp.polilinea[i-1].Az >270) || 
+                        (cp.polilinea[i].Az> 270 && cp.polilinea[i - 1].Az < 90) || 
+                         cp.polilinea[i].cuadrante==0 || 
+                         cp.polilinea[i-1].cuadrante == 0)
+                    {
+
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                if (Math.Abs(Distancia(cp.polilinea[i - 1].p, cp.polilinea[i].p)) < 0.01)
+                {
+                    i++;
+                }
+                
+            }
+            return true;
+        }
 
     }
 

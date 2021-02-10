@@ -74,7 +74,8 @@ namespace interfaz
             dataTable.Columns.Add("Varianza");
             dataTable.Columns.Add("Var. acum");
             dataTable.Columns.Add("Resultado");
-            dataTable.Columns.Add("Valor");
+            dataTable.Columns.Add("Valor"); 
+            dataTable.Columns.Add("sentido");
 
 
             this.polilinea_perfil.ForEach(punto => {
@@ -97,7 +98,7 @@ namespace interfaz
                 {
                     vertice = "Inferior";
                 }
-                dataTable.Rows.Add(puntoIndex, punto.p.X, punto.p.Y,vertice, punto.pendiente, punto.primero, punto.ultimo, punto.varianza, punto.varianza_a, resultado, punto.valor*100);
+                dataTable.Rows.Add(puntoIndex, punto.p.X, punto.p.Y,vertice, punto.pendiente, punto.primero, punto.ultimo, punto.varianza, punto.varianza_a, resultado, punto.valor*100,punto.secuenciagiro);
 
             });
 

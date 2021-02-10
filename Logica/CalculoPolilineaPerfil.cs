@@ -39,6 +39,7 @@ namespace Logica
         List<List<PuntoPerfil>> lista_sentidos = new List<List<PuntoPerfil>>();
         List<Point3d> Polilinea3d_Acumulada = new List<Point3d>();
         dsApp datoApp = new dsApp();
+        List<EjeDeTrazado.componentes.Curva> Lista_curvas = new List<Curva>();
         public List<Parabola> Lista_Parabolas { get => Lista_parabolas; set => Lista_parabolas = value; }
         public List<Pendiente> Lista_Rectas { get => Lista_rectas; set => Lista_rectas = value; }
         public List<Point3d> Polilinea3d_Original { get => Polilinea3d_original; set => Polilinea3d_original = value; }
@@ -47,7 +48,6 @@ namespace Logica
         public List<Punto> Polilinea_Inicial { get => polilinea_inicial; set => polilinea_inicial = value; }
         public CalculoPolilineaPerfil() { 
         }
-
         public CalculoPolilineaPerfil(List<Point2d> l,int escal,double x,double y,int n_suavizados)
         {
             foreach (Point2d point in l)
@@ -141,7 +141,50 @@ namespace Logica
                     RellenarDatos();
                     Dibujar(0);
                     bool salida = true;
-                    while (salida)
+                    if (it==1)
+                    {
+                        while (salida)
+                        {
+                            if (opcion == 1)
+                            {
+                                FiltradoDisrupcion(true, ref contador);
+                                if (contador == 0)
+                                {
+                                    salida = false;
+                                }
+                                contador = 0;
+                                Vaciar_Puntos();
+                                RellenarDatos();
+                            }
+                            else if (opcion == 2)
+                            {
+                                FiltradoCambioSentido(true, ref contador);
+                                if (contador == 0)
+                                {
+                                    salida = false;
+                                }
+                                contador = 0;
+                                Vaciar_Puntos();
+                                RellenarDatos();
+                            }
+                            else if (opcion == 3)
+                            {
+                                FiltradoGiroLongitud(ratio, true, ref contador);
+                                if (contador == 0)
+                                {
+                                    salida = false;
+                                }
+                                contador = 0;
+                                Vaciar_Puntos();
+                                RellenarDatos();
+                            }
+                            else if (opcion == 0)
+                            {
+                                salida = false;
+                            }
+                        }
+                    }
+                    else
                     {
                         if (opcion == 1)
                         {
@@ -176,7 +219,12 @@ namespace Logica
                             Vaciar_Puntos();
                             RellenarDatos();
                         }
+                        else if (opcion == 0)
+                        {
+                            salida = false;
+                        }
                     }
+                    
                     Dibujar(2);
                     foreach (Punto p in polilinea)
                     {
@@ -2945,7 +2993,7 @@ namespace Logica
             
 
         }
-        private Tuple<double, double, double> Clusterizacion(List<Punto> lista)
+        private Tuple<double, double, double> Clusterizacion(List<PuntoPerfil> lista)
         {
             double centrox = -1, centroy = -1, radio = -1;
             double sumax = 0;
@@ -4628,10 +4676,27 @@ namespace Logica
             if (Lista_rectas[0].Puntos[0].X<Lista_parabolas[0].polilinea_perfil[0].p.X)
             {
                 Dibujar_Trazado(1);
+                Dibujar_Trazado_Informe(1);
             }
             else
             {
                 Dibujar_Trazado(2);
+                Dibujar_Trazado_Informe(2);
+            }
+
+        }
+        public void CrearTrazado_Circular()
+        {
+
+            if (Lista_rectas[0].Puntos[0].X < Lista_parabolas[0].polilinea_perfil[0].p.X)
+            {
+                Dibujar_Trazado_Circular(1);
+                //Dibujar_Trazado_Informe(1);
+            }
+            else
+            {
+                Dibujar_Trazado_Circular(2);
+                //Dibujar_Trazado_Informe(2);
             }
 
         }
@@ -4674,6 +4739,7 @@ namespace Logica
         /// <param name="tipo">1 para empezar por pendiente y 2 para empezar por acuerdo</param>
         public void Dibujar_Trazado(int tipo)
         {
+
             if (tipo == 2)
             {
                 using (DocumentLock myDockLock = oCadManager.thisEditor.Document.LockDocument())
@@ -4872,7 +4938,193 @@ namespace Logica
                     }
                 }
             }
-            
+        }
+        /// <summary>
+        /// Dibuja el trazado completo circular
+        /// </summary>
+        /// <param name="tipo">1 para empezar por pendiente y 2 para empezar por acuerdo</param>
+        public void Dibujar_Trazado_Circular(int tipo)
+        {
+
+            if (tipo == 2)
+            {
+                using (DocumentLock myDockLock = oCadManager.thisEditor.Document.LockDocument())
+                {
+                    using (Transaction tr = oCadManager.StartTransaction())
+                    {
+                        BlockTable bt = (BlockTable)tr.GetObject(oCadManager.thisBase.BlockTableId, OpenMode.ForRead, false);
+                        BlockTableRecord btr = (BlockTableRecord)tr.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite, false);
+
+                        Polyline miEje = new Polyline();
+                        int index = 0;
+                        double p2_x = 0;
+                        double x2 = Lista_parabolas[0].parabola[0];
+                        double x1 = Lista_parabolas[0].parabola[1];
+                        double x = Lista_parabolas[0].parabola[2];
+                        double pk_ini = 0;
+
+                        double pk_fin = Lista_parabolas[0].polilinea_perfil[Lista_parabolas[0].polilinea_perfil.Count - 1].p.X;
+                        pk_fin = Lista_rectas[0].Puntos[0].X;
+                        double pk = pk_ini;
+                        double y;
+                        for (int i = 0; pk < pk_fin; i++)
+                        {
+                            y = (pk * pk) * x2 + pk * x1 + x;//x^2+x+c
+
+                            miEje.AddVertexAt(index, new Point2d(pk + x_ins, y * escala + y_ins), 0, 0, 0);
+                            pk = pk + 1;
+                            index++;
+                        }
+                        y = (pk_fin * pk_fin) * x2 + pk_fin * x1 + x;//x^2+x+c
+
+                        miEje.AddVertexAt(index, new Point2d(pk_fin + x_ins, y * escala + y_ins), 0, 0, 0);
+                        index++;
+                        for (int t = 1; t < Lista_rectas.Count && t < Lista_curvas.Count; t++)
+                        {
+                            foreach (var componentPoint in Lista_curvas[t].getComponentPoints())
+                            {
+                                miEje.AddVertexAt(index, new Point2d(componentPoint[0] + x_ins, componentPoint[1] * escala + y_ins), 0, 0, 0);
+                                index++;
+                            }
+
+                        }
+                        if (Lista_rectas.Count == Lista_parabolas.Count)
+                        {
+                            p2_x = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
+                            double p2_y = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].Y;
+                            miEje.AddVertexAt(index, new Point2d(p2_x + x_ins, p2_y * escala + y_ins), 0, 0, 0);
+                            index++;
+                        }
+                        else
+                        {
+                            if (Lista_rectas.Count < Lista_parabolas.Count)
+                            {
+                                x2 = Lista_parabolas[Lista_parabolas.Count - 1].parabola[0];
+                                x1 = Lista_parabolas[Lista_parabolas.Count - 1].parabola[1];
+                                x = Lista_parabolas[Lista_parabolas.Count - 1].parabola[2];
+                                pk_ini = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
+                                pk_fin = Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil[Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil.Count - 1].p.X;
+                                pk = pk_ini;
+                                for (int i = 0; pk < pk_fin; i++)
+                                {
+                                    y = (pk * pk) * x2 + pk * x1 + x;//x^2+x+c
+
+                                    miEje.AddVertexAt(index, new Point2d(pk + x_ins, y * escala + y_ins), 0, 0, 0);
+                                    pk = pk + 0.1;
+                                    index++;
+                                }
+                                y = (pk_fin * pk_fin) * x2 + pk_fin * x1 + x;//x^2+x+c
+
+                                miEje.AddVertexAt(index, new Point2d(pk_fin + x_ins, y * escala + y_ins), 0, 0, 0);
+                                index++;
+                            }
+
+                        }
+
+                        engCadNet.oLayer.addLayer("Trazado", 2, false);
+                        miEje.Layer = "Trazado";
+
+                        btr.AppendEntity(miEje);
+                        tr.AddNewlyCreatedDBObject(miEje, true);
+
+                        oCadManager.thisEditor.UpdateScreen();
+
+                        tr.Commit();
+                    }
+                }
+            }
+            else
+            {
+                using (DocumentLock myDockLock = oCadManager.thisEditor.Document.LockDocument())
+                {
+                    using (Transaction tr = oCadManager.StartTransaction())
+                    {
+                        BlockTable bt = (BlockTable)tr.GetObject(oCadManager.thisBase.BlockTableId, OpenMode.ForRead, false);
+                        BlockTableRecord btr = (BlockTableRecord)tr.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite, false);
+
+                        Polyline miEje = new Polyline();
+                        int index = 0;
+                        double p1_x = Lista_rectas[0].Puntos[0].X;
+                        double p1_y = Lista_rectas[0].Puntos[0].Y;
+                        miEje.AddVertexAt(index, new Point2d(p1_x + x_ins, p1_y * escala + y_ins), 0, 0, 0);
+                        index++;
+                        for (int t = 0; t < Lista_rectas.Count && t < Lista_curvas.Count; t++)
+                        {
+                            foreach (var componentPoint in Lista_curvas[t].getComponentPoints())
+                            {
+                                miEje.AddVertexAt(index, new Point2d(componentPoint[0] + x_ins, componentPoint[1] * escala + y_ins), 0, 0, 0);
+                                index++;
+                            }
+                        }
+
+                        if (Lista_rectas.Count > Lista_parabolas.Count)
+                        {
+                            double p2_x = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
+                            double p2_y = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].Y;
+                            miEje.AddVertexAt(index, new Point2d(p2_x + x_ins, p2_y * escala + y_ins), 0, 0, 0);
+                            index++;
+                        }
+                        else
+                        {
+                            if (Lista_rectas.Count < Lista_parabolas.Count)
+                            {
+                                double x2 = Lista_parabolas[Lista_parabolas.Count - 1].parabola[0];
+                                double x1 = Lista_parabolas[Lista_parabolas.Count - 1].parabola[1];
+                                double x = Lista_parabolas[Lista_parabolas.Count - 1].parabola[2];
+                                double pk_ini = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
+                                double pk_fin = Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil[Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil.Count - 1].p.X;
+                                double pk = pk_ini;
+                                double y;
+                                for (int i = 0; pk < pk_fin; i++)
+                                {
+                                    y = (pk * pk) * x2 + pk * x1 + x;//x^2+x+c
+
+                                    miEje.AddVertexAt(index, new Point2d(pk + x_ins, y * escala + y_ins), 0, 0, 0);
+                                    pk = pk + 0.1;
+                                    index++;
+                                }
+                                y = (pk_fin * pk_fin) * x2 + pk_fin * x1 + x;//x^2+x+c
+
+                                miEje.AddVertexAt(index, new Point2d(pk_fin + x_ins, y * escala + y_ins), 0, 0, 0);
+                                index++;
+                            }
+                            else
+                            {
+                              /*  double x2 = Lista_parabolas[Lista_parabolas.Count - 1].parabola[0];
+                                double x1 = Lista_parabolas[Lista_parabolas.Count - 1].parabola[1];
+                                double x = Lista_parabolas[Lista_parabolas.Count - 1].parabola[2];
+                                double pk_ini = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
+                                double pk_fin = Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil[Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil.Count - 1].p.X;
+                                double pk = pk_ini;
+                                double y;
+                                for (int i = 0; pk < pk_fin; i++)
+                                {
+                                    y = (pk * pk) * x2 + pk * x1 + x;//x^2+x+c
+
+                                    miEje.AddVertexAt(index, new Point2d(pk + x_ins, y * escala + y_ins), 0, 0, 0);
+                                    pk = pk + 0.1;
+                                    index++;
+                                }
+                                y = (pk_fin * pk_fin) * x2 + pk_fin * x1 + x;//x^2+x+c
+
+                                miEje.AddVertexAt(index, new Point2d(pk_fin + x_ins, y * escala + y_ins), 0, 0, 0);
+                                index++;*/
+                            }
+
+                        }
+
+                        engCadNet.oLayer.addLayer("Trazado", 2, false);
+                        miEje.Layer = "Trazado";
+
+                        btr.AppendEntity(miEje);
+                        tr.AddNewlyCreatedDBObject(miEje, true);
+
+                        oCadManager.thisEditor.UpdateScreen();
+
+                        tr.Commit();
+                    }
+                }
+            }
         }
         /// <summary>
         /// Dibuja el trazado completo
@@ -5066,6 +5318,193 @@ namespace Logica
             }
             return maximo;
         }
+        public void Rotular_Circular(double rotu)
+        {
+            Rotular rotular = new Rotular(rotu);
+            double min = Buscar_minimo();
+            double maximo = Buscar_maximo();
+            engCadNet.oLayer.addLayer("Rotulacion-Cota", 1, false);
+            rotular.Guitarra(min, maximo, polilinea_perfil[polilinea_perfil.Count - 1].p.X, escala, x_ins, y_ins);
+            double a_x0, a_y0, b_x1, b_y1, p1, p2;
+            a_x0 = Lista_rectas[0].Puntos[0].X;
+            a_y0 = Lista_rectas[0].Puntos[0].Y;
+            b_x1 = Lista_rectas[0].Puntos[1].X;
+            b_y1 = Lista_rectas[0].Puntos[1].Y;
+
+            p1 = (a_y0 - b_y1) / (a_x0 - b_x1);
+            if (Lista_rectas[0].Puntos[0].X < Lista_Parabolas[0].polilinea_perfil[0].p.X)
+            {
+                rotular.Dibujar_Ini_Fin_Pendiente(Lista_rectas[0], 1, escala, p1, x_ins, y_ins);
+                for (int i = 0; i < Lista_curvas.Count && i < Lista_rectas.Count - 1; i++)
+                {
+                    a_x0 = Lista_rectas[i].Puntos[0].X;
+                    a_y0 = Lista_rectas[i].Puntos[0].Y;
+                    b_x1 = Lista_rectas[i].Puntos[1].X;
+                    b_y1 = Lista_rectas[i].Puntos[1].Y;
+
+                    p1 = (a_y0 - b_y1) / (a_x0 - b_x1);
+
+                    a_x0 = Lista_rectas[i + 1].Puntos[0].X;
+                    a_y0 = Lista_rectas[i + 1].Puntos[0].Y;
+                    b_x1 = Lista_rectas[i + 1].Puntos[1].X;
+                    b_y1 = Lista_rectas[i + 1].Puntos[1].Y;
+
+                    p2 = (a_y0 - b_y1) / (a_x0 - b_x1);
+                    rotular.Dibujar_Singulares_Perfil_Circular(Lista_curvas[i], Lista_rectas[i].Puntos[1], Lista_rectas[i + 1].Puntos[0], escala, p1, p2, 1, x_ins, y_ins);
+                }
+                if (Lista_curvas.Count == Lista_rectas.Count)
+                {
+                    a_x0 = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].X;
+                    a_y0 = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].Y;
+                    b_x1 = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
+                    b_y1 = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].Y;
+
+                    p1 = (a_y0 - b_y1) / (a_x0 - b_x1);
+                    rotular.Dibujar_Singulares_Perfil_Circular(Lista_curvas[Lista_curvas.Count - 1], Lista_rectas[Lista_rectas.Count - 1].Puntos[1], polilinea_perfil[polilinea_perfil.Count - 1].p, escala, p1, 0, 3, x_ins, y_ins);
+                }
+
+            }
+            else
+            {
+                rotular.Dibujar_Ini_Fin_Acuerdo_Circular(Lista_curvas[0], 1, escala, polilinea_perfil[polilinea_perfil.Count - 1].p.X, x_ins, y_ins);
+                for (int i = 0; i < Lista_curvas.Count && i < Lista_rectas.Count - 1; i++)
+                {
+                    if (i == 0)
+                    {
+                        a_x0 = Lista_rectas[i].Puntos[0].X;
+                        a_y0 = Lista_rectas[i].Puntos[0].Y;
+                        b_x1 = Lista_rectas[i].Puntos[1].X;
+                        b_y1 = Lista_rectas[i].Puntos[1].Y;
+
+                        p1 = (a_y0 - b_y1) / (a_x0 - b_x1);
+                        rotular.Dibujar_Singulares_Perfil_Circular(Lista_curvas[i], Lista_rectas[i].Puntos[0], Lista_rectas[i].Puntos[0], escala, p1, 0, 2, x_ins, y_ins);
+
+                        a_x0 = Lista_rectas[i].Puntos[0].X;
+                        a_y0 = Lista_rectas[i].Puntos[0].Y;
+                        b_x1 = Lista_rectas[i].Puntos[1].X;
+                        b_y1 = Lista_rectas[i].Puntos[1].Y;
+
+                        p1 = (a_y0 - b_y1) / (a_x0 - b_x1);
+
+                        a_x0 = Lista_rectas[i + 1].Puntos[0].X;
+                        a_y0 = Lista_rectas[i + 1].Puntos[0].Y;
+                        b_x1 = Lista_rectas[i + 1].Puntos[1].X;
+                        b_y1 = Lista_rectas[i + 1].Puntos[1].Y;
+
+                        p2 = (a_y0 - b_y1) / (a_x0 - b_x1);
+
+                        rotular.Dibujar_Singulares_Perfil_Circular(Lista_curvas[i + 1], Lista_rectas[i].Puntos[1], Lista_rectas[i + 1].Puntos[0], escala, p1, p2, 1, x_ins, y_ins);
+
+                    }
+                    else
+                    {
+                        a_x0 = Lista_rectas[i].Puntos[0].X;
+                        a_y0 = Lista_rectas[i].Puntos[0].Y;
+                        b_x1 = Lista_rectas[i].Puntos[1].X;
+                        b_y1 = Lista_rectas[i].Puntos[1].Y;
+
+                        p1 = (a_y0 - b_y1) / (a_x0 - b_x1);
+
+                        a_x0 = Lista_rectas[i + 1].Puntos[0].X;
+                        a_y0 = Lista_rectas[i + 1].Puntos[0].Y;
+                        b_x1 = Lista_rectas[i + 1].Puntos[1].X;
+                        b_y1 = Lista_rectas[i + 1].Puntos[1].Y;
+
+                        p2 = (a_y0 - b_y1) / (a_x0 - b_x1);
+                        rotular.Dibujar_Singulares_Perfil_Circular(Lista_curvas[i + 1], Lista_rectas[i].Puntos[1], Lista_rectas[i + 1].Puntos[0], escala, p1, p2, 1, x_ins, y_ins);
+                    }
+
+                }
+
+            }
+
+            if (Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X > Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil[Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil.Count - 1].p.X)
+            {
+                a_x0 = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].X;
+                a_y0 = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].Y;
+                b_x1 = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
+                b_y1 = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].Y;
+
+                p1 = (a_y0 - b_y1) / (a_x0 - b_x1);
+                rotular.Dibujar_Ini_Fin_Pendiente(Lista_rectas[Lista_rectas.Count - 1], 2, escala, p1, x_ins, y_ins);
+            }
+            else
+            {
+                rotular.Dibujar_Ini_Fin_Acuerdo_Circular(Lista_curvas[Lista_curvas.Count - 1], 2, escala, polilinea_perfil[polilinea_perfil.Count - 1].p.X, x_ins, y_ins);
+            }
+
+            engCadNet.oLayer.addLayer("Rotulacion-pk", 1, false);
+            min = Buscar_minimo();
+            if (Lista_rectas[0].Puntos[0].X < Lista_parabolas[0].polilinea_perfil[0].p.X)
+            {
+                int pk = 0;
+                double pk_fin;
+                for (int i = 0; i < Lista_rectas.Count - 1 && i < Lista_curvas.Count; i++)
+                {
+                    pk = rotular.Dibujar_PK_Pendiente(Lista_rectas[i], pk, escala, min, x_ins, y_ins);
+                    pk_fin = Lista_rectas[i + 1].Puntos[0].X;
+                    //pk = rotular.Dibujar_PK_Acuerdo(Lista_parabolas[i], pk, escala, pk_fin, min, x_ins, y_ins);
+                    pk= rotular.Dibujar_PK_Acuerdo_Circular(Lista_curvas[i], pk, escala, pk_fin, min, x_ins, y_ins);
+                }
+                if (Lista_rectas.Count > Lista_curvas.Count)
+                {
+                    pk = rotular.Dibujar_PK_Pendiente(Lista_rectas[Lista_rectas.Count - 1], pk, escala, min, x_ins, y_ins);
+                    rotular.Dibujar_PK_Pendiente_Final(Lista_rectas[Lista_rectas.Count - 1], pk, escala, min, x_ins, y_ins);
+                }
+                else
+                {
+                    pk = rotular.Dibujar_PK_Pendiente(Lista_rectas[Lista_rectas.Count-1], pk, escala, min, x_ins, y_ins);
+                    pk_fin = Lista_curvas[Lista_curvas.Count - 1].getPkFinal();
+                    pk = rotular.Dibujar_PK_Acuerdo_Circular(Lista_curvas[Lista_curvas.Count - 1], pk, escala, polilinea_perfil[polilinea_perfil.Count - 1].p.X, min, x_ins, y_ins);
+                    rotular.Dibujar_PK_Acuerdo_Final_Circular(Lista_curvas[Lista_curvas.Count - 1], polilinea_perfil[polilinea_perfil.Count - 1].p.X, escala, min, x_ins, y_ins);
+                }
+            }
+            else
+            {
+                int pk = 0;
+                double pk_fin;
+                for (int i = 0; i < Lista_rectas.Count && i < Lista_parabolas.Count; i++)
+                {
+                    pk_fin = Lista_rectas[i].Puntos[0].X;
+                    pk = rotular.Dibujar_PK_Acuerdo_Circular(Lista_curvas[i], pk, escala, pk_fin, min, x_ins, y_ins);
+                    pk = rotular.Dibujar_PK_Pendiente(Lista_rectas[i], pk, escala, min, x_ins, y_ins);
+                }
+                if (Lista_rectas.Count < Lista_parabolas.Count)
+                {
+                    pk = rotular.Dibujar_PK_Acuerdo_Circular(Lista_curvas[Lista_curvas.Count - 1], pk, escala, polilinea_perfil[polilinea_perfil.Count - 1].p.X, min, x_ins, y_ins);
+                    rotular.Dibujar_PK_Acuerdo_Final_Circular(Lista_curvas[Lista_curvas.Count - 1], polilinea_perfil[polilinea_perfil.Count - 1].p.X, escala, min, x_ins, y_ins);
+                }
+                else
+                {
+                    rotular.Dibujar_PK_Pendiente_Final(Lista_rectas[Lista_rectas.Count - 1], pk, escala, min, x_ins, y_ins);
+                }
+            }
+
+
+            //Cota máxima y cota mínima
+            for (int i = 0; i < Lista_curvas.Count; i++)
+            {
+                double a = Lista_parabolas[i].parabola[0];
+                double b = Lista_parabolas[i].parabola[1];
+                double c = Lista_parabolas[i].parabola[2];
+
+                double x = -b / (2 * a);
+                double y = (x * x) * a + b * x + c;
+                min = Buscar_minimo();
+                List<double[]> l = Lista_curvas[i].getComponentPoints();
+                for (int t=1;t<l.Count-1;t++)
+                {
+                    if (l[t-1][1]< l[t][1] && l[t][1] > l[t+1][1])
+                    {
+                        rotular.Cota_Circular(l[t][0], min, Lista_curvas[i], escala, x_ins, y_ins);
+                    }
+                    if (l[t - 1][1] > l[t][1] && l[t][1] < l[t + 1][1])
+                    {
+                        rotular.Cota_Circular(l[t][0], min, Lista_curvas[i], escala, x_ins, y_ins);
+                    }
+                }   
+            }
+        }
         public void Rotular(double rotu)
         {
             Rotular rotular = new Rotular(rotu);
@@ -5252,97 +5691,156 @@ namespace Logica
         }
         public void Informe()
         {
-            string nombre_informe = "";
-            System.Windows.Forms.SaveFileDialog saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-
-            saveFileDialog1.Filter = "csv files (*.csv)|*.csv|All files (*.*)|*.*";
-            saveFileDialog1.FilterIndex = 2;
-            saveFileDialog1.RestoreDirectory = true;
-            saveFileDialog1.DefaultExt = "csv";
-            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            DialogResult resultinforme = MessageBox.Show("¿Desea crear el archivo de informe del trazado?", "Informe del trazado", MessageBoxButtons.YesNo);
+            if (resultinforme == DialogResult.Yes)
             {
-                nombre_informe = saveFileDialog1.FileName;
-                System.IO.TextWriter output = new StreamWriter(nombre_informe, false, Encoding.BigEndianUnicode);
-                string miVal;
-                double a_x0, a_y0, b_x1, b_y1, p1, p2;
-                double a;
-                double b;
-                double c;
-                double x,x1;
-                double y,y2;
-                int componentes = 1;
-                output.WriteLine();
-                output.WriteLine();
-                output.WriteLine();
-                output.WriteLine();
-                output.Write(";");
-                output.Write(";");
-                output.Write("Nº Componentes");
-                output.Write(";");
-                output.Write("Tipo");
-                output.Write(";");
-                output.Write("Pendiente");
-                output.Write(";");
-                output.Write("Kv");
-                output.Write(";");
-                output.Write("Entrada");
-                output.Write(";");
-                output.Write("Salida");
-                output.Write(";");
-                output.Write("Cota Inicio");
-                output.Write(";");
-                output.Write("Cota Fin");
-                output.Write(";");
-                output.WriteLine();
+                string nombre_informe = "";
+                System.Windows.Forms.SaveFileDialog saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
 
-                if (Lista_parabolas[0].polilinea_perfil[0].p.X>Lista_rectas[0].Puntos[0].X)
+                saveFileDialog1.Filter = "csv files (*.csv)|*.csv|All files (*.*)|*.*";
+                saveFileDialog1.FilterIndex = 2;
+                saveFileDialog1.RestoreDirectory = true;
+                saveFileDialog1.DefaultExt = "csv";
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
-                    for (int i=0;i< Lista_rectas.Count && i<Lista_parabolas.Count;i++)
+                    nombre_informe = saveFileDialog1.FileName;
+                    System.IO.TextWriter output = new StreamWriter(nombre_informe, false, Encoding.BigEndianUnicode);
+                    string miVal;
+                    double a_x0, a_y0, b_x1, b_y1, p1, p2;
+                    double a;
+                    double b;
+                    double c;
+                    double x, x1;
+                    double y, y2;
+                    int componentes = 1;
+                    output.WriteLine();
+                    output.WriteLine();
+                    output.WriteLine();
+                    output.WriteLine();
+                    output.Write(";");
+                    output.Write(";");
+                    output.Write("Nº Componentes");
+                    output.Write(";");
+                    output.Write("Tipo");
+                    output.Write(";");
+                    output.Write("Pendiente");
+                    output.Write(";");
+                    output.Write("Kv");
+                    output.Write(";");
+                    output.Write("Entrada");
+                    output.Write(";");
+                    output.Write("Salida");
+                    output.Write(";");
+                    output.Write("Cota Inicio");
+                    output.Write(";");
+                    output.Write("Cota Fin");
+                    output.Write(";");
+                    output.WriteLine();
+
+                    if (Lista_parabolas[0].polilinea_perfil[0].p.X > Lista_rectas[0].Puntos[0].X)
                     {
-                        output.Write(";");
-                        output.Write(";");
-                        output.Write(Convert.ToString(componentes));
-                        output.Write(";");
-                        output.Write("Pendiente");
-                        output.Write(";");
-                        a_x0 = Lista_rectas[i].Puntos[0].X;
-                        a_y0 = Lista_rectas[i].Puntos[0].Y;
-                        b_x1 = Lista_rectas[i].Puntos[1].X;
-                        b_y1 = Lista_rectas[i].Puntos[1].Y;
-                        p1 = (a_y0 - b_y1) / (a_x0 - b_x1);
-                        output.Write(Convert.ToString(p1));
-                        output.Write(";");
-                        output.Write(";");
-                        output.Write(Convert.ToString(a_x0));
-                        output.Write(";");
-                        output.Write(Convert.ToString(b_x1));
-                        output.Write(";");
-                        output.Write(Convert.ToString(a_y0));
-                        output.Write(";");
-                        output.Write(Convert.ToString(b_y1));
-                        output.Write(";");
-                        output.WriteLine();
-                        componentes++;
+                        for (int i = 0; i < Lista_rectas.Count && i < Lista_parabolas.Count; i++)
+                        {
+                            output.Write(";");
+                            output.Write(";");
+                            output.Write(Convert.ToString(componentes));
+                            output.Write(";");
+                            output.Write("Pendiente");
+                            output.Write(";");
+                            a_x0 = Lista_rectas[i].Puntos[0].X;
+                            a_y0 = Lista_rectas[i].Puntos[0].Y;
+                            b_x1 = Lista_rectas[i].Puntos[1].X;
+                            b_y1 = Lista_rectas[i].Puntos[1].Y;
+                            p1 = (a_y0 - b_y1) / (a_x0 - b_x1);
+                            output.Write(Convert.ToString(p1));
+                            output.Write(";");
+                            output.Write(";");
+                            output.Write(Convert.ToString(a_x0));
+                            output.Write(";");
+                            output.Write(Convert.ToString(b_x1));
+                            output.Write(";");
+                            output.Write(Convert.ToString(a_y0));
+                            output.Write(";");
+                            output.Write(Convert.ToString(b_y1));
+                            output.Write(";");
+                            output.WriteLine();
+                            componentes++;
+                            output.Write(";");
+                            output.Write(";");
+                            output.Write(Convert.ToString(componentes));
+                            output.Write(";");
+                            output.Write("Acuerdo");
+                            output.Write(";");
+                            a = Lista_parabolas[i].parabola[0];
+                            b = Lista_parabolas[i].parabola[1];
+                            c = Lista_parabolas[i].parabola[2];
+                            x = Lista_rectas[i].Puntos[1].X;
+                            y = (x * x) * a + b * x + c;
+                            x1 = polilinea_perfil[polilinea_perfil.Count - 1].p.X;
+                            if (i + 1 < Lista_rectas.Count)
+                            {
+                                x1 = Lista_rectas[i + 1].Puntos[0].X;
+                            }
+
+                            y2 = (x1 * x1) * a + b * x1 + c;
+                            output.Write(";");
+                            output.Write(Convert.ToString(1 / (2 * a)));
+                            output.Write(";");
+                            output.Write(Convert.ToString(x));
+                            output.Write(";");
+                            output.Write(Convert.ToString(x1));
+                            output.Write(";");
+                            output.Write(Convert.ToString(y));
+                            output.Write(";");
+                            output.Write(Convert.ToString(y2));
+                            output.Write(";");
+                            componentes++;
+                            output.WriteLine();
+                        }
+                        if (Lista_parabolas.Count < Lista_rectas.Count)
+                        {
+                            output.Write(";");
+                            output.Write(";");
+                            output.Write(Convert.ToString(componentes));
+                            output.Write(";");
+                            output.Write("Pendiente");
+                            output.Write(";");
+                            a_x0 = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].X;
+                            a_y0 = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].Y;
+                            b_x1 = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
+                            b_y1 = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].Y;
+                            p1 = (a_y0 - b_y1) / (a_x0 - b_x1);
+                            output.Write(Convert.ToString(p1));
+                            output.Write(";");
+                            output.Write(";");
+                            output.Write(Convert.ToString(a_x0));
+                            output.Write(";");
+                            output.Write(Convert.ToString(b_x1));
+                            output.Write(";");
+                            output.Write(Convert.ToString(a_y0));
+                            output.Write(";");
+                            output.Write(Convert.ToString(b_y1));
+                            output.Write(";");
+                            output.WriteLine();
+                        }
+                    }
+                    else
+                    {
                         output.Write(";");
                         output.Write(";");
                         output.Write(Convert.ToString(componentes));
                         output.Write(";");
                         output.Write("Acuerdo");
                         output.Write(";");
-                        a = Lista_parabolas[i].parabola[0];
-                        b = Lista_parabolas[i].parabola[1];
-                        c = Lista_parabolas[i].parabola[2];
-                        x = Lista_rectas[i].Puntos[1].X;
+                        a = Lista_parabolas[0].parabola[0];
+                        b = Lista_parabolas[0].parabola[1];
+                        c = Lista_parabolas[0].parabola[2];
+                        x = 0;
                         y = (x * x) * a + b * x + c;
-                        x1 = polilinea_perfil[polilinea_perfil.Count-1].p.X;
-                        if (i + 1 < Lista_rectas.Count)
-                        {
-                            x1 = Lista_rectas[i + 1].Puntos[0].X;
-                        }
-                        
+                        x1 = Lista_rectas[0].Puntos[0].X;
                         y2 = (x1 * x1) * a + b * x1 + c;
                         output.Write(";");
-                        output.Write(Convert.ToString(1/(2*a)));
+                        output.Write(Convert.ToString(1 / (2 * a)));
                         output.Write(";");
                         output.Write(Convert.ToString(x));
                         output.Write(";");
@@ -5354,188 +5852,389 @@ namespace Logica
                         output.Write(";");
                         componentes++;
                         output.WriteLine();
+                        for (int i = 0; i < Lista_rectas.Count && i < Lista_parabolas.Count - 1; i++)
+                        {
+                            output.Write(";");
+                            output.Write(";");
+                            output.Write(Convert.ToString(componentes));
+                            output.Write(";");
+                            output.Write("Pendiente");
+                            output.Write(";");
+                            a_x0 = Lista_rectas[i].Puntos[0].X;
+                            a_y0 = Lista_rectas[i].Puntos[0].Y;
+                            b_x1 = Lista_rectas[i].Puntos[1].X;
+                            b_y1 = Lista_rectas[i].Puntos[1].Y;
+                            p1 = (a_y0 - b_y1) / (a_x0 - b_x1);
+                            output.Write(Convert.ToString(p1));
+                            output.Write(";");
+                            output.Write(";");
+                            output.Write(Convert.ToString(a_x0));
+                            output.Write(";");
+                            output.Write(Convert.ToString(b_x1));
+                            output.Write(";");
+                            output.Write(Convert.ToString(a_y0));
+                            output.Write(";");
+                            output.Write(Convert.ToString(b_y1));
+                            output.Write(";");
+                            output.WriteLine();
+                            componentes++;
+
+
+                            output.Write(";");
+                            output.Write(";");
+                            output.Write(Convert.ToString(componentes));
+                            output.Write(";");
+                            output.Write("Acuerdo");
+                            output.Write(";");
+                            a = Lista_parabolas[i + 1].parabola[0];
+                            b = Lista_parabolas[i + 1].parabola[1];
+                            c = Lista_parabolas[i + 1].parabola[2];
+                            x = Lista_rectas[i].Puntos[1].X;
+                            y = (x * x) * a + b * x + c;
+                            x1 = polilinea_perfil[polilinea_perfil.Count - 1].p.X;
+                            if (i + 1 < Lista_rectas.Count)
+                            {
+                                x1 = Lista_rectas[i + 1].Puntos[0].X;
+                            }
+
+                            y2 = (x1 * x1) * a + b * x1 + c;
+                            output.Write(";");
+                            output.Write(Convert.ToString(1 / (2 * a)));
+                            output.Write(";");
+                            output.Write(Convert.ToString(x));
+                            output.Write(";");
+                            output.Write(Convert.ToString(x1));
+                            output.Write(";");
+                            output.Write(Convert.ToString(y));
+                            output.Write(";");
+                            output.Write(Convert.ToString(y2));
+                            output.Write(";");
+                            componentes++;
+                            output.WriteLine();
+
+                        }
+                        if (Lista_parabolas.Count == Lista_rectas.Count)
+                        {
+                            output.Write(";");
+                            output.Write(";");
+                            output.Write(Convert.ToString(componentes));
+                            output.Write(";");
+                            output.Write("Pendiente");
+                            output.Write(";");
+                            a_x0 = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].X;
+                            a_y0 = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].Y;
+                            b_x1 = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
+                            b_y1 = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].Y;
+                            p1 = (a_y0 - b_y1) / (a_x0 - b_x1);
+                            output.Write(Convert.ToString(p1));
+                            output.Write(";");
+                            output.Write(";");
+                            output.Write(Convert.ToString(a_x0));
+                            output.Write(";");
+                            output.Write(Convert.ToString(b_x1));
+                            output.Write(";");
+                            output.Write(Convert.ToString(a_y0));
+                            output.Write(";");
+                            output.Write(Convert.ToString(b_y1));
+                            output.Write(";");
+                            output.WriteLine();
+                            componentes++;
+                        }
+                        if (Lista_parabolas.Count > Lista_rectas.Count)
+                        {
+                            output.Write(";");
+                            output.Write(";");
+                            output.Write(Convert.ToString(componentes));
+                            output.Write(";");
+                            output.Write("Acuerdo");
+                            output.Write(";");
+                            a = Lista_parabolas[Lista_parabolas.Count - 1].parabola[0];
+                            b = Lista_parabolas[Lista_parabolas.Count - 1].parabola[1];
+                            c = Lista_parabolas[Lista_parabolas.Count - 1].parabola[2];
+                            x = Lista_rectas[Lista_rectas.Count].Puntos[1].X;
+                            y = (x * x) * a + b * x + c;
+                            x1 = Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil[Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil.Count - 1].p.X;
+                            y2 = (x1 * x1) * a + b * x1 + c;
+                            output.Write(";");
+                            output.Write(Convert.ToString(1 / (2 * a)));
+                            output.Write(";");
+                            output.Write(Convert.ToString(x));
+                            output.Write(";");
+                            output.Write(Convert.ToString(x1));
+                            output.Write(";");
+                            output.Write(Convert.ToString(y));
+                            output.Write(";");
+                            output.Write(Convert.ToString(y2));
+                            output.Write(";");
+                            componentes++;
+                            output.WriteLine();
+                        }
                     }
-                    if (Lista_parabolas.Count < Lista_rectas.Count) 
-                    {
-                        output.Write(";");
-                        output.Write(";");
-                        output.Write(Convert.ToString(componentes));
-                        output.Write(";");
-                        output.Write("Pendiente");
-                        output.Write(";");
-                        a_x0 = Lista_rectas[Lista_rectas.Count-1].Puntos[0].X;
-                        a_y0 = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].Y;
-                        b_x1 = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
-                        b_y1 = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].Y;
-                        p1 = (a_y0 - b_y1) / (a_x0 - b_x1);
-                        output.Write(Convert.ToString(p1));
-                        output.Write(";");
-                        output.Write(";");
-                        output.Write(Convert.ToString(a_x0));
-                        output.Write(";");
-                        output.Write(Convert.ToString(b_x1));
-                        output.Write(";");
-                        output.Write(Convert.ToString(a_y0));
-                        output.Write(";");
-                        output.Write(Convert.ToString(b_y1));
-                        output.Write(";");
-                        output.WriteLine();
-                    }
+                    output.Flush();
+                    output.Close();
                 }
                 else
                 {
-                    output.Write(";");
-                    output.Write(";");
-                    output.Write(Convert.ToString(componentes));
-                    output.Write(";");
-                    output.Write("Acuerdo");
-                    output.Write(";");
-                    a = Lista_parabolas[0].parabola[0];
-                    b = Lista_parabolas[0].parabola[1];
-                    c = Lista_parabolas[0].parabola[2];
-                    x = 0;
-                    y = (x * x) * a + b * x + c;
-                    x1 = Lista_rectas[0].Puntos[0].X;
-                    y2 = (x1 * x1) * a + b * x1 + c;
-                    output.Write(";");
-                    output.Write(Convert.ToString(1 / (2 * a)));
-                    output.Write(";");
-                    output.Write(Convert.ToString(x));
-                    output.Write(";");
-                    output.Write(Convert.ToString(x1));
-                    output.Write(";");
-                    output.Write(Convert.ToString(y));
-                    output.Write(";");
-                    output.Write(Convert.ToString(y2));
-                    output.Write(";");
-                    componentes++;
-                    output.WriteLine();
-                    for (int i = 0; i < Lista_rectas.Count && i < Lista_parabolas.Count-1; i++)
-                    {
-                        output.Write(";");
-                        output.Write(";");
-                        output.Write(Convert.ToString(componentes));
-                        output.Write(";");
-                        output.Write("Pendiente");
-                        output.Write(";");
-                        a_x0 = Lista_rectas[i].Puntos[0].X;
-                        a_y0 = Lista_rectas[i].Puntos[0].Y;
-                        b_x1 = Lista_rectas[i].Puntos[1].X;
-                        b_y1 = Lista_rectas[i].Puntos[1].Y;
-                        p1 = (a_y0 - b_y1) / (a_x0 - b_x1);
-                        output.Write(Convert.ToString(p1));
-                        output.Write(";");
-                        output.Write(";");
-                        output.Write(Convert.ToString(a_x0));
-                        output.Write(";");
-                        output.Write(Convert.ToString(b_x1));
-                        output.Write(";");
-                        output.Write(Convert.ToString(a_y0));
-                        output.Write(";");
-                        output.Write(Convert.ToString(b_y1));
-                        output.Write(";");
-                        output.WriteLine();
-                        componentes++;
-
-
-                        output.Write(";");
-                        output.Write(";");
-                        output.Write(Convert.ToString(componentes));
-                        output.Write(";");
-                        output.Write("Acuerdo");
-                        output.Write(";");
-                        a = Lista_parabolas[i+1].parabola[0];
-                        b = Lista_parabolas[i+1].parabola[1];
-                        c = Lista_parabolas[i+1].parabola[2];
-                        x = Lista_rectas[i].Puntos[1].X;
-                        y = (x * x) * a + b * x + c;
-                        x1 = polilinea_perfil[polilinea_perfil.Count - 1].p.X;
-                        if (i+1< Lista_rectas.Count)
-                        {
-                            x1 = Lista_rectas[i + 1].Puntos[0].X;
-                        }
-                        
-                        y2 = (x1 * x1) * a + b * x1 + c;
-                        output.Write(";");
-                        output.Write(Convert.ToString(1 / (2 * a)));
-                        output.Write(";");
-                        output.Write(Convert.ToString(x));
-                        output.Write(";");
-                        output.Write(Convert.ToString(x1));
-                        output.Write(";");
-                        output.Write(Convert.ToString(y));
-                        output.Write(";");
-                        output.Write(Convert.ToString(y2));
-                        output.Write(";");
-                        componentes++;
-                        output.WriteLine();
-
-                    }
-                    if (Lista_parabolas.Count == Lista_rectas.Count)
-                    {
-                        output.Write(";");
-                        output.Write(";");
-                        output.Write(Convert.ToString(componentes));
-                        output.Write(";");
-                        output.Write("Pendiente");
-                        output.Write(";");
-                        a_x0 = Lista_rectas[Lista_rectas.Count-1].Puntos[0].X;
-                        a_y0 = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].Y;
-                        b_x1 = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
-                        b_y1 = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].Y;
-                        p1 = (a_y0 - b_y1) / (a_x0 - b_x1);
-                        output.Write(Convert.ToString(p1));
-                        output.Write(";");
-                        output.Write(";");
-                        output.Write(Convert.ToString(a_x0));
-                        output.Write(";");
-                        output.Write(Convert.ToString(b_x1));
-                        output.Write(";");
-                        output.Write(Convert.ToString(a_y0));
-                        output.Write(";");
-                        output.Write(Convert.ToString(b_y1));
-                        output.Write(";");
-                        output.WriteLine();
-                        componentes++;
-                    }
-                    if (Lista_parabolas.Count > Lista_rectas.Count)
-                    {
-                        output.Write(";");
-                        output.Write(";");
-                        output.Write(Convert.ToString(componentes));
-                        output.Write(";");
-                        output.Write("Acuerdo");
-                        output.Write(";");
-                        a = Lista_parabolas[Lista_parabolas.Count-1].parabola[0];
-                        b = Lista_parabolas[Lista_parabolas.Count - 1].parabola[1];
-                        c = Lista_parabolas[Lista_parabolas.Count - 1].parabola[2];
-                        x = Lista_rectas[Lista_rectas.Count].Puntos[1].X;
-                        y = (x * x) * a + b * x + c;
-                        x1 = Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil[Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil.Count - 1].p.X;
-                        y2 = (x1 * x1) * a + b * x1 + c;
-                        output.Write(";");
-                        output.Write(Convert.ToString(1 / (2 * a)));
-                        output.Write(";");
-                        output.Write(Convert.ToString(x));
-                        output.Write(";");
-                        output.Write(Convert.ToString(x1));
-                        output.Write(";");
-                        output.Write(Convert.ToString(y));
-                        output.Write(";");
-                        output.Write(Convert.ToString(y2));
-                        output.Write(";");
-                        componentes++;
-                        output.WriteLine();
-                    }
+                    MessageBox.Show("No se ha creado el informe.");
                 }
-                output.Flush();
-                output.Close();
-            }
-            else
-            {
-                MessageBox.Show("No se ha creado el informe.");
             }
             
+            
+
+        }
+        public void Informe_Circular()
+        {
+            DialogResult resultinforme = MessageBox.Show("¿Desea crear el archivo de informe del trazado?", "Informe del trazado", MessageBoxButtons.YesNo);
+            if (resultinforme == DialogResult.Yes)
+            {
+                string nombre_informe = "";
+                System.Windows.Forms.SaveFileDialog saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+
+                saveFileDialog1.Filter = "csv files (*.csv)|*.csv|All files (*.*)|*.*";
+                saveFileDialog1.FilterIndex = 2;
+                saveFileDialog1.RestoreDirectory = true;
+                saveFileDialog1.DefaultExt = "csv";
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    nombre_informe = saveFileDialog1.FileName;
+                    System.IO.TextWriter output = new StreamWriter(nombre_informe, false, Encoding.BigEndianUnicode);
+                    string miVal;
+                    double a_x0, a_y0, b_x1, b_y1, p1, p2;
+                    double a;
+                    double b;
+                    double c;
+                    double x, x1;
+                    double y, y2;
+                    int componentes = 1;
+                    output.WriteLine();
+                    output.WriteLine();
+                    output.WriteLine();
+                    output.WriteLine();
+                    output.Write(";");
+                    output.Write(";");
+                    output.Write("Nº Componentes");
+                    output.Write(";");
+                    output.Write("Tipo");
+                    output.Write(";");
+                    output.Write("Pendiente");
+                    output.Write(";");
+                    output.Write("Radio");
+                    output.Write(";");
+                    output.Write("Entrada");
+                    output.Write(";");
+                    output.Write("Salida");
+                    output.Write(";");
+                    output.Write("Cota Inicio");
+                    output.Write(";");
+                    output.Write("Cota Fin");
+                    output.Write(";");
+                    output.WriteLine();
+                    
+                    if (Lista_curvas[0].getPointAtDist(0)[0] > Lista_rectas[0].Puntos[0].X)
+                    {
+                        for (int i = 0; i < Lista_rectas.Count && i < Lista_parabolas.Count; i++)
+                        {
+                            output.Write(";");
+                            output.Write(";");
+                            output.Write(Convert.ToString(componentes));
+                            output.Write(";");
+                            output.Write("Pendiente");
+                            output.Write(";");
+                            a_x0 = Lista_rectas[i].Puntos[0].X;
+                            a_y0 = Lista_rectas[i].Puntos[0].Y;
+                            b_x1 = Lista_rectas[i].Puntos[1].X;
+                            b_y1 = Lista_rectas[i].Puntos[1].Y;
+                            p1 = (a_y0 - b_y1) / (a_x0 - b_x1);
+                            output.Write(Convert.ToString(p1));
+                            output.Write(";");
+                            output.Write(";");
+                            output.Write(Convert.ToString(a_x0));
+                            output.Write(";");
+                            output.Write(Convert.ToString(b_x1));
+                            output.Write(";");
+                            output.Write(Convert.ToString(a_y0));
+                            output.Write(";");
+                            output.Write(Convert.ToString(b_y1));
+                            output.Write(";");
+                            output.WriteLine();
+                            componentes++;
+                            output.Write(";");
+                            output.Write(";");
+                            output.Write(Convert.ToString(componentes));
+                            output.Write(";");
+                            output.Write("Acuerdo");
+                            output.Write(";");
+                            output.Write(";");
+                            output.Write(Convert.ToString(Lista_curvas[i].getRadio));
+                            output.Write(";");
+                            output.Write(Convert.ToString(Lista_curvas[i].getPuntoEntrada.coordenadaX));
+                            output.Write(";");
+                            output.Write(Convert.ToString(Lista_curvas[i].getPuntoSalida.coordenadaX));
+                            output.Write(";");
+                            output.Write(Convert.ToString(Lista_curvas[i].getPuntoEntrada.coordenadaY));
+                            output.Write(";");
+                            output.Write(Convert.ToString(Lista_curvas[i].getPuntoSalida.coordenadaY));
+                            output.Write(";");
+                            componentes++;
+                            output.WriteLine();
+                        }
+                        if (Lista_curvas.Count < Lista_rectas.Count)
+                        {
+                            output.Write(";");
+                            output.Write(";");
+                            output.Write(Convert.ToString(componentes));
+                            output.Write(";");
+                            output.Write("Pendiente");
+                            output.Write(";");
+                            a_x0 = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].X;
+                            a_y0 = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].Y;
+                            b_x1 = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
+                            b_y1 = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].Y;
+                            p1 = (a_y0 - b_y1) / (a_x0 - b_x1);
+                            output.Write(Convert.ToString(p1));
+                            output.Write(";");
+                            output.Write(";");
+                            output.Write(Convert.ToString(a_x0));
+                            output.Write(";");
+                            output.Write(Convert.ToString(b_x1));
+                            output.Write(";");
+                            output.Write(Convert.ToString(a_y0));
+                            output.Write(";");
+                            output.Write(Convert.ToString(b_y1));
+                            output.Write(";");
+                            output.WriteLine();
+                        }
+                    }
+                    else
+                    {
+                        output.Write(";");
+                        output.Write(";");
+                        output.Write(Convert.ToString(componentes));
+                        output.Write(";");
+                        output.Write("Acuerdo");
+                        output.Write(";");
+                        output.Write(";");
+                        output.Write(Convert.ToString(Lista_curvas[0].getRadio));
+                        output.Write(";");
+                        output.Write(Convert.ToString(Lista_curvas[0].getPuntoEntrada.coordenadaX));
+                        output.Write(";");
+                        output.Write(Convert.ToString(Lista_curvas[0].getPuntoSalida.coordenadaX));
+                        output.Write(";");
+                        output.Write(Convert.ToString(Lista_curvas[0].getPuntoEntrada.coordenadaY));
+                        output.Write(";");
+                        output.Write(Convert.ToString(Lista_curvas[0].getPuntoSalida.coordenadaY));
+                        output.Write(";");
+                        componentes++;
+                        output.WriteLine();
+                        for (int i = 0; i < Lista_rectas.Count && i < Lista_curvas.Count - 1; i++)
+                        {
+                            output.Write(";");
+                            output.Write(";");
+                            output.Write(Convert.ToString(componentes));
+                            output.Write(";");
+                            output.Write("Pendiente");
+                            output.Write(";");
+                            a_x0 = Lista_rectas[i].Puntos[0].X;
+                            a_y0 = Lista_rectas[i].Puntos[0].Y;
+                            b_x1 = Lista_rectas[i].Puntos[1].X;
+                            b_y1 = Lista_rectas[i].Puntos[1].Y;
+                            p1 = (a_y0 - b_y1) / (a_x0 - b_x1);
+                            output.Write(Convert.ToString(p1));
+                            output.Write(";");
+                            output.Write(";");
+                            output.Write(Convert.ToString(a_x0));
+                            output.Write(";");
+                            output.Write(Convert.ToString(b_x1));
+                            output.Write(";");
+                            output.Write(Convert.ToString(a_y0));
+                            output.Write(";");
+                            output.Write(Convert.ToString(b_y1));
+                            output.Write(";");
+                            output.WriteLine();
+                            componentes++;
+
+
+                            output.Write(";");
+                            output.Write(";");
+                            output.Write(Convert.ToString(componentes));
+                            output.Write(";");
+                            output.Write("Acuerdo");
+                            output.Write(";");
+                            output.Write(";");
+                            output.Write(Convert.ToString(Lista_curvas[i+1].getRadio));
+                            output.Write(";");
+                            output.Write(Convert.ToString(Lista_curvas[i+1].getPuntoEntrada.coordenadaX));
+                            output.Write(";");
+                            output.Write(Convert.ToString(Lista_curvas[i+1].getPuntoSalida.coordenadaX));
+                            output.Write(";");
+                            output.Write(Convert.ToString(Lista_curvas[i+1].getPuntoEntrada.coordenadaY));
+                            output.Write(";");
+                            output.Write(Convert.ToString(Lista_curvas[i+1].getPuntoSalida.coordenadaY));
+                            output.Write(";");
+                            componentes++;
+                            output.WriteLine();
+
+                        }
+                        if (Lista_curvas.Count == Lista_rectas.Count)
+                        {
+                            output.Write(";");
+                            output.Write(";");
+                            output.Write(Convert.ToString(componentes));
+                            output.Write(";");
+                            output.Write("Pendiente");
+                            output.Write(";");
+                            a_x0 = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].X;
+                            a_y0 = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].Y;
+                            b_x1 = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
+                            b_y1 = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].Y;
+                            p1 = (a_y0 - b_y1) / (a_x0 - b_x1);
+                            output.Write(Convert.ToString(p1));
+                            output.Write(";");
+                            output.Write(";");
+                            output.Write(Convert.ToString(a_x0));
+                            output.Write(";");
+                            output.Write(Convert.ToString(b_x1));
+                            output.Write(";");
+                            output.Write(Convert.ToString(a_y0));
+                            output.Write(";");
+                            output.Write(Convert.ToString(b_y1));
+                            output.Write(";");
+                            output.WriteLine();
+                            componentes++;
+                        }
+                        if (Lista_curvas.Count > Lista_rectas.Count)
+                        {
+                            output.Write(";");
+                            output.Write(";");
+                            output.Write(Convert.ToString(componentes));
+                            output.Write(";");
+                            output.Write("Acuerdo");
+                            output.Write(";");
+                            output.Write(";");
+                            output.Write(Convert.ToString(Lista_curvas[Lista_curvas.Count - 1].getRadio));
+                            output.Write(";");
+                            output.Write(Convert.ToString(Lista_curvas[Lista_curvas.Count - 1].getPuntoEntrada.coordenadaX));
+                            output.Write(";");
+                            output.Write(Convert.ToString(Lista_curvas[Lista_curvas.Count - 1].getPuntoSalida.coordenadaX));
+                            output.Write(";");
+                            output.Write(Convert.ToString(Lista_curvas[Lista_curvas.Count - 1].getPuntoEntrada.coordenadaY));
+                            output.Write(";");
+                            output.Write(Convert.ToString(Lista_curvas[Lista_curvas.Count - 1].getPuntoSalida.coordenadaY));
+                            output.Write(";");
+                            componentes++;
+                            output.WriteLine();
+                        }
+                    }
+                    output.Flush();
+                    output.Close();
+                }
+                else
+                {
+                    MessageBox.Show("No se ha creado el informe.");
+                }
+            }
+
+
 
         }
         /// <summary>
@@ -5628,6 +6327,945 @@ namespace Logica
                 y = y2;
             }
             return acumulada;
+        }
+        public void Informe_Error(List<Point2d> lista, List<double> dis)
+        {
+            DialogResult resultinforme = MessageBox.Show("¿Desea crear un archivo de errores del trazado?", "Error del trazado", MessageBoxButtons.YesNo);
+            if (resultinforme == DialogResult.Yes)
+            {
+                string nombre_informe = "";
+                System.Windows.Forms.SaveFileDialog saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+                saveFileDialog1.Title = "Guardar informe de error de trazado";
+                saveFileDialog1.Filter = "csv files (*.csv)|*.csv|All files (*.*)|*.*";
+                saveFileDialog1.FilterIndex = 2;
+                saveFileDialog1.RestoreDirectory = true;
+                saveFileDialog1.DefaultExt = "csv";
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    nombre_informe = saveFileDialog1.FileName;
+                    System.IO.TextWriter output = new StreamWriter(nombre_informe, false, Encoding.BigEndianUnicode);
+
+                    output.WriteLine();
+                    output.WriteLine();
+                    output.WriteLine();
+                    output.WriteLine();
+                    output.Write(";");
+                    output.Write(";");
+                    output.Write("Punto");
+                    output.Write(";");
+                    output.Write("X");
+                    output.Write(";");
+                    output.Write("Y");
+                    output.Write(";");
+                    output.Write("Error");
+                    output.Write(";");
+                    output.WriteLine();
+                    for (int i = 0; i < lista.Count && i < dis.Count; i++)
+                    {
+                        output.Write(";");
+                        output.Write(";");
+                        output.Write(i + 1);
+                        output.Write(";");
+                        output.Write(lista[i].X);
+                        output.Write(";");
+                        output.Write(lista[i].Y);
+                        output.Write(";");
+                        output.Write(dis[i]);
+                        output.Write(";");
+                        output.WriteLine();
+                    }
+
+                    output.Flush();
+                    output.Close();
+                }
+                else
+                {
+                    MessageBox.Show("No se ha creado el informe.");
+                }
+            }
+
+        }
+        /// <summary>
+        /// Dibuja el trazado completo
+        /// </summary>
+        /// <param name="tipo">1 para empezar por pendiente y 2 para empezar por acuerdo</param>
+        public void Dibujar_Trazado_Informe(int tipo)
+        {
+            Polyline miEje = new Polyline();
+            if (tipo == 2)
+            {
+                int index = 0;
+                double p2_x = 0;
+                for (int t = 0; t < Lista_rectas.Count && t < Lista_parabolas.Count; t++)
+                {
+                    double x2 = Lista_parabolas[t].parabola[0];
+                    double x1 = Lista_parabolas[t].parabola[1];
+                    double x = Lista_parabolas[t].parabola[2];
+                    double pk_ini = 0;
+                    if (t > 0)
+                    {
+                        pk_ini = p2_x;
+                    }
+
+                    double pk_fin = Lista_parabolas[t].polilinea_perfil[Lista_parabolas[t].polilinea_perfil.Count - 1].p.X;
+                    if (t <= Lista_rectas.Count - 1)
+                    {
+                        pk_fin = Lista_rectas[t].Puntos[0].X;
+                    }
+                    double pk = pk_ini;
+                    double y;
+                    for (int i = 0; pk < pk_fin; i++)
+                    {
+                        y = (pk * pk) * x2 + pk * x1 + x;//x^2+x+c
+
+                        miEje.AddVertexAt(index, new Point2d(pk + x_ins, y * escala + y_ins), 0, 0, 0);
+                        pk = pk + 1;
+                        index++;
+                    }
+                    y = (pk_fin * pk_fin) * x2 + pk_fin * x1 + x;//x^2+x+c
+
+                    miEje.AddVertexAt(index, new Point2d(pk_fin + x_ins, y * escala + y_ins), 0, 0, 0);
+                    index++;
+
+                    double p1_x = Lista_rectas[t].Puntos[0].X;
+                    double p1_y = Lista_rectas[t].Puntos[0].Y;
+                    miEje.AddVertexAt(index, new Point2d(p1_x + x_ins, p1_y * escala + y_ins), 0, 0, 0);
+                    index++;
+                    p2_x = Lista_rectas[t].Puntos[1].X;
+                    double p2_y = Lista_rectas[t].Puntos[1].Y;
+                    miEje.AddVertexAt(index, new Point2d(p2_x + x_ins, p2_y * escala + y_ins), 0, 0, 0);
+                    index++;
+
+                }
+                if (Lista_rectas.Count > Lista_parabolas.Count)
+                {
+                    double p1_x = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].X;
+                    double p1_y = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].Y;
+                    miEje.AddVertexAt(index, new Point2d(p1_x + x_ins, p1_y * escala + y_ins), 0, 0, 0);
+                    index++;
+                    p2_x = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
+                    double p2_y = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].Y;
+                    miEje.AddVertexAt(index, new Point2d(p2_x + x_ins, p2_y * escala + y_ins), 0, 0, 0);
+                    index++;
+                }
+                else
+                {
+                    if (Lista_rectas.Count < Lista_parabolas.Count)
+                    {
+                        double x2 = Lista_parabolas[Lista_parabolas.Count - 1].parabola[0];
+                        double x1 = Lista_parabolas[Lista_parabolas.Count - 1].parabola[1];
+                        double x = Lista_parabolas[Lista_parabolas.Count - 1].parabola[2];
+                        double pk_ini = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
+                        double pk_fin = Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil[Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil.Count - 1].p.X;
+                        double pk = pk_ini;
+                        double y;
+                        for (int i = 0; pk < pk_fin; i++)
+                        {
+                            y = (pk * pk) * x2 + pk * x1 + x;//x^2+x+c
+
+                            miEje.AddVertexAt(index, new Point2d(pk + x_ins, y * escala + y_ins), 0, 0, 0);
+                            pk = pk + 0.1;
+                            index++;
+                        }
+                        y = (pk_fin * pk_fin) * x2 + pk_fin * x1 + x;//x^2+x+c
+
+                        miEje.AddVertexAt(index, new Point2d(pk_fin + x_ins, y * escala + y_ins), 0, 0, 0);
+                        index++;
+                    }
+
+                }
+            }
+            else
+            {
+                int index = 0;
+                for (int t = 0; t < Lista_rectas.Count && t < Lista_parabolas.Count; t++)
+                {
+                    double p1_x = Lista_rectas[t].Puntos[0].X;
+                    double p1_y = Lista_rectas[t].Puntos[0].Y;
+                    miEje.AddVertexAt(index, new Point2d(p1_x + x_ins, p1_y * escala + y_ins), 0, 0, 0);
+                    index++;
+                    double p2_x = Lista_rectas[t].Puntos[1].X;
+                    double p2_y = Lista_rectas[t].Puntos[1].Y;
+                    miEje.AddVertexAt(index, new Point2d(p2_x + x_ins, p2_y * escala + y_ins), 0, 0, 0);
+                    index++;
+                    double x2 = Lista_parabolas[t].parabola[0];
+                    double x1 = Lista_parabolas[t].parabola[1];
+                    double x = Lista_parabolas[t].parabola[2];
+                    double pk_ini = p2_x;
+                    double pk_fin = Lista_parabolas[t].polilinea_perfil[Lista_parabolas[t].polilinea_perfil.Count - 1].p.X;
+                    if (t + 1 <= Lista_rectas.Count - 1)
+                    {
+                        pk_fin = Lista_rectas[t + 1].Puntos[0].X;
+                    }
+                    double pk = pk_ini;
+                    double y;
+                    for (int i = 0; pk < pk_fin; i++)
+                    {
+                        y = (pk * pk) * x2 + pk * x1 + x;//x^2+x+c
+
+                        miEje.AddVertexAt(index, new Point2d(pk + x_ins, y * escala + y_ins), 0, 0, 0);
+                        pk = pk + 1;
+                        index++;
+                    }
+                    y = (pk_fin * pk_fin) * x2 + pk_fin * x1 + x;//x^2+x+c
+
+                    miEje.AddVertexAt(index, new Point2d(pk_fin + x_ins, y * escala + y_ins), 0, 0, 0);
+                    index++;
+                }
+                if (Lista_rectas.Count > Lista_parabolas.Count)
+                {
+                    double p1_x = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].X;
+                    double p1_y = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].Y;
+                    miEje.AddVertexAt(index, new Point2d(p1_x + x_ins, p1_y * escala + y_ins), 0, 0, 0);
+                    index++;
+                    double p2_x = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
+                    double p2_y = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].Y;
+                    miEje.AddVertexAt(index, new Point2d(p2_x + x_ins, p2_y * escala + y_ins), 0, 0, 0);
+                    index++;
+                }
+                else
+                {
+                    if (Lista_rectas.Count < Lista_parabolas.Count)
+                    {
+                        double x2 = Lista_parabolas[Lista_parabolas.Count - 1].parabola[0];
+                        double x1 = Lista_parabolas[Lista_parabolas.Count - 1].parabola[1];
+                        double x = Lista_parabolas[Lista_parabolas.Count - 1].parabola[2];
+                        double pk_ini = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
+                        double pk_fin = Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil[Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil.Count - 1].p.X;
+                        double pk = pk_ini;
+                        double y;
+                        for (int i = 0; pk < pk_fin; i++)
+                        {
+                            y = (pk * pk) * x2 + pk * x1 + x;//x^2+x+c
+
+                            miEje.AddVertexAt(index, new Point2d(pk + x_ins, y * escala + y_ins), 0, 0, 0);
+                            pk = pk + 0.1;
+                            index++;
+                        }
+                        y = (pk_fin * pk_fin) * x2 + pk_fin * x1 + x;//x^2+x+c
+
+                        miEje.AddVertexAt(index, new Point2d(pk_fin + x_ins, y * escala + y_ins), 0, 0, 0);
+                        index++;
+                    }
+
+                }
+            }
+
+            List<Point2d> lista_original_perfil_2 = new List<Point2d>();
+            for (int i = 0; i < Polilinea_Inicial.Count; i++)
+            {
+                lista_original_perfil_2.Add(new Point2d(Polilinea_Inicial[i].p.X, Polilinea_Inicial[i].p.Y));
+            }
+            List<double> distancias = Distancia_Puntos_Resultado(miEje, lista_original_perfil_2);
+            Informe_Error(lista_original_perfil_2,distancias);
+        }
+
+        public void Acerdo_Curva()
+        {
+            for (int i = 0; i < Lista_rectas.Count; i++)
+            {
+                Rellenar_Recta(Lista_rectas[i]);
+            }
+            //pendiente - parabola
+            if (Lista_rectas[0].Puntos[0].X<Lista_Parabolas[0].polilinea_perfil[0].p.X)
+            {
+                //termina en parabola
+                if (Lista_rectas[Lista_rectas.Count-1].Puntos[Lista_rectas[Lista_rectas.Count-1].Puntos.Count-1].X < 
+                    Lista_Parabolas[Lista_Parabolas.Count-1].polilinea_perfil[Lista_Parabolas[Lista_Parabolas.Count - 1].polilinea_perfil.Count-1].p.X)
+                {
+                    Tuple<double, double, double> Curva;
+                    double radio;
+                    for (int i = 0; i < Lista_parabolas.Count - 1; i++)
+                    {
+                        Curva = Clusterizacion(Lista_parabolas[i].polilinea_perfil);
+                        radio = Curva.Item3;
+                        while (!Comprobar_Acuerdo_Circular(Curva_Gran_Radio(Lista_rectas[i], radio, Lista_rectas[i + 1]), Lista_rectas[i], Lista_rectas[i + 1]))
+                        {
+                            if (radio<0.2)
+                            {
+                                radio -= 0.001;
+                            }
+                            else 
+                            {
+                                radio -= 0.1;
+                            }
+                        }
+                        Lista_curvas.Add(Curva_Gran_Radio(Lista_rectas[i], radio, Lista_rectas[i + 1]));
+                        Lista_rectas[i].Puntos[1] = new Point2d(Lista_curvas[Lista_curvas.Count - 1].getPuntoEntrada.coordenadaX, Lista_curvas[Lista_curvas.Count - 1].getPuntoEntrada.coordenadaY);
+                        Lista_rectas[i+1].Puntos[0] = new Point2d(Lista_curvas[Lista_curvas.Count - 1].getPuntoSalida.coordenadaX, Lista_curvas[Lista_curvas.Count - 1].getPuntoSalida.coordenadaY);
+                        Dibujar_Curva(Lista_curvas[Lista_curvas.Count-1],0);
+                    }
+                    Curva = Clusterizacion(Lista_parabolas[Lista_parabolas.Count-1].polilinea_perfil);
+                    radio = Curva.Item3;
+                    Pendiente p = new Pendiente();
+                    /*p.Puntos.Add(new Point2d(Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil[Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil.Count - 2].p.X,
+                                             Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil[Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil.Count - 2].p.Y));
+                    p.Puntos.Add(new Point2d(Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil[Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil.Count - 1].p.X,
+                                             Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil[Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil.Count - 1].p.Y));
+*/
+                    p.Puntos.Add(new Point2d(polilinea_inicial[polilinea_inicial.Count - 2].p.X, polilinea_inicial[polilinea_inicial.Count - 2].p.Y));
+                    p.Puntos.Add(new Point2d(polilinea_inicial[polilinea_inicial.Count - 1].p.X, polilinea_inicial[polilinea_inicial.Count - 1].p.Y));
+                    Rellenar_Recta(p);
+                    //Dibujar_r(p.Puntos[0],p.Puntos[1],1);
+                    bool izq=false;
+                    bool dermas = false;
+                    bool dermenos = false;
+                    double variacion = 0.01;
+                    while (!Comprobar_Acuerdo_Circular(Curva_Gran_Radio(Lista_rectas[Lista_rectas.Count-1], radio, p), Lista_rectas[Lista_rectas.Count-1], Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil[Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil.Count - 1].p.X))
+                    {
+                        double x_m_1 = (Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X + Lista_rectas[Lista_rectas.Count - 1].Puntos[0].X) / 2;
+                        double x_m_2 = Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil[Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil.Count - 1].p.X;
+                        EjeDeTrazado.componentes.Curva c = Curva_Gran_Radio(Lista_rectas[Lista_rectas.Count - 1], radio, p);
+                        List<double[]> l1 = c.getComponentPoints();
+                        if (!izq && !dermas && !dermenos)
+                        {
+                            if (x_m_1>l1[0][0])
+                            {
+                                izq = true;
+                                variacion = Get_Variacion(x_m_1, l1[0][0]);
+                                radio -= variacion;
+                            }
+                            else if (l1[l1.Count - 1][0] > (x_m_2))
+                            {
+                                dermenos = true;
+                                variacion = Get_Variacion(x_m_2, l1[l1.Count - 1][0]);
+                                radio -= variacion;
+                            }
+                            else if (l1[l1.Count - 1][0] < (x_m_2))
+                            {
+                                dermas = true;
+                                variacion = Get_Variacion(x_m_2, l1[l1.Count - 1][0]);
+                                radio += variacion;
+                            }
+                        }else if (izq)
+                        {
+                            if (x_m_1 > l1[0][0])
+                            {
+                                izq = true;
+                                variacion = Get_Variacion(x_m_1, l1[0][0]);
+                                radio -= variacion;
+                            }
+                            else
+                            {
+                                if (l1[l1.Count - 1][0] > (x_m_2))
+                                {
+                                    dermenos = true;
+                                    izq = false;
+                                    variacion = Get_Variacion(x_m_2, l1[l1.Count - 1][0]);
+                                    radio -= variacion;
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+                        }else if (dermenos)
+                        {
+                            if (l1[l1.Count - 1][0] > (x_m_2))
+                            {
+                                dermenos = true;
+                                variacion = Get_Variacion(x_m_2, l1[l1.Count - 1][0]);
+                                radio -= variacion;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }else if (dermas)
+                        {
+                            if (l1[l1.Count - 1][0] < (x_m_2))
+                            {
+                                dermas = true;
+                                variacion = Get_Variacion(x_m_2, l1[l1.Count - 1][0]);
+                                radio += variacion;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                    }
+                    Lista_curvas.Add(Curva_Gran_Radio(Lista_rectas[Lista_rectas.Count-1], radio, p));
+                    Lista_rectas[Lista_rectas.Count - 1].Puntos[1] = new Point2d(Lista_curvas[Lista_curvas.Count - 1].getPuntoEntrada.coordenadaX, Lista_curvas[Lista_curvas.Count - 1].getPuntoEntrada.coordenadaY);
+                    Dibujar_Curva(Lista_curvas[Lista_curvas.Count - 1], 0);
+                }
+                //termina en pendiente
+                else
+                {
+                    for (int i = 0; i < Lista_parabolas.Count; i++)
+                    {
+                        Tuple<double, double, double> Curva = Clusterizacion(Lista_parabolas[i].polilinea_perfil);
+                        double radio = Curva.Item3;
+                        while (!Comprobar_Acuerdo_Circular(Curva_Gran_Radio(Lista_rectas[i], radio, Lista_rectas[i + 1]), Lista_rectas[i], Lista_rectas[i + 1]))
+                        {
+                            if (radio < 0.2)
+                            {
+                                radio -= 0.001;
+                            }
+                            else
+                            {
+                                radio -= 0.1;
+                            }
+                        }
+                        Lista_curvas.Add(Curva_Gran_Radio(Lista_rectas[i], radio, Lista_rectas[i + 1]));
+                        Lista_rectas[i].Puntos[1] = new Point2d(Lista_curvas[Lista_curvas.Count - 1].getPuntoEntrada.coordenadaX, Lista_curvas[Lista_curvas.Count - 1].getPuntoEntrada.coordenadaY);
+                        Lista_rectas[i + 1].Puntos[0] = new Point2d(Lista_curvas[Lista_curvas.Count - 1].getPuntoSalida.coordenadaX, Lista_curvas[Lista_curvas.Count - 1].getPuntoSalida.coordenadaY);
+                        Dibujar_Curva(Lista_curvas[Lista_curvas.Count - 1], 0);
+                    }
+                }
+            }
+            //parabola - pendiente
+            else
+            {
+                Tuple<double, double, double> Curva = Clusterizacion(Lista_parabolas[0].polilinea_perfil);
+                double radio = Curva.Item3;
+                Pendiente p = new Pendiente();
+                /*p.Puntos.Add(new Point2d(Lista_parabolas[0].polilinea_perfil[0].p.X,
+                                         Lista_parabolas[0].polilinea_perfil[0].p.Y));
+                p.Puntos.Add(new Point2d(Lista_parabolas[0].polilinea_perfil[1].p.X,
+                                         Lista_parabolas[0].polilinea_perfil[1].p.Y));*/
+                p.Puntos.Add(new Point2d(polilinea_inicial[0].p.X, polilinea_inicial[0].p.Y));
+                p.Puntos.Add(new Point2d(polilinea_inicial[1].p.X, polilinea_inicial[1].p.Y));
+                Rellenar_Recta(p);
+                bool der = false;
+                bool izqmas = false;
+                bool izqmenos = false;
+                double variacion = 0.01;
+                while (!Comprobar_Acuerdo_Circular(Curva_Gran_Radio(p, radio, Lista_rectas[0]), 0, Lista_rectas[0]))
+                {
+                    double x_m_2 = (Lista_rectas[0].Puntos[1].X + Lista_rectas[0].Puntos[0].X) / 2;
+                    double x_m_1 = 0;
+                    EjeDeTrazado.componentes.Curva c = Curva_Gran_Radio(p, radio, Lista_rectas[0]);
+                    List<double[]> l1 = c.getComponentPoints();
+                    if (!der && !izqmas && !izqmenos)
+                    {
+                        if (x_m_2 < l1[l1.Count-1][0])
+                        {
+                            der = true;
+                            variacion = Get_Variacion(x_m_2, l1[l1.Count - 1][0]);
+                            radio -= variacion;
+                        }
+                        else if (l1[0][0] < (x_m_1))
+                        {
+                            izqmenos = true;
+                            variacion = Get_Variacion(x_m_1, l1[0][0]);
+                            radio -= variacion;
+                        }
+                        else if (l1[0][0] > (x_m_1))
+                        {
+                            izqmas = true;
+                            variacion = Get_Variacion(x_m_1, l1[0][0]);
+                            radio += variacion;
+                        }
+                    }
+                    else if (der)
+                    {
+                        if (x_m_2 < l1[l1.Count - 1][0])
+                        {
+                            der = true;
+                            variacion = Get_Variacion(x_m_2, l1[l1.Count - 1][0]);
+                            radio -= variacion;
+                        }
+                        else
+                        {
+                            if (l1[0][0] < (x_m_1))
+                            {
+                                izqmenos = true;
+                                der = false;
+                                variacion = Get_Variacion(x_m_1, l1[0][0]);
+                                radio -= variacion;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                    }
+                    else if (izqmenos)
+                    {
+                        if (l1[0][0] < (x_m_1))
+                        {
+                            izqmenos = true;
+                            variacion = Get_Variacion(x_m_1, l1[0][0]);
+                            radio -= variacion;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    else if (izqmas)
+                    {
+                        if (l1[0][0] > (x_m_1))
+                        {
+                            izqmas = true;
+                            variacion = Get_Variacion(x_m_1, l1[0][0]);
+                            radio += variacion;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
+                Lista_curvas.Add(Curva_Gran_Radio(p, radio, Lista_rectas[0]));
+                Lista_rectas[0].Puntos[0] = new Point2d(Lista_curvas[Lista_curvas.Count - 1].getPuntoSalida.coordenadaX, Lista_curvas[Lista_curvas.Count - 1].getPuntoSalida.coordenadaY);
+                Dibujar_Curva(Lista_curvas[Lista_curvas.Count - 1], 0);
+                //termina en parabola
+                if (Lista_rectas[Lista_rectas.Count - 1].Puntos[Lista_rectas[Lista_rectas.Count - 1].Puntos.Count - 1].X <
+                    Lista_Parabolas[Lista_Parabolas.Count - 1].polilinea_perfil[Lista_Parabolas[Lista_Parabolas.Count - 1].polilinea_perfil.Count - 1].p.X)
+                {
+                    for (int i = 1; i < Lista_parabolas.Count-1; i++)
+                    {
+                        Curva = Clusterizacion(Lista_parabolas[i].polilinea_perfil);
+                        radio = Curva.Item3;
+                        while (!Comprobar_Acuerdo_Circular(Curva_Gran_Radio(Lista_rectas[i-1], radio, Lista_rectas[i]), Lista_rectas[i], Lista_rectas[i + 1]))
+                        {
+                            if (radio < 0.2)
+                            {
+                                radio -= 0.001;
+                            }
+                            else
+                            {
+                                radio -= 0.1;
+                            }
+                        }
+                        Lista_curvas.Add(Curva_Gran_Radio(Lista_rectas[i-1], radio, Lista_rectas[i]));
+                        Lista_rectas[i-1].Puntos[1] = new Point2d(Lista_curvas[Lista_curvas.Count - 1].getPuntoEntrada.coordenadaX, Lista_curvas[Lista_curvas.Count - 1].getPuntoEntrada.coordenadaY);
+                        Lista_rectas[i].Puntos[0] = new Point2d(Lista_curvas[Lista_curvas.Count - 1].getPuntoSalida.coordenadaX, Lista_curvas[Lista_curvas.Count - 1].getPuntoSalida.coordenadaY);
+                        Dibujar_Curva(Lista_curvas[Lista_curvas.Count - 1], 0);
+                    }
+                    Curva = Clusterizacion(Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil);
+                    radio = Curva.Item3;
+                    p = new Pendiente();
+                    /*p.Puntos.Add(new Point2d(Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil[Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil.Count - 2].p.X,
+                                             Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil[Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil.Count - 2].p.Y));
+                    p.Puntos.Add(new Point2d(Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil[Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil.Count - 1].p.X,
+                                             Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil[Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil.Count - 1].p.Y));
+*/
+                    p.Puntos.Add(new Point2d(polilinea_inicial[polilinea_inicial.Count - 2].p.X, polilinea_inicial[polilinea_inicial.Count - 2].p.Y));
+                    p.Puntos.Add(new Point2d(polilinea_inicial[polilinea_inicial.Count - 1].p.X, polilinea_inicial[polilinea_inicial.Count - 1].p.Y));
+                    Rellenar_Recta(p);
+                    //Dibujar_r(p.Puntos[0],p.Puntos[1],1);
+                    bool izq = false;
+                    bool dermas = false;
+                    bool dermenos = false;
+                    variacion = 0.01;
+                    while (!Comprobar_Acuerdo_Circular(Curva_Gran_Radio(Lista_rectas[Lista_rectas.Count - 1], radio, p), Lista_rectas[Lista_rectas.Count - 1], Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil[Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil.Count - 1].p.X))
+                    {
+                        double x_m_1 = (Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X + Lista_rectas[Lista_rectas.Count - 1].Puntos[0].X) / 2;
+                        double x_m_2 = Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil[Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil.Count - 1].p.X;
+                        EjeDeTrazado.componentes.Curva c = Curva_Gran_Radio(Lista_rectas[Lista_rectas.Count - 1], radio, p);
+                        List<double[]> l1 = c.getComponentPoints();
+                        if (!izq && !dermas && !dermenos)
+                        {
+                            if (x_m_1 > l1[0][0])
+                            {
+                                izq = true;
+                                variacion = Get_Variacion(x_m_1, l1[0][0]);
+                                radio -= variacion;
+                            }
+                            else if (l1[l1.Count - 1][0] > (x_m_2))
+                            {
+                                dermenos = true;
+                                variacion = Get_Variacion(x_m_2, l1[l1.Count - 1][0]);
+                                radio -= variacion;
+                            }
+                            else if (l1[l1.Count - 1][0] < (x_m_2))
+                            {
+                                dermas = true;
+                                variacion = Get_Variacion(x_m_2, l1[l1.Count - 1][0]);
+                                radio += variacion;
+                            }
+                        }
+                        else if (izq)
+                        {
+                            if (x_m_1 > l1[0][0])
+                            {
+                                izq = true;
+                                variacion = Get_Variacion(x_m_1, l1[0][0]);
+                                radio -= variacion;
+                            }
+                            else
+                            {
+                                if (l1[l1.Count - 1][0] > (x_m_2))
+                                {
+                                    dermenos = true;
+                                    izq = false;
+                                    variacion = Get_Variacion(x_m_2, l1[l1.Count - 1][0]);
+                                    radio -= variacion;
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+                        }
+                        else if (dermenos)
+                        {
+                            if (l1[l1.Count - 1][0] > (x_m_2))
+                            {
+                                dermenos = true;
+                                variacion = Get_Variacion(x_m_2, l1[l1.Count - 1][0]);
+                                radio -= variacion;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        else if (dermas)
+                        {
+                            if (l1[l1.Count - 1][0] < (x_m_2))
+                            {
+                                dermas = true;
+                                variacion = Get_Variacion(x_m_2, l1[l1.Count - 1][0]);
+                                radio += variacion;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                    }
+                    Lista_curvas.Add(Curva_Gran_Radio(Lista_rectas[Lista_rectas.Count - 1], radio, p));
+                    Lista_rectas[Lista_rectas.Count - 1].Puntos[1] = new Point2d(Lista_curvas[Lista_curvas.Count - 1].getPuntoEntrada.coordenadaX, Lista_curvas[Lista_curvas.Count - 1].getPuntoEntrada.coordenadaY);
+                    Dibujar_Curva(Lista_curvas[Lista_curvas.Count - 1], 0);
+                }
+                //termina en pendiente
+                else
+                {
+                    for (int i = 1; i < Lista_parabolas.Count; i++)
+                    {
+                        Curva = Clusterizacion(Lista_parabolas[i].polilinea_perfil);
+                        radio = Curva.Item3;
+                        while (!Comprobar_Acuerdo_Circular(Curva_Gran_Radio(Lista_rectas[i-1], radio, Lista_rectas[i]), Lista_rectas[i], Lista_rectas[i + 1]))
+                        {
+                            if (radio < 0.2)
+                            {
+                                radio -= 0.001;
+                            }
+                            else
+                            {
+                                radio -= 0.1;
+                            }
+                        }
+                        Lista_curvas.Add(Curva_Gran_Radio(Lista_rectas[i - 1], Curva.Item3, Lista_rectas[i]));
+                        Lista_rectas[i - 1].Puntos[1] = new Point2d(Lista_curvas[Lista_curvas.Count - 1].getPuntoEntrada.coordenadaX, Lista_curvas[Lista_curvas.Count - 1].getPuntoEntrada.coordenadaY);
+                        Lista_rectas[i].Puntos[0] = new Point2d(Lista_curvas[Lista_curvas.Count - 1].getPuntoSalida.coordenadaX, Lista_curvas[Lista_curvas.Count - 1].getPuntoSalida.coordenadaY);
+                        Dibujar_Curva(Lista_curvas[Lista_curvas.Count - 1], 0);
+                    }
+                }
+            }
+            /*for (int i=0;i< Lista_parabolas.Count-1;i++)
+            {
+                Tuple<double, double, double> Curva = Clusterizacion(Lista_parabolas[i].polilinea_perfil);
+                Lista_curvas.Add(Curva_Gran_Radio(Lista_rectas[i], Curva.Item3, Lista_rectas[i+1]));
+            }*/
+        }
+        private void Dibujar_c(double x, double y, double r, double ini, double fin, int apartado)
+        {
+            Document acDoc2 = Application.DocumentManager.MdiActiveDocument;
+            Database AcCurDb2 = acDoc2.Database;
+            ini = (ini - (2 * ini) - 90) * Math.PI / 180;
+            fin = (fin - (2 * fin) - 90) * Math.PI / 180;
+            bool dibujar = true;
+            using (DocumentLock docLock = acDoc2.LockDocument())
+            {
+                if (apartado == 1)
+                {
+                    engCadNet.oLayer.addLayer("Curva-1", 1, false);
+                }
+                else if (apartado == 11)
+                {
+                    engCadNet.oLayer.addLayer("Curva-1.1", 1, false);
+                }
+                else if (apartado == 12)
+                {
+                    engCadNet.oLayer.addLayer("Curva-1.2", 1, false);
+                }
+                else if (apartado == 13)
+                {
+                    engCadNet.oLayer.addLayer("Curva-1.3", 1, false);
+                }
+                else if (apartado == 14)
+                {
+                    engCadNet.oLayer.addLayer("Curva-1.4", 1, false);
+                }
+                else if (apartado == 2)
+                {
+                    engCadNet.oLayer.addLayer("Curva-2", 1, false);
+                }
+                else if (apartado == 3)
+                {
+                    engCadNet.oLayer.addLayer("Curva-3", 1, false);
+                }
+                else if (apartado == 4)
+                {
+                    engCadNet.oLayer.addLayer("Curva-4", 1, false);
+                }
+                else if (apartado == 24)
+                {
+                    engCadNet.oLayer.addLayer("Curva-4-creada", 1, false);
+                }
+                else
+                {
+                    dibujar = false;
+                    //engCadNet.oLayer.addLayer("Curva-Flotante", 4, false);
+                }
+                if (dibujar)
+                {
+                    using (Transaction acTrans = HostApplicationServices.WorkingDatabase.TransactionManager.StartTransaction())
+                    {
+                        BlockTable acBlkTbl;
+                        acBlkTbl = acTrans.GetObject(AcCurDb2.BlockTableId,
+                            OpenMode.ForRead) as BlockTable;
+                        BlockTableRecord acBlkTblRec;
+                        acBlkTblRec = acTrans.GetObject(acBlkTbl[BlockTableRecord.ModelSpace],
+                            OpenMode.ForWrite) as BlockTableRecord;
+
+                        Editor e = Application.DocumentManager.MdiActiveDocument.Editor;
+                        Document d = Application.DocumentManager.MdiActiveDocument;
+                        Arc curva = new Arc(new Point3d(x, y, 0), r, ini, fin);
+                        /*Circle circulo = new Circle();
+                        circulo.Center = new Point3d(x, y, 0);
+
+                        circulo.Radius = r;*/
+                        if (apartado == 1)
+                        {
+                            curva.Layer = "Curva-1";
+                        }
+                        else if (apartado == 11)
+                        {
+                            curva.Layer = "Curva-1.1";
+                        }
+                        else if (apartado == 12)
+                        {
+                            curva.Layer = "Curva-1.2";
+                        }
+                        else if (apartado == 13)
+                        {
+                            curva.Layer = "Curva-1.3";
+                        }
+                        else if (apartado == 14)
+                        {
+                            curva.Layer = "Curva-1.4";
+                        }
+                        else if (apartado == 2)
+                        {
+                            curva.Layer = "Curva-2";
+                        }
+                        else if (apartado == 3)
+                        {
+                            curva.Layer = "Curva-3";
+                        }
+                        else if (apartado == 4)
+                        {
+                            curva.Layer = "Curva-4";
+                        }
+                        else if (apartado == 24)
+                        {
+                            curva.Layer = "Curva-4-creada";
+                        }
+                        else
+                        {
+                            curva.Layer = "Curva-Flotante";
+                        }
+
+                        acBlkTblRec.AppendEntity(curva);
+
+                        acTrans.AddNewlyCreatedDBObject(curva, true);
+
+                        acTrans.Commit();
+                    }
+                }
+
+            }
+        }
+        public Punto3d[] addCurvaGranRadio(double iRc, double iAzimut1, double iAzimut2, Punto3d iVertice, EjeTrazado.sentidoCurva sentG)
+        {
+            double miDelta = getDelta(iAzimut1, iAzimut2);
+            double miPhi = 180 - miDelta;
+            double miT1x = iVertice.coordenadaX + (iRc * Math.Tan(miDelta / 2 * Math.PI / 180) + 0.000005) * Math.Sin((iAzimut1 - 180) * Math.PI / 180);
+            double miT1y = iVertice.coordenadaY + (iRc * Math.Tan(miDelta / 2 * Math.PI / 180) + 0.000005) * Math.Cos((iAzimut1 - 180) * Math.PI / 180);
+            double miT2x = iVertice.coordenadaX + (iRc * Math.Tan(miDelta / 2 * Math.PI / 180) + 0.000005) * Math.Sin(iAzimut2 * Math.PI / 180);
+            double miT2y = iVertice.coordenadaY + (iRc * Math.Tan(miDelta / 2 * Math.PI / 180) + 0.000005) * Math.Cos(iAzimut2 * Math.PI / 180);
+            double miPcx;
+            double miPcy;
+
+            if (sentG == EjeTrazado.sentidoCurva.Horario)
+            {
+                miPcx = miT1x + iRc * Math.Sin((iAzimut1 + 90) * Math.PI / 180);
+                miPcy = miT1y + iRc * Math.Cos((iAzimut1 + 90) * Math.PI / 180);
+            }
+            else
+            {
+                miPcx = miT1x + iRc * Math.Sin((iAzimut1 - 90) * Math.PI / 180);
+                miPcy = miT1y + iRc * Math.Cos((iAzimut1 - 90) * Math.PI / 180);
+            }
+
+            Punto3d miPunto1 = new Punto3d(miT1x, miT1y, 0);
+            Punto3d miPunto2 = new Punto3d(miT1x, miT1y, 0);
+            Punto3d miPunto3 = new Punto3d(miT2x, miT2y, 0);
+            Punto3d miPunto4 = new Punto3d(miT2x, miT2y, 0);
+            Punto3d miPunto5 = new Punto3d(miPcx, miPcy, 0);
+
+
+            Punto3d[] puntosSing = new Punto3d[5];
+            puntosSing[0] = miPunto1;
+            puntosSing[1] = miPunto2;
+            puntosSing[2] = miPunto3;
+            puntosSing[3] = miPunto4;
+            puntosSing[4] = miPunto5;
+
+
+            return puntosSing;
+        }
+        private EjeDeTrazado.componentes.Curva Curva_Gran_Radio(Pendiente c1, double radio, Pendiente c3)
+        {
+            //ec de la primera recta
+            double a_x0 = c1.Puntos[0].X;
+            double a_y0 = c1.Puntos[0].Y;
+            double b_x1 = c1.Puntos[1].X;
+            double b_y1 = c1.Puntos[1].Y;
+
+            double a_1 = (a_y0 - b_y1) / (a_x0 - b_x1);
+            double b_1 = -b_x1 * (a_y0 - b_y1) / (a_x0 - b_x1) + b_y1;
+
+            double c_x0 = c3.Puntos[0].X;
+            double c_y0 = c3.Puntos[0].Y;
+            double d_x1 = c3.Puntos[1].X;
+            double d_y1 = c3.Puntos[1].Y;
+
+            double c_1 = (c_y0 - d_y1) / (c_x0 - d_x1);
+            double d_1 = -d_x1 * ((c_y0 - d_y1) / (c_x0 - d_x1)) + d_y1;
+
+            double i_x = (d_1 - b_1) / (a_1 - c_1);
+            double i_y = a_1 * ((d_1 - b_1) / (a_1 - c_1)) + b_1;
+            Punto3d p_vertice = new Punto3d(i_x, i_y, 0);
+            Punto3d[] puntosSing = addCurvaGranRadio(radio, c1.az, c3.az, p_vertice, getSentidoCurva(c1.az, c3.az));
+
+            return new Curva(puntosSing[1], puntosSing[2], puntosSing[4], radio, 0, 0, getSentidoCurva(c1.az, c3.az));
+
+        }
+        public static double getDelta(double iAzimut1, double iAzimut2)
+        {
+            double miDelta;
+            if (Math.Abs(iAzimut2 - iAzimut1) > 180)
+            {
+                miDelta = 360 - Math.Abs(iAzimut2 - iAzimut1);
+            }
+            else
+            {
+                miDelta = Math.Abs(iAzimut2 - iAzimut1);
+            }
+            return miDelta;
+        }
+        private void Rellenar_Recta(Pendiente c1)
+        {
+            Punto p_r = new Punto();
+            tadLayShare.puntos.Punto3d p1 = new Punto3d(c1.Puntos[c1.Puntos.Count - 2].X, c1.Puntos[c1.Puntos.Count - 2].Y, 0);
+            tadLayShare.puntos.Punto3d p2 = new Punto3d(c1.Puntos[c1.Puntos.Count - 1].X, c1.Puntos[c1.Puntos.Count - 1].Y, 0);
+            double xc = c1.Puntos[c1.Puntos.Count - 2].X;
+            double yc = c1.Puntos[c1.Puntos.Count - 2].Y;
+            c1.az = Rellenar_centro(c1.Puntos[c1.Puntos.Count - 1].X, c1.Puntos[c1.Puntos.Count - 1].Y, xc, yc, 1).Az; ;
+        }
+        private void Dibujar_Curva(EjeDeTrazado.componentes.Curva Clo,double ini)
+        {
+            using (DocumentLock myDockLock = oCadManager.thisEditor.Document.LockDocument())
+            {
+
+                //using (oSolucion miSolucion = new oSolucion(iIdSolucion))
+                //{
+
+
+                using (Transaction tr = oCadManager.StartTransaction())
+                {
+                    BlockTable bt = (BlockTable)tr.GetObject(oCadManager.thisBase.BlockTableId, OpenMode.ForRead, false);
+                    BlockTableRecord btr = (BlockTableRecord)tr.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite, false);
+
+                    double miBombeo = 2;
+
+                    Polyline miEje = new Polyline();
+                    int index = 0;
+                    foreach (var componentPoint in Clo.getComponentPoints())
+                    {
+                        miEje.AddVertexAt(index, new Point2d(componentPoint[0]+x_ins, componentPoint[1]*escala-ini +y_ins), 0, 0, 0);
+                        index++;
+                    }
+                    engCadNet.oLayer.addLayer("Curva", 4, false);
+                    miEje.Layer = "Curva";
+
+                    btr.AppendEntity(miEje);
+                    tr.AddNewlyCreatedDBObject(miEje, true);
+
+                    //oXdata.setXdata(miEje.ObjectId, "tadilEje", miSolucion.idSolucion.ToString());
+                    //ObjectId miId = oSerializarEntidad.StoreObjectInExtensionDictionary("info", miEje, tr, miEjeMem, miEjeTrazadoTadil.GetType().FullName);
+
+
+
+                    oCadManager.thisEditor.UpdateScreen();
+
+                    //Info UI
+                    //oTadil.data.UserInfo.procesoTerminadoConTiempo(miMedicion.Elapsed.TotalMinutes);
+
+                    tr.Commit();
+                }
+
+                //}
+            }
+        }
+        private bool Comprobar_Acuerdo_Circular(EjeDeTrazado.componentes.Curva c,Pendiente p1,Pendiente p2)
+        {
+            double x_m_1 = (p1.Puntos[1].X + p1.Puntos[0].X) / 2;
+            double x_m_2 = (p2.Puntos[1].X + p2.Puntos[0].X) / 2;
+            List<double[]> l1 = c.getComponentPoints();
+            if (l1[0][0]<x_m_1 || l1[l1.Count-1][0]>x_m_2)
+            {
+                return false;
+            }
+
+            return true;
+        }
+        private bool Comprobar_Acuerdo_Circular(EjeDeTrazado.componentes.Curva c, Pendiente p1, double x)
+        {
+            double x_m_1 = (p1.Puntos[1].X + p1.Puntos[0].X) / 2;
+            double x_m_2 = x;
+            List<double[]> l1 = c.getComponentPoints();
+            if (l1[0][0] > x_m_1 && l1[l1.Count - 1][0] < (x_m_2+0.01) && l1[l1.Count - 1][0] > (x_m_2 - 0.01))
+            {
+                return true;
+            }
+
+            return false;
+        }
+        private bool Comprobar_Acuerdo_Circular(EjeDeTrazado.componentes.Curva c, double x, Pendiente p2)
+        {
+            double x_m_1 = x;
+            double x_m_2 = (p2.Puntos[1].X + p2.Puntos[0].X) / 2;
+            List<double[]> l1 = c.getComponentPoints();
+            if (l1[0][0] < x_m_1 || l1[l1.Count - 1][0] > x_m_2)
+            {
+                return false;
+            }
+
+            return true;
+        }
+        private double Get_Variacion(double a,double b)
+        {
+            if (Math.Abs(a-b)>10)
+            {
+                return 1;
+            }else if (Math.Abs(a - b) > 1)
+            {
+                return 0.1;
+            }
+            else if (Math.Abs(a - b) > 0.1)
+            {
+                return 0.01;
+            }
+
+            return 0.01;
         }
     }
 }

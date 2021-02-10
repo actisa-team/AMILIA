@@ -14,6 +14,7 @@ namespace Logica
         private double grados_union;
         private bool division_rectas;
         private int n_componentes;
+        private int resultado;
 
         public int N_C { get => n_curvas; set => n_curvas = value; }
         public double Por_C { get => porcentaje_clusterizacion; set => porcentaje_clusterizacion = value; }
@@ -21,6 +22,7 @@ namespace Logica
         public double G_U { get => grados_union; set => grados_union = value; }
         public bool D_R { get => division_rectas; set => division_rectas = value; }
         public int Num_C { get => n_componentes; set => n_componentes = value; }
+        public int Resultado { get => resultado; set => resultado = value; }
 
         public Resultados()
         {

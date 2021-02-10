@@ -49,6 +49,7 @@
             this.materialLabel8 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel7 = new MaterialSkin.Controls.MaterialLabel();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.materialFlatButton21 = new MaterialSkin.Controls.MaterialFlatButton();
             this.textBox_eliminar = new System.Windows.Forms.TextBox();
             this.materialLabel39 = new MaterialSkin.Controls.MaterialLabel();
             this.checkeliminar = new MaterialSkin.Controls.MaterialCheckBox();
@@ -153,6 +154,7 @@
             this.CargarPoliPerfil = new MaterialSkin.Controls.MaterialFlatButton();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.materialFlatButton22 = new MaterialSkin.Controls.MaterialFlatButton();
             this.materialFlatButton12 = new MaterialSkin.Controls.MaterialFlatButton();
             this.materialFlatButton19 = new MaterialSkin.Controls.MaterialFlatButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -193,8 +195,7 @@
             this.materialLabel47 = new MaterialSkin.Controls.MaterialLabel();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.materialFlatButton21 = new MaterialSkin.Controls.MaterialFlatButton();
+            this.label2 = new System.Windows.Forms.Label();
             this.materialTabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -209,7 +210,6 @@
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // materialTabSelector1
@@ -298,9 +298,9 @@
             this.materialLabel40.Location = new System.Drawing.Point(27, 60);
             this.materialLabel40.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel40.Name = "materialLabel40";
-            this.materialLabel40.Size = new System.Drawing.Size(325, 19);
+            this.materialLabel40.Size = new System.Drawing.Size(317, 19);
             this.materialLabel40.TabIndex = 23;
-            this.materialLabel40.Text = "Puntos que filtrados por distancia mínima (cm)";
+            this.materialLabel40.Text = "Puntos que filtrados por distancia mínima (m)";
             // 
             // materialFlatButton5
             // 
@@ -509,6 +509,22 @@
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.Click += new System.EventHandler(this.tabPage2_Click);
             // 
+            // materialFlatButton21
+            // 
+            this.materialFlatButton21.AutoSize = true;
+            this.materialFlatButton21.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.materialFlatButton21.Depth = 0;
+            this.materialFlatButton21.Location = new System.Drawing.Point(573, 207);
+            this.materialFlatButton21.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.materialFlatButton21.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialFlatButton21.Name = "materialFlatButton21";
+            this.materialFlatButton21.Primary = false;
+            this.materialFlatButton21.Size = new System.Drawing.Size(143, 36);
+            this.materialFlatButton21.TabIndex = 97;
+            this.materialFlatButton21.Text = "Filtrar y guardar";
+            this.materialFlatButton21.UseVisualStyleBackColor = true;
+            this.materialFlatButton21.Click += new System.EventHandler(this.materialFlatButton21_Click);
+            // 
             // textBox_eliminar
             // 
             this.textBox_eliminar.Location = new System.Drawing.Point(348, 17);
@@ -526,9 +542,9 @@
             this.materialLabel39.Location = new System.Drawing.Point(235, 16);
             this.materialLabel39.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel39.Name = "materialLabel39";
-            this.materialLabel39.Size = new System.Drawing.Size(107, 19);
+            this.materialLabel39.Size = new System.Drawing.Size(99, 19);
             this.materialLabel39.TabIndex = 95;
-            this.materialLabel39.Text = "Distancia (cm)";
+            this.materialLabel39.Text = "Distancia (m)";
             // 
             // checkeliminar
             // 
@@ -2063,6 +2079,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.materialFlatButton22);
             this.groupBox2.Controls.Add(this.materialFlatButton12);
             this.groupBox2.Controls.Add(this.materialFlatButton19);
             this.groupBox2.Location = new System.Drawing.Point(420, 202);
@@ -2072,13 +2089,30 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Tipo de cálculo";
             // 
+            // materialFlatButton22
+            // 
+            this.materialFlatButton22.AutoSize = true;
+            this.materialFlatButton22.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.materialFlatButton22.Depth = 0;
+            this.materialFlatButton22.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.materialFlatButton22.Location = new System.Drawing.Point(153, 32);
+            this.materialFlatButton22.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.materialFlatButton22.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialFlatButton22.Name = "materialFlatButton22";
+            this.materialFlatButton22.Primary = false;
+            this.materialFlatButton22.Size = new System.Drawing.Size(200, 36);
+            this.materialFlatButton22.TabIndex = 118;
+            this.materialFlatButton22.Text = "Calculo manual circular";
+            this.materialFlatButton22.UseVisualStyleBackColor = true;
+            this.materialFlatButton22.Click += new System.EventHandler(this.materialFlatButton22_Click);
+            // 
             // materialFlatButton12
             // 
             this.materialFlatButton12.AutoSize = true;
             this.materialFlatButton12.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.materialFlatButton12.Depth = 0;
             this.materialFlatButton12.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.materialFlatButton12.Location = new System.Drawing.Point(76, 32);
+            this.materialFlatButton12.Location = new System.Drawing.Point(7, 32);
             this.materialFlatButton12.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.materialFlatButton12.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialFlatButton12.Name = "materialFlatButton12";
@@ -2599,32 +2633,15 @@
             this.pictureBox3.TabIndex = 5;
             this.pictureBox3.TabStop = false;
             // 
-            // pictureBox1
+            // label2
             // 
-            this.pictureBox1.ErrorImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.ErrorImage")));
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(579, 60);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(201, 135);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 3;
-            this.pictureBox1.TabStop = false;
-            // 
-            // materialFlatButton21
-            // 
-            this.materialFlatButton21.AutoSize = true;
-            this.materialFlatButton21.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.materialFlatButton21.Depth = 0;
-            this.materialFlatButton21.Location = new System.Drawing.Point(573, 207);
-            this.materialFlatButton21.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.materialFlatButton21.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialFlatButton21.Name = "materialFlatButton21";
-            this.materialFlatButton21.Primary = false;
-            this.materialFlatButton21.Size = new System.Drawing.Size(143, 36);
-            this.materialFlatButton21.TabIndex = 97;
-            this.materialFlatButton21.Text = "Filtrar y guardar";
-            this.materialFlatButton21.UseVisualStyleBackColor = true;
-            this.materialFlatButton21.Click += new System.EventHandler(this.materialFlatButton21_Click);
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Neue Haas Grotesk Text Pro Medi", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(669, 33);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(133, 20);
+            this.label2.TabIndex = 138;
+            this.label2.Text = "Poly2Axis v1.4";
             // 
             // principal
             // 
@@ -2634,6 +2651,7 @@
             this.BackColor = System.Drawing.SystemColors.Window;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(800, 790);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.materialLabel47);
             this.Controls.Add(this.materialFlatButton14);
             this.Controls.Add(this.label1);
@@ -2641,7 +2659,6 @@
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox3);
             this.Controls.Add(this.materialFlatButton13);
-            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.materialTabControl1);
             this.Controls.Add(this.materialTabSelector1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -2673,7 +2690,6 @@
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2715,7 +2731,6 @@
         private MaterialDivider materialDivider1;
         private MaterialRaisedButton materialRaisedButton1;
         private MaterialFlatButton materialFlatButton5;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.Button materialRaisedButton2;
@@ -2847,5 +2862,7 @@
         private MaterialCheckBox materialCheckBox12;
         private MaterialFlatButton materialFlatButton20;
         private MaterialFlatButton materialFlatButton21;
+        private System.Windows.Forms.Label label2;
+        private MaterialFlatButton materialFlatButton22;
     }
 }

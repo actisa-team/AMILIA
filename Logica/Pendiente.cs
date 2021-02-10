@@ -13,6 +13,7 @@ namespace Logica
     public class Pendiente
     {
         List<Point2d> puntos = new List<Point2d>();
+        public double az { get; set; }
         public List<Point2d> Puntos { get => puntos; set => puntos = value; }
         public Pendiente()
         {
