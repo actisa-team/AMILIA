@@ -40,6 +40,11 @@ namespace Logica
         List<Point3d> Polilinea3d_Acumulada = new List<Point3d>();
         dsApp datoApp = new dsApp();
         List<EjeDeTrazado.componentes.Curva> Lista_curvas = new List<Curva>();
+        Polyline curva_antigua=null;
+        Line pendiente_antigua = null;
+        public bool iniciado = false;
+        int apartado = 1;
+        List<double> list_acuerdos_curvos = new List<double>();
         public List<Parabola> Lista_Parabolas { get => Lista_parabolas; set => Lista_parabolas = value; }
         public List<Pendiente> Lista_Rectas { get => Lista_rectas; set => Lista_rectas = value; }
         public List<Point3d> Polilinea3d_Original { get => Polilinea3d_original; set => Polilinea3d_original = value; }
@@ -2890,7 +2895,40 @@ namespace Logica
                 }
             }
         }
-        
+        public bool Comprobar_Parabola(int i)
+        {
+            double a = 0, b = 0, c = 0, d = 0, e = 0, f = 0;
+            double x1, x2;
+            double ec_a, ec_b, ec_c, r1, r2;
+            a = Lista_parabolas[i].parabola[0];
+            b = Lista_parabolas[i].parabola[1];
+            c = Lista_parabolas[i].parabola[2];
+
+            d = Lista_parabolas[i + 1].parabola[0];
+            e = Lista_parabolas[i + 1].parabola[1];
+            f = Lista_parabolas[i + 1].parabola[2];
+
+            ec_a = d - ((d * d) / a) - (2 * d) + ((2 * (d * d)) / a);
+            ec_b = e - (((e - b) / a) * d) - ((b * d) / a) - (e - b) - b + (((e - b) / a) * 2 * d) + ((b * d) / a);
+            ec_c = f - (((e - b) * (e - b)) / (4 * a)) - ((b * e - (b * b)) / (2 * a)) - c + (((e - b) * (e - b)) / (2 * a)) + ((b * e) / (2 * a)) - ((b * b) / (2 * a));
+
+            r1 = (-ec_b + (Math.Sqrt(Math.Pow(ec_b, 2) - 4 * ec_a * ec_c))) / (2 * ec_a);
+            r2 = (-ec_b - (Math.Sqrt(Math.Pow(ec_b, 2) - 4 * ec_a * ec_c))) / (2 * ec_a);
+
+            x1 = (e - b + 2 * d * r1) / (2 * a);
+            x2 = (e - b + 2 * d * r2) / (2 * a);
+
+            double y = (x2 * x2) * a + x2 * b + c;//x^2+x+c
+            double y2 = (r2 * r2) * d + r2 * e + f;//x^2+x+c
+            Point2d p1 = new Point2d(x2, y);
+            Point2d p2 = new Point2d(r2, y2);
+            if (double.IsNaN(x1) || double.IsNaN(x2))
+            {
+                return false;
+            }
+            return true;
+        }
+
         public void CalcularEntreParabolas()
         {
             int contador = 0;
@@ -4348,9 +4386,8 @@ namespace Logica
         }
         private void Dibujar_r(Point2d p1, Point2d p2,int paso)
         {
-            Point3dCollection poly = new Point3dCollection();
-            poly.Add(new Point3d(p1.X + x_ins,y_ins+ p1.Y*escala, 0));
-            poly.Add(new Point3d(p2.X + x_ins, y_ins + p2.Y*escala, 0));
+            Line poly = new Line(new Point3d(p1.X + x_ins, y_ins + p1.Y * escala, 0), new Point3d(p2.X + x_ins, y_ins + p2.Y * escala, 0));
+
 
 
             Document acDoc2 = Application.DocumentManager.MdiActiveDocument;
@@ -4370,7 +4407,7 @@ namespace Logica
 
                     Editor e = Application.DocumentManager.MdiActiveDocument.Editor;
                     Document d = Application.DocumentManager.MdiActiveDocument;
-                    Polyline3d pol = new Polyline3d(new Poly3dType(), poly, false);
+                    Line pol = poly;
                     pol.Layer = "Recta-" + paso;
 
                     acBlkTblRec.AppendEntity(pol);
@@ -4685,6 +4722,34 @@ namespace Logica
             }
 
         }
+        public void CrearTrazado(int conta_apartado)
+        {
+
+            if (Lista_rectas[0].Puntos[0].X < Lista_parabolas[0].polilinea_perfil[0].p.X)
+            {
+                Dibujar_Trazado(1, conta_apartado);
+                //Dibujar_Trazado_Informe(1);
+            }
+            else
+            {
+                Dibujar_Trazado(2, conta_apartado);
+                //Dibujar_Trazado_Informe(2);
+            }
+
+        }
+        public void CrearTrazado_Componentes(int conta_apartado_perfil)
+        {
+
+            if (Lista_rectas[0].Puntos[0].X < Lista_parabolas[0].polilinea_perfil[0].p.X)
+            {
+                Dibujar_Trazado_Componentes(1, conta_apartado_perfil);
+            }
+            else
+            {
+                Dibujar_Trazado_Componentes(2, conta_apartado_perfil);
+            }
+
+        }
         public void CrearTrazado_Circular()
         {
 
@@ -4700,6 +4765,37 @@ namespace Logica
             }
 
         }
+        public void CrearTrazado_Circular(int apartado)
+        {
+
+            if (Lista_rectas[0].Puntos[0].X < Lista_parabolas[0].polilinea_perfil[0].p.X)
+            {
+                Dibujar_Trazado_Circular(1,apartado);
+                //Dibujar_Trazado_Informe(1);
+            }
+            else
+            {
+                Dibujar_Trazado_Circular(2,apartado);
+                //Dibujar_Trazado_Informe(2);
+            }
+
+        }
+        public Polyline CrearTrazado_Circular_Automatico()
+        {
+
+            if (Lista_rectas[0].Puntos[0].X < Lista_parabolas[0].polilinea_perfil[0].p.X)
+            {
+                return Dibujar_Trazado_Circular_Automatico(1);
+                //Dibujar_Trazado_Informe(1);
+            }
+            else
+            {
+                return Dibujar_Trazado_Circular_Automatico(2);
+                //Dibujar_Trazado_Informe(2);
+            }
+
+        }
+
         public Polyline CrearTrazado_Automatico()
         {
 
@@ -4940,6 +5036,412 @@ namespace Logica
             }
         }
         /// <summary>
+        /// Dibuja el trazado completo
+        /// </summary>
+        /// <param name="tipo">1 para empezar por pendiente y 2 para empezar por acuerdo</param>
+        public void Dibujar_Trazado(int tipo,int conta_apartado)
+        {
+
+            if (tipo == 2)
+            {
+                using (DocumentLock myDockLock = oCadManager.thisEditor.Document.LockDocument())
+                {
+                    using (Transaction tr = oCadManager.StartTransaction())
+                    {
+                        BlockTable bt = (BlockTable)tr.GetObject(oCadManager.thisBase.BlockTableId, OpenMode.ForRead, false);
+                        BlockTableRecord btr = (BlockTableRecord)tr.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite, false);
+
+                        Polyline miEje = new Polyline();
+                        int index = 0;
+                        double p2_x = 0;
+                        for (int t = 0; t < Lista_rectas.Count && t < Lista_parabolas.Count; t++)
+                        {
+                            double x2 = Lista_parabolas[t].parabola[0];
+                            double x1 = Lista_parabolas[t].parabola[1];
+                            double x = Lista_parabolas[t].parabola[2];
+                            double pk_ini = 0;
+                            if (t > 0)
+                            {
+                                pk_ini = p2_x;
+                            }
+
+                            double pk_fin = Lista_parabolas[t].polilinea_perfil[Lista_parabolas[t].polilinea_perfil.Count - 1].p.X;
+                            if (t <= Lista_rectas.Count - 1)
+                            {
+                                pk_fin = Lista_rectas[t].Puntos[0].X;
+                            }
+                            double pk = pk_ini;
+                            double y;
+                            for (int i = 0; pk < pk_fin; i++)
+                            {
+                                y = (pk * pk) * x2 + pk * x1 + x;//x^2+x+c
+
+                                miEje.AddVertexAt(index, new Point2d(pk + x_ins, y * escala + y_ins), 0, 0, 0);
+                                pk = pk + 1;
+                                index++;
+                            }
+                            y = (pk_fin * pk_fin) * x2 + pk_fin * x1 + x;//x^2+x+c
+
+                            miEje.AddVertexAt(index, new Point2d(pk_fin + x_ins, y * escala + y_ins), 0, 0, 0);
+                            index++;
+
+                            double p1_x = Lista_rectas[t].Puntos[0].X;
+                            double p1_y = Lista_rectas[t].Puntos[0].Y;
+                            miEje.AddVertexAt(index, new Point2d(p1_x + x_ins, p1_y * escala + y_ins), 0, 0, 0);
+                            index++;
+                            p2_x = Lista_rectas[t].Puntos[1].X;
+                            double p2_y = Lista_rectas[t].Puntos[1].Y;
+                            miEje.AddVertexAt(index, new Point2d(p2_x + x_ins, p2_y * escala + y_ins), 0, 0, 0);
+                            index++;
+
+                        }
+                        if (Lista_rectas.Count > Lista_parabolas.Count)
+                        {
+                            double p1_x = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].X;
+                            double p1_y = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].Y;
+                            miEje.AddVertexAt(index, new Point2d(p1_x + x_ins, p1_y * escala + y_ins), 0, 0, 0);
+                            index++;
+                            p2_x = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
+                            double p2_y = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].Y;
+                            miEje.AddVertexAt(index, new Point2d(p2_x + x_ins, p2_y * escala + y_ins), 0, 0, 0);
+                            index++;
+                        }
+                        else
+                        {
+                            if (Lista_rectas.Count < Lista_parabolas.Count)
+                            {
+                                double x2 = Lista_parabolas[Lista_parabolas.Count - 1].parabola[0];
+                                double x1 = Lista_parabolas[Lista_parabolas.Count - 1].parabola[1];
+                                double x = Lista_parabolas[Lista_parabolas.Count - 1].parabola[2];
+                                double pk_ini = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
+                                double pk_fin = Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil[Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil.Count - 1].p.X;
+                                double pk = pk_ini;
+                                double y;
+                                for (int i = 0; pk < pk_fin; i++)
+                                {
+                                    y = (pk * pk) * x2 + pk * x1 + x;//x^2+x+c
+
+                                    miEje.AddVertexAt(index, new Point2d(pk + x_ins, y * escala + y_ins), 0, 0, 0);
+                                    pk = pk + 0.1;
+                                    index++;
+                                }
+                                y = (pk_fin * pk_fin) * x2 + pk_fin * x1 + x;//x^2+x+c
+
+                                miEje.AddVertexAt(index, new Point2d(pk_fin + x_ins, y * escala + y_ins), 0, 0, 0);
+                                index++;
+                            }
+
+                        }
+
+                        engCadNet.oLayer.addLayer("Trazado-"+ conta_apartado, 2, false);
+                        miEje.Layer = "Trazado-"+ conta_apartado;
+
+                        btr.AppendEntity(miEje);
+                        tr.AddNewlyCreatedDBObject(miEje, true);
+
+                        oCadManager.thisEditor.UpdateScreen();
+
+                        tr.Commit();
+                    }
+                }
+            }
+            else
+            {
+                using (DocumentLock myDockLock = oCadManager.thisEditor.Document.LockDocument())
+                {
+                    using (Transaction tr = oCadManager.StartTransaction())
+                    {
+                        BlockTable bt = (BlockTable)tr.GetObject(oCadManager.thisBase.BlockTableId, OpenMode.ForRead, false);
+                        BlockTableRecord btr = (BlockTableRecord)tr.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite, false);
+
+                        Polyline miEje = new Polyline();
+                        int index = 0;
+                        for (int t = 0; t < Lista_rectas.Count && t < Lista_parabolas.Count; t++)
+                        {
+                            double p1_x = Lista_rectas[t].Puntos[0].X;
+                            double p1_y = Lista_rectas[t].Puntos[0].Y;
+                            miEje.AddVertexAt(index, new Point2d(p1_x + x_ins, p1_y * escala + y_ins), 0, 0, 0);
+                            index++;
+                            double p2_x = Lista_rectas[t].Puntos[1].X;
+                            double p2_y = Lista_rectas[t].Puntos[1].Y;
+                            miEje.AddVertexAt(index, new Point2d(p2_x + x_ins, p2_y * escala + y_ins), 0, 0, 0);
+                            index++;
+                            double x2 = Lista_parabolas[t].parabola[0];
+                            double x1 = Lista_parabolas[t].parabola[1];
+                            double x = Lista_parabolas[t].parabola[2];
+                            double pk_ini = p2_x;
+                            double pk_fin = Lista_parabolas[t].polilinea_perfil[Lista_parabolas[t].polilinea_perfil.Count - 1].p.X;
+                            if (t + 1 <= Lista_rectas.Count - 1)
+                            {
+                                pk_fin = Lista_rectas[t + 1].Puntos[0].X;
+                            }
+                            double pk = pk_ini;
+                            double y;
+                            for (int i = 0; pk < pk_fin; i++)
+                            {
+                                y = (pk * pk) * x2 + pk * x1 + x;//x^2+x+c
+
+                                miEje.AddVertexAt(index, new Point2d(pk + x_ins, y * escala + y_ins), 0, 0, 0);
+                                pk = pk + 1;
+                                index++;
+                            }
+                            y = (pk_fin * pk_fin) * x2 + pk_fin * x1 + x;//x^2+x+c
+
+                            miEje.AddVertexAt(index, new Point2d(pk_fin + x_ins, y * escala + y_ins), 0, 0, 0);
+                            index++;
+                        }
+                        if (Lista_rectas.Count > Lista_parabolas.Count)
+                        {
+                            double p1_x = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].X;
+                            double p1_y = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].Y;
+                            miEje.AddVertexAt(index, new Point2d(p1_x + x_ins, p1_y * escala + y_ins), 0, 0, 0);
+                            index++;
+                            double p2_x = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
+                            double p2_y = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].Y;
+                            miEje.AddVertexAt(index, new Point2d(p2_x + x_ins, p2_y * escala + y_ins), 0, 0, 0);
+                            index++;
+                        }
+                        else
+                        {
+                            if (Lista_rectas.Count < Lista_parabolas.Count)
+                            {
+                                double x2 = Lista_parabolas[Lista_parabolas.Count - 1].parabola[0];
+                                double x1 = Lista_parabolas[Lista_parabolas.Count - 1].parabola[1];
+                                double x = Lista_parabolas[Lista_parabolas.Count - 1].parabola[2];
+                                double pk_ini = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
+                                double pk_fin = Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil[Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil.Count - 1].p.X;
+                                double pk = pk_ini;
+                                double y;
+                                for (int i = 0; pk < pk_fin; i++)
+                                {
+                                    y = (pk * pk) * x2 + pk * x1 + x;//x^2+x+c
+
+                                    miEje.AddVertexAt(index, new Point2d(pk + x_ins, y * escala + y_ins), 0, 0, 0);
+                                    pk = pk + 0.1;
+                                    index++;
+                                }
+                                y = (pk_fin * pk_fin) * x2 + pk_fin * x1 + x;//x^2+x+c
+
+                                miEje.AddVertexAt(index, new Point2d(pk_fin + x_ins, y * escala + y_ins), 0, 0, 0);
+                                index++;
+                            }
+
+                        }
+
+                        engCadNet.oLayer.addLayer("Trazado-"+ conta_apartado, 2, false);
+                        miEje.Layer = "Trazado-"+ conta_apartado;
+
+                        btr.AppendEntity(miEje);
+                        tr.AddNewlyCreatedDBObject(miEje, true);
+
+                        oCadManager.thisEditor.UpdateScreen();
+
+                        tr.Commit();
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// Dibuja el trazado completo
+        /// </summary>
+        /// <param name="tipo">1 para empezar por pendiente y 2 para empezar por acuerdo</param>
+        public void Dibujar_Trazado_Componentes(int tipo,int conta_apartado_perfil)
+        {
+
+            if (tipo == 2)
+            {
+                Polyline miEje = new Polyline();
+                int index = 0;
+                double p2_x = 0;
+                for (int t = 0; t < Lista_rectas.Count && t < Lista_parabolas.Count; t++)
+                {
+                    double x2 = Lista_parabolas[t].parabola[0];
+                    double x1 = Lista_parabolas[t].parabola[1];
+                    double x = Lista_parabolas[t].parabola[2];
+                    double pk_ini = 0;
+                    if (t > 0)
+                    {
+                        pk_ini = p2_x;
+                    }
+
+                    double pk_fin = Lista_parabolas[t].polilinea_perfil[Lista_parabolas[t].polilinea_perfil.Count - 1].p.X;
+                    if (t <= Lista_rectas.Count - 1)
+                    {
+                        pk_fin = Lista_rectas[t].Puntos[0].X;
+                    }
+                    double pk = pk_ini;
+                    double y;
+                    
+                    for (int i = 0; pk < pk_fin; i++)
+                    {
+                        y = (pk * pk) * x2 + pk * x1 + x;//x^2+x+c
+
+                        miEje.AddVertexAt(index, new Point2d(pk + x_ins, y * escala + y_ins), 0, 0, 0);
+                        pk = pk + 1;
+                        index++;
+                    }
+                    y = (pk_fin * pk_fin) * x2 + pk_fin * x1 + x;//x^2+x+c
+                    miEje.AddVertexAt(index, new Point2d(pk_fin + x_ins, y * escala + y_ins), 0, 0, 0);
+                    index++;
+
+                    y = (pk_ini * pk_ini) * x2 + pk_ini * x1 + x;
+                    Lista_parabolas[t].puntoEntrada = new Point2d(pk_ini + x_ins, y * escala + y_ins);
+                    y = (pk_fin * pk_fin) * x2 + pk_fin * x1 + x;//x^2+x+c
+                    Lista_parabolas[t].puntoSalida = new Point2d(pk_fin + x_ins, y * escala + y_ins);
+
+                    Dibujar_Eje_Acuerdo(miEje, conta_apartado_perfil);
+                    miEje = new Polyline();
+                    index = 0;
+                    double p1_x = Lista_rectas[t].Puntos[0].X;
+                    double p1_y = Lista_rectas[t].Puntos[0].Y;
+
+                    p2_x = Lista_rectas[t].Puntos[1].X;
+                    double p2_y = Lista_rectas[t].Puntos[1].Y;
+
+                    Line linea = new Line(new Point3d(p1_x + x_ins, p1_y * escala + y_ins, 0), new Point3d(p2_x + x_ins, p2_y * escala + y_ins, 0));
+                    Dibujar_Eje_Recta(linea, conta_apartado_perfil);
+                }
+                if (Lista_rectas.Count > Lista_parabolas.Count)
+                {
+                    double p1_x = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].X;
+                    double p1_y = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].Y;
+
+
+                    p2_x = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
+                    double p2_y = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].Y;
+
+
+                    Line linea = new Line(new Point3d(p1_x + x_ins, p1_y * escala + y_ins, 0), new Point3d(p2_x + x_ins, p2_y * escala + y_ins, 0));
+                    Dibujar_Eje_Recta(linea, conta_apartado_perfil);
+                }
+                else
+                {
+                    if (Lista_rectas.Count < Lista_parabolas.Count)
+                    {
+                        double x2 = Lista_parabolas[Lista_parabolas.Count - 1].parabola[0];
+                        double x1 = Lista_parabolas[Lista_parabolas.Count - 1].parabola[1];
+                        double x = Lista_parabolas[Lista_parabolas.Count - 1].parabola[2];
+                        double pk_ini = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
+                        double pk_fin = Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil[Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil.Count - 1].p.X;
+                        double pk = pk_ini;
+                        double y;
+                        for (int i = 0; pk < pk_fin; i++)
+                        {
+                            y = (pk * pk) * x2 + pk * x1 + x;//x^2+x+c
+
+                            miEje.AddVertexAt(index, new Point2d(pk + x_ins, y * escala + y_ins), 0, 0, 0);
+                            pk = pk + 0.1;
+                            index++;
+                        }
+                        y = (pk_fin * pk_fin) * x2 + pk_fin * x1 + x;//x^2+x+c
+
+                        miEje.AddVertexAt(index, new Point2d(pk_fin + x_ins, y * escala + y_ins), 0, 0, 0);
+                        index++;
+
+                        y = (pk_ini * pk_ini) * x2 + pk_ini * x1 + x;
+                        Lista_parabolas[Lista_parabolas.Count - 1].puntoEntrada = new Point2d(pk_ini + x_ins, y * escala + y_ins);
+                        y = (pk_fin * pk_fin) * x2 + pk_fin * x1 + x;//x^2+x+c
+                        Lista_parabolas[Lista_parabolas.Count - 1].puntoSalida = new Point2d(pk_fin + x_ins, y * escala + y_ins);
+
+                        Dibujar_Eje_Acuerdo(miEje, conta_apartado_perfil);
+                        miEje = new Polyline();
+                        index = 0;
+                    }
+
+                }
+            }
+            else
+            {
+                Polyline miEje = new Polyline();
+                int index = 0;
+                for (int t = 0; t < Lista_rectas.Count && t < Lista_parabolas.Count; t++)
+                {
+                    double p1_x = Lista_rectas[t].Puntos[0].X;
+                    double p1_y = Lista_rectas[t].Puntos[0].Y;
+
+                    double p2_x = Lista_rectas[t].Puntos[1].X;
+                    double p2_y = Lista_rectas[t].Puntos[1].Y;
+
+                    Line linea = new Line(new Point3d(p1_x + x_ins, p1_y * escala + y_ins, 0), new Point3d(p2_x + x_ins, p2_y * escala + y_ins, 0));
+                    Dibujar_Eje_Recta(linea, conta_apartado_perfil);
+                    double x2 = Lista_parabolas[t].parabola[0];
+                    double x1 = Lista_parabolas[t].parabola[1];
+                    double x = Lista_parabolas[t].parabola[2];
+                    double pk_ini = p2_x;
+                    double pk_fin = Lista_parabolas[t].polilinea_perfil[Lista_parabolas[t].polilinea_perfil.Count - 1].p.X;
+                    if (t + 1 <= Lista_rectas.Count - 1)
+                    {
+                        pk_fin = Lista_rectas[t + 1].Puntos[0].X;
+                    }
+                    double pk = pk_ini;
+                    double y;
+                    for (int i = 0; pk < pk_fin; i++)
+                    {
+                        y = (pk * pk) * x2 + pk * x1 + x;//x^2+x+c
+
+                        miEje.AddVertexAt(index, new Point2d(pk + x_ins, y * escala + y_ins), 0, 0, 0);
+                        pk = pk + 1;
+                        index++;
+                    }
+                    y = (pk_fin * pk_fin) * x2 + pk_fin * x1 + x;//x^2+x+c
+
+                    miEje.AddVertexAt(index, new Point2d(pk_fin + x_ins, y * escala + y_ins), 0, 0, 0);
+                    index++;
+                    y = (pk_ini * pk_ini) * x2 + pk_ini * x1 + x;
+                    Lista_parabolas[t].puntoEntrada = new Point2d(pk_ini + x_ins, y * escala + y_ins);
+                    y = (pk_fin * pk_fin) * x2 + pk_fin * x1 + x;//x^2+x+c
+                    Lista_parabolas[t].puntoSalida = new Point2d(pk_fin + x_ins, y * escala + y_ins);
+                    Dibujar_Eje_Acuerdo(miEje, conta_apartado_perfil);
+                    miEje = new Polyline();
+                    index = 0;
+                }
+                if (Lista_rectas.Count > Lista_parabolas.Count)
+                {
+                    double p1_x = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].X;
+                    double p1_y = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].Y;
+
+                    double p2_x = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
+                    double p2_y = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].Y;
+
+                    Line linea = new Line(new Point3d(p1_x + x_ins, p1_y * escala + y_ins, 0), new Point3d(p2_x + x_ins, p2_y * escala + y_ins, 0));
+                    Dibujar_Eje_Recta(linea, conta_apartado_perfil);
+                }
+                else
+                {
+                    if (Lista_rectas.Count < Lista_parabolas.Count)
+                    {
+                        double x2 = Lista_parabolas[Lista_parabolas.Count - 1].parabola[0];
+                        double x1 = Lista_parabolas[Lista_parabolas.Count - 1].parabola[1];
+                        double x = Lista_parabolas[Lista_parabolas.Count - 1].parabola[2];
+                        double pk_ini = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
+                        double pk_fin = Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil[Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil.Count - 1].p.X;
+                        double pk = pk_ini;
+                        double y;
+                        for (int i = 0; pk < pk_fin; i++)
+                        {
+                            y = (pk * pk) * x2 + pk * x1 + x;//x^2+x+c
+
+                            miEje.AddVertexAt(index, new Point2d(pk + x_ins, y * escala + y_ins), 0, 0, 0);
+                            pk = pk + 0.1;
+                            index++;
+                        }
+                        y = (pk_fin * pk_fin) * x2 + pk_fin * x1 + x;//x^2+x+c
+
+                        miEje.AddVertexAt(index, new Point2d(pk_fin + x_ins, y * escala + y_ins), 0, 0, 0);
+                        index++;
+                        y = (pk_ini * pk_ini) * x2 + pk_ini * x1 + x;
+                        Lista_parabolas[Lista_parabolas.Count - 1].puntoEntrada = new Point2d(pk_ini + x_ins, y * escala + y_ins);
+                        y = (pk_fin * pk_fin) * x2 + pk_fin * x1 + x;//x^2+x+c
+                        Lista_parabolas[Lista_parabolas.Count - 1].puntoSalida = new Point2d(pk_fin + x_ins, y * escala + y_ins);
+                        Dibujar_Eje_Acuerdo(miEje, conta_apartado_perfil);
+                        miEje = new Polyline();
+                        index = 0;
+                    }
+
+                }
+            }
+        }
+        /// <summary>
         /// Dibuja el trazado completo circular
         /// </summary>
         /// <param name="tipo">1 para empezar por pendiente y 2 para empezar por acuerdo</param>
@@ -5125,6 +5627,343 @@ namespace Logica
                     }
                 }
             }
+        }
+        /// <summary>
+        /// Dibuja el trazado completo circular
+        /// </summary>
+        /// <param name="tipo">1 para empezar por pendiente y 2 para empezar por acuerdo</param>
+        public void Dibujar_Trazado_Circular(int tipo,int apartado)
+        {
+
+            if (tipo == 2)
+            {
+                using (DocumentLock myDockLock = oCadManager.thisEditor.Document.LockDocument())
+                {
+                    using (Transaction tr = oCadManager.StartTransaction())
+                    {
+                        BlockTable bt = (BlockTable)tr.GetObject(oCadManager.thisBase.BlockTableId, OpenMode.ForRead, false);
+                        BlockTableRecord btr = (BlockTableRecord)tr.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite, false);
+
+                        Polyline miEje = new Polyline();
+                        int index = 0;
+                        double p2_x = 0;
+                        double x2 = Lista_parabolas[0].parabola[0];
+                        double x1 = Lista_parabolas[0].parabola[1];
+                        double x = Lista_parabolas[0].parabola[2];
+                        double pk_ini = 0;
+
+                        double pk_fin = Lista_parabolas[0].polilinea_perfil[Lista_parabolas[0].polilinea_perfil.Count - 1].p.X;
+                        pk_fin = Lista_rectas[0].Puntos[0].X;
+                        double pk = pk_ini;
+                        double y;
+                        for (int i = 0; pk < pk_fin; i++)
+                        {
+                            y = (pk * pk) * x2 + pk * x1 + x;//x^2+x+c
+
+                            miEje.AddVertexAt(index, new Point2d(pk + x_ins, y * escala + y_ins), 0, 0, 0);
+                            pk = pk + 1;
+                            index++;
+                        }
+                        y = (pk_fin * pk_fin) * x2 + pk_fin * x1 + x;//x^2+x+c
+
+                        miEje.AddVertexAt(index, new Point2d(pk_fin + x_ins, y * escala + y_ins), 0, 0, 0);
+                        index++;
+                        for (int t = 1; t < Lista_rectas.Count && t < Lista_curvas.Count; t++)
+                        {
+                            foreach (var componentPoint in Lista_curvas[t].getComponentPoints())
+                            {
+                                miEje.AddVertexAt(index, new Point2d(componentPoint[0] + x_ins, componentPoint[1] * escala + y_ins), 0, 0, 0);
+                                index++;
+                            }
+
+                        }
+                        if (Lista_rectas.Count == Lista_parabolas.Count)
+                        {
+                            p2_x = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
+                            double p2_y = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].Y;
+                            miEje.AddVertexAt(index, new Point2d(p2_x + x_ins, p2_y * escala + y_ins), 0, 0, 0);
+                            index++;
+                        }
+                        else
+                        {
+                            if (Lista_rectas.Count < Lista_parabolas.Count)
+                            {
+                                x2 = Lista_parabolas[Lista_parabolas.Count - 1].parabola[0];
+                                x1 = Lista_parabolas[Lista_parabolas.Count - 1].parabola[1];
+                                x = Lista_parabolas[Lista_parabolas.Count - 1].parabola[2];
+                                pk_ini = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
+                                pk_fin = Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil[Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil.Count - 1].p.X;
+                                pk = pk_ini;
+                                for (int i = 0; pk < pk_fin; i++)
+                                {
+                                    y = (pk * pk) * x2 + pk * x1 + x;//x^2+x+c
+
+                                    miEje.AddVertexAt(index, new Point2d(pk + x_ins, y * escala + y_ins), 0, 0, 0);
+                                    pk = pk + 0.1;
+                                    index++;
+                                }
+                                y = (pk_fin * pk_fin) * x2 + pk_fin * x1 + x;//x^2+x+c
+
+                                miEje.AddVertexAt(index, new Point2d(pk_fin + x_ins, y * escala + y_ins), 0, 0, 0);
+                                index++;
+                            }
+
+                        }
+
+                        engCadNet.oLayer.addLayer("Trazado-"+apartado, 2, false);
+                        miEje.Layer = "Trazado-"+apartado;
+
+                        btr.AppendEntity(miEje);
+                        tr.AddNewlyCreatedDBObject(miEje, true);
+
+                        oCadManager.thisEditor.UpdateScreen();
+
+                        tr.Commit();
+                    }
+                }
+            }
+            else
+            {
+                using (DocumentLock myDockLock = oCadManager.thisEditor.Document.LockDocument())
+                {
+                    using (Transaction tr = oCadManager.StartTransaction())
+                    {
+                        BlockTable bt = (BlockTable)tr.GetObject(oCadManager.thisBase.BlockTableId, OpenMode.ForRead, false);
+                        BlockTableRecord btr = (BlockTableRecord)tr.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite, false);
+
+                        Polyline miEje = new Polyline();
+                        int index = 0;
+                        double p1_x = Lista_rectas[0].Puntos[0].X;
+                        double p1_y = Lista_rectas[0].Puntos[0].Y;
+                        miEje.AddVertexAt(index, new Point2d(p1_x + x_ins, p1_y * escala + y_ins), 0, 0, 0);
+                        index++;
+                        for (int t = 0; t < Lista_rectas.Count && t < Lista_curvas.Count; t++)
+                        {
+                            foreach (var componentPoint in Lista_curvas[t].getComponentPoints())
+                            {
+                                miEje.AddVertexAt(index, new Point2d(componentPoint[0] + x_ins, componentPoint[1] * escala + y_ins), 0, 0, 0);
+                                index++;
+                            }
+                        }
+
+                        if (Lista_rectas.Count > Lista_parabolas.Count)
+                        {
+                            double p2_x = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
+                            double p2_y = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].Y;
+                            miEje.AddVertexAt(index, new Point2d(p2_x + x_ins, p2_y * escala + y_ins), 0, 0, 0);
+                            index++;
+                        }
+                        else
+                        {
+                            if (Lista_rectas.Count < Lista_parabolas.Count)
+                            {
+                                double x2 = Lista_parabolas[Lista_parabolas.Count - 1].parabola[0];
+                                double x1 = Lista_parabolas[Lista_parabolas.Count - 1].parabola[1];
+                                double x = Lista_parabolas[Lista_parabolas.Count - 1].parabola[2];
+                                double pk_ini = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
+                                double pk_fin = Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil[Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil.Count - 1].p.X;
+                                double pk = pk_ini;
+                                double y;
+                                for (int i = 0; pk < pk_fin; i++)
+                                {
+                                    y = (pk * pk) * x2 + pk * x1 + x;//x^2+x+c
+
+                                    miEje.AddVertexAt(index, new Point2d(pk + x_ins, y * escala + y_ins), 0, 0, 0);
+                                    pk = pk + 0.1;
+                                    index++;
+                                }
+                                y = (pk_fin * pk_fin) * x2 + pk_fin * x1 + x;//x^2+x+c
+
+                                miEje.AddVertexAt(index, new Point2d(pk_fin + x_ins, y * escala + y_ins), 0, 0, 0);
+                                index++;
+                            }
+                            else
+                            {
+                                /*  double x2 = Lista_parabolas[Lista_parabolas.Count - 1].parabola[0];
+                                  double x1 = Lista_parabolas[Lista_parabolas.Count - 1].parabola[1];
+                                  double x = Lista_parabolas[Lista_parabolas.Count - 1].parabola[2];
+                                  double pk_ini = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
+                                  double pk_fin = Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil[Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil.Count - 1].p.X;
+                                  double pk = pk_ini;
+                                  double y;
+                                  for (int i = 0; pk < pk_fin; i++)
+                                  {
+                                      y = (pk * pk) * x2 + pk * x1 + x;//x^2+x+c
+
+                                      miEje.AddVertexAt(index, new Point2d(pk + x_ins, y * escala + y_ins), 0, 0, 0);
+                                      pk = pk + 0.1;
+                                      index++;
+                                  }
+                                  y = (pk_fin * pk_fin) * x2 + pk_fin * x1 + x;//x^2+x+c
+
+                                  miEje.AddVertexAt(index, new Point2d(pk_fin + x_ins, y * escala + y_ins), 0, 0, 0);
+                                  index++;*/
+                            }
+
+                        }
+
+                        engCadNet.oLayer.addLayer("Trazado-" + apartado, 2, false);
+                        miEje.Layer = "Trazado-" + apartado;
+
+                        btr.AppendEntity(miEje);
+                        tr.AddNewlyCreatedDBObject(miEje, true);
+
+                        oCadManager.thisEditor.UpdateScreen();
+
+                        tr.Commit();
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// Dibuja el trazado completo circular
+        /// </summary>
+        /// <param name="tipo">1 para empezar por pendiente y 2 para empezar por acuerdo</param>
+        public Polyline Dibujar_Trazado_Circular_Automatico(int tipo)
+        {
+            Polyline miEje = new Polyline();
+            if (tipo == 2)
+            {
+                miEje = new Polyline();
+                int index = 0;
+                double p2_x = 0;
+                double x2 = Lista_parabolas[0].parabola[0];
+                double x1 = Lista_parabolas[0].parabola[1];
+                double x = Lista_parabolas[0].parabola[2];
+                double pk_ini = 0;
+
+                double pk_fin = Lista_parabolas[0].polilinea_perfil[Lista_parabolas[0].polilinea_perfil.Count - 1].p.X;
+                pk_fin = Lista_rectas[0].Puntos[0].X;
+                double pk = pk_ini;
+                double y;
+                for (int i = 0; pk < pk_fin; i++)
+                {
+                    y = (pk * pk) * x2 + pk * x1 + x;//x^2+x+c
+
+                    miEje.AddVertexAt(index, new Point2d(pk + x_ins, y * escala + y_ins), 0, 0, 0);
+                    pk = pk + 1;
+                    index++;
+                }
+                y = (pk_fin * pk_fin) * x2 + pk_fin * x1 + x;//x^2+x+c
+
+                miEje.AddVertexAt(index, new Point2d(pk_fin + x_ins, y * escala + y_ins), 0, 0, 0);
+                index++;
+                for (int t = 1; t < Lista_rectas.Count && t < Lista_curvas.Count; t++)
+                {
+                    foreach (var componentPoint in Lista_curvas[t].getComponentPoints())
+                    {
+                        miEje.AddVertexAt(index, new Point2d(componentPoint[0] + x_ins, componentPoint[1] * escala + y_ins), 0, 0, 0);
+                        index++;
+                    }
+
+                }
+                if (Lista_rectas.Count == Lista_parabolas.Count)
+                {
+                    p2_x = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
+                    double p2_y = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].Y;
+                    miEje.AddVertexAt(index, new Point2d(p2_x + x_ins, p2_y * escala + y_ins), 0, 0, 0);
+                    index++;
+                }
+                else
+                {
+                    if (Lista_rectas.Count < Lista_parabolas.Count)
+                    {
+                        x2 = Lista_parabolas[Lista_parabolas.Count - 1].parabola[0];
+                        x1 = Lista_parabolas[Lista_parabolas.Count - 1].parabola[1];
+                        x = Lista_parabolas[Lista_parabolas.Count - 1].parabola[2];
+                        pk_ini = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
+                        pk_fin = Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil[Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil.Count - 1].p.X;
+                        pk = pk_ini;
+                        for (int i = 0; pk < pk_fin; i++)
+                        {
+                            y = (pk * pk) * x2 + pk * x1 + x;//x^2+x+c
+
+                            miEje.AddVertexAt(index, new Point2d(pk + x_ins, y * escala + y_ins), 0, 0, 0);
+                            pk = pk + 0.1;
+                            index++;
+                        }
+                        y = (pk_fin * pk_fin) * x2 + pk_fin * x1 + x;//x^2+x+c
+
+                        miEje.AddVertexAt(index, new Point2d(pk_fin + x_ins, y * escala + y_ins), 0, 0, 0);
+                        index++;
+                    }
+
+                }
+            }
+            else
+            {
+                miEje = new Polyline();
+                int index = 0;
+                double p1_x = Lista_rectas[0].Puntos[0].X;
+                double p1_y = Lista_rectas[0].Puntos[0].Y;
+                miEje.AddVertexAt(index, new Point2d(p1_x + x_ins, p1_y * escala + y_ins), 0, 0, 0);
+                index++;
+                for (int t = 0; t < Lista_rectas.Count && t < Lista_curvas.Count; t++)
+                {
+                    foreach (var componentPoint in Lista_curvas[t].getComponentPoints())
+                    {
+                        miEje.AddVertexAt(index, new Point2d(componentPoint[0] + x_ins, componentPoint[1] * escala + y_ins), 0, 0, 0);
+                        index++;
+                    }
+                }
+
+                if (Lista_rectas.Count > Lista_parabolas.Count)
+                {
+                    double p2_x = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
+                    double p2_y = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].Y;
+                    miEje.AddVertexAt(index, new Point2d(p2_x + x_ins, p2_y * escala + y_ins), 0, 0, 0);
+                    index++;
+                }
+                else
+                {
+                    if (Lista_rectas.Count < Lista_parabolas.Count)
+                    {
+                        double x2 = Lista_parabolas[Lista_parabolas.Count - 1].parabola[0];
+                        double x1 = Lista_parabolas[Lista_parabolas.Count - 1].parabola[1];
+                        double x = Lista_parabolas[Lista_parabolas.Count - 1].parabola[2];
+                        double pk_ini = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
+                        double pk_fin = Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil[Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil.Count - 1].p.X;
+                        double pk = pk_ini;
+                        double y;
+                        for (int i = 0; pk < pk_fin; i++)
+                        {
+                            y = (pk * pk) * x2 + pk * x1 + x;//x^2+x+c
+
+                            miEje.AddVertexAt(index, new Point2d(pk + x_ins, y * escala + y_ins), 0, 0, 0);
+                            pk = pk + 0.1;
+                            index++;
+                        }
+                        y = (pk_fin * pk_fin) * x2 + pk_fin * x1 + x;//x^2+x+c
+
+                        miEje.AddVertexAt(index, new Point2d(pk_fin + x_ins, y * escala + y_ins), 0, 0, 0);
+                        index++;
+                    }
+                    else
+                    {
+                        /*  double x2 = Lista_parabolas[Lista_parabolas.Count - 1].parabola[0];
+                          double x1 = Lista_parabolas[Lista_parabolas.Count - 1].parabola[1];
+                          double x = Lista_parabolas[Lista_parabolas.Count - 1].parabola[2];
+                          double pk_ini = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
+                          double pk_fin = Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil[Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil.Count - 1].p.X;
+                          double pk = pk_ini;
+                          double y;
+                          for (int i = 0; pk < pk_fin; i++)
+                          {
+                              y = (pk * pk) * x2 + pk * x1 + x;//x^2+x+c
+
+                              miEje.AddVertexAt(index, new Point2d(pk + x_ins, y * escala + y_ins), 0, 0, 0);
+                              pk = pk + 0.1;
+                              index++;
+                          }
+                          y = (pk_fin * pk_fin) * x2 + pk_fin * x1 + x;//x^2+x+c
+
+                          miEje.AddVertexAt(index, new Point2d(pk_fin + x_ins, y * escala + y_ins), 0, 0, 0);
+                          index++;*/
+                    }
+
+                }
+            }
+            return miEje;
         }
         /// <summary>
         /// Dibuja el trazado completo
@@ -5505,6 +6344,193 @@ namespace Logica
                 }   
             }
         }
+        public void Rotular_Circular(double rotu,int apartado)
+        {
+            Rotular rotular = new Rotular(rotu);
+            double min = Buscar_minimo();
+            double maximo = Buscar_maximo();
+            engCadNet.oLayer.addLayer("Rotulacion-Cota-"+apartado, 1, false);
+            rotular.Guitarra(min, maximo, polilinea_perfil[polilinea_perfil.Count - 1].p.X, escala, x_ins, y_ins,apartado);
+            double a_x0, a_y0, b_x1, b_y1, p1, p2;
+            a_x0 = Lista_rectas[0].Puntos[0].X;
+            a_y0 = Lista_rectas[0].Puntos[0].Y;
+            b_x1 = Lista_rectas[0].Puntos[1].X;
+            b_y1 = Lista_rectas[0].Puntos[1].Y;
+
+            p1 = (a_y0 - b_y1) / (a_x0 - b_x1);
+            if (Lista_rectas[0].Puntos[0].X < Lista_Parabolas[0].polilinea_perfil[0].p.X)
+            {
+                rotular.Dibujar_Ini_Fin_Pendiente(Lista_rectas[0], 1, escala, p1, x_ins, y_ins,apartado);
+                for (int i = 0; i < Lista_curvas.Count && i < Lista_rectas.Count - 1; i++)
+                {
+                    a_x0 = Lista_rectas[i].Puntos[0].X;
+                    a_y0 = Lista_rectas[i].Puntos[0].Y;
+                    b_x1 = Lista_rectas[i].Puntos[1].X;
+                    b_y1 = Lista_rectas[i].Puntos[1].Y;
+
+                    p1 = (a_y0 - b_y1) / (a_x0 - b_x1);
+
+                    a_x0 = Lista_rectas[i + 1].Puntos[0].X;
+                    a_y0 = Lista_rectas[i + 1].Puntos[0].Y;
+                    b_x1 = Lista_rectas[i + 1].Puntos[1].X;
+                    b_y1 = Lista_rectas[i + 1].Puntos[1].Y;
+
+                    p2 = (a_y0 - b_y1) / (a_x0 - b_x1);
+                    rotular.Dibujar_Singulares_Perfil_Circular(Lista_curvas[i], Lista_rectas[i].Puntos[1], Lista_rectas[i + 1].Puntos[0], escala, p1, p2, 1, x_ins, y_ins,apartado);
+                }
+                if (Lista_curvas.Count == Lista_rectas.Count)
+                {
+                    a_x0 = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].X;
+                    a_y0 = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].Y;
+                    b_x1 = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
+                    b_y1 = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].Y;
+
+                    p1 = (a_y0 - b_y1) / (a_x0 - b_x1);
+                    rotular.Dibujar_Singulares_Perfil_Circular(Lista_curvas[Lista_curvas.Count - 1], Lista_rectas[Lista_rectas.Count - 1].Puntos[1], polilinea_perfil[polilinea_perfil.Count - 1].p, escala, p1, 0, 3, x_ins, y_ins,apartado);
+                }
+
+            }
+            else
+            {
+                rotular.Dibujar_Ini_Fin_Acuerdo_Circular(Lista_curvas[0], 1, escala, polilinea_perfil[polilinea_perfil.Count - 1].p.X, x_ins, y_ins,apartado);
+                for (int i = 0; i < Lista_curvas.Count && i < Lista_rectas.Count - 1; i++)
+                {
+                    if (i == 0)
+                    {
+                        a_x0 = Lista_rectas[i].Puntos[0].X;
+                        a_y0 = Lista_rectas[i].Puntos[0].Y;
+                        b_x1 = Lista_rectas[i].Puntos[1].X;
+                        b_y1 = Lista_rectas[i].Puntos[1].Y;
+
+                        p1 = (a_y0 - b_y1) / (a_x0 - b_x1);
+                        rotular.Dibujar_Singulares_Perfil_Circular(Lista_curvas[i], Lista_rectas[i].Puntos[0], Lista_rectas[i].Puntos[0], escala, p1, 0, 2, x_ins, y_ins, apartado);
+
+                        a_x0 = Lista_rectas[i].Puntos[0].X;
+                        a_y0 = Lista_rectas[i].Puntos[0].Y;
+                        b_x1 = Lista_rectas[i].Puntos[1].X;
+                        b_y1 = Lista_rectas[i].Puntos[1].Y;
+
+                        p1 = (a_y0 - b_y1) / (a_x0 - b_x1);
+
+                        a_x0 = Lista_rectas[i + 1].Puntos[0].X;
+                        a_y0 = Lista_rectas[i + 1].Puntos[0].Y;
+                        b_x1 = Lista_rectas[i + 1].Puntos[1].X;
+                        b_y1 = Lista_rectas[i + 1].Puntos[1].Y;
+
+                        p2 = (a_y0 - b_y1) / (a_x0 - b_x1);
+
+                        rotular.Dibujar_Singulares_Perfil_Circular(Lista_curvas[i + 1], Lista_rectas[i].Puntos[1], Lista_rectas[i + 1].Puntos[0], escala, p1, p2, 1, x_ins, y_ins, apartado);
+
+                    }
+                    else
+                    {
+                        a_x0 = Lista_rectas[i].Puntos[0].X;
+                        a_y0 = Lista_rectas[i].Puntos[0].Y;
+                        b_x1 = Lista_rectas[i].Puntos[1].X;
+                        b_y1 = Lista_rectas[i].Puntos[1].Y;
+
+                        p1 = (a_y0 - b_y1) / (a_x0 - b_x1);
+
+                        a_x0 = Lista_rectas[i + 1].Puntos[0].X;
+                        a_y0 = Lista_rectas[i + 1].Puntos[0].Y;
+                        b_x1 = Lista_rectas[i + 1].Puntos[1].X;
+                        b_y1 = Lista_rectas[i + 1].Puntos[1].Y;
+
+                        p2 = (a_y0 - b_y1) / (a_x0 - b_x1);
+                        rotular.Dibujar_Singulares_Perfil_Circular(Lista_curvas[i + 1], Lista_rectas[i].Puntos[1], Lista_rectas[i + 1].Puntos[0], escala, p1, p2, 1, x_ins, y_ins, apartado);
+                    }
+
+                }
+
+            }
+
+            if (Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X > Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil[Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil.Count - 1].p.X)
+            {
+                a_x0 = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].X;
+                a_y0 = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].Y;
+                b_x1 = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
+                b_y1 = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].Y;
+
+                p1 = (a_y0 - b_y1) / (a_x0 - b_x1);
+                rotular.Dibujar_Ini_Fin_Pendiente(Lista_rectas[Lista_rectas.Count - 1], 2, escala, p1, x_ins, y_ins, apartado);
+            }
+            else
+            {
+                rotular.Dibujar_Ini_Fin_Acuerdo_Circular(Lista_curvas[Lista_curvas.Count - 1], 2, escala, polilinea_perfil[polilinea_perfil.Count - 1].p.X, x_ins, y_ins, apartado);
+            }
+
+            engCadNet.oLayer.addLayer("Rotulacion-pk-" + apartado, 1, false);
+            min = Buscar_minimo();
+            if (Lista_rectas[0].Puntos[0].X < Lista_parabolas[0].polilinea_perfil[0].p.X)
+            {
+                int pk = 0;
+                double pk_fin;
+                for (int i = 0; i < Lista_rectas.Count - 1 && i < Lista_curvas.Count; i++)
+                {
+                    pk = rotular.Dibujar_PK_Pendiente(Lista_rectas[i], pk, escala, min, x_ins, y_ins, apartado);
+                    pk_fin = Lista_rectas[i + 1].Puntos[0].X;
+                    //pk = rotular.Dibujar_PK_Acuerdo(Lista_parabolas[i], pk, escala, pk_fin, min, x_ins, y_ins);
+                    pk = rotular.Dibujar_PK_Acuerdo_Circular(Lista_curvas[i], pk, escala, pk_fin, min, x_ins, y_ins, apartado);
+                }
+                if (Lista_rectas.Count > Lista_curvas.Count)
+                {
+                    pk = rotular.Dibujar_PK_Pendiente(Lista_rectas[Lista_rectas.Count - 1], pk, escala, min, x_ins, y_ins, apartado);
+                    rotular.Dibujar_PK_Pendiente_Final(Lista_rectas[Lista_rectas.Count - 1], pk, escala, min, x_ins, y_ins, apartado);
+                }
+                else
+                {
+                    pk = rotular.Dibujar_PK_Pendiente(Lista_rectas[Lista_rectas.Count - 1], pk, escala, min, x_ins, y_ins, apartado);
+                    pk_fin = Lista_curvas[Lista_curvas.Count - 1].getPkFinal();
+                    pk = rotular.Dibujar_PK_Acuerdo_Circular(Lista_curvas[Lista_curvas.Count - 1], pk, escala, polilinea_perfil[polilinea_perfil.Count - 1].p.X, min, x_ins, y_ins, apartado);
+                    rotular.Dibujar_PK_Acuerdo_Final_Circular(Lista_curvas[Lista_curvas.Count - 1], polilinea_perfil[polilinea_perfil.Count - 1].p.X, escala, min, x_ins, y_ins, apartado);
+                }
+            }
+            else
+            {
+                int pk = 0;
+                double pk_fin;
+                for (int i = 0; i < Lista_rectas.Count && i < Lista_parabolas.Count; i++)
+                {
+                    pk_fin = Lista_rectas[i].Puntos[0].X;
+                    pk = rotular.Dibujar_PK_Acuerdo_Circular(Lista_curvas[i], pk, escala, pk_fin, min, x_ins, y_ins, apartado);
+                    pk = rotular.Dibujar_PK_Pendiente(Lista_rectas[i], pk, escala, min, x_ins, y_ins, apartado);
+                }
+                if (Lista_rectas.Count < Lista_parabolas.Count)
+                {
+                    pk = rotular.Dibujar_PK_Acuerdo_Circular(Lista_curvas[Lista_curvas.Count - 1], pk, escala, polilinea_perfil[polilinea_perfil.Count - 1].p.X, min, x_ins, y_ins, apartado);
+                    rotular.Dibujar_PK_Acuerdo_Final_Circular(Lista_curvas[Lista_curvas.Count - 1], polilinea_perfil[polilinea_perfil.Count - 1].p.X, escala, min, x_ins, y_ins, apartado);
+                }
+                else
+                {
+                    rotular.Dibujar_PK_Pendiente_Final(Lista_rectas[Lista_rectas.Count - 1], pk, escala, min, x_ins, y_ins, apartado);
+                }
+            }
+
+
+            //Cota máxima y cota mínima
+            for (int i = 0; i < Lista_curvas.Count; i++)
+            {
+                double a = Lista_parabolas[i].parabola[0];
+                double b = Lista_parabolas[i].parabola[1];
+                double c = Lista_parabolas[i].parabola[2];
+
+                double x = -b / (2 * a);
+                double y = (x * x) * a + b * x + c;
+                min = Buscar_minimo();
+                List<double[]> l = Lista_curvas[i].getComponentPoints();
+                for (int t = 1; t < l.Count - 1; t++)
+                {
+                    if (l[t - 1][1] < l[t][1] && l[t][1] > l[t + 1][1])
+                    {
+                        rotular.Cota_Circular(l[t][0], min, Lista_curvas[i], escala, x_ins, y_ins, apartado);
+                    }
+                    if (l[t - 1][1] > l[t][1] && l[t][1] < l[t + 1][1])
+                    {
+                        rotular.Cota_Circular(l[t][0], min, Lista_curvas[i], escala, x_ins, y_ins, apartado);
+                    }
+                }
+            }
+        }
         public void Rotular(double rotu)
         {
             Rotular rotular = new Rotular(rotu);
@@ -5686,6 +6712,190 @@ namespace Logica
                         }
                     }
                     
+                }
+            }
+        }
+        public void Rotular(double rotu,int conta_apartado)
+        {
+            Rotular rotular = new Rotular(rotu);
+            double min = Buscar_minimo();
+            double maximo = Buscar_maximo();
+            engCadNet.oLayer.addLayer("Rotulacion-Cota-"+conta_apartado, 1, false);
+            rotular.Guitarra(min, maximo, polilinea_perfil[polilinea_perfil.Count - 1].p.X, escala, x_ins, y_ins,conta_apartado);
+            double a_x0, a_y0, b_x1, b_y1, p1, p2;
+            a_x0 = Lista_rectas[0].Puntos[0].X;
+            a_y0 = Lista_rectas[0].Puntos[0].Y;
+            b_x1 = Lista_rectas[0].Puntos[1].X;
+            b_y1 = Lista_rectas[0].Puntos[1].Y;
+
+            p1 = (a_y0 - b_y1) / (a_x0 - b_x1);
+            if (Lista_rectas[0].Puntos[0].X < Lista_Parabolas[0].polilinea_perfil[0].p.X)
+            {
+                rotular.Dibujar_Ini_Fin_Pendiente(Lista_rectas[0], 1, escala, p1, x_ins, y_ins, conta_apartado);
+                for (int i = 0; i < Lista_parabolas.Count && i < Lista_rectas.Count - 1; i++)
+                {
+                    a_x0 = Lista_rectas[i].Puntos[0].X;
+                    a_y0 = Lista_rectas[i].Puntos[0].Y;
+                    b_x1 = Lista_rectas[i].Puntos[1].X;
+                    b_y1 = Lista_rectas[i].Puntos[1].Y;
+
+                    p1 = (a_y0 - b_y1) / (a_x0 - b_x1);
+
+                    a_x0 = Lista_rectas[i + 1].Puntos[0].X;
+                    a_y0 = Lista_rectas[i + 1].Puntos[0].Y;
+                    b_x1 = Lista_rectas[i + 1].Puntos[1].X;
+                    b_y1 = Lista_rectas[i + 1].Puntos[1].Y;
+
+                    p2 = (a_y0 - b_y1) / (a_x0 - b_x1);
+                    rotular.Dibujar_Singulares_Perfil(Lista_parabolas[i], Lista_rectas[i].Puntos[1], Lista_rectas[i + 1].Puntos[0], escala, p1, p2, 1, x_ins, y_ins, conta_apartado);
+                }
+                if (Lista_parabolas.Count == Lista_rectas.Count)
+                {
+                    a_x0 = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].X;
+                    a_y0 = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].Y;
+                    b_x1 = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
+                    b_y1 = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].Y;
+
+                    p1 = (a_y0 - b_y1) / (a_x0 - b_x1);
+                    rotular.Dibujar_Singulares_Perfil(Lista_parabolas[Lista_parabolas.Count - 1], Lista_rectas[Lista_rectas.Count - 1].Puntos[1], polilinea_perfil[polilinea_perfil.Count - 1].p, escala, p1, 0, 3, x_ins, y_ins, conta_apartado);
+                }
+
+            }
+            else
+            {
+                rotular.Dibujar_Ini_Fin_Acuerdo(Lista_Parabolas[0], 1, escala, polilinea_perfil[polilinea_perfil.Count - 1].p.X, x_ins, y_ins, conta_apartado);
+                for (int i = 0; i < Lista_parabolas.Count && i < Lista_rectas.Count - 1; i++)
+                {
+                    if (i == 0)
+                    {
+                        a_x0 = Lista_rectas[i].Puntos[0].X;
+                        a_y0 = Lista_rectas[i].Puntos[0].Y;
+                        b_x1 = Lista_rectas[i].Puntos[1].X;
+                        b_y1 = Lista_rectas[i].Puntos[1].Y;
+
+                        p1 = (a_y0 - b_y1) / (a_x0 - b_x1);
+                        rotular.Dibujar_Singulares_Perfil(Lista_parabolas[i], Lista_rectas[i].Puntos[0], Lista_rectas[i].Puntos[0], escala, p1, 0, 2, x_ins, y_ins, conta_apartado);
+
+                        a_x0 = Lista_rectas[i].Puntos[0].X;
+                        a_y0 = Lista_rectas[i].Puntos[0].Y;
+                        b_x1 = Lista_rectas[i].Puntos[1].X;
+                        b_y1 = Lista_rectas[i].Puntos[1].Y;
+
+                        p1 = (a_y0 - b_y1) / (a_x0 - b_x1);
+
+                        a_x0 = Lista_rectas[i + 1].Puntos[0].X;
+                        a_y0 = Lista_rectas[i + 1].Puntos[0].Y;
+                        b_x1 = Lista_rectas[i + 1].Puntos[1].X;
+                        b_y1 = Lista_rectas[i + 1].Puntos[1].Y;
+
+                        p2 = (a_y0 - b_y1) / (a_x0 - b_x1);
+
+                        rotular.Dibujar_Singulares_Perfil(Lista_parabolas[i + 1], Lista_rectas[i].Puntos[1], Lista_rectas[i + 1].Puntos[0], escala, p1, p2, 1, x_ins, y_ins, conta_apartado);
+
+                    }
+                    else
+                    {
+                        a_x0 = Lista_rectas[i].Puntos[0].X;
+                        a_y0 = Lista_rectas[i].Puntos[0].Y;
+                        b_x1 = Lista_rectas[i].Puntos[1].X;
+                        b_y1 = Lista_rectas[i].Puntos[1].Y;
+
+                        p1 = (a_y0 - b_y1) / (a_x0 - b_x1);
+
+                        a_x0 = Lista_rectas[i + 1].Puntos[0].X;
+                        a_y0 = Lista_rectas[i + 1].Puntos[0].Y;
+                        b_x1 = Lista_rectas[i + 1].Puntos[1].X;
+                        b_y1 = Lista_rectas[i + 1].Puntos[1].Y;
+
+                        p2 = (a_y0 - b_y1) / (a_x0 - b_x1);
+                        rotular.Dibujar_Singulares_Perfil(Lista_parabolas[i + 1], Lista_rectas[i].Puntos[1], Lista_rectas[i + 1].Puntos[0], escala, p1, p2, 1, x_ins, y_ins, conta_apartado);
+                    }
+
+                }
+
+            }
+
+            if (Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X > Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil[Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil.Count - 1].p.X)
+            {
+                a_x0 = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].X;
+                a_y0 = Lista_rectas[Lista_rectas.Count - 1].Puntos[0].Y;
+                b_x1 = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].X;
+                b_y1 = Lista_rectas[Lista_rectas.Count - 1].Puntos[1].Y;
+
+                p1 = (a_y0 - b_y1) / (a_x0 - b_x1);
+                rotular.Dibujar_Ini_Fin_Pendiente(Lista_rectas[Lista_rectas.Count - 1], 2, escala, p1, x_ins, y_ins, conta_apartado);
+            }
+            else
+            {
+                rotular.Dibujar_Ini_Fin_Acuerdo(Lista_Parabolas[Lista_Parabolas.Count - 1], 2, escala, polilinea_perfil[polilinea_perfil.Count - 1].p.X, x_ins, y_ins, conta_apartado);
+            }
+
+            engCadNet.oLayer.addLayer("Rotulacion-pk-"+conta_apartado, 1, false);
+            min = Buscar_minimo();
+            if (Lista_rectas[0].Puntos[0].X < Lista_parabolas[0].polilinea_perfil[0].p.X)
+            {
+                int pk = 0;
+                double pk_fin;
+                for (int i = 0; i < Lista_rectas.Count - 1 && i < Lista_parabolas.Count; i++)
+                {
+                    pk = rotular.Dibujar_PK_Pendiente(Lista_rectas[i], pk, escala, min, x_ins, y_ins, conta_apartado);
+                    pk_fin = Lista_rectas[i + 1].Puntos[0].X;
+                    pk = rotular.Dibujar_PK_Acuerdo(Lista_parabolas[i], pk, escala, pk_fin, min, x_ins, y_ins, conta_apartado);
+                }
+                if (Lista_rectas.Count > Lista_parabolas.Count)
+                {
+                    pk = rotular.Dibujar_PK_Pendiente(Lista_rectas[Lista_rectas.Count - 1], pk, escala, min, x_ins, y_ins, conta_apartado);
+                    rotular.Dibujar_PK_Pendiente_Final(Lista_rectas[Lista_rectas.Count - 1], pk, escala, min, x_ins, y_ins, conta_apartado);
+                }
+                else
+                {
+                    pk = rotular.Dibujar_PK_Acuerdo(Lista_parabolas[Lista_parabolas.Count - 1], pk, escala, polilinea_perfil[polilinea_perfil.Count - 1].p.X, min, x_ins, y_ins, conta_apartado);
+                    rotular.Dibujar_PK_Acuerdo_Final(Lista_parabolas[Lista_parabolas.Count - 1], polilinea_perfil[polilinea_perfil.Count - 1].p.X, escala, min, x_ins, y_ins, conta_apartado);
+                }
+            }
+            else
+            {
+                int pk = 0;
+                double pk_fin;
+                for (int i = 0; i < Lista_rectas.Count && i < Lista_parabolas.Count; i++)
+                {
+                    pk_fin = Lista_rectas[i].Puntos[0].X;
+                    pk = rotular.Dibujar_PK_Acuerdo(Lista_parabolas[i], pk, escala, pk_fin, min, x_ins, y_ins, conta_apartado);
+                    pk = rotular.Dibujar_PK_Pendiente(Lista_rectas[i], pk, escala, min, x_ins, y_ins, conta_apartado);
+                }
+                if (Lista_rectas.Count < Lista_parabolas.Count)
+                {
+                    pk = rotular.Dibujar_PK_Acuerdo(Lista_parabolas[Lista_parabolas.Count - 1], pk, escala, polilinea_perfil[polilinea_perfil.Count - 1].p.X, min, x_ins, y_ins, conta_apartado);
+                    rotular.Dibujar_PK_Acuerdo_Final(Lista_parabolas[Lista_parabolas.Count - 1], polilinea_perfil[polilinea_perfil.Count - 1].p.X, escala, min, x_ins, y_ins, conta_apartado);
+                }
+                else
+                {
+                    rotular.Dibujar_PK_Pendiente_Final(Lista_rectas[Lista_rectas.Count - 1], pk, escala, min, x_ins, y_ins, conta_apartado);
+                }
+            }
+
+
+            //Cota máxima y cota mínima
+            for (int i = 0; i < Lista_parabolas.Count; i++)
+            {
+                double a = Lista_parabolas[i].parabola[0];
+                double b = Lista_parabolas[i].parabola[1];
+                double c = Lista_parabolas[i].parabola[2];
+
+                double x = -b / (2 * a);
+                double y = (x * x) * a + b * x + c;
+                min = Buscar_minimo();
+
+                if (Lista_parabolas[i].polilinea_perfil[0].p.X < x && x < Lista_parabolas[i].polilinea_perfil[Lista_parabolas[i].polilinea_perfil.Count - 1].p.X)
+                {
+                    for (int t = 0; t < Lista_rectas.Count - 1; t++)
+                    {
+                        if (Lista_rectas[t].Puntos[1].X < x && x < Lista_rectas[t + 1].Puntos[0].X)
+                        {
+                            rotular.Cota(x, min, Lista_parabolas[i], escala, x_ins, y_ins,conta_apartado);
+                        }
+                    }
+
                 }
             }
         }
@@ -6593,7 +7803,7 @@ namespace Logica
                         Lista_curvas.Add(Curva_Gran_Radio(Lista_rectas[i], radio, Lista_rectas[i + 1]));
                         Lista_rectas[i].Puntos[1] = new Point2d(Lista_curvas[Lista_curvas.Count - 1].getPuntoEntrada.coordenadaX, Lista_curvas[Lista_curvas.Count - 1].getPuntoEntrada.coordenadaY);
                         Lista_rectas[i+1].Puntos[0] = new Point2d(Lista_curvas[Lista_curvas.Count - 1].getPuntoSalida.coordenadaX, Lista_curvas[Lista_curvas.Count - 1].getPuntoSalida.coordenadaY);
-                        Dibujar_Curva(Lista_curvas[Lista_curvas.Count-1],0);
+                        //Dibujar_Curva(Lista_curvas[Lista_curvas.Count-1],0);
                     }
                     Curva = Clusterizacion(Lista_parabolas[Lista_parabolas.Count-1].polilinea_perfil);
                     radio = Curva.Item3;
@@ -6687,7 +7897,7 @@ namespace Logica
                     }
                     Lista_curvas.Add(Curva_Gran_Radio(Lista_rectas[Lista_rectas.Count-1], radio, p));
                     Lista_rectas[Lista_rectas.Count - 1].Puntos[1] = new Point2d(Lista_curvas[Lista_curvas.Count - 1].getPuntoEntrada.coordenadaX, Lista_curvas[Lista_curvas.Count - 1].getPuntoEntrada.coordenadaY);
-                    Dibujar_Curva(Lista_curvas[Lista_curvas.Count - 1], 0);
+                    //Dibujar_Curva(Lista_curvas[Lista_curvas.Count - 1], 0);
                 }
                 //termina en pendiente
                 else
@@ -6710,7 +7920,7 @@ namespace Logica
                         Lista_curvas.Add(Curva_Gran_Radio(Lista_rectas[i], radio, Lista_rectas[i + 1]));
                         Lista_rectas[i].Puntos[1] = new Point2d(Lista_curvas[Lista_curvas.Count - 1].getPuntoEntrada.coordenadaX, Lista_curvas[Lista_curvas.Count - 1].getPuntoEntrada.coordenadaY);
                         Lista_rectas[i + 1].Puntos[0] = new Point2d(Lista_curvas[Lista_curvas.Count - 1].getPuntoSalida.coordenadaX, Lista_curvas[Lista_curvas.Count - 1].getPuntoSalida.coordenadaY);
-                        Dibujar_Curva(Lista_curvas[Lista_curvas.Count - 1], 0);
+                        //Dibujar_Curva(Lista_curvas[Lista_curvas.Count - 1], 0);
                     }
                 }
             }
@@ -6810,7 +8020,7 @@ namespace Logica
                 }
                 Lista_curvas.Add(Curva_Gran_Radio(p, radio, Lista_rectas[0]));
                 Lista_rectas[0].Puntos[0] = new Point2d(Lista_curvas[Lista_curvas.Count - 1].getPuntoSalida.coordenadaX, Lista_curvas[Lista_curvas.Count - 1].getPuntoSalida.coordenadaY);
-                Dibujar_Curva(Lista_curvas[Lista_curvas.Count - 1], 0);
+                //Dibujar_Curva(Lista_curvas[Lista_curvas.Count - 1], 0);
                 //termina en parabola
                 if (Lista_rectas[Lista_rectas.Count - 1].Puntos[Lista_rectas[Lista_rectas.Count - 1].Puntos.Count - 1].X <
                     Lista_Parabolas[Lista_Parabolas.Count - 1].polilinea_perfil[Lista_Parabolas[Lista_Parabolas.Count - 1].polilinea_perfil.Count - 1].p.X)
@@ -6833,7 +8043,7 @@ namespace Logica
                         Lista_curvas.Add(Curva_Gran_Radio(Lista_rectas[i-1], radio, Lista_rectas[i]));
                         Lista_rectas[i-1].Puntos[1] = new Point2d(Lista_curvas[Lista_curvas.Count - 1].getPuntoEntrada.coordenadaX, Lista_curvas[Lista_curvas.Count - 1].getPuntoEntrada.coordenadaY);
                         Lista_rectas[i].Puntos[0] = new Point2d(Lista_curvas[Lista_curvas.Count - 1].getPuntoSalida.coordenadaX, Lista_curvas[Lista_curvas.Count - 1].getPuntoSalida.coordenadaY);
-                        Dibujar_Curva(Lista_curvas[Lista_curvas.Count - 1], 0);
+                        //Dibujar_Curva(Lista_curvas[Lista_curvas.Count - 1], 0);
                     }
                     Curva = Clusterizacion(Lista_parabolas[Lista_parabolas.Count - 1].polilinea_perfil);
                     radio = Curva.Item3;
@@ -6930,7 +8140,7 @@ namespace Logica
                     }
                     Lista_curvas.Add(Curva_Gran_Radio(Lista_rectas[Lista_rectas.Count - 1], radio, p));
                     Lista_rectas[Lista_rectas.Count - 1].Puntos[1] = new Point2d(Lista_curvas[Lista_curvas.Count - 1].getPuntoEntrada.coordenadaX, Lista_curvas[Lista_curvas.Count - 1].getPuntoEntrada.coordenadaY);
-                    Dibujar_Curva(Lista_curvas[Lista_curvas.Count - 1], 0);
+                    //Dibujar_Curva(Lista_curvas[Lista_curvas.Count - 1], 0);
                 }
                 //termina en pendiente
                 else
@@ -6953,7 +8163,7 @@ namespace Logica
                         Lista_curvas.Add(Curva_Gran_Radio(Lista_rectas[i - 1], Curva.Item3, Lista_rectas[i]));
                         Lista_rectas[i - 1].Puntos[1] = new Point2d(Lista_curvas[Lista_curvas.Count - 1].getPuntoEntrada.coordenadaX, Lista_curvas[Lista_curvas.Count - 1].getPuntoEntrada.coordenadaY);
                         Lista_rectas[i].Puntos[0] = new Point2d(Lista_curvas[Lista_curvas.Count - 1].getPuntoSalida.coordenadaX, Lista_curvas[Lista_curvas.Count - 1].getPuntoSalida.coordenadaY);
-                        Dibujar_Curva(Lista_curvas[Lista_curvas.Count - 1], 0);
+                        //Dibujar_Curva(Lista_curvas[Lista_curvas.Count - 1], 0);
                     }
                 }
             }
@@ -6962,6 +8172,90 @@ namespace Logica
                 Tuple<double, double, double> Curva = Clusterizacion(Lista_parabolas[i].polilinea_perfil);
                 Lista_curvas.Add(Curva_Gran_Radio(Lista_rectas[i], Curva.Item3, Lista_rectas[i+1]));
             }*/
+        }
+        public void Acerdo_Curva_modificada()
+        {
+            for (int i = 0; i < Lista_rectas.Count; i++)
+            {
+                Rellenar_Recta(Lista_rectas[i]);
+            }
+            //pendiente - parabola
+            if (Lista_rectas[0].Puntos[0].X < Lista_Parabolas[0].polilinea_perfil[0].p.X)
+            {
+                //termina en parabola
+                if (Lista_rectas[Lista_rectas.Count - 1].Puntos[Lista_rectas[Lista_rectas.Count - 1].Puntos.Count - 1].X <
+                    Lista_Parabolas[Lista_Parabolas.Count - 1].polilinea_perfil[Lista_Parabolas[Lista_Parabolas.Count - 1].polilinea_perfil.Count - 1].p.X)
+                {
+                    Tuple<double, double, double> Curva;
+                    double radio;
+                    for (int i = 0; i < Lista_parabolas.Count - 1; i++)
+                    {
+                        Lista_curvas.Add(Curva_Gran_Radio(Lista_rectas[i], list_acuerdos_curvos[i], Lista_rectas[i + 1]));
+                        Lista_rectas[i].Puntos[1] = new Point2d(Lista_curvas[Lista_curvas.Count - 1].getPuntoEntrada.coordenadaX, Lista_curvas[Lista_curvas.Count - 1].getPuntoEntrada.coordenadaY);
+                        Lista_rectas[i + 1].Puntos[0] = new Point2d(Lista_curvas[Lista_curvas.Count - 1].getPuntoSalida.coordenadaX, Lista_curvas[Lista_curvas.Count - 1].getPuntoSalida.coordenadaY);
+                        //Dibujar_Curva(Lista_curvas[Lista_curvas.Count-1],0);
+                    }
+
+                    Pendiente p = new Pendiente();
+                    p.Puntos.Add(new Point2d(polilinea_inicial[polilinea_inicial.Count - 2].p.X, polilinea_inicial[polilinea_inicial.Count - 2].p.Y));
+                    p.Puntos.Add(new Point2d(polilinea_inicial[polilinea_inicial.Count - 1].p.X, polilinea_inicial[polilinea_inicial.Count - 1].p.Y));
+                    Rellenar_Recta(p);
+                    Lista_curvas.Add(Curva_Gran_Radio(Lista_rectas[Lista_rectas.Count - 1], list_acuerdos_curvos[list_acuerdos_curvos.Count-1], p));
+                    Lista_rectas[Lista_rectas.Count - 1].Puntos[1] = new Point2d(Lista_curvas[Lista_curvas.Count - 1].getPuntoEntrada.coordenadaX, Lista_curvas[Lista_curvas.Count - 1].getPuntoEntrada.coordenadaY);
+                    //Dibujar_Curva(Lista_curvas[Lista_curvas.Count - 1], 0);
+                }
+                //termina en pendiente
+                else
+                {
+                    for (int i = 0; i < Lista_parabolas.Count; i++)
+                    {
+                        Lista_curvas.Add(Curva_Gran_Radio(Lista_rectas[i], list_acuerdos_curvos[i], Lista_rectas[i + 1]));
+                        Lista_rectas[i].Puntos[1] = new Point2d(Lista_curvas[Lista_curvas.Count - 1].getPuntoEntrada.coordenadaX, Lista_curvas[Lista_curvas.Count - 1].getPuntoEntrada.coordenadaY);
+                        Lista_rectas[i + 1].Puntos[0] = new Point2d(Lista_curvas[Lista_curvas.Count - 1].getPuntoSalida.coordenadaX, Lista_curvas[Lista_curvas.Count - 1].getPuntoSalida.coordenadaY);
+                        //Dibujar_Curva(Lista_curvas[Lista_curvas.Count - 1], 0);
+                    }
+                }
+            }
+            //parabola - pendiente
+            else
+            {
+                Pendiente p = new Pendiente();
+                p.Puntos.Add(new Point2d(polilinea_inicial[0].p.X, polilinea_inicial[0].p.Y));
+                p.Puntos.Add(new Point2d(polilinea_inicial[1].p.X, polilinea_inicial[1].p.Y));
+                Rellenar_Recta(p);
+                Lista_curvas.Add(Curva_Gran_Radio(p, list_acuerdos_curvos[0], Lista_rectas[0]));
+                Lista_rectas[0].Puntos[0] = new Point2d(Lista_curvas[Lista_curvas.Count - 1].getPuntoSalida.coordenadaX, Lista_curvas[Lista_curvas.Count - 1].getPuntoSalida.coordenadaY);
+                //Dibujar_Curva(Lista_curvas[Lista_curvas.Count - 1], 0);
+                //termina en parabola
+                if (Lista_rectas[Lista_rectas.Count - 1].Puntos[Lista_rectas[Lista_rectas.Count - 1].Puntos.Count - 1].X <
+                    Lista_Parabolas[Lista_Parabolas.Count - 1].polilinea_perfil[Lista_Parabolas[Lista_Parabolas.Count - 1].polilinea_perfil.Count - 1].p.X)
+                {
+                    for (int i = 1; i < Lista_parabolas.Count - 1; i++)
+                    {
+                        Lista_curvas.Add(Curva_Gran_Radio(Lista_rectas[i - 1], list_acuerdos_curvos[i], Lista_rectas[i]));
+                        Lista_rectas[i - 1].Puntos[1] = new Point2d(Lista_curvas[Lista_curvas.Count - 1].getPuntoEntrada.coordenadaX, Lista_curvas[Lista_curvas.Count - 1].getPuntoEntrada.coordenadaY);
+                        Lista_rectas[i].Puntos[0] = new Point2d(Lista_curvas[Lista_curvas.Count - 1].getPuntoSalida.coordenadaX, Lista_curvas[Lista_curvas.Count - 1].getPuntoSalida.coordenadaY);
+                        //Dibujar_Curva(Lista_curvas[Lista_curvas.Count - 1], 0);
+                    }
+                    p = new Pendiente();
+                    p.Puntos.Add(new Point2d(polilinea_inicial[polilinea_inicial.Count - 2].p.X, polilinea_inicial[polilinea_inicial.Count - 2].p.Y));
+                    p.Puntos.Add(new Point2d(polilinea_inicial[polilinea_inicial.Count - 1].p.X, polilinea_inicial[polilinea_inicial.Count - 1].p.Y));
+                    Rellenar_Recta(p);
+                    Lista_curvas.Add(Curva_Gran_Radio(Lista_rectas[Lista_rectas.Count - 1], list_acuerdos_curvos[list_acuerdos_curvos.Count-1], p));
+                    Lista_rectas[Lista_rectas.Count - 1].Puntos[1] = new Point2d(Lista_curvas[Lista_curvas.Count - 1].getPuntoEntrada.coordenadaX, Lista_curvas[Lista_curvas.Count - 1].getPuntoEntrada.coordenadaY);
+                    //Dibujar_Curva(Lista_curvas[Lista_curvas.Count - 1], 0);
+                }
+                //termina en pendiente
+                else
+                {
+                    for (int i = 1; i < Lista_parabolas.Count; i++)
+                    {
+                        Lista_curvas.Add(Curva_Gran_Radio(Lista_rectas[i - 1], list_acuerdos_curvos[i], Lista_rectas[i]));
+                        Lista_rectas[i - 1].Puntos[1] = new Point2d(Lista_curvas[Lista_curvas.Count - 1].getPuntoEntrada.coordenadaX, Lista_curvas[Lista_curvas.Count - 1].getPuntoEntrada.coordenadaY);
+                        Lista_rectas[i].Puntos[0] = new Point2d(Lista_curvas[Lista_curvas.Count - 1].getPuntoSalida.coordenadaX, Lista_curvas[Lista_curvas.Count - 1].getPuntoSalida.coordenadaY);
+                    }
+                }
+            }
         }
         private void Dibujar_c(double x, double y, double r, double ini, double fin, int apartado)
         {
@@ -7170,7 +8464,7 @@ namespace Logica
             double yc = c1.Puntos[c1.Puntos.Count - 2].Y;
             c1.az = Rellenar_centro(c1.Puntos[c1.Puntos.Count - 1].X, c1.Puntos[c1.Puntos.Count - 1].Y, xc, yc, 1).Az; ;
         }
-        private void Dibujar_Curva(EjeDeTrazado.componentes.Curva Clo,double ini)
+        private void Dibujar_Curva(EjeDeTrazado.componentes.Curva Clo,double ini,int conta_apartado_perfil)
         {
             using (DocumentLock myDockLock = oCadManager.thisEditor.Document.LockDocument())
             {
@@ -7193,8 +8487,8 @@ namespace Logica
                         miEje.AddVertexAt(index, new Point2d(componentPoint[0]+x_ins, componentPoint[1]*escala-ini +y_ins), 0, 0, 0);
                         index++;
                     }
-                    engCadNet.oLayer.addLayer("Curva", 4, false);
-                    miEje.Layer = "Curva";
+                    engCadNet.oLayer.addLayer("Curva-"+conta_apartado_perfil, 4, false);
+                    miEje.Layer = "Curva-"+ conta_apartado_perfil;
 
                     btr.AppendEntity(miEje);
                     tr.AddNewlyCreatedDBObject(miEje, true);
@@ -7266,6 +8560,838 @@ namespace Logica
             }
 
             return 0.01;
+        }
+        public void Dibujar_Componentes_Circulares(int conta_apartado_perfil)
+        {
+            for (int i=0;i<Lista_curvas.Count;i++)
+            {
+                Dibujar_Curva(Lista_curvas[i], 0, conta_apartado_perfil);
+            }
+            Dibujar_Rectas(conta_apartado_perfil);
+        }
+        public void Dibujar_entidades_finales_parabola()
+        {
+            try
+            {
+                MessageBox.Show("Seleccione el acuerdo parabólico que desea modificar.", "Acuerdo a modificar");
+                curva_antigua = Get_Acuerdo();
+                bool encontrada = false;
+                list_acuerdos_curvos = new List<double>();
+                if (curva_antigua != null)
+                {
+                    Point3d entrada = curva_antigua.StartPoint;
+                    Point3d salida = curva_antigua.EndPoint;
+                    int i = 0;
+                    double kv = 0;
+                    foreach (Parabola componente in Lista_parabolas)
+                    {
+                        if (Math.Truncate(componente.puntoEntrada.X * 1000) == Math.Truncate(entrada.X * 1000)&&
+                            Math.Truncate(componente.puntoSalida.X * 1000) == Math.Truncate(salida.X * 1000))
+                        {
+                            kv = 1 / (2*componente.lista_parabola[0]);
+                            string radio = "" + kv;
+                            var a = Microsoft.VisualBasic.Interaction.InputBox("Ingrese el Kv para el acuerdo:", "Nuevo acuerdo", radio);
+                            double Kv_n = double.Parse(a);
+                            if ((kv>0 && Kv_n<0) || (kv < 0 && Kv_n > 0))
+                            {
+                                MessageBox.Show("No se puede cambiar el signo del acuerdo. Se utilizará el signo correspondiente","información");
+                                Kv_n *= -1;
+                                componente.lista_parabola[0] = 1 / (2 * Kv_n);
+                                encontrada = true;
+                            }
+                            else
+                            {
+                                bool comprobado = true;
+                                componente.lista_parabola[0] = 1 / (2 * Kv_n);
+                                if (i==0)
+                                {
+                                    comprobado=Comprobar_Parabola(i);
+                                }else if (i==Lista_Parabolas.Count-1)
+                                {
+                                    comprobado=Comprobar_Parabola(i - 1);
+                                }
+                                else
+                                {
+                                    if (Comprobar_Parabola(i - 1))
+                                    {
+                                        comprobado=Comprobar_Parabola(i);
+                                    }
+                                    else
+                                    {
+                                        comprobado = false;
+                                    }
+                                    
+                                }
+                                if (comprobado)
+                                {
+                                    encontrada = true;
+                                }
+                                else
+                                {
+                                    MessageBox.Show("No se puede crear el trazado por incompatibilidad del acuerdo", "Información");
+                                    componente.lista_parabola[0] = 1 / (2 * kv);
+                                }
+
+                            }
+                            
+                        }
+                        else
+                        {
+                            
+                        }
+                        i++;
+                    }
+                    Lista_curvas = new List<Curva>();
+                    Lista_Rectas = new List<Pendiente>();
+                    if (encontrada)
+                    {
+                        Lista_curvas = new List<Curva>();
+                        Lista_Rectas = new List<Pendiente>();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("No ha seleccionado ningún arco.", "Error en la captación de la componente.");
+                }
+            }
+            catch
+            {
+                MessageBox.Show("No ha seleccionado ningún arco válido.", "Error en la captación de la componente.");
+            }
+        }
+        public void Dibujar_entidades_finales_curvas()
+        {
+            try
+            {
+                MessageBox.Show("Seleccione el acuerdo curvo que desea modificar.", "Acuerdo a modificar");
+                curva_antigua = Get_Acuerdo();
+                bool encontrada=false;
+                list_acuerdos_curvos = new List<double>();
+                if (curva_antigua != null)
+                {
+                    Point3d pk = curva_antigua.StartPoint;
+                    int i = 0;
+                    
+                    foreach (Curva componente in Lista_curvas)
+                    {
+                        if (Math.Truncate((componente.getPuntoEntrada.coordenadaX+x_ins)*1000)==Math.Truncate(curva_antigua.StartPoint.X*1000))
+                        {
+                            string radio = "" + componente.getRadio;
+                            var a = Microsoft.VisualBasic.Interaction.InputBox("Ingrese radio para el acuerdo:", "Nuevo acuerdo",radio);
+                            double radio_n = double.Parse(a);
+                            list_acuerdos_curvos.Add(radio_n);
+                            encontrada = true;
+                        }
+                        else
+                        {
+                            list_acuerdos_curvos.Add(componente.getRadio);
+                        }
+                        i++;
+                    }
+                    if (encontrada)
+                    {
+                        Lista_curvas = new List<Curva>();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("No ha seleccionado ningún arco.", "Error en la captación de la componente.");
+                }
+            }
+            catch
+            {
+                MessageBox.Show("No ha seleccionado ningún arco válido.", "Error en la captación de la componente.");
+            }
+        }
+        public void Dibujar_entidades_finales_rectas()
+        {
+            try
+            {
+                MessageBox.Show("Seleccione la pendiente que desea modificar.", "Pendiente a modificar");
+                pendiente_antigua = Get_Pendiente();
+                if (pendiente_antigua!=null)
+                {
+                    MessageBox.Show("Pendiente seleccionada", "Pendiente a modificar");
+                }
+                else
+                {
+                    MessageBox.Show("Pendiente no seleccionada", "Pendiente a modificar");
+                }
+                list_acuerdos_curvos = new List<double>();
+            }
+            catch
+            {
+                MessageBox.Show("No ha seleccionado ningún arco válido.", "Error en la captación de la componente.");
+            }
+        }
+        public void Dibujar_entidades_finales_rectas_paso2_circular()
+        {
+            try
+            {
+
+                if (pendiente_antigua != null)
+                {
+                    bool encontrada = false;
+                    Point3d pk = pendiente_antigua.StartPoint;
+                    int i = 0;
+
+                    foreach (Pendiente componente in Lista_Rectas)
+                    {
+                        if (Math.Truncate((componente.Puntos[0].X + x_ins) * 1000) == Math.Truncate(pk.X * 1000))
+                        {
+                            MessageBox.Show("Seleccione la nueva pendiente.", "Pendiente a modificar");
+                            Line nueva_pendiente = Get_Pendiente();
+                            if (nueva_pendiente!=null)
+                            {
+                                MessageBox.Show("Pendiente seleccionada", "Pendiente a modificar");
+                                componente.Puntos[0] = new Point2d(nueva_pendiente.StartPoint.X - x_ins, (nueva_pendiente.StartPoint.Y - y_ins) / escala);
+                                componente.Puntos[1] = new Point2d(nueva_pendiente.EndPoint.X - x_ins, (nueva_pendiente.EndPoint.Y - y_ins) / escala);
+                                encontrada = true;
+                            }
+                            else
+                            {
+                                MessageBox.Show("Pendiente no seleccionada", "Pendiente a modificar");
+                            }
+                            
+                        }
+                        else
+                        {
+
+                        }
+                        i++;
+                    }
+                    if (encontrada)
+                    {
+                        foreach (Curva componente in Lista_curvas)
+                        {
+                            list_acuerdos_curvos.Add(componente.getRadio);
+                        }
+                        Lista_curvas = new List<Curva>();
+
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("No ha seleccionado ningún arco.", "Error en la captación de la componente.");
+                }
+            }
+            catch
+            {
+                MessageBox.Show("No ha seleccionado ningún arco válido.", "Error en la captación de la componente.");
+            }
+        }
+        public void Dibujar_entidades_finales_rectas_paso2()
+        {
+            try
+            {
+
+                if (pendiente_antigua != null)
+                {
+                    bool encontrada = false;
+                    Point3d pk = pendiente_antigua.StartPoint;
+                    int i = 0;
+                    int mod = 0;
+                    foreach (Pendiente componente in Lista_Rectas)
+                    {
+                        if (Math.Truncate((componente.Puntos[0].X + x_ins) * 1000) == Math.Truncate(pk.X * 1000))
+                        {
+                            MessageBox.Show("Seleccione la nueva pendiente.", "Pendiente a modificar");
+                            Line nueva_pendiente = Get_Pendiente();
+                            if (nueva_pendiente != null)
+                            {
+                                MessageBox.Show("Pendiente seleccionada", "Pendiente a modificar");
+                                componente.Puntos[0] = new Point2d(nueva_pendiente.StartPoint.X - x_ins, (nueva_pendiente.StartPoint.Y - y_ins) / escala);
+                                componente.Puntos[1] = new Point2d(nueva_pendiente.EndPoint.X - x_ins, (nueva_pendiente.EndPoint.Y - y_ins) / escala);
+                                encontrada = true;
+                                mod = i;
+                            }
+                            else
+                            {
+                                MessageBox.Show("Pendiente no seleccionada", "Pendiente a modificar");
+                            }
+
+                        }
+                        else
+                        {
+
+                        }
+                        i++;
+                    }
+                    if (encontrada)
+                    {
+                        Lista_curvas = new List<Curva>();
+                        modificacion_rectas_parabola(mod);
+                        Lista_Rectas = new List<Pendiente>();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("No ha seleccionado ningún arco.", "Error en la captación de la componente.");
+                }
+            }
+            catch
+            {
+                MessageBox.Show("No ha seleccionado ningún arco válido.", "Error en la captación de la componente.");
+            }
+        }
+        private Arc Get_Curva()
+        {
+            Document acDoc2 = Application.DocumentManager.MdiActiveDocument;
+            Database AcCurDb2 = acDoc2.Database;
+            using (DocumentLock docLock = acDoc2.LockDocument())
+            {
+                Arc arco = oSs.seleccionUsuario<Arc>("Selecciona una curva", "No has seleccionado una curva");
+                if (arco != null)
+                {
+                    return arco;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+        private Polyline Get_Acuerdo()
+        {
+            Document acDoc2 = Application.DocumentManager.MdiActiveDocument;
+            Database AcCurDb2 = acDoc2.Database;
+            using (DocumentLock docLock = acDoc2.LockDocument())
+            {
+                Polyline arco = oSs.seleccionUsuario<Polyline>("Selecciona una curva", "No has seleccionado una curva");
+                if (arco != null)
+                {
+                    return arco;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+        private Line Get_Pendiente()
+        {
+            Document acDoc2 = Application.DocumentManager.MdiActiveDocument;
+            Database AcCurDb2 = acDoc2.Database;
+            using (DocumentLock docLock = acDoc2.LockDocument())
+            {
+                Line pendiente = oSs.seleccionUsuario<Line>("Selecciona una pendiente", "No has seleccionado una pendiente");
+                if (pendiente != null)
+                {
+                    return pendiente;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+        public void Eliminar_Capas()
+        {
+            using (DocumentLock myDockLock = oCadManager.thisEditor.Document.LockDocument())
+            {
+                using (Transaction tr = oCadManager.StartTransaction())
+                {
+                    BlockTable bt = (BlockTable)tr.GetObject(oCadManager.thisBase.BlockTableId, OpenMode.ForRead, false);
+                    BlockTableRecord btr = (BlockTableRecord)tr.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite, false);
+                    List<string> lista = new List<string>();
+                    lista.Add("Traza");
+                    lista.Add("Rotu");
+                    lista.Add("Cota");
+                    List<string> capas = engCadNet.oLayer.getLayerListContains(lista, true);
+                    engCadNet.oLayer.vLayerListActDes(capas, true, false);
+                    oCadManager.thisEditor.UpdateScreen();
+                    tr.Commit();
+                }
+            }
+        }
+        public void Eliminar_Componentes()
+        {
+            using (DocumentLock myDockLock = oCadManager.thisEditor.Document.LockDocument())
+            {
+                using (Transaction tr = oCadManager.StartTransaction())
+                {
+                    BlockTable bt = (BlockTable)tr.GetObject(oCadManager.thisBase.BlockTableId, OpenMode.ForRead, false);
+                    BlockTableRecord btr = (BlockTableRecord)tr.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite, false);
+                    List<string> lista = new List<string>();
+                    lista.Add("Curv");
+                    lista.Add("Rec");
+                    lista.Add("Acuerdo-");
+                    List<string> capas = engCadNet.oLayer.getLayerListContains(lista, true);
+                    engCadNet.oLayer.vLayerListActDes(capas, true, false);
+                    oCadManager.thisEditor.UpdateScreen();
+                    tr.Commit();
+                }
+            }
+        }
+        public void Dibujar_Eje_Acuerdo(Polyline miEje,int apartado)
+        {
+            using (DocumentLock myDockLock = oCadManager.thisEditor.Document.LockDocument())
+            {
+                using (Transaction tr = oCadManager.StartTransaction())
+                {
+                    BlockTable bt = (BlockTable)tr.GetObject(oCadManager.thisBase.BlockTableId, OpenMode.ForRead, false);
+                    BlockTableRecord btr = (BlockTableRecord)tr.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite, false);
+
+                    engCadNet.oLayer.addLayer("Acuerdo-"+ apartado, 1, false);
+                    miEje.Layer = "Acuerdo-"+ apartado;
+
+                    btr.AppendEntity(miEje);
+                    tr.AddNewlyCreatedDBObject(miEje, true);
+
+                    oCadManager.thisEditor.UpdateScreen();
+
+                    tr.Commit();
+                }
+            }
+        }
+        public void Dibujar_Eje_Recta(Line miEje, int apartado)
+        {
+            using (DocumentLock myDockLock = oCadManager.thisEditor.Document.LockDocument())
+            {
+                using (Transaction tr = oCadManager.StartTransaction())
+                {
+                    BlockTable bt = (BlockTable)tr.GetObject(oCadManager.thisBase.BlockTableId, OpenMode.ForRead, false);
+                    BlockTableRecord btr = (BlockTableRecord)tr.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite, false);
+
+                    engCadNet.oLayer.addLayer("Recta-" + apartado, 7, false);
+                    miEje.Layer = "Recta-" + apartado;
+
+                    btr.AppendEntity(miEje);
+                    tr.AddNewlyCreatedDBObject(miEje, true);
+
+                    oCadManager.thisEditor.UpdateScreen();
+
+                    tr.Commit();
+                }
+            }
+        }
+        public void modificacion_rectas_parabola(int recta_mod)
+        {
+            List<double> parametros = new List<double>();
+            //pendiente - acuerdo
+            if(Lista_Rectas[recta_mod].Puntos[0].X<Lista_parabolas[recta_mod].polilinea_perfil[0].p.X)
+            {
+                //primero acuerdo siguiente
+                //si hay mas pendientes 
+                if (recta_mod<(Lista_rectas.Count-1))
+                {
+                    if (recta_mod>0)
+                    {
+                        
+                        parametros = nueva_parabola_entre_pendientes_prueba(recta_mod-1, recta_mod-1);
+                        Lista_parabolas[recta_mod - 1].lista_parabola = parametros;
+
+                        parametros = nueva_parabola_entre_pendientes_prueba(recta_mod, recta_mod);
+                        Lista_parabolas[recta_mod].lista_parabola = parametros;
+                    }
+                    else if (recta_mod==0)
+                    {
+                        parametros = nueva_parabola_entre_pendientes_prueba(recta_mod, recta_mod);
+                        Lista_parabolas[recta_mod].lista_parabola = parametros;
+                    }
+
+                }
+                //si es la ultima pendiente
+                else
+                {
+                    if (recta_mod==(Lista_Parabolas.Count-1))
+                    {
+                        parametros=nueva_parabola_entre_pendientes_prueba(recta_mod - 1, recta_mod - 1);
+                        //parametros = nueva_parabola_entre_pendientes(recta_mod - 1, recta_mod - 1);
+                        Lista_parabolas[recta_mod - 1].lista_parabola = parametros;
+
+
+                        parametros = nueva_parabola_entre_pendientes_prueba_final(recta_mod, recta_mod);
+                        Lista_parabolas[recta_mod].lista_parabola = parametros;
+                    }else
+                    {
+                        parametros = nueva_parabola_entre_pendientes_prueba(recta_mod - 1, recta_mod - 1);
+                        Lista_parabolas[recta_mod - 1].lista_parabola = parametros;
+                    }
+                }
+            }
+            //acuerdo - pendiente
+            else
+            {
+                if (recta_mod< (Lista_rectas.Count - 1))
+                {
+                    if (recta_mod > 0)
+                    {
+                        parametros = nueva_parabola_entre_pendientes_prueba(recta_mod - 1, recta_mod);
+                        Lista_parabolas[recta_mod].lista_parabola = parametros;
+
+                        parametros = nueva_parabola_entre_pendientes_prueba(recta_mod, recta_mod+1);
+                        Lista_parabolas[recta_mod+1].lista_parabola = parametros;
+                    }
+                    else if(recta_mod == 0)
+                    {
+                        parametros = nueva_parabola_entre_pendientes_prueba_inicial(recta_mod, recta_mod);
+                        Lista_parabolas[recta_mod].lista_parabola = parametros;
+
+                        parametros = nueva_parabola_entre_pendientes_prueba(recta_mod, recta_mod + 1);
+                        Lista_parabolas[recta_mod + 1].lista_parabola = parametros;
+                    }
+                }
+                else
+                {
+                    if (recta_mod == (Lista_Parabolas.Count - 1))
+                    {
+                        parametros = nueva_parabola_entre_pendientes_prueba(recta_mod - 1, recta_mod);
+                        Lista_parabolas[recta_mod].lista_parabola = parametros;
+                    }
+                    else
+                    {
+                        parametros = nueva_parabola_entre_pendientes_prueba(recta_mod - 1, recta_mod);
+                        Lista_parabolas[recta_mod].lista_parabola = parametros;
+
+                        parametros = nueva_parabola_entre_pendientes_prueba_final(recta_mod, recta_mod+1);
+                        Lista_parabolas[recta_mod+1].lista_parabola = parametros;
+                    }
+                }
+            }
+        }
+        
+        public List<double> nueva_parabola_entre_pendientes(int recta,int parabola)
+        {
+            List<double> parametros = new List<double>();
+            double a_x0 = Lista_rectas[recta].Puntos[0].X;//X011
+            double a_y0 = Lista_rectas[recta].Puntos[0].Y;//Y011
+            double b_x1 = Lista_rectas[recta].Puntos[1].X;//X012
+            double b_y1 = Lista_rectas[recta].Puntos[1].Y;//Y012
+
+            double a_1 = (a_y0 - b_y1) / (a_x0 - b_x1);//M
+            double b_1 = -b_x1 * (a_y0 - b_y1) / (a_x0 - b_x1) + b_y1;
+
+            double c_x0 = Lista_rectas[recta + 1].Puntos[0].X;//X021
+            double c_y0 = Lista_rectas[recta + 1].Puntos[0].Y;//Y021
+            double d_x1 = Lista_rectas[recta + 1].Puntos[1].X;//X022
+            double d_y1 = Lista_rectas[recta + 1].Puntos[1].Y;//Y022
+
+            double c_1 = (c_y0 - d_y1) / (c_x0 - d_x1);//N
+            double d_1 = -d_x1 * ((c_y0 - d_y1) / (c_x0 - d_x1)) + d_y1;
+
+            double i_x = (d_1 - b_1) / (a_1 - c_1);//interseccion X
+            double i_y = a_1 * ((d_1 - b_1) / (a_1 - c_1)) + b_1;//interseccion Y
+            
+
+            double a = Lista_parabolas[parabola].lista_parabola[0];
+            i_x = Lista_parabolas[parabola].max_min;
+            double b = -2 * a * i_x;
+
+            /*double xo12 = (a_1 - b) / (2 * a);
+            double yo12 = a_1 * ((a_1 - b) / (2 * a)- a_x0) + a_y0;*/
+            double xo12 = (a_1 - b) / (2 * a);
+            double yo12 = a_1 * ((a_1 - b) / (2 * a) - a_x0) + a_y0;
+            double c = yo12 - b * xo12 - a * (xo12 * xo12);
+            parametros.Add(a);
+            parametros.Add(b);
+            parametros.Add(c);
+            return parametros;
+        }
+        public List<double> nueva_parabola_entre_pendientes_prueba(int recta, int parabola)
+        {
+            List<double> parametros = new List<double>();
+            double x01 = Lista_rectas[recta].Puntos[0].X;//X011
+            double y01 = Lista_rectas[recta].Puntos[0].Y;//Y011
+            double x02 = Lista_rectas[recta].Puntos[1].X;//X012
+            double y02 = Lista_rectas[recta].Puntos[1].Y;//Y012
+
+            double m = (y01 - y02) / (x01 - x02);//M
+            double b_1 = -x02 * (y01 - y02) / (x01 - x02) + y02;
+
+            double x11 = Lista_rectas[recta + 1].Puntos[0].X;//X021
+            double y11 = Lista_rectas[recta + 1].Puntos[0].Y;//Y021
+            double x12 = Lista_rectas[recta + 1].Puntos[1].X;//X022
+            double y12 = Lista_rectas[recta + 1].Puntos[1].Y;//Y022
+
+            double n = (y11 - y12) / (x11 - x12);//N
+            double d_1 = -x12 * ((y11 - y12) / (x11 - x12)) + y12;
+
+            double i_x = (d_1 - b_1) / (m - n);//interseccion X
+            //double i_y = m * ((d_1 - b_1) / (m - c_1)) + b_1;//interseccion Y
+
+
+            double a = Lista_parabolas[parabola].lista_parabola[0];
+            i_x = Lista_parabolas[parabola].max_min;
+            double x_02 = x01;
+            List<double> lista_minimos = new List<double>();
+            double b = m - 2 * a * x_02;
+            double x2 = (n - b) / (2 * a);
+            double p1 = m * (x_02 - x01) - n * (x2 - x11) + y01 - y11;
+            double p2 = a * (x_02 * x_02) - a * (x2 * x2) + b * x_02 - b * x2;
+            lista_minimos.Add(Math.Abs(p1 - p2));
+            x_02 += 0.01;
+            while (x_02< i_x)
+            {
+                b = m - 2 * a * x_02;
+                x2 = (n - b) / (2 * a);
+                p1 = m * (x_02 - x01) - n * (x2 - x11) + y01 - y11;
+                p2 = a * (x_02 * x_02) - a * (x2 * x2) + b * x_02 - b * x2;
+                lista_minimos.Add(Math.Abs(p1 - p2));
+                x_02+=0.01;
+            }
+            double min = lista_minimos.Min();
+            int pos = lista_minimos.IndexOf(min);
+            x_02 = x01 + (0.01 * pos)-0.1;
+            double x_02_ant= x01 + (0.01 * pos)-0.1;
+            double maximo= x01 + (0.01 * pos) + 0.1;
+            lista_minimos = new List<double>();
+            while (x_02 < maximo)
+            {
+                b = m - 2 * a * x_02;
+                x2 = (n - b) / (2 * a);
+                p1 = m * (x_02 - x01) - n * (x2 - x11) + y01 - y11;
+                p2 = a * (x_02 * x_02) - a * (x2 * x2) + b * x_02 - b * x2;
+                lista_minimos.Add(Math.Abs(p1 - p2));
+                x_02 += 0.001;
+            }
+            min=lista_minimos.Min();
+            pos=lista_minimos.IndexOf(min);
+            x_02 = x_02_ant + (0.001 * pos);
+            b = m - 2 * a * x_02;
+            x2 = (n - b) / (2 * a);
+            p1 = m * (x_02 - x01) - n * (x2 - x11) + y01 - y11;
+            p2 = a * (x_02 * x_02) - a * (x2 * x2) + b * x_02 - b * x2;
+            double y012 = m * ((m - b) / (2 * a) -x01) + y01;
+            double c = y012 - b * x_02 - a * (x_02 * x_02);
+            parametros.Add(a);
+            parametros.Add(b);
+            parametros.Add(c);
+            return parametros;
+        }
+        public List<double> nueva_parabola_entre_pendientes_final(int recta, int parabola)
+        {
+            Pendiente p = new Pendiente();
+            p.Puntos.Add(new Point2d(polilinea_inicial[polilinea_inicial.Count - 2].p.X, polilinea_inicial[polilinea_inicial.Count - 2].p.Y));
+            p.Puntos.Add(new Point2d(polilinea_inicial[polilinea_inicial.Count - 1].p.X, polilinea_inicial[polilinea_inicial.Count - 1].p.Y));
+            Rellenar_Recta(p);
+
+            List<double> parametros = new List<double>();
+            double a_x0 = Lista_rectas[recta].Puntos[0].X;//X011
+            double a_y0 = Lista_rectas[recta].Puntos[0].Y;//Y011
+            double b_x1 = Lista_rectas[recta].Puntos[1].X;//X012
+            double b_y1 = Lista_rectas[recta].Puntos[1].Y;//Y012
+
+            double a_1 = (a_y0 - b_y1) / (a_x0 - b_x1);//M
+            double b_1 = -b_x1 * (a_y0 - b_y1) / (a_x0 - b_x1) + b_y1;
+
+            double c_x0 = p.Puntos[0].X;//X021
+            double c_y0 = p.Puntos[0].Y;//Y021
+            double d_x1 = p.Puntos[1].X;//X022
+            double d_y1 = p.Puntos[1].Y;//Y022
+
+            double c_1 = (c_y0 - d_y1) / (c_x0 - d_x1);//N
+            double d_1 = -d_x1 * ((c_y0 - d_y1) / (c_x0 - d_x1)) + d_y1;
+
+            double i_x = (d_1 - b_1) / (a_1 - c_1);//interseccion X
+            double i_y = a_1 * ((d_1 - b_1) / (a_1 - c_1)) + b_1;//interseccion Y
+
+
+            double a = Lista_parabolas[parabola].lista_parabola[0];
+            i_x = Lista_parabolas[parabola].max_min;
+            double b = -2 * a * i_x;
+
+            double xo12 = (a_1 - b) / (2 * a);
+            double yo12 = a_1 * ((a_1 - b) / (2 * a) - a_x0) + a_y0;
+
+            double c = yo12 - b * xo12 - a * (xo12 * xo12);
+            parametros.Add(a);
+            parametros.Add(b);
+            parametros.Add(c);
+            return parametros;
+        }
+        public List<double> nueva_parabola_entre_pendientes_inicial(int recta, int parabola)
+        {
+            Pendiente p = new Pendiente();
+            p.Puntos.Add(new Point2d(polilinea_inicial[0].p.X, polilinea_inicial[0].p.Y));
+            p.Puntos.Add(new Point2d(polilinea_inicial[1].p.X, polilinea_inicial[1].p.Y));
+            Rellenar_Recta(p);
+
+            List<double> parametros = new List<double>();
+            double a_x0 = p.Puntos[0].X;//X011
+            double a_y0 = p.Puntos[0].Y;//Y011
+            double b_x1 = p.Puntos[1].X;//X012
+            double b_y1 = p.Puntos[1].Y;//Y012
+
+            double a_1 = (a_y0 - b_y1) / (a_x0 - b_x1);//M
+            double b_1 = -b_x1 * (a_y0 - b_y1) / (a_x0 - b_x1) + b_y1;
+
+            double c_x0 = Lista_rectas[recta].Puntos[0].X;//X021
+            double c_y0 = Lista_rectas[recta].Puntos[0].Y;//Y021
+            double d_x1 = Lista_rectas[recta].Puntos[1].X;//X022
+            double d_y1 = Lista_rectas[recta].Puntos[1].Y;//Y022
+
+            double c_1 = (c_y0 - d_y1) / (c_x0 - d_x1);//N
+            double d_1 = -d_x1 * ((c_y0 - d_y1) / (c_x0 - d_x1)) + d_y1;
+
+            double i_x = (d_1 - b_1) / (a_1 - c_1);//interseccion X
+            double i_y = a_1 * ((d_1 - b_1) / (a_1 - c_1)) + b_1;//interseccion Y
+
+
+            double a = Lista_parabolas[parabola].lista_parabola[0];
+            i_x = Lista_parabolas[parabola].max_min;
+            double b = -2 * a * i_x;
+
+            double xo12 = (a_1 - b) / (2 * a);
+            double yo12 = a_1 * ((a_1 - b) / (2 * a) - a_x0) + a_y0;
+
+            double c = yo12 - b * xo12 - a * (xo12 * xo12);
+            parametros.Add(a);
+            parametros.Add(b);
+            parametros.Add(c);
+            return parametros;
+        }
+        public List<double> nueva_parabola_entre_pendientes_prueba_final(int recta, int parabola)
+        {
+            Pendiente p = new Pendiente();
+            p.Puntos.Add(new Point2d(polilinea_inicial[polilinea_inicial.Count - 2].p.X, polilinea_inicial[polilinea_inicial.Count - 2].p.Y));
+            p.Puntos.Add(new Point2d(polilinea_inicial[polilinea_inicial.Count - 1].p.X, polilinea_inicial[polilinea_inicial.Count - 1].p.Y));
+            Rellenar_Recta(p);
+
+            List<double> parametros = new List<double>();
+            double x01 = Lista_rectas[recta].Puntos[0].X;//X011
+            double y01 = Lista_rectas[recta].Puntos[0].Y;//Y011
+            double x02 = Lista_rectas[recta].Puntos[1].X;//X012
+            double y02 = Lista_rectas[recta].Puntos[1].Y;//Y012
+
+            double m = (y01 - y02) / (x01 - x02);//M
+            double b_1 = -x02 * (y01 - y02) / (x01 - x02) + y02;
+
+            double x11 = p.Puntos[0].X;//X021
+            double y11 = p.Puntos[0].Y;//Y021
+            double x12 = p.Puntos[1].X;//X022
+            double y12 = p.Puntos[1].Y;//Y022
+
+            double n = (y11 - y12) / (x11 - x12);//N
+            double d_1 = -x12 * ((y11 - y12) / (x11 - x12)) + y12;
+
+            double i_x = (d_1 - b_1) / (m - n);//interseccion X
+            //double i_y = m * ((d_1 - b_1) / (m - c_1)) + b_1;//interseccion Y
+
+
+            double a = Lista_parabolas[parabola].lista_parabola[0];
+            i_x = Lista_parabolas[parabola].max_min;
+            double x_02 = x01;
+            List<double> lista_minimos = new List<double>();
+            double b = m - 2 * a * x_02;
+            double x2 = (n - b) / (2 * a);
+            double p1 = m * (x_02 - x01) - n * (x2 - x11) + y01 - y11;
+            double p2 = a * (x_02 * x_02) - a * (x2 * x2) + b * x_02 - b * x2;
+            lista_minimos.Add(Math.Abs(p1 - p2));
+            x_02 += 0.01;
+            while (x_02 < i_x)
+            {
+                b = m - 2 * a * x_02;
+                x2 = (n - b) / (2 * a);
+                p1 = m * (x_02 - x01) - n * (x2 - x11) + y01 - y11;
+                p2 = a * (x_02 * x_02) - a * (x2 * x2) + b * x_02 - b * x2;
+                lista_minimos.Add(Math.Abs(p1 - p2));
+                x_02 += 0.01;
+            }
+            double min = lista_minimos.Min();
+            int pos = lista_minimos.IndexOf(min);
+            x_02 = x01 + (0.01 * pos) - 0.1;
+            double x_02_ant = x01 + (0.01 * pos) - 0.1;
+            double maximo = x01 + (0.01 * pos) + 0.1;
+            lista_minimos = new List<double>();
+            while (x_02 < maximo)
+            {
+                b = m - 2 * a * x_02;
+                x2 = (n - b) / (2 * a);
+                p1 = m * (x_02 - x01) - n * (x2 - x11) + y01 - y11;
+                p2 = a * (x_02 * x_02) - a * (x2 * x2) + b * x_02 - b * x2;
+                lista_minimos.Add(Math.Abs(p1 - p2));
+                x_02 += 0.001;
+            }
+            min = lista_minimos.Min();
+            pos = lista_minimos.IndexOf(min);
+            x_02 = x_02_ant + (0.001 * pos);
+            b = m - 2 * a * x_02;
+            x2 = (n - b) / (2 * a);
+            p1 = m * (x_02 - x01) - n * (x2 - x11) + y01 - y11;
+            p2 = a * (x_02 * x_02) - a * (x2 * x2) + b * x_02 - b * x2;
+            double y012 = m * ((m - b) / (2 * a) - x01) + y01;
+            double c = y012 - b * x_02 - a * (x_02 * x_02);
+            parametros.Add(a);
+            parametros.Add(b);
+            parametros.Add(c);
+            return parametros;
+        }
+        public List<double> nueva_parabola_entre_pendientes_prueba_inicial(int recta, int parabola)
+        {
+            Pendiente p = new Pendiente();
+            p.Puntos.Add(new Point2d(polilinea_inicial[0].p.X, polilinea_inicial[0].p.Y));
+            p.Puntos.Add(new Point2d(polilinea_inicial[1].p.X, polilinea_inicial[1].p.Y));
+            Rellenar_Recta(p);
+
+            List<double> parametros = new List<double>();
+            double x01 = p.Puntos[0].X;//X011
+            double y01 = p.Puntos[0].Y;//Y011
+            double x02 = p.Puntos[1].X;//X012
+            double y02 = p.Puntos[1].Y;//Y012
+
+            double m = (y01 - y02) / (x01 - x02);//M
+            double b_1 = -x02 * (y01 - y02) / (x01 - x02) + y02;
+
+            double x11 = Lista_rectas[recta].Puntos[0].X;//X021
+            double y11 = Lista_rectas[recta].Puntos[0].Y;//Y021
+            double x12 = Lista_rectas[recta].Puntos[1].X;//X022
+            double y12 = Lista_rectas[recta].Puntos[1].Y;//Y022
+
+            double n = (y11 - y12) / (x11 - x12);//N
+            double d_1 = -x12 * ((y11 - y12) / (x11 - x12)) + y12;
+
+            double i_x = (d_1 - b_1) / (m - n);//interseccion X
+            //double i_y = m * ((d_1 - b_1) / (m - c_1)) + b_1;//interseccion Y
+
+
+            double a = Lista_parabolas[parabola].lista_parabola[0];
+            i_x = Lista_parabolas[parabola].max_min;
+            double x_02 = x01;
+            List<double> lista_minimos = new List<double>();
+            double b = m - 2 * a * x_02;
+            double x2 = (n - b) / (2 * a);
+            double p1 = m * (x_02 - x01) - n * (x2 - x11) + y01 - y11;
+            double p2 = a * (x_02 * x_02) - a * (x2 * x2) + b * x_02 - b * x2;
+            lista_minimos.Add(Math.Abs(p1 - p2));
+            x_02 += 0.01;
+            while (x_02 < i_x)
+            {
+                b = m - 2 * a * x_02;
+                x2 = (n - b) / (2 * a);
+                p1 = m * (x_02 - x01) - n * (x2 - x11) + y01 - y11;
+                p2 = a * (x_02 * x_02) - a * (x2 * x2) + b * x_02 - b * x2;
+                lista_minimos.Add(Math.Abs(p1 - p2));
+                x_02 += 0.01;
+            }
+            double min = lista_minimos.Min();
+            int pos = lista_minimos.IndexOf(min);
+            x_02 = x01 + (0.01 * pos) - 0.1;
+            double x_02_ant = x01 + (0.01 * pos) - 0.1;
+            double maximo = x01 + (0.01 * pos) + 0.1;
+            lista_minimos = new List<double>();
+            while (x_02 < maximo)
+            {
+                b = m - 2 * a * x_02;
+                x2 = (n - b) / (2 * a);
+                p1 = m * (x_02 - x01) - n * (x2 - x11) + y01 - y11;
+                p2 = a * (x_02 * x_02) - a * (x2 * x2) + b * x_02 - b * x2;
+                lista_minimos.Add(Math.Abs(p1 - p2));
+                x_02 += 0.001;
+            }
+            min = lista_minimos.Min();
+            pos = lista_minimos.IndexOf(min);
+            x_02 = x_02_ant + (0.001 * pos);
+            b = m - 2 * a * x_02;
+            x2 = (n - b) / (2 * a);
+            p1 = m * (x_02 - x01) - n * (x2 - x11) + y01 - y11;
+            p2 = a * (x_02 * x_02) - a * (x2 * x2) + b * x_02 - b * x2;
+            double y012 = m * ((m - b) / (2 * a) - x01) + y01;
+            double c = y012 - b * x_02 - a * (x_02 * x_02);
+            parametros.Add(a);
+            parametros.Add(b);
+            parametros.Add(c);
+            return parametros;
         }
     }
 }

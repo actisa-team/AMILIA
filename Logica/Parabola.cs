@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Autodesk.AutoCAD.Geometry;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,8 @@ namespace Logica
     {
         public List<double> parabola = new List<double>();
         public List<PuntoPerfil> polilinea_perfil = new List<PuntoPerfil>();
-
+        public Point2d puntoEntrada = new Point2d();
+        public Point2d puntoSalida = new Point2d();
         public List<double> lista_parabola { get => parabola; set => parabola = value; }
         public List<PuntoPerfil> Polilinea_Perfil { get => polilinea_perfil; set => polilinea_perfil = value; }
         public double max_min { get; set; }
