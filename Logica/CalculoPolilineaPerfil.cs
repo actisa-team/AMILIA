@@ -40,8 +40,8 @@ namespace Logica
         List<Point3d> Polilinea3d_Acumulada = new List<Point3d>();
         dsApp datoApp = new dsApp();
         List<EjeDeTrazado.componentes.Curva> Lista_curvas = new List<Curva>();
-        Polyline curva_antigua=null;
-        Line pendiente_antigua = null;
+        public Polyline curva_antigua=null;
+        public Line pendiente_antigua = null;
         public bool iniciado = false;
         int apartado = 1;
         List<double> list_acuerdos_curvos = new List<double>();
@@ -4728,12 +4728,12 @@ namespace Logica
             if (Lista_rectas[0].Puntos[0].X < Lista_parabolas[0].polilinea_perfil[0].p.X)
             {
                 Dibujar_Trazado(1, conta_apartado);
-                //Dibujar_Trazado_Informe(1);
+                Dibujar_Trazado_Informe(1);
             }
             else
             {
                 Dibujar_Trazado(2, conta_apartado);
-                //Dibujar_Trazado_Informe(2);
+                Dibujar_Trazado_Informe(2);
             }
 
         }

@@ -35,6 +35,7 @@ namespace Logica {
         List<List<Componente>> componentes_general = new List<List<Componente>>();
         List<List<Componente>> componentes_general2 = new List<List<Componente>>();
         List<Componente> componentes = new List<Componente>();
+        List<Componente> componentes_aux = new List<Componente>();
         List<Componente> componentes_iniciales = new List<Componente>();
         List<Componente> componentes_temp = new List<Componente>();
         List<EjeDeTrazado.componentes.Componente> mcomponenetes = new List<EjeDeTrazado.componentes.Componente>();
@@ -42,8 +43,8 @@ namespace Logica {
         double Eliminar_Clotoide=2;
         double ratio;
         //Para curvas
-        Line recta_antigua;
-        Arc curva_antigua;
+        public Line recta_antigua;
+        public Arc curva_antigua;
         List<int> lista = new List<int>();//intervalo de curvas
 
         List<List<int>> minimos = new List<List<int>>();
@@ -67,6 +68,7 @@ namespace Logica {
         List<IViabilidadListener> viabilidadListeners = new List<IViabilidadListener>();
         public List<EjeDeTrazado.componentes.Componente> Mcomponenetes { get => mcomponenetes; set => mcomponenetes = value; }
         public List<Componente> Componentes { get => componentes; set => componentes = value; }
+        public List<Componente> Componentes_aux { get => componentes_aux; set => componentes_aux = value; }
         public List<Componente> Componentes_iniciales { get => componentes_iniciales; set => componentes_iniciales = value; }
         public List<Punto> Polilinea { get => polilinea; set => polilinea = value; }
         public bool EliClo { get => EliminarClotoide; set => EliminarClotoide = value; }
@@ -7487,7 +7489,7 @@ namespace Logica {
                     lista_componentes_aux.Add(get_recta((Linea)c));
                 }
             }
-
+            componentes_aux = componentes;
             componentes = lista_componentes_aux;
         }
         public Componente get_curva(EjeDeTrazado.componentes.Curva c)
@@ -7527,10 +7529,11 @@ namespace Logica {
             {
                 MessageBox.Show("Seleccione el arco que desea modificar arco.", "Arco a modificar");
                 curva_antigua = Get_Curva();
-                MessageBox.Show("Curva seleccionada", "Arco a modificar");
+                
             }
             catch
             {
+                Componentes = Componentes_aux;
                 MessageBox.Show("No ha seleccionado ningún arco válido.", "Error en la captación de la componente.");
             }
             
@@ -7543,17 +7546,21 @@ namespace Logica {
                 {
                     Point3d centro = curva_antigua.Center;
                     double radio = curva_antigua.Radius;
-                    int i = 0;
+                    int eleccion = 0;
+                    
                     foreach (Componente componente in componentes)
                     {
                         if (Buscar_Curva(componente, centro, radio))
                         {
                             Cambiar_Curva(componente);
                             Rellenar_Componente_Curva_Nueva(componente);
+                            componentes_aux[eleccion] = componente;
                         }
-                        i++;
+                        eleccion++;
                     }
+                    componentes = componentes_aux;
                 }
+                
                 else
                 {
                     MessageBox.Show("No ha seleccionado ningún arco.", "Error en la captación de la componente.");
@@ -7586,14 +7593,19 @@ namespace Logica {
                 {
                     Point3d p1 = recta_antigua.StartPoint;
                     Point3d p2 = recta_antigua.EndPoint;
+                    int eleccion = 0;
                     foreach (Componente componente in componentes)
                     {
                         if (Buscar_Recta(componente, p1, p2))
                         {
                             Cambiar_Recta(componente);
+                            componentes_aux[eleccion] = componente;
                         }
+                        eleccion++;
                     }
+                    componentes = componentes_aux;
                 }
+                
                 else
                 {
                     MessageBox.Show("No ha seleccionado ningúna recta.", "Error en la captación de la componente.");
@@ -7730,9 +7742,9 @@ namespace Logica {
         }
         public bool Buscar_Curva(Componente entidad,Point3d centro,double radio)
         {
-            if (entidad.xc == centro.X &&
-                entidad.yc == centro.Y &&
-                entidad.radio == radio)
+            if (Math.Truncate(entidad.xc * 1000) == Math.Truncate(centro.X * 1000) &&
+                Math.Truncate(entidad.yc * 1000) == Math.Truncate(centro.Y * 1000) &&
+                Math.Truncate(entidad.radio * 1000) == Math.Truncate(radio * 1000))
             {
                 return true;
             }
@@ -7740,8 +7752,10 @@ namespace Logica {
         }
         public bool Buscar_Recta(Componente entidad, Point3d p1, Point3d p2)
         {
-            if (entidad.lista_puntos[0].p.X == p1.X && entidad.lista_puntos[0].p.Y == p1.Y &&
-                entidad.lista_puntos[entidad.lista_puntos.Count-1].p.X == p2.X && entidad.lista_puntos[entidad.lista_puntos.Count - 1].p.Y == p2.Y)
+            if (Math.Truncate(entidad.lista_puntos[0].p.X * 1000) == Math.Truncate(p1.X * 1000) && 
+                Math.Truncate(entidad.lista_puntos[0].p.Y * 1000) == Math.Truncate(p1.Y * 1000) &&
+                Math.Truncate(entidad.lista_puntos[entidad.lista_puntos.Count-1].p.X * 1000) == Math.Truncate(p2.X * 1000) && 
+                Math.Truncate(entidad.lista_puntos[entidad.lista_puntos.Count - 1].p.Y * 1000) == Math.Truncate(p2.Y * 1000))
             {
                 return true;
             }
@@ -7756,6 +7770,7 @@ namespace Logica {
                 Arc arco = oSs.seleccionUsuario<Arc>("Selecciona una curva", "No has seleccionado una curva");
                 if (arco != null)
                 {
+                    MessageBox.Show("Arco seleccionado.", "Arco a utilizar");
                     return arco;
                 }
                 else
@@ -7773,6 +7788,7 @@ namespace Logica {
                 Line recta = oSs.seleccionUsuario<Line>("Selecciona una Linea", "No has seleccionado una Linea");
                 if (recta != null)
                 {
+                    MessageBox.Show("Recta seleccionada.", "Recta a utilizar");
                     return recta;
                 }
                 else
@@ -7787,6 +7803,7 @@ namespace Logica {
             Arc curva= Get_Curva();
             if (curva!=null)
             {
+                
                 c.radio = curva.Radius;
                 c.xc = curva.Center.X;
                 c.yc = curva.Center.Y;
@@ -7835,6 +7852,7 @@ namespace Logica {
             Line recta = Get_Recta();
             if (recta != null)
             {
+                
                 c.lista_puntos = null;
                 c.lista_puntos = new List<Punto>();
                 Punto p1 = new Punto(new Point2d(recta.StartPoint.X, recta.StartPoint.Y));
@@ -31853,12 +31871,12 @@ namespace Logica {
                         Punto p3 = new Punto(new Point2d(componentes[i].lista_puntos[componentes[i].lista_puntos.Count-1].p.X, componentes[i].lista_puntos[componentes[i].lista_puntos.Count - 1].p.Y));
                         if (componentes[i].azte < componentes[i].azts)
                         {
-                            componentes[i].azte -= 2;
-                            componentes[i].azts += 2;
+                            componentes[i].azte -= 1;
+                            componentes[i].azts += 1;
                             p1 = Rellenar_centro(p1, componentes[i].xc, componentes[i].yc, 1);//primer punto
-                            double az1 = p1.Az + 90 - 2;
+                            double az1 = p1.Az + 90 - 1;
                             p3 = Rellenar_centro(p3, componentes[i].xc, componentes[i].yc, 1);//segundo punto
-                            double az3 = p3.Az + 90 + 2;
+                            double az3 = p3.Az + 90 + 1;
 
                             double xx1 = componentes[i].xc - (componentes[i].radio) * Math.Sin((az1 + 90) * Math.PI / 180);
                             double yy1 = componentes[i].yc - (componentes[i].radio) * Math.Cos((az1 + 90) * Math.PI / 180);
@@ -31872,12 +31890,12 @@ namespace Logica {
                         }
                         else
                         {
-                            componentes[i].azte += 2;
-                            componentes[i].azts -= 2;
+                            componentes[i].azte += 1;
+                            componentes[i].azts -= 1;
                             p1 = Rellenar_centro(p1, componentes[i].xc, componentes[i].yc, 1);//primer punto
-                            double az1 = p1.Az + 90 + 2;
+                            double az1 = p1.Az + 90 + 1;
                             p3 = Rellenar_centro(p3, componentes[i].xc, componentes[i].yc, 1);//segundo punto
-                            double az3 = p3.Az + 90 - 2;
+                            double az3 = p3.Az + 90 - 1;
 
 
                             double xx1 = componentes[i].xc - (componentes[i].radio) * Math.Sin((az1 + 90) * Math.PI / 180);
@@ -31897,9 +31915,9 @@ namespace Logica {
                         {
                             if (componentes[i - 1].azr < componentes[i].azte)
                             {
-                                componentes[i].azte -= 2;
+                                componentes[i].azte -= 1;
                                 Punto p1 = Rellenar_centro(componentes[i].lista_puntos[0], componentes[i].xc, componentes[i].yc, 1);//primer punto
-                                double az1 = p1.Az + 90 - 2;
+                                double az1 = p1.Az + 90 - 1;
                                 double xx1 = componentes[i].xc - (componentes[i].radio) * Math.Sin((az1 + 90) * Math.PI / 180);
                                 double yy1 = componentes[i].yc - (componentes[i].radio) * Math.Cos((az1 + 90) * Math.PI / 180);
                                 p1 = new Punto(new Point2d(xx1, yy1));
@@ -31907,9 +31925,9 @@ namespace Logica {
                             }
                             else
                             {
-                                componentes[i].azte += 2;
+                                componentes[i].azte += 1;
                                 Punto p1 = Rellenar_centro(componentes[i].lista_puntos[0], componentes[i].xc, componentes[i].yc, 1);//primer punto
-                                double az1 = p1.Az + 90 + 2;
+                                double az1 = p1.Az + 90 + 1;
                                 double xx1 = componentes[i].xc - (componentes[i].radio) * Math.Sin((az1 + 90) * Math.PI / 180);
                                 double yy1 = componentes[i].yc - (componentes[i].radio) * Math.Cos((az1 + 90) * Math.PI / 180);
                                 p1 = new Punto(new Point2d(xx1, yy1));
@@ -31924,9 +31942,9 @@ namespace Logica {
                         {
                             if (componentes[i - 1].azr < componentes[i].azts)
                             {
-                                componentes[i].azts += 2;
+                                componentes[i].azts += 1;
                                 Punto p1 = Rellenar_centro(componentes[i].lista_puntos[componentes[i].lista_puntos.Count - 1], componentes[i].xc, componentes[i].yc, 1);//primer punto
-                                double az1 = p1.Az + 90 + 2;
+                                double az1 = p1.Az + 90 + 1;
                                 double xx1 = componentes[i].xc - (componentes[i].radio) * Math.Sin((az1 + 90) * Math.PI / 180);
                                 double yy1 = componentes[i].yc - (componentes[i].radio) * Math.Cos((az1 + 90) * Math.PI / 180);
                                 p1 = new Punto(new Point2d(xx1, yy1));
@@ -31934,9 +31952,9 @@ namespace Logica {
                             }
                             else
                             {
-                                componentes[i].azts -= 2;
+                                componentes[i].azts -= 1;
                                 Punto p1 = Rellenar_centro(componentes[i].lista_puntos[componentes[i].lista_puntos.Count - 1], componentes[i].xc, componentes[i].yc, 1);//primer punto
-                                double az1 = p1.Az + 90 - 2;
+                                double az1 = p1.Az + 90 - 1;
                                 double xx1 = componentes[i].xc - (componentes[i].radio) * Math.Sin((az1 + 90) * Math.PI / 180);
                                 double yy1 = componentes[i].yc - (componentes[i].radio) * Math.Cos((az1 + 90) * Math.PI / 180);
                                 p1 = new Punto(new Point2d(xx1, yy1));

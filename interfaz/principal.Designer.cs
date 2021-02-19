@@ -158,6 +158,10 @@
             this.materialFlatButton6 = new MaterialSkin.Controls.MaterialFlatButton();
             this.CargarPoliPerfil = new MaterialSkin.Controls.MaterialFlatButton();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.materialFlatButton37 = new MaterialSkin.Controls.MaterialFlatButton();
+            this.materialFlatButton36 = new MaterialSkin.Controls.MaterialFlatButton();
+            this.materialFlatButton35 = new MaterialSkin.Controls.MaterialFlatButton();
+            this.materialFlatButton34 = new MaterialSkin.Controls.MaterialFlatButton();
             this.materialFlatButton33 = new MaterialSkin.Controls.MaterialFlatButton();
             this.materialFlatButton32 = new MaterialSkin.Controls.MaterialFlatButton();
             this.materialFlatButton31 = new MaterialSkin.Controls.MaterialFlatButton();
@@ -207,10 +211,6 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.materialFlatButton34 = new MaterialSkin.Controls.MaterialFlatButton();
-            this.materialFlatButton35 = new MaterialSkin.Controls.MaterialFlatButton();
-            this.materialFlatButton36 = new MaterialSkin.Controls.MaterialFlatButton();
-            this.materialFlatButton37 = new MaterialSkin.Controls.MaterialFlatButton();
             this.materialTabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -1003,6 +1003,7 @@
             this.materialFlatButton27.TabIndex = 146;
             this.materialFlatButton27.Text = "Editar Componentes";
             this.materialFlatButton27.UseVisualStyleBackColor = true;
+            this.materialFlatButton27.Visible = false;
             this.materialFlatButton27.Click += new System.EventHandler(this.materialFlatButton27_Click);
             // 
             // materialFlatButton26
@@ -2190,6 +2191,78 @@
             this.tabPage4.Text = "tabPage4";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
+            // materialFlatButton37
+            // 
+            this.materialFlatButton37.AutoSize = true;
+            this.materialFlatButton37.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.materialFlatButton37.Depth = 0;
+            this.materialFlatButton37.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.materialFlatButton37.Location = new System.Drawing.Point(533, 433);
+            this.materialFlatButton37.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.materialFlatButton37.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialFlatButton37.Name = "materialFlatButton37";
+            this.materialFlatButton37.Primary = false;
+            this.materialFlatButton37.Size = new System.Drawing.Size(149, 36);
+            this.materialFlatButton37.TabIndex = 128;
+            this.materialFlatButton37.Text = "Cambiar Pendiente";
+            this.materialFlatButton37.UseVisualStyleBackColor = true;
+            this.materialFlatButton37.Visible = false;
+            this.materialFlatButton37.Click += new System.EventHandler(this.materialFlatButton37_Click);
+            // 
+            // materialFlatButton36
+            // 
+            this.materialFlatButton36.AutoSize = true;
+            this.materialFlatButton36.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.materialFlatButton36.Depth = 0;
+            this.materialFlatButton36.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.materialFlatButton36.Location = new System.Drawing.Point(533, 385);
+            this.materialFlatButton36.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.materialFlatButton36.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialFlatButton36.Name = "materialFlatButton36";
+            this.materialFlatButton36.Primary = false;
+            this.materialFlatButton36.Size = new System.Drawing.Size(186, 36);
+            this.materialFlatButton36.TabIndex = 127;
+            this.materialFlatButton36.Text = "Seleccionar Pendientes ";
+            this.materialFlatButton36.UseVisualStyleBackColor = true;
+            this.materialFlatButton36.Visible = false;
+            this.materialFlatButton36.Click += new System.EventHandler(this.materialFlatButton36_Click);
+            // 
+            // materialFlatButton35
+            // 
+            this.materialFlatButton35.AutoSize = true;
+            this.materialFlatButton35.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.materialFlatButton35.Depth = 0;
+            this.materialFlatButton35.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.materialFlatButton35.Location = new System.Drawing.Point(229, 385);
+            this.materialFlatButton35.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.materialFlatButton35.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialFlatButton35.Name = "materialFlatButton35";
+            this.materialFlatButton35.Primary = false;
+            this.materialFlatButton35.Size = new System.Drawing.Size(283, 36);
+            this.materialFlatButton35.TabIndex = 126;
+            this.materialFlatButton35.Text = "Modificar Componentes Parabólicos";
+            this.materialFlatButton35.UseVisualStyleBackColor = true;
+            this.materialFlatButton35.Visible = false;
+            this.materialFlatButton35.Click += new System.EventHandler(this.materialFlatButton35_Click);
+            // 
+            // materialFlatButton34
+            // 
+            this.materialFlatButton34.AutoSize = true;
+            this.materialFlatButton34.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.materialFlatButton34.Depth = 0;
+            this.materialFlatButton34.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.materialFlatButton34.Location = new System.Drawing.Point(20, 385);
+            this.materialFlatButton34.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.materialFlatButton34.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialFlatButton34.Name = "materialFlatButton34";
+            this.materialFlatButton34.Primary = false;
+            this.materialFlatButton34.Size = new System.Drawing.Size(162, 36);
+            this.materialFlatButton34.TabIndex = 125;
+            this.materialFlatButton34.Text = "Editar componentes";
+            this.materialFlatButton34.UseVisualStyleBackColor = true;
+            this.materialFlatButton34.Visible = false;
+            this.materialFlatButton34.Click += new System.EventHandler(this.materialFlatButton34_Click);
+            // 
             // materialFlatButton33
             // 
             this.materialFlatButton33.AutoSize = true;
@@ -2862,79 +2935,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(133, 20);
             this.label2.TabIndex = 138;
-            this.label2.Text = "Poly2Axis v1.4";
-            // 
-            // materialFlatButton34
-            // 
-            this.materialFlatButton34.AutoSize = true;
-            this.materialFlatButton34.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.materialFlatButton34.Depth = 0;
-            this.materialFlatButton34.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.materialFlatButton34.Location = new System.Drawing.Point(20, 385);
-            this.materialFlatButton34.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.materialFlatButton34.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialFlatButton34.Name = "materialFlatButton34";
-            this.materialFlatButton34.Primary = false;
-            this.materialFlatButton34.Size = new System.Drawing.Size(162, 36);
-            this.materialFlatButton34.TabIndex = 125;
-            this.materialFlatButton34.Text = "Editar componentes";
-            this.materialFlatButton34.UseVisualStyleBackColor = true;
-            this.materialFlatButton34.Visible = false;
-            this.materialFlatButton34.Click += new System.EventHandler(this.materialFlatButton34_Click);
-            // 
-            // materialFlatButton35
-            // 
-            this.materialFlatButton35.AutoSize = true;
-            this.materialFlatButton35.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.materialFlatButton35.Depth = 0;
-            this.materialFlatButton35.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.materialFlatButton35.Location = new System.Drawing.Point(229, 385);
-            this.materialFlatButton35.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.materialFlatButton35.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialFlatButton35.Name = "materialFlatButton35";
-            this.materialFlatButton35.Primary = false;
-            this.materialFlatButton35.Size = new System.Drawing.Size(283, 36);
-            this.materialFlatButton35.TabIndex = 126;
-            this.materialFlatButton35.Text = "Modificar Componentes Parabólicos";
-            this.materialFlatButton35.UseVisualStyleBackColor = true;
-            this.materialFlatButton35.Visible = false;
-            this.materialFlatButton35.Click += new System.EventHandler(this.materialFlatButton35_Click);
-            // 
-            // materialFlatButton36
-            // 
-            this.materialFlatButton36.AutoSize = true;
-            this.materialFlatButton36.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.materialFlatButton36.Depth = 0;
-            this.materialFlatButton36.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.materialFlatButton36.Location = new System.Drawing.Point(533, 385);
-            this.materialFlatButton36.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.materialFlatButton36.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialFlatButton36.Name = "materialFlatButton36";
-            this.materialFlatButton36.Primary = false;
-            this.materialFlatButton36.Size = new System.Drawing.Size(186, 36);
-            this.materialFlatButton36.TabIndex = 127;
-            this.materialFlatButton36.Text = "Seleccionar Pendientes ";
-            this.materialFlatButton36.UseVisualStyleBackColor = true;
-            this.materialFlatButton36.Visible = false;
-            this.materialFlatButton36.Click += new System.EventHandler(this.materialFlatButton36_Click);
-            // 
-            // materialFlatButton37
-            // 
-            this.materialFlatButton37.AutoSize = true;
-            this.materialFlatButton37.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.materialFlatButton37.Depth = 0;
-            this.materialFlatButton37.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.materialFlatButton37.Location = new System.Drawing.Point(533, 433);
-            this.materialFlatButton37.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.materialFlatButton37.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialFlatButton37.Name = "materialFlatButton37";
-            this.materialFlatButton37.Primary = false;
-            this.materialFlatButton37.Size = new System.Drawing.Size(149, 36);
-            this.materialFlatButton37.TabIndex = 128;
-            this.materialFlatButton37.Text = "Cambiar Pendiente";
-            this.materialFlatButton37.UseVisualStyleBackColor = true;
-            this.materialFlatButton37.Visible = false;
-            this.materialFlatButton37.Click += new System.EventHandler(this.materialFlatButton37_Click);
+            this.label2.Text = "Poly2Axis v1.5";
             // 
             // principal
             // 

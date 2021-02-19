@@ -65,6 +65,7 @@ namespace interfaz {
         int contador_resultados_numero = 0;
         int conta_apartado = 0;
         int conta_apartado_perfil = 0;
+        string documento="";
         /*
          * Perfil
          */
@@ -206,6 +207,7 @@ namespace interfaz {
             if (miDialogo.ShowDialog() == DialogResult.OK)
             {
                 miFileOut = miDialogo.FileName;
+                documento = miFileOut;
                 System.IO.StreamReader file = new System.IO.StreamReader(@miFileOut);
                 dsApp dsApp = new dsApp();
                 while ((line = file.ReadLine()) != null)
@@ -1486,7 +1488,7 @@ namespace interfaz {
 
                         //ComponentesInfoPanel componentesInfoPanel2 = new ComponentesInfoPanel(calculoPolilinea.Componentes);
                         //componentesInfoPanel2.Show();
-                        //calculoPolilinea.Dibujar_entidades(4);
+                        calculoPolilinea.Dibujar_entidades(4);
                         calculoPolilinea.Crear_Trazado(this.calculoPolilineaPreferencias.Gran_r);
                         Lista_Resultados.Add(calculoPolilinea.Dibujar_Todo(this.calculoPolilineaPreferencias.Rotulacion, this.calculoPolilineaPreferencias.Rotu, Lista_original_2d, distancia_menor, true, 0));
                         if (Lista_Resultados[Lista_Resultados.Count - 1].Item2 == 1000.0)
@@ -1504,6 +1506,7 @@ namespace interfaz {
 
 
                             MessageBox.Show("Revise autocad para ver la salida del algoritmo");
+                            materialFlatButton27.Visible = true;
                             progressBar1.Style = ProgressBarStyle.Blocks;
                             progressBar1.Maximum = 1;
                             progressBar1.Value = 1;
@@ -1707,6 +1710,7 @@ namespace interfaz {
                             calculoPolilinea.Eli_Clo = double.Parse(textBox10.Text);
                             //MessageBox.Show("CalculoPolilinea inicializado");
                             ejecutar1ButtonClick();
+                            
                         }
                         else
                         {
@@ -3689,6 +3693,7 @@ namespace interfaz {
                                     th.Abort();
                                     MessageBox.Show("Se han encontrado " + resultados + " trazados resultantes. \n\nRevise autocad para ver la salida del algoritmo. Si quiere mejorar el resultado hágalo con el cálculo manual y las opciones avanzadas.");
                                     Crear_Informe_Automatico(L_Resultados, dibujar, minimo, medio, Lista_Resultados);
+                                    materialFlatButton27.Visible = true;
                                     L_Resultados = new List<Resultados>();
                                 }
                                 else if (!salir_bucle)
@@ -3838,6 +3843,7 @@ namespace interfaz {
                                             MessageBox.Show("Se han encontrado " + resultados + " trazados resultantes.\n\nRevise autocad para ver la salida del algoritmo. Si quiere mejorar el resultado hágalo con el cálculo manual y las opciones avanzadas.");
                                             Crear_Informe_Automatico(L_Resultados, dibujar, minimo, medio, Lista_Resultados);
                                             L_Resultados = new List<Resultados>();
+                                            materialFlatButton27.Visible = true;
                                         }
                                         else
                                         {
@@ -4006,6 +4012,7 @@ namespace interfaz {
                                         MessageBox.Show("Se han encontrado " + resultados + " trazados resultantes.\n\nRevise autocad para ver la salida del algoritmo. Si quiere mejorar el resultado hágalo con el cálculo manual y las opciones avanzadas.");
                                         Crear_Informe_Automatico(L_Resultados, dibujar, minimo, medio, Lista_Resultados);
                                         L_Resultados = new List<Resultados>();
+                                        materialFlatButton27.Visible = true;
                                     }
                                     else
                                     {
@@ -5370,21 +5377,28 @@ namespace interfaz {
         private void materialFlatButton25_Click(object sender, EventArgs e)
         {
             calculoPolilinea.Dibujar_entidades_finales_curvas();
-
-            materialFlatButton25.Visible = false;
-            materialFlatButton26.Visible = false;
-            materialFlatButton29.Visible = true;
-            materialFlatButton28.Visible = false;
-            materialFlatButton30.Visible = false;
+            if (calculoPolilinea.curva_antigua!=null)
+            {
+                materialFlatButton25.Visible = false;
+                materialFlatButton26.Visible = false;
+                materialFlatButton29.Visible = true;
+                materialFlatButton28.Visible = false;
+                materialFlatButton30.Visible = false;
+            }
+            
         }
 
         private void materialFlatButton26_Click(object sender, EventArgs e)
         {
             calculoPolilinea.Dibujar_entidades_finales_rectas();
-            materialFlatButton25.Visible = false;
-            materialFlatButton26.Visible = false;
-            materialFlatButton29.Visible = false;
-            materialFlatButton30.Visible = true;
+            if (calculoPolilinea.recta_antigua!=null)
+            {
+                materialFlatButton25.Visible = false;
+                materialFlatButton26.Visible = false;
+                materialFlatButton29.Visible = false;
+                materialFlatButton30.Visible = true;
+            }
+            
         }
 
         private void materialFlatButton27_Click(object sender, EventArgs e)
@@ -5467,6 +5481,7 @@ namespace interfaz {
             try
             {
                 calculoPolilinea.Dibujar_entidades_finales_curvas_paso2();
+                calculoPolilinea.Comprobar_componentes_modificacion();
                 calculoPolilinea.Mcomponenetes = new List<EjeDeTrazado.componentes.Componente>();
                 calculoPolilinea.Crear_Trazado_Modificado(this.calculoPolilineaPreferencias.Gran_r);
                 calculoPolilinea.DibujarTrazado(calculoPolilinea.Mcomponenetes, conta_apartado);
@@ -5488,8 +5503,8 @@ namespace interfaz {
                 calculoPolilinea.Dibujar_entidades_finales_rectas_paso2();
                 calculoPolilinea.Mcomponenetes = new List<EjeDeTrazado.componentes.Componente>();
                 calculoPolilinea.Crear_Trazado_Modificado(this.calculoPolilineaPreferencias.Gran_r);
-                calculoPolilinea.DibujarTrazado(calculoPolilinea.Mcomponenetes);
-                calculoPolilinea.Rotulado_final(calculoPolilinea.Mcomponenetes, this.calculoPolilineaPreferencias.Rotulacion, this.calculoPolilineaPreferencias.Rotu);
+                calculoPolilinea.DibujarTrazado(calculoPolilinea.Mcomponenetes, conta_apartado);
+                calculoPolilinea.Rotulado_final(calculoPolilinea.Mcomponenetes, this.calculoPolilineaPreferencias.Rotulacion, this.calculoPolilineaPreferencias.Rotu, conta_apartado);
                 calculoPolilinea.Desactivar_Capas_Componentes();
                 materialFlatButton30.Visible = false;
                 conta_apartado++;
@@ -5507,9 +5522,12 @@ namespace interfaz {
                 try
                 {
                     calculoPolilineaPerfil.Dibujar_entidades_finales_rectas();
-                    materialFlatButton28.Visible = false;
-                    materialFlatButton31.Visible = false;
-                    materialFlatButton32.Visible = true;
+                    if (calculoPolilineaPerfil.pendiente_antigua!=null)
+                    {
+                        materialFlatButton28.Visible = false;
+                        materialFlatButton31.Visible = false;
+                        materialFlatButton32.Visible = true;
+                    }                    
                 }
                 catch
                 {
@@ -5664,12 +5682,14 @@ namespace interfaz {
             {
                 try
                 {
-                    materialFlatButton35.Visible = false;
-                    materialFlatButton34.Visible = false;
                     calculoPolilineaPerfil.Dibujar_entidades_finales_rectas();
-                    materialFlatButton37.Visible = true;
-
-                    materialFlatButton36.Visible = false;
+                    if (calculoPolilineaPerfil.pendiente_antigua!=null)
+                    {
+                        materialFlatButton35.Visible = false;
+                        materialFlatButton37.Visible = true;
+                        materialFlatButton36.Visible = false;
+                    }
+                   
                 }
                 catch
                 {
