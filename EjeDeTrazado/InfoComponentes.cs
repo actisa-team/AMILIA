@@ -92,7 +92,8 @@ namespace EjeDeTrazado
                     /*Punto_Entrada = new Punto3d(miClo.getPointAtDist(miClo.getPkIni)[0], miClo.getPointAtDist(miClo.getPkIni)[1], 0);
                     Punto_Salida = new Punto3d(miClo.getPointAtDist(miClo.getPkFin)[0], miClo.getPointAtDist(miClo.getPkFin)[1], 0);*/
                     List<double[]> Lista = miComponente.getComponentPoints();
-                    InfoComponente miNewComp = new InfoComponente(miComponente.getTipoComponente(), miComponente.draw() as List<Punto3d>, miClo.getPkIni, miClo.getPkFin, miClo.getValorA(), miClo.getPkFin- miClo.getPkIni, Punto_Entrada, Punto_Salida);
+                    
+                    InfoComponente miNewComp = new InfoComponente(miComponente.getTipoComponente(), miComponente.draw() as List<Punto3d>, miClo.getPkIni, miClo.getPkIni+miClo.getLongitud(), miClo.getValorA(), miClo.getLongitud(), Punto_Entrada, Punto_Salida);
                     miNewComp.setPeralte = miComponente.getPeralte();
                     miNewComp.setVariacionMI = miClo.getVariacionMI();
                     miNewComp.setVariacionMD = miClo.getVariacionMD();

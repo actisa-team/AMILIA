@@ -8,7 +8,7 @@ using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
-using Autodesk.AutoCAD.Interop.Common;
+//using Autodesk.AutoCAD.Interop.Common;
 using Autodesk.AutoCAD.Windows;
 
 namespace Logica
@@ -65,6 +65,7 @@ namespace Logica
         public bool cambio_giro_modificado { get; set; }
         public bool p_perfil {get;set;}//solo lo utilizamos para guardar la polilinea
         public double pp_perfil { get; set; }
+        public double z { get; set; }
     public Punto()
         {
 

@@ -1,0 +1,385 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1A1C196F-8548-4241-A714-967BA5B40ED7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>tadLayLogica</RootNamespace>
+    <AssemblyName>tadLayLogica</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>tadil.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'app|AnyCPU'">
+    <OutputPath>bin\app\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'app|x64'">
+    <OutputPath>bin\x64\app\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="accoremgd">
+      <HintPath>..\acReferencias\referencias\accoremgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="acdbmgd">
+      <HintPath>..\acReferencias\referencias\acdbmgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="acmgd">
+      <HintPath>..\acReferencias\referencias\acmgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="datos\bbdd\Adecuacion\oDalAdecuacion.cs" />
+    <Compile Include="datos\bbdd\Gis\oDalTbPatrimoniales.cs" />
+    <Compile Include="datos\bbdd\Gis\oDalTbSocioEconomicas.cs" />
+    <Compile Include="datos\bbdd\Secciones\oDalSecciones.cs" />
+    <Compile Include="datos\bbdd\Secciones\oDalTbRoadDobleSinMediana.cs" />
+    <Compile Include="datos\normas\oDalTbNormasKv.cs" />
+    <Compile Include="datos\oDsRoad.cs" />
+    <Compile Include="datos\oSubDMesh.cs" />
+    <Compile Include="datos\proyecto\oDalTbObraLinealSecciones.cs" />
+    <Compile Include="datos\proyecto\oDalTbSolucionPendientes.cs" />
+    <Compile Include="datos\proyecto\estudioPrevio\oDalTbEstudioPrevio.cs" />
+    <Compile Include="datos\proyecto\oDalTbSolucionCoeSensibilidad.cs" />
+    <Compile Include="datos\oSingletonDsApp.cs" />
+    <Compile Include="datos\bbdd\Gis\oDalGeoTbCapas.cs" />
+    <Compile Include="datos\bbdd\Gis\oDalTbCruceInfra.cs" />
+    <Compile Include="datos\bbdd\Gis\oDalTbDoHiPu.cs" />
+    <Compile Include="datos\bbdd\Gis\oDalTbEst.cs" />
+    <Compile Include="datos\bbdd\Gis\oDalGeoTbZonas.cs" />
+    <Compile Include="datos\bbdd\Gis\oDalTbCim.cs" />
+    <Compile Include="datos\bbdd\Gis\oDalTbTun.cs" />
+    <Compile Include="datos\bbdd\MacroPrecios\oDalMacroPrecios.cs" />
+    <Compile Include="datos\oDsBd.cs" />
+    <Compile Include="datos\bbdd\precios\oDalEstructuras.cs" />
+    <Compile Include="datos\bbdd\precios\oDalMateriales.cs" />
+    <Compile Include="datos\bbdd\Secciones\oDalTabRoadDobleAutovia.cs" />
+    <Compile Include="datos\bbdd\Secciones\oDalTabRoadUnica.cs" />
+    <Compile Include="datos\bbdd\Secciones\oDalTabCunTra.cs" />
+    <Compile Include="datos\bbdd\Secciones\oDalTabCunTri.cs" />
+    <Compile Include="datos\bbdd\Secciones\oDalTbCunetaTipos.cs" />
+    <Compile Include="datos\oSingletonDsBd.cs" />
+    <Compile Include="datos\proyecto\oDalTbEstilosVisualizacion.cs" />
+    <Compile Include="datos\proyecto\oDalTbAbanico.cs" />
+    <Compile Include="datos\proyecto\oDalTbEstudioInformativoTdb.cs" />
+    <Compile Include="datos\proyecto\oDalTbFiles.cs" />
+    <Compile Include="datos\proyecto\oDalTerreno.cs" />
+    <Compile Include="datos\proyecto\oDalTbProyecto.cs" />
+    <Compile Include="datos\proyecto\oDalTbProyectosTipo.cs" />
+    <Compile Include="datos\proyecto\oDalPresupuesto.cs" />
+    <Compile Include="datos\proyecto\oDalPtoIniFin.cs" />
+    <Compile Include="datos\proyecto\oDalValoracion.cs" />
+    <Compile Include="datos\proyecto\oDalConsumoVelocidad.cs" />
+    <Compile Include="datos\proyecto\oDalExpropiaciones.cs" />
+    <Compile Include="datos\proyecto\oDalMediciones.cs" />
+    <Compile Include="datos\proyecto\oDalTbSolucion.cs" />
+    <Compile Include="informes\oExcelInforme.cs" />
+    <Compile Include="informes\Valoracion\oInfValoracionHipotesis.cs" />
+    <Compile Include="logica\Adecuacion\oZonaAdecuacion.cs" />
+    <Compile Include="logica\Comandos\oComandoCorredores.cs" />
+    <Compile Include="logica\Comandos\oComandoEjeVisibilidadGlobal.cs" />
+    <Compile Include="logica\Comandos\oComandoHelpView.cs" />
+    <Compile Include="logica\Comandos\oComandoPerfilLongitudinalTadil.cs" />
+    <Compile Include="logica\Comandos\oComandoEjeTrazadoTadil.cs" />
+    <Compile Include="logica\Comandos\oComandoObraLinealExport.cs" />
+    <Compile Include="logica\Comandos\oComandoInformes.cs" />
+    <Compile Include="logica\Comandos\oComandoObraLineal.cs" />
+    <Compile Include="logica\Comandos\oComandoEjeVisibilidad.cs" />
+    <Compile Include="logica\Comandos\oComandoSimplificarPolilinea.cs" />
+    <Compile Include="logica\Comandos\oComandoTerreno.cs" />
+    <Compile Include="logica\Comandos\oComandoEjeBasico.cs" />
+    <Compile Include="logica\EjeBasicoNew\collection\oSeccionEjeBasico.cs" />
+    <Compile Include="logica\EjeBasicoNew\collection\oTramosEntronqueFinalPMCollection.cs" />
+    <Compile Include="logica\EjeBasicoNew\oAbanicoByPoint.cs" />
+    <Compile Include="logica\EjeBasicoNew\oEntronqueFinalPM.cs" />
+    <Compile Include="logica\EjeBasicoNew\oExTramoError.cs" />
+    <Compile Include="logica\EjeBasicoNew\tools\oConvexHull.cs" />
+    <Compile Include="logica\EjeBasicoNew\oAbanicoDesign.cs" />
+    <Compile Include="logica\EjeBasicoNew\oCoeMinMovimientoAlturasMaximas.cs" />
+    <Compile Include="logica\EjeBasicoNew\oEjeBasicoSolucion.cs" />
+    <Compile Include="logica\EjeBasicoNew\oTramosValoracion.cs" />
+    <Compile Include="logica\EjeBasicoNew\tools\oTarget.cs" />
+    <Compile Include="logica\EjeBasicoNew\collection\oTramosWinCollection.cs" />
+    <Compile Include="logica\EjeBasicoNew\tramos\oFactoryTramoSalidaLlegada.cs" />
+    <Compile Include="logica\EjeBasicoNew\collection\oTramoAbanicoCollection.cs" />
+    <Compile Include="logica\EjeBasicoNew\oRoadPendiente.cs" />
+    <Compile Include="logica\EjeBasicoNew\tramos\oSeccionEjeBasico.cs" />
+    <Compile Include="logica\EjeBasicoNew\tramos\oTramo.cs" />
+    <Compile Include="logica\EjeGlobalModificado\EjeGlobal.cs" />
+    <Compile Include="logica\EjeLongitudinalTadil\oFactoryPerfilLongitudinalTadil.cs" />
+    <Compile Include="logica\EjeLongitudinalTadil\PerfilLongitudinalDraw.cs" />
+    <Compile Include="logica\EjeTrazadoTadil\oEjeTrazadoTadilRotular.cs" />
+    <Compile Include="logica\EjeTrazadoTadil\oFactoryEjeTrazadoTadil.cs" />
+    <Compile Include="logica\EjeVisibilidad\oEjeVisibilidadGlobal.cs" />
+    <Compile Include="logica\Entidades\oEstructura.cs" />
+    <Compile Include="logica\estudioTipo\oFactoryEstudios.cs" />
+    <Compile Include="logica\LandXml\LandXmlImport.cs" />
+    <Compile Include="logica\LandXml\TrazadoLandXml.cs" />
+    <Compile Include="logica\LandXml\TrazadoLandXml_old.cs" />
+    <Compile Include="logica\medicion\entidades\oRowMaterial.cs" />
+    <Compile Include="logica\ObraLineal\Geometria\Calzada\oSecRoadDobAutSinMediana.cs" />
+    <Compile Include="logica\EjeLongitudinalTadil\oPerfilSeccionesInfo.cs" />
+    <Compile Include="logica\ObraLineal\secciones\oSeccionGuitarra.cs" />
+    <Compile Include="logica\secciones\oZonaDobleSinMediana.cs" />
+    <Compile Include="logica\secciones\oZonaDoble.cs" />
+    <Compile Include="logica\secciones\oZonaUnicaGen.cs" />
+    <Compile Include="logica\tadil\MessageBoxManager.cs" />
+    <Compile Include="logica\tadil\oTadilLayer.cs" />
+    <Compile Include="logica\tadil\oTadilSwitch.cs" />
+    <Compile Include="logica\terreno\oSingletonPuntosTerrenoASC.cs" />
+    <Compile Include="logica\terreno\oSingletonPuntosTerreno.cs" />
+    <Compile Include="logica\zonaGis\secciones\oSeccionZonasDesign.cs" />
+    <Compile Include="logica\Tools\oSeccionTunelDwg.cs" />
+    <Compile Include="logica\Tools\oSeccionPuenteDwg.cs" />
+    <Compile Include="logica\estudioTipo\oEstudioTipoGis.cs" />
+    <Compile Include="logica\Entidades\oKv.cs" />
+    <Compile Include="logica\Enumeraciones\oExtensionEnumeraciones.cs" />
+    <Compile Include="logica\Entidades\oRadioAvalue.cs" />
+    <Compile Include="logica\Entidades\EjeTJ\Eje\oEjePlus.cs" />
+    <Compile Include="logica\Entidades\EjeTJ\Eje\oEjeSimple.cs" />
+    <Compile Include="logica\Entidades\EjeTJ\oArgVertice.cs" />
+    <Compile Include="logica\Entidades\EjeTJ\Secciones\oSeccion.cs" />
+    <Compile Include="logica\Entidades\EjeTJ\Secciones\oSeccionSimple.cs" />
+    <Compile Include="logica\Entidades\EjeTJ\Tramos\oTramoMaster.cs" />
+    <Compile Include="logica\Entidades\EjeTJ\Tramos\oTramoAcuerdos.cs" />
+    <Compile Include="logica\Entidades\EjeTJ\Vertice\oAcuerdo.cs" />
+    <Compile Include="logica\Entidades\EjeTJ\Vertice\oVerNodo.cs" />
+    <Compile Include="logica\Entidades\EjeTJ\Vertice\oVertice.cs" />
+    <Compile Include="logica\Entidades\EjeTJ\Vertice\oVerticeExplanada.cs" />
+    <Compile Include="logica\EjeVisibilidad\oEjeVisibilidad.cs" />
+    <Compile Include="logica\valoracion\seccion\oSeccionValoracion.cs" />
+    <Compile Include="logica\valoracion\oValoracionAreas.cs" />
+    <Compile Include="logica\Enumeraciones\oEnum.cs" />
+    <Compile Include="logica\medicion\oFactoryPartidas.cs" />
+    <Compile Include="logica\medicion\oMedicionExpropiacion.cs" />
+    <Compile Include="logica\medicion\oMedicionBySolucion.cs" />
+    <Compile Include="logica\valoracion\oValoracionListadoSoluciones.cs" />
+    <Compile Include="logica\tadil\oSingletonProyecto.cs" />
+    <Compile Include="logica\tadil\oSolucion.cs" />
+    <Compile Include="logica\valoracion\ItemsValorados\oValoracionEstructuraMuro.cs" />
+    <Compile Include="logica\valoracion\ItemsValorados\oValoracionTuneles.cs" />
+    <Compile Include="logica\valoracion\oValoracionComposite.cs" />
+    <Compile Include="logica\valoracion\ItemsValorados\oValoracionPuentesCimentacion.cs" />
+    <Compile Include="logica\valoracion\ItemsValorados\oValoracionGeotecnia.cs" />
+    <Compile Include="logica\valoracion\oValoracionSolucion.cs" />
+    <Compile Include="logica\valoracion\ItemsValorados\oValoracionTierrasCompensacion.cs" />
+    <Compile Include="logica\valoracion\ItemsValorados\oValoracionTierrasVolumenMovimiento.cs" />
+    <Compile Include="logica\valoracion\ItemsValorados\oValoracionTrazadoTiempo.cs" />
+    <Compile Include="logica\valoracion\ItemsValorados\oValoracionTrazadoPlanta.cs" />
+    <Compile Include="logica\valoracion\ItemsValorados\oValoracionTrazadoAlzado.cs" />
+    <Compile Include="logica\presupuesto\oPresupuestoPcaPublicoPrivado.cs" />
+    <Compile Include="logica\presupuesto\oRptPresupuestoItems.cs" />
+    <Compile Include="logica\presupuesto\oRptPresupuestoHeader.cs" />
+    <Compile Include="logica\presupuesto\oPresupuestoPBL.cs" />
+    <Compile Include="logica\presupuesto\oPresupuestoPcaPublico.cs" />
+    <Compile Include="logica\presupuesto\oRptPresupuestoFooter.cs" />
+    <Compile Include="logica\rentabilidad\oRentabilidadAnalisisPrivada.cs" />
+    <Compile Include="logica\rentabilidad\oRentabilidadAnalisisSocial.cs" />
+    <Compile Include="logica\rentabilidad\historicos\oHistoricoExplotacionSeguros.cs" />
+    <Compile Include="logica\rentabilidad\oRentabilidadCore.cs" />
+    <Compile Include="logica\rentabilidad\historicos\oHistoricoConstruccion.cs" />
+    <Compile Include="logica\rentabilidad\historicos\oHistoricoExplotacionEmpleo.cs" />
+    <Compile Include="logica\rentabilidad\historicos\oHistoricoFuncionamientoTiempo.cs" />
+    <Compile Include="logica\rentabilidad\historicos\oHistoricoSubvenciones.cs" />
+    <Compile Include="logica\rentabilidad\historicos\oHistoricoAccidentes.cs" />
+    <Compile Include="logica\rentabilidad\oRentabilidadRow.cs" />
+    <Compile Include="logica\rentabilidad\oRentabilidadAnalisis.cs" />
+    <Compile Include="logica\rentabilidad\oVehiculoCosteFuncionamientoTiempo.cs" />
+    <Compile Include="logica\rentabilidad\historicos\oHistoricoConservacionRehabilitacion.cs" />
+    <Compile Include="logica\rentabilidad\historicos\oHistoricoTasa.cs" />
+    <Compile Include="logica\rentabilidad\historicos\oHistoricoPeajes.cs" />
+    <Compile Include="logica\rentabilidad\historicos\oHistoricoTrafico.cs" />
+    <Compile Include="logica\ObraLineal\Geometria\decCunetas\oCunetaTrapezoidalDrawable.cs" />
+    <Compile Include="logica\ObraLineal\Geometria\decCunetas\oCunetaTrapezoidalModel.cs" />
+    <Compile Include="logica\ObraLineal\Geometria\decCunetas\oCunetaTriangularDrawable.cs" />
+    <Compile Include="logica\ObraLineal\Geometria\decCunetas\oCunetaTriangularModel.cs" />
+    <Compile Include="logica\ObraLineal\Geometria\decMuros\oMuroModel.cs" />
+    <Compile Include="logica\ObraLineal\Geometria\decMuros\oMuroDesmonteDrawable.cs" />
+    <Compile Include="logica\ObraLineal\Geometria\decMuros\oMuroDesmonteModel.cs" />
+    <Compile Include="logica\ObraLineal\Geometria\decBermas\oBermaDesmonteDrawable.cs" />
+    <Compile Include="logica\ObraLineal\Geometria\decBermas\oTaludBermaModel.cs" />
+    <Compile Include="logica\medicion\IMedicion.cs" />
+    <Compile Include="logica\medicion\oMedBalanceTierras.cs" />
+    <Compile Include="logica\medicion\oMedicionTools.cs" />
+    <Compile Include="logica\medicion\oMedicionTerraplenDesmonte.cs" />
+    <Compile Include="logica\medicion\oMedicionSecciones.cs" />
+    <Compile Include="logica\medicion\oMedItemModel.cs" />
+    <Compile Include="logica\ObraLineal\Geometria\oISecDraw.cs" />
+    <Compile Include="logica\ObraLineal\Geometria\oSecParent.cs" />
+    <Compile Include="logica\ObraLineal\Geometria\Calzada\oSecRoadDobAut.cs" />
+    <Compile Include="logica\ObraLineal\Geometria\Calzada\oSecRoadUniGen.cs" />
+    <Compile Include="logica\ObraLineal\Geometria\Calzada\oSecRoadAbstract.cs" />
+    <Compile Include="logica\ObraLineal\Geometria\Calzada\oSecRoadCompletaConGis.cs" />
+    <Compile Include="logica\ObraLineal\Geometria\Saneo\model\oSaneoDesmonteModel.cs" />
+    <Compile Include="logica\ObraLineal\Geometria\Saneo\model\oSaneoTerraplenModel.cs" />
+    <Compile Include="logica\ObraLineal\Geometria\Saneo\oEjeSaneo.cs" />
+    <Compile Include="logica\ObraLineal\Geometria\Saneo\model\oLwSaneo.cs" />
+    <Compile Include="logica\ObraLineal\Geometria\Saneo\tipos\oSaneoEscalon.cs" />
+    <Compile Include="logica\ObraLineal\Geometria\Saneo\model\oSaneo.cs" />
+    <Compile Include="logica\ObraLineal\Geometria\Saneo\oSecSaneo.cs" />
+    <Compile Include="logica\ObraLineal\Geometria\Saneo\tipos\oSaneoSimple.cs" />
+    <Compile Include="logica\ObraLineal\Geometria\Saneo\tipos\oSaneoEscalonDoble.cs" />
+    <Compile Include="logica\ObraLineal\Geometria\decBermas\oBermaTerraplenDrawable.cs" />
+    <Compile Include="logica\ObraLineal\Geometria\decMuros\oTerraplenSobreMuroModel.cs" />
+    <Compile Include="logica\ObraLineal\Geometria\decMuros\oTerraplenSobreMuroDrawable.cs" />
+    <Compile Include="logica\ObraLineal\oObraLineal.cs" />
+    <Compile Include="logica\ObraLineal\Geometria\decCunetas\oCunetaDecorator.cs" />
+    <Compile Include="logica\ObraLineal\Geometria\decCunetas\oFactorySeccionCunetas.cs" />
+    <Compile Include="logica\ObraLineal\Geometria\Calzada\oFactorySecRoad.cs" />
+    <Compile Include="logica\ObraLineal\secciones\oSeccionDrawable.cs" />
+    <Compile Include="logica\ObraLineal\Planta\oPlantaPk.cs" />
+    <Compile Include="logica\ObraLineal\Planta\oObraLinealPlanta.cs" />
+    <Compile Include="logica\terreno\oSingletonTerreno.cs" />
+    <Compile Include="logica\estudioTipo\Iestudio.cs" />
+    <Compile Include="logica\zonaGis\oZonaNoPaso.cs" />
+    <Compile Include="logica\Entidades\oRoadDes.cs" />
+    <Compile Include="logica\Entidades\oRoadGeo.cs" />
+    <Compile Include="logica\tadil\oFilesManager.cs" />
+    <Compile Include="logica\tadil\oLayerManager.cs" />
+    <Compile Include="logica\valoracion\Xdata\oTadilXdata.cs" />
+    <Compile Include="logica\Enumeraciones\oEnumZonasGis.cs" />
+    <Compile Include="logica\zonaGis\oZonaExpropiacion.cs" />
+    <Compile Include="logica\zonaGis\oZonaClaImg.cs" />
+    <Compile Include="logica\zonaGis\oZonaCruces.cs" />
+    <Compile Include="logica\zonaGis\oZonaGeotecnica.cs" />
+    <Compile Include="logica\zonaGis\oZonaGis.cs" />
+    <Compile Include="logica\zonaGis\oFactoryZonaGis.cs" />
+    <Compile Include="logica\EjeBasicoNew\collection\oTramosAbanicoBySolucion.cs" />
+    <Compile Include="logica\tadil\oSingletonTadil.cs" />
+    <Compile Include="logica\tadil\oUserInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Datos\Datos.csproj">
+      <Project>{50bbc15a-c67c-4bc7-b565-a25a6c49fb85}</Project>
+      <Name>Datos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EjeDeTrazado\EjeDeTrazado.csproj">
+      <Project>{CAF3E36E-1A68-4A90-BD3F-0B039F70496A}</Project>
+      <Name>EjeDeTrazado</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\engCadNet\engCadNet.csproj">
+      <Project>{F7B495AC-E395-4519-8723-3BA6CE2933FA}</Project>
+      <Name>engCadNet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\engNet\engNet.csproj">
+      <Project>{5A9CDA59-6441-4614-B1B3-58F83C2E2113}</Project>
+      <Name>engNet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PerfilLongitudinal\PerfilLongitudinal.csproj">
+      <Project>{6E9ECFAB-52FB-45E1-9C2A-75E1894B4132}</Project>
+      <Name>PerfilLongitudinal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ServiceLicenciaDLL\serviceLicencia.csproj">
+      <Project>{C7B0A00F-863D-4C06-A210-9D61BFC056C9}</Project>
+      <Name>serviceLicencia</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\tadLayData\tadLayData.csproj">
+      <Project>{5589AD3D-1C1D-4C3A-A41E-7D20E105A788}</Project>
+      <Name>tadLayData</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\tadLayLan\tadLayLan.csproj">
+      <Project>{63F26170-BF7A-413E-9417-FC663F706173}</Project>
+      <Name>tadLayLan</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\tadLayShare\tadLayShare.csproj">
+      <Project>{A184DFB3-80F5-46C0-802B-BF8B6996B5FA}</Project>
+      <Name>tadLayShare</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Terreno\Terrenos.csproj">
+      <Project>{57408fb9-6233-4593-ad14-e6d6a8e31d36}</Project>
+      <Name>Terrenos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TriangulationTool\TriangulationTool\TriangulationTool.csproj">
+      <Project>{8bd02adc-8dc4-45c3-8b51-94047e6df364}</Project>
+      <Name>TriangulationTool</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="logica\Entidades\EjeTJ\EjePlus.cd" />
+    <None Include="logica\medicion\diaMedicion.cd" />
+    <None Include="logica\ObraLineal\Geometria\decBermas\seccionBerma.cd" />
+    <None Include="logica\ObraLineal\oDiaSec.cd" />
+    <None Include="logica\valoracion\cdValoracion.cd" />
+    <None Include="logica\zonaGis\zonasGis.cd" />
+    <None Include="packages.config" />
+    <None Include="Solucion.cd" />
+    <None Include="tadil.snk" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

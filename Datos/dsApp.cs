@@ -4,6 +4,10 @@
 
     partial class dsApp
     {
+        partial class ComponentesDataTable
+        {
+        }
+
         partial class Polilinea3dDataTable
         {
         }

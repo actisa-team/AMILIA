@@ -59,9 +59,17 @@
     <Reference Include="MaterialSkin">
       <HintPath>..\packages\MaterialSkin.0.2.1\lib\MaterialSkin.dll</HintPath>
     </Reference>
+    <Reference Include="MathNet.Numerics, Version=4.9.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MathNet.Numerics.4.9.0\lib\net40\MathNet.Numerics.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -76,21 +84,35 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AcuerdoCurvo.cs" />
+    <Compile Include="ArcRotation.cs" />
     <Compile Include="CalculoPolilinea.cs" />
     <Compile Include="CalculoPolilineaPerfil.cs" />
     <Compile Include="Comandos\oEjeTrazado.cs" />
     <Compile Include="Componente.cs" />
+    <Compile Include="Componentes\Clotoide.cs" />
+    <Compile Include="Componentes\ClotoideDTO.cs" />
+    <Compile Include="Componentes\Componente.cs" />
+    <Compile Include="Componentes\ComponenteDTO.cs" />
+    <Compile Include="Componentes\Curva.cs" />
+    <Compile Include="Componentes\CurvaDTO.cs" />
+    <Compile Include="Componentes\Punto3d.cs" />
+    <Compile Include="Componentes\Recta.cs" />
+    <Compile Include="Componentes\RectaDTO.cs" />
+    <Compile Include="ExportadorLandXml.cs" />
     <Compile Include="GuardarPunto.cs" />
     <Compile Include="GuardarPolilinea2d.cs" />
     <Compile Include="GuardarPolilinea3d.cs" />
     <Compile Include="IViabilidadListener.cs" />
     <Compile Include="Parabola.cs" />
     <Compile Include="Pendiente.cs" />
+    <Compile Include="Polilinea_ingenieril.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Punto.cs" />
     <Compile Include="PuntoPerfil.cs" />
+    <Compile Include="Componente_ingenieril.cs" />
     <Compile Include="Resultados.cs" />
     <Compile Include="Rotular.cs" />
+    <Compile Include="TrazadoLandXml.cs" />
     <Compile Include="TrazadoPerfil.cs" />
     <Compile Include="verificacion\VerificacionComponentesStatus.cs" />
     <Compile Include="verificacion\ComponentesCurvasSeguidasYDistintoSentido.cs" />
@@ -163,6 +185,8 @@
       <Name>tadLayLan</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

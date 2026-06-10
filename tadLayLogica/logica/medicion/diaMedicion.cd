@@ -1,0 +1,326 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="tadLayLogica.logica.medicion.oMedItemModel" Collapsed="true">
+    <Position X="68.75" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAACQAAEAAAACoAAAkAAgAUAAAABAYAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedBalanceTierras" Collapsed="true">
+    <Position X="46.25" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAIAAAEAAgAQAAAAAAIAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedPartidasSimples" Collapsed="true">
+    <Position X="74.5" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAAAAAAAAAoAAAEAAgAQAAAAAAIAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedExpropiaciones" Collapsed="true">
+    <Position X="97" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAACAAAEAAAAAoAAAEAAgAQAAAAAAIAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedMacroPrecios" Collapsed="true">
+    <Position X="76.75" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedRellenos">
+    <Position X="49.75" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAACAAAEAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedCapa" Collapsed="true">
+    <Position X="45.25" Y="16.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedEstructuras" Collapsed="true">
+    <Position X="62" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedDrenaje" Collapsed="true">
+    <Position X="73.25" Y="16.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedBalizamiento" Collapsed="true">
+    <Position X="77.75" Y="16.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedReposicionServicios" Collapsed="true">
+    <Position X="80" Y="16.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedGeotecnicaCorreccion" Collapsed="true">
+    <Position X="82.25" Y="16.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedDesviosProvisionales" Collapsed="true">
+    <Position X="84.5" Y="16.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedActuacionesComple" Collapsed="true">
+    <Position X="68.75" Y="16.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedMedidasCorrectoras" Collapsed="true">
+    <Position X="71" Y="16.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedSeguridadSalud" Collapsed="true">
+    <Position X="75.5" Y="16.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAEAAAAAIAAAAAAgAAAAAAAAIAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedValProduccion" Collapsed="true">
+    <Position X="93.5" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedValSuelo" Collapsed="true">
+    <Position X="100.25" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedSecPri" Collapsed="true">
+    <Position X="93.5" Y="16.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedSecSec" Collapsed="true">
+    <Position X="95.75" Y="16.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedSecTer" Collapsed="true">
+    <Position X="91.25" Y="16.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedSueloNoUrbano" Collapsed="true">
+    <Position X="98" Y="16.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedSueloUrbano" Collapsed="true">
+    <Position X="100.25" Y="16.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedSueloUrbanizable" Collapsed="true">
+    <Position X="102.5" Y="16.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedDesbroce" Collapsed="true">
+    <Position X="66.5" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedTerraplenesAndSaneos">
+    <Position X="54" Y="14.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedRellenoTerraplen">
+    <Position X="57" Y="17.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedRellenoSaneoTerraplen">
+    <Position X="50.75" Y="17.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedRellenoSaneoDesmonte">
+    <Position X="53" Y="17.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedRellenoBerma">
+    <Position X="55.25" Y="17.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedExcavacion" Collapsed="true">
+    <Position X="37.25" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAACAAAEAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedExcDesmonte" Collapsed="true">
+    <Position X="35" Y="16.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedExcSaneoDesmonte" Collapsed="true">
+    <Position X="37.25" Y="16.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedExcSaneoTerraplen" Collapsed="true">
+    <Position X="39.5" Y="16.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedCapaGranular" Collapsed="true">
+    <Position X="43" Y="17.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedCapaGranularFirme" Collapsed="true">
+    <Position X="41.75" Y="19" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedCapaGranularArcen" Collapsed="true">
+    <Position X="44" Y="19" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedCapaAsiento" Collapsed="true">
+    <Position X="46.25" Y="17.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedFirmePlanta" Collapsed="true">
+    <Position X="48.5" Y="17.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAACAAAEAAAAAoAAAAAAgAQAAAAAAAAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedCunetas" Collapsed="true">
+    <Position X="88" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedCunetaTriangular" Collapsed="true">
+    <Position X="89" Y="16.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedCunetaTrapezoidal" Collapsed="true">
+    <Position X="86.75" Y="16.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedMuro">
+    <Position X="59.75" Y="16.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedPuentes">
+    <Position X="62" Y="16.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.medicion.oMedTunel">
+    <Position X="64.25" Y="16.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="tadLayLogica.logica.medicion.eNodo" Collapsed="true">
+    <Position X="105" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>JEBIMCcwAEAAAIAAAELACAIQgIEQiAIAEAQAEAAAEAA=</HashCode>
+      <FileName>logica\medicion\oMedItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

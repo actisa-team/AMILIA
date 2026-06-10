@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="tadLayLogica.EjeTJ.oEjeObj&lt;T, J&gt;">
+    <Position X="1.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAQAUBAIAAAEIhEAAAAAAIAgEQAgggAAkQAAACAAA=</HashCode>
+      <FileName>logica\EjeTJ\Eje\oEjePlus.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.EjeTJ.Tramos.oTramoMaster&lt;K&gt;" Collapsed="true">
+    <Position X="6.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACEAAAAAAIAAAEAIBEAwAAQECfADiAAQAAAAABAgA=</HashCode>
+      <FileName>logica\EjeTJ\Tramos\oTramoMaster.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="tadLayLogica.EjeTJ.Tramos.oTramoBase" Collapsed="true">
+    <Position X="6.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>logica\EjeTJ\Tramos\oTramoMaster.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.EjeTJ.Vertice.oVer">
+    <Position X="4" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAEAAAAIAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>logica\EjeTJ\Vertice\oVertice.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="tadLayLogica.EjeTJ.Tramos.ISegmento">
+    <Position X="7" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAQAAAAABAgA=</HashCode>
+      <FileName>logica\EjeTJ\Tramos\oTramoMaster.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="tadLayLogica.EjeTJ.Vertice.IVertice" Collapsed="true">
+    <Position X="4" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>logica\EjeTJ\Vertice\oVertice.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>

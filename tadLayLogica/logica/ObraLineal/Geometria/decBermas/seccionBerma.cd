@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="tadLayLogica.Secciones.Geometria.oTaludBermasModel">
+    <Position X="0.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAAABgAAAAAAIAAAAAAAAAMACAAAAAAA=</HashCode>
+      <FileName>logica\Secciones\Geometria\decBermas\oTaludBermaModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.Secciones.Geometria.oBermaTerraplenDrawable">
+    <Position X="7" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAgAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\Secciones\Geometria\decBermas\oBermaTerraplenDrawable.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.Secciones.Geometria.oBermaDesmonteDrawable">
+    <Position X="3.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAQQAAABAgAIAAAAAAAIAgQAAAAAABCAAAAg=</HashCode>
+      <FileName>logica\Secciones\Geometria\decBermas\oBermaDesmonteDrawable.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -432,12 +432,18 @@ namespace tadLayShare
                 }
             }
 
-            
+            public double getLadoMax()
+            {
+                double ab = mVerticeA.distancia2d(mVerticeB);
+                double bc = mVerticeB.distancia2d(mVerticeC);
+                double ca = mVerticeC.distancia2d(mVerticeA);
+                return Math.Max(ab, Math.Max(bc, ca));
+            }
         #endregion
 
         #region "Metodos privados"
 
-            private bool orientacionPositiva(Punto3d iVertice1, Punto3d iVertice2, Punto3d iVertice3)
+        private bool orientacionPositiva(Punto3d iVertice1, Punto3d iVertice2, Punto3d iVertice3)
             {
                 double miOrientacion = ((iVertice1.coordenadaX - iVertice3.coordenadaX) * (iVertice2.coordenadaY - iVertice3.coordenadaY)) - ((iVertice1.coordenadaY - iVertice3.coordenadaY) * (iVertice2.coordenadaX - iVertice3.coordenadaX)); 
                 return miOrientacion >= 0;

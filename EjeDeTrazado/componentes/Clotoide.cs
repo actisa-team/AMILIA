@@ -5,29 +5,47 @@ using System.Text;
 using tadLayShare.puntos;
 
 
+using Newtonsoft.Json;
+
 namespace EjeDeTrazado.componentes
 {
     [Serializable]
     public class Clotoide : Componente
     {
 
-        private double mRc;
-        private double mVariacionMI;
-        private double mVariacionMD;
-        private double mPeralteAntIzq;
-        private double mPeralteAntDer;
-        private double mAzimut;
+        [JsonProperty]
+        public double mRc;
+        [JsonProperty]
+        public double mVariacionMI;
+        [JsonProperty]
+        public double mVariacionMD;
+        [JsonProperty]
+        public double mPeralteAntIzq;
+        [JsonProperty]
+        public double mPeralteAntDer;
+        [JsonProperty]
+        public double mAzimut;
         public EjeDeTrazado.puntosDelEje.EjeTrazado.tipoClotoide mTipo;
         public EjeDeTrazado.puntosDelEje.EjeTrazado.sentidoCurva mSentCurva;
-        private bool mReducido;
-        private double mDeltaRad;
-        private double mA;
-        private bool clotoideS;
-        private double mLe;
-        private double le_r;
+        [JsonProperty]
+        public bool mReducido;
+        [JsonProperty]
+        public double mDeltaRad;
+        [JsonProperty]
+        public double mA;
+        [JsonProperty]
+        public bool clotoideS;
+        [JsonProperty]
+        public double mLe;
+        [JsonProperty]
+        public double le_r;
 
 
 
+
+        public Clotoide() : base(new Punto3d(0, 0, 0), new Punto3d(0, 0, 0), 0)
+        {
+        }
 
         public Clotoide(Punto3d iPuntoEntrada, Punto3d iPuntoSalida, double iRc, double iPkIni, EjeDeTrazado.puntosDelEje.EjeTrazado.sentidoCurva iSentCurva, double iPeralteAnt, double iPeraltePos, bool isSigCurva, EjeDeTrazado.puntosDelEje.EjeTrazado.tipoClotoide iTipoClotoide, double iAzimut, bool iReducido, double iDelta, bool isCurvaS, double miLe,double miA)
             : base(iPuntoEntrada, iPuntoSalida, iPkIni)
@@ -354,6 +372,13 @@ namespace EjeDeTrazado.componentes
             else
                 return n * factorial(n - 1);
         }
+        public double getRadio
+        {
+            get
+            {
+                return mRc;
+            }
+        }
 
         public override double[] getPointAtDist(double iDistancia)
         {
@@ -591,12 +616,19 @@ namespace EjeDeTrazado.componentes
         }
 
 
-        public double getRadio
+        public override double get_Radio()
         {
-            get
-            {
+
                 return mRc;
-            }
+            
+        }
+        public override Punto3d get_Centro()
+        {
+            return new Punto3d(0,0, 0);
+        }
+        public override EjeDeTrazado.puntosDelEje.EjeTrazado.sentidoCurva getSentido()
+        {
+            return mSentCurva;
         }
 
         public double[] getPuntoInterseccion(Punto3d iCentroCurva, Punto3d iPuntoSECurva, Punto3d iPuntoERecta, Punto3d iPuntoSRecta)
@@ -866,7 +898,7 @@ namespace EjeDeTrazado.componentes
 
         }
         public double Azimut { get { return mAzimut; } }
-
+       
         //public double getAzimut(double iDx, double iDy)
         //{
 

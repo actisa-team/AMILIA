@@ -1,0 +1,1342 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F607BD44-B9AA-4C05-A989-8AF9065967D8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>tadLayUI</RootNamespace>
+    <AssemblyName>tadLayUI</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>tadil.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'app|AnyCPU'">
+    <OutputPath>bin\app\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'app|x64'">
+    <OutputPath>bin\x64\app\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="accoremgd">
+      <HintPath>..\acReferencias\referencias\accoremgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="acdbmgd">
+      <HintPath>..\acReferencias\referencias\acdbmgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="acmgd">
+      <HintPath>..\acReferencias\referencias\acmgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="adminAprov\frmApovDatos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminAprov\frmApovDatos.Designer.cs">
+      <DependentUpon>frmApovDatos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminAprov\frmAdecacionManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminAprov\frmAdecacionManager.Designer.cs">
+      <DependentUpon>frmAdecacionManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminAprov\frmManagerAprov.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminAprov\frmManagerAprov.Designer.cs">
+      <DependentUpon>frmManagerAprov.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminGis\frmSocioEconomicaDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminGis\frmSocioEconomicaDetail.designer.cs">
+      <DependentUpon>frmSocioEconomicaDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminGis\frmCim.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminGis\frmCim.designer.cs">
+      <DependentUpon>frmCim.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminGis\frmCimManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminGis\frmCruInf.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminGis\frmCruInf.designer.cs">
+      <DependentUpon>frmCruInf.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminGis\frmCruInfManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminGis\frmDoHi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminGis\frmDoHi.designer.cs">
+      <DependentUpon>frmDoHi.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminGis\frmDoHiPuManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminGis\frmEst.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminGis\frmEst.designer.cs">
+      <DependentUpon>frmEst.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminGis\frmEstManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminGis\frmGeo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminGis\frmGeo.Designer.cs">
+      <DependentUpon>frmGeo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminGis\frmGeoManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminGis\frmGeoManager.Designer.cs">
+      <DependentUpon>frmGeoManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminGis\frmManagerGis.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminGis\frmManagerGis.Designer.cs">
+      <DependentUpon>frmManagerGis.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminGis\frmPatrimonioSueloDatagrid.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminGis\frmPatrimonioSueloDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminGis\frmPatrimonioSueloDetail.designer.cs">
+      <DependentUpon>frmPatrimonioSueloDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminGis\frmSocioEconomicaDatagrid.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminGis\frmTun.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminGis\frmTun.designer.cs">
+      <DependentUpon>frmTun.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminGis\frmTunManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminGis\valoracion\frmValExcavabilidadTalud.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminGis\valoracion\frmValExcavabilidadTalud.Designer.cs">
+      <DependentUpon>frmValExcavabilidadTalud.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminGis\valoracion\frmValoracionGisDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminGis\valoracion\frmValoracionGisDetail.designer.cs">
+      <DependentUpon>frmValoracionGisDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminGis\frmZonaGis.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminGis\frmZonaGis.Designer.cs">
+      <DependentUpon>frmZonaGis.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminGis\IfrmManagerPopulate.cs" />
+    <Compile Include="adminGis\valoracion\frmValCimentacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminGis\valoracion\frmValCimentacion.Designer.cs">
+      <DependentUpon>frmValCimentacion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminGis\valoracion\frmValTuneles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminGis\valoracion\frmValTuneles.Designer.cs">
+      <DependentUpon>frmValTuneles.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminMacroPrecios\frmMacroPreciosDatagrid.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminMacroPrecios\frmMacroPreciosDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminMacroPrecios\frmMacroPreciosDetail.designer.cs">
+      <DependentUpon>frmMacroPreciosDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminMacroPrecios\frmMacroPreciosManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminMacroPrecios\frmMacroPreciosManager.Designer.cs">
+      <DependentUpon>frmMacroPreciosManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminNormativa\frmKv.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminNormativa\frmKv.Designer.cs">
+      <DependentUpon>frmKv.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminPresupuesto\factory\frmPreciosFactory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminPresupuesto\factory\frmPreciosFactory.Designer.cs">
+      <DependentUpon>frmPreciosFactory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminProyecto\DatosSolucion.cs" />
+    <Compile Include="frmManagerTerreno.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmManagerTerreno.Designer.cs">
+      <DependentUpon>frmManagerTerreno.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmSimplificarPolilineas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSimplificarPolilineas.Designer.cs">
+      <DependentUpon>frmSimplificarPolilineas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="userControl\ucCmbLayersTodas.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucCmbLayersTodas.Designer.cs">
+      <DependentUpon>ucCmbLayersTodas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControl\ucTreeAdecuacion.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucUnidadMonetaria.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucUnidadMonetaria.Designer.cs">
+      <DependentUpon>ucUnidadMonetaria.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminPresupuesto\frmManagerPrecios.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminPresupuesto\frmManagerPrecios.Designer.cs">
+      <DependentUpon>frmManagerPrecios.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminProyecto\frmSolucionManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminProyecto\frmSolucionManager.Designer.cs">
+      <DependentUpon>frmSolucionManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminSecciones\frmRoadImage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminSecciones\frmRoadImage.Designer.cs">
+      <DependentUpon>frmRoadImage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmAbout.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAbout.Designer.cs">
+      <DependentUpon>frmAbout.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminProyecto\adminInformes\frmInfSolucionManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminProyecto\adminInformes\frmInfSolucionManager.Designer.cs">
+      <DependentUpon>frmInfSolucionManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminProyecto\adminRentabilidad\frmVehManDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminProyecto\adminRentabilidad\frmVehManDetail.designer.cs">
+      <DependentUpon>frmVehManDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminProyecto\adminRentabilidad\frmConVehDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminProyecto\adminRentabilidad\frmConVehDetail.designer.cs">
+      <DependentUpon>frmConVehDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminProyecto\adminValoracion\frmMatrizDecisionDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminProyecto\adminValoracion\frmMatrizDecisionDetail.Designer.cs">
+      <DependentUpon>frmMatrizDecisionDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminProyecto\adminValoracion\frmMatrizDecisionManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminProyecto\adminValoracion\frmMatrizDecisionManager.Designer.cs">
+      <DependentUpon>frmMatrizDecisionManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminProyecto\adminValoracion\frmMatrizDecisionSolucion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminProyecto\adminValoracion\frmMatrizDecisionSolucion.Designer.cs">
+      <DependentUpon>frmMatrizDecisionSolucion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminProyecto\adminValoracion\frmValClimaticas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminProyecto\adminValoracion\frmValClimaticas.Designer.cs">
+      <DependentUpon>frmValClimaticas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminProyecto\adminValoracion\frmValEconomica.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminProyecto\adminValoracion\frmValEconomica.Designer.cs">
+      <DependentUpon>frmValEconomica.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminProyecto\adminValoracion\frmValEstTunDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminProyecto\adminValoracion\frmValEstTunDetail.Designer.cs">
+      <DependentUpon>frmValEstTunDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminProyecto\adminValoracion\frmValGeotecniaDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminProyecto\adminValoracion\frmValGeotecniaDetail.Designer.cs">
+      <DependentUpon>frmValGeotecniaDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminProyecto\adminValoracion\frmValMedioAmbientalDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminProyecto\adminValoracion\frmValMedioAmbientalDetail.Designer.cs">
+      <DependentUpon>frmValMedioAmbientalDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminProyecto\adminValoracion\frmValoracionDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminProyecto\adminValoracion\frmValoracionDetail.designer.cs">
+      <DependentUpon>frmValoracionDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminProyecto\adminValoracion\frmValPatrimonialesDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminProyecto\adminValoracion\frmValPatrimonialesDetail.Designer.cs">
+      <DependentUpon>frmValPatrimonialesDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminProyecto\adminValoracion\frmValSocioEconomicasDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminProyecto\adminValoracion\frmValSocioEconomicasDetail.Designer.cs">
+      <DependentUpon>frmValSocioEconomicasDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminProyecto\adminValoracion\frmValTrazadoDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminProyecto\adminValoracion\frmValTrazadoDetail.Designer.cs">
+      <DependentUpon>frmValTrazadoDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminProyecto\adminEstudioInformativo\frmSeccionZonasGenerales.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminProyecto\adminEstudioInformativo\frmSeccionZonasGenerales.designer.cs">
+      <DependentUpon>frmSeccionZonasGenerales.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminProyecto\frmDatosAbanico.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminProyecto\frmDatosAbanico.Designer.cs">
+      <DependentUpon>frmDatosAbanico.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminProyecto\frmDatosProyecto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminProyecto\frmDatosProyecto.Designer.cs">
+      <DependentUpon>frmDatosProyecto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminProyecto\frmDatosTerreno.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminProyecto\frmDatosTerreno.Designer.cs">
+      <DependentUpon>frmDatosTerreno.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminProyecto\frmEjeVisibilidad.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminProyecto\frmEjeVisibilidad.Designer.cs">
+      <DependentUpon>frmEjeVisibilidad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminProyecto\frmFiles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminProyecto\frmFiles.Designer.cs">
+      <DependentUpon>frmFiles.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminProyecto\frmPtoIni.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminProyecto\frmPtoIni.Designer.cs">
+      <DependentUpon>frmPtoIni.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmAppManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAppManager.Designer.cs">
+      <DependentUpon>frmAppManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminProyecto\adminRentabilidad\frmGaCoreDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminProyecto\adminRentabilidad\frmGaCoreDetail.designer.cs">
+      <DependentUpon>frmGaCoreDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminProyecto\adminRentabilidad\frmCoTiFuDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminProyecto\adminRentabilidad\frmCoTiFuDetail.designer.cs">
+      <DependentUpon>frmCoTiFuDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminProyecto\adminRentabilidad\frmCosAccDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminProyecto\adminRentabilidad\frmCosAccDetail.designer.cs">
+      <DependentUpon>frmCosAccDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminProyecto\adminRentabilidad\frmDatTraDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminProyecto\adminRentabilidad\frmDatTraDetail.designer.cs">
+      <DependentUpon>frmDatTraDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminProyecto\adminRentabilidad\frmInDaTeDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminProyecto\adminRentabilidad\frmInDaTeDetail.designer.cs">
+      <DependentUpon>frmInDaTeDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminProyecto\adminRentabilidad\frmInvTipDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminProyecto\adminRentabilidad\frmInvTipDetail.designer.cs">
+      <DependentUpon>frmInvTipDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminSecciones\frmRoadDobleSinMediana.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminSecciones\frmRoadDobleSinMediana.designer.cs">
+      <DependentUpon>frmRoadDobleSinMediana.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminSecciones\frmRoadDobleSinMedianaManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminSecciones\frmRoadDobleAutovia.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminSecciones\frmRoadDobleAutovia.designer.cs">
+      <DependentUpon>frmRoadDobleAutovia.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminSecciones\frmRoadDobleAutoviaManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminSecciones\frmRoadUnicaManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminSecciones\frmRoadUnicaGen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminSecciones\frmRoadUnicaGen.designer.cs">
+      <DependentUpon>frmRoadUnicaGen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminSecciones\frmCunTraManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminSecciones\frmCunTra.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminSecciones\frmCunTra.designer.cs">
+      <DependentUpon>frmCunTra.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminSecciones\frmCunTri.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminSecciones\frmCunTri.designer.cs">
+      <DependentUpon>frmCunTri.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminSecciones\frmManagerSeciones.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminSecciones\frmManagerSeciones.Designer.cs">
+      <DependentUpon>frmManagerSeciones.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminSecciones\frmCunTriManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminShare\frmAppDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminShare\frmAppDetail.Designer.cs">
+      <DependentUpon>frmAppDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminShare\frmDataGrid.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminShare\frmDataGrid.Designer.cs">
+      <DependentUpon>frmDataGrid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminProyecto\frmAppPresupuestoDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminProyecto\frmAppPresupuestoDetail.designer.cs">
+      <DependentUpon>frmAppPresupuestoDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="formato\oformato.cs" />
+    <Compile Include="frmBb.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmBb.Designer.cs">
+      <DependentUpon>frmBb.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmData.Designer.cs">
+      <DependentUpon>frmData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminNormativa\frmRoad.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminNormativa\frmRoad.designer.cs">
+      <DependentUpon>frmRoad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminShare\frmRoot.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminShare\frmRoot.Designer.cs">
+      <DependentUpon>frmRoot.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminProyecto\frmProyectoEstilosVisualizacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminProyecto\frmProyectoEstilosVisualizacion.Designer.cs">
+      <DependentUpon>frmProyectoEstilosVisualizacion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmPointEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPointEdit.Designer.cs">
+      <DependentUpon>frmPointEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminProyecto\frmSolucion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminProyecto\frmSolucion.Designer.cs">
+      <DependentUpon>frmSolucion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="userControl\ucDgvSoluciones.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucDgvSoluciones.Designer.cs">
+      <DependentUpon>ucDgvSoluciones.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControl\ucEstudioPrevioDesign.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucEstudioPrevioDesign.Designer.cs">
+      <DependentUpon>ucEstudioPrevioDesign.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControl\ucSolucionOptAvanzadas.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucSolucionOptAvanzadas.Designer.cs">
+      <DependentUpon>ucSolucionOptAvanzadas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControl\ucRoadDatos.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucRoadDatos.Designer.cs">
+      <DependentUpon>ucRoadDatos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControl\ucMenuTDI.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="userControl\ucMenuTDI.Designer.cs">
+      <DependentUpon>ucMenuTDI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControl\ucC3dEjeTrazadoEstilos.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucC3dEjeTrazadoEstilos.Designer.cs">
+      <DependentUpon>ucC3dEjeTrazadoEstilos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControl\ucC3dEjeTrazadoEstilosEtiquetas.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucC3dEjeTrazadoEstilosEtiquetas.Designer.cs">
+      <DependentUpon>ucC3dEjeTrazadoEstilosEtiquetas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControl\ucC3dEstiloPerfilEtiquetas.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucC3dEstiloPerfilEtiquetas.Designer.cs">
+      <DependentUpon>ucC3dEstiloPerfilEtiquetas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControl\ucC3dEstiloPerfilObjeto.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucC3dEstiloPerfilObjeto.Designer.cs">
+      <DependentUpon>ucC3dEstiloPerfilObjeto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControl\ucC3dEstiloVisualizacionGuitarra.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucC3dEstiloVisualizacionGuitarra.Designer.cs">
+      <DependentUpon>ucC3dEstiloVisualizacionGuitarra.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControl\ucC3dEstiloVisualizacionPerfil.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucC3dEstiloVisualizacionPerfil.Designer.cs">
+      <DependentUpon>ucC3dEstiloVisualizacionPerfil.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControl\ucDgvSolucionesValorar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucDgvSolucionesValorar.Designer.cs">
+      <DependentUpon>ucDgvSolucionesValorar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControl\ucProyectoTipo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucProyectoTipo.Designer.cs">
+      <DependentUpon>ucProyectoTipo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControl\ucPtoIniFin.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucPtoIniFin.Designer.cs">
+      <DependentUpon>ucPtoIniFin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControl\ucRoadEstructurasPendientes.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucRoadEstructurasPendientes.Designer.cs">
+      <DependentUpon>ucRoadEstructurasPendientes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControl\ucRoadPreferenciasRectasCurvas.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucRoadPreferenciasRectasCurvas.Designer.cs">
+      <DependentUpon>ucRoadPreferenciasRectasCurvas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControl\ucRoadPrerenciasKv.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucRoadPrerenciasKv.Designer.cs">
+      <DependentUpon>ucRoadPrerenciasKv.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControl\ucSolucionOptAvanzadasCoeficientes.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucSolucionOptAvanzadasCoeficientes.Designer.cs">
+      <DependentUpon>ucSolucionOptAvanzadasCoeficientes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControl\ucSolucionValoracion.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucSolucionValoracion.Designer.cs">
+      <DependentUpon>ucSolucionValoracion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControl\ucTerrain.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucTerrain.Designer.cs">
+      <DependentUpon>ucTerrain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControl\ucVehiculoTipo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucDgv.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="userControl\ucToolDgv.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucToolDgv.Designer.cs">
+      <DependentUpon>ucToolDgv.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControl\ucToolDetail.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucToolDetail.Designer.cs">
+      <DependentUpon>ucToolDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControl\ucTreeApp.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucCmbCalzadasTipo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucCmbCalzadasGrupo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucTreeMacroPrecios.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucCunetaPosicion.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucCuneta.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucCuneta.Designer.cs">
+      <DependentUpon>ucCuneta.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControl\ucCmbValoracion.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\uclblCmbMaster.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\uclblCmbMaster.Designer.cs">
+      <DependentUpon>uclblCmbMaster.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControl\ucRmrTabla.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucRmrTabla.Designer.cs">
+      <DependentUpon>ucRmrTabla.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControl\ucTreeSecciones.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucTunExcTipo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucCimTipo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucCimTipo.Designer.cs">
+      <DependentUpon>ucCimTipo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControl\ucEstTipoCode.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucEstTipoCode.Designer.cs">
+      <DependentUpon>ucEstTipoCode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControl\IucValidar.cs" />
+    <Compile Include="userControl\ucFileSelect.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucFileSelect.Designer.cs">
+      <DependentUpon>ucFileSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControl\ucLblCmbTns.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucGeoCapas.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucGeoCapas.Designer.cs">
+      <DependentUpon>ucGeoCapas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControl\uclblCmbSiNo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\uclblCmbPrecios.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucLblTxt.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucLblTxt.Designer.cs">
+      <DependentUpon>ucLblTxt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControl\ucMenuNose.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="userControl\ucMenuNose.Designer.cs">
+      <DependentUpon>ucMenuNose.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControl\ucTreeGis.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucTreeGis.Designer.cs">
+      <DependentUpon>ucTreeGis.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControl\ucTreePrecios.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucTreePrecios.Designer.cs">
+      <DependentUpon>ucTreePrecios.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControl\ucTunTratamientosTipos.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucWinColor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucWinColor.Designer.cs">
+      <DependentUpon>ucWinColor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControl\ucZonasCimentacion.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucZonasCimentacion.Designer.cs">
+      <DependentUpon>ucZonasCimentacion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControl\ucZonasEstructuras.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucZonasEstructuras.Designer.cs">
+      <DependentUpon>ucZonasEstructuras.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControl\ucZonasMovimientoTierras.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucZonasMovimientoTierras.Designer.cs">
+      <DependentUpon>ucZonasMovimientoTierras.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControl\ucZonasTuneles.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControl\ucZonasTuneles.Designer.cs">
+      <DependentUpon>ucZonasTuneles.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EjeDeTrazado\EjeDeTrazado.csproj">
+      <Project>{CAF3E36E-1A68-4A90-BD3F-0B039F70496A}</Project>
+      <Name>EjeDeTrazado</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\engCadNet\engCadNet.csproj">
+      <Project>{F7B495AC-E395-4519-8723-3BA6CE2933FA}</Project>
+      <Name>engCadNet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\engNet\engNet.csproj">
+      <Project>{5A9CDA59-6441-4614-B1B3-58F83C2E2113}</Project>
+      <Name>engNet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PerfilLongitudinal\PerfilLongitudinal.csproj">
+      <Project>{6E9ECFAB-52FB-45E1-9C2A-75E1894B4132}</Project>
+      <Name>PerfilLongitudinal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ServiceLicenciaDLL\serviceLicencia.csproj">
+      <Project>{C7B0A00F-863D-4C06-A210-9D61BFC056C9}</Project>
+      <Name>serviceLicencia</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\tadLayData\tadLayData.csproj">
+      <Project>{5589AD3D-1C1D-4C3A-A41E-7D20E105A788}</Project>
+      <Name>tadLayData</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\tadLayLan\tadLayLan.csproj">
+      <Project>{63F26170-BF7A-413E-9417-FC663F706173}</Project>
+      <Name>tadLayLan</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\tadLayLogicaFerrocarril\tayLogicaTijera.csproj">
+      <Project>{77ef85f2-bd25-46ea-9ae7-35c486ddbe15}</Project>
+      <Name>tayLogicaTijera</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\tadLayLogica\tadLayLogica.csproj">
+      <Project>{1a1c196f-8548-4241-a714-967ba5b40ed7}</Project>
+      <Name>tadLayLogica</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\tadLayShare\tadLayShare.csproj">
+      <Project>{A184DFB3-80F5-46C0-802B-BF8B6996B5FA}</Project>
+      <Name>tadLayShare</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Terreno\Terrenos.csproj">
+      <Project>{57408fb9-6233-4593-ad14-e6d6a8e31d36}</Project>
+      <Name>Terrenos</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="adminAprov\frmApovDatos.resx">
+      <DependentUpon>frmApovDatos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminAprov\frmAdecacionManager.resx">
+      <DependentUpon>frmAdecacionManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminAprov\frmManagerAprov.resx">
+      <DependentUpon>frmManagerAprov.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminGis\frmCimManager.resx">
+      <DependentUpon>frmCimManager.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminGis\frmCruInfManager.resx">
+      <DependentUpon>frmCruInfManager.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminGis\frmDoHiPuManager.resx">
+      <DependentUpon>frmDoHiPuManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminGis\frmSocioEconomicaDetail.resx">
+      <DependentUpon>frmSocioEconomicaDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminGis\frmCim.resx">
+      <DependentUpon>frmCim.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminGis\frmCruInf.resx">
+      <DependentUpon>frmCruInf.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminGis\frmDoHi.resx">
+      <DependentUpon>frmDoHi.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminGis\frmEst.resx">
+      <DependentUpon>frmEst.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminGis\frmEstManager.resx">
+      <DependentUpon>frmEstManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminGis\frmGeo.resx">
+      <DependentUpon>frmGeo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminGis\frmGeoManager.resx">
+      <DependentUpon>frmGeoManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminGis\frmManagerGis.resx">
+      <DependentUpon>frmManagerGis.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminGis\frmPatrimonioSueloDatagrid.resx">
+      <DependentUpon>frmPatrimonioSueloDatagrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminGis\frmPatrimonioSueloDetail.resx">
+      <DependentUpon>frmPatrimonioSueloDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminGis\frmSocioEconomicaDatagrid.resx">
+      <DependentUpon>frmSocioEconomicaDatagrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminGis\frmTun.resx">
+      <DependentUpon>frmTun.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminGis\frmTunManager.resx">
+      <DependentUpon>frmTunManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminGis\valoracion\frmValExcavabilidadTalud.resx">
+      <DependentUpon>frmValExcavabilidadTalud.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminGis\valoracion\frmValoracionGisDetail.resx">
+      <DependentUpon>frmValoracionGisDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminGis\frmZonaGis.resx">
+      <DependentUpon>frmZonaGis.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminGis\valoracion\frmValCimentacion.resx">
+      <DependentUpon>frmValCimentacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminGis\valoracion\frmValTuneles.resx">
+      <DependentUpon>frmValTuneles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminMacroPrecios\frmMacroPreciosDatagrid.resx">
+      <DependentUpon>frmMacroPreciosDatagrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminMacroPrecios\frmMacroPreciosDetail.resx">
+      <DependentUpon>frmMacroPreciosDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminMacroPrecios\frmMacroPreciosManager.resx">
+      <DependentUpon>frmMacroPreciosManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminNormativa\frmKv.resx">
+      <DependentUpon>frmKv.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminPresupuesto\factory\frmPreciosFactory.resx">
+      <DependentUpon>frmPreciosFactory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminSecciones\frmRoadDobleAutoviaManager.resx">
+      <DependentUpon>frmRoadDobleAutoviaManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminSecciones\frmRoadDobleSinMedianaManager.resx">
+      <DependentUpon>frmRoadDobleSinMedianaManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmManagerTerreno.resx">
+      <DependentUpon>frmManagerTerreno.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSimplificarPolilineas.resx">
+      <DependentUpon>frmSimplificarPolilineas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userControl\uclblCmbSiNo.resx">
+      <DependentUpon>uclblCmbSiNo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userControl\ucTreeAdecuacion.resx">
+      <DependentUpon>ucTreeAdecuacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userControl\ucUnidadMonetaria.resx">
+      <DependentUpon>ucUnidadMonetaria.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminPresupuesto\frmManagerPrecios.resx">
+      <DependentUpon>frmManagerPrecios.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminProyecto\frmSolucionManager.resx">
+      <DependentUpon>frmSolucionManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminSecciones\frmRoadImage.resx">
+      <DependentUpon>frmRoadImage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAbout.resx">
+      <DependentUpon>frmAbout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminProyecto\adminEstudioInformativo\frmSeccionZonasGenerales.resx">
+      <DependentUpon>frmSeccionZonasGenerales.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminProyecto\adminInformes\frmInfSolucionManager.resx">
+      <DependentUpon>frmInfSolucionManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminProyecto\adminRentabilidad\frmVehManDetail.resx">
+      <DependentUpon>frmVehManDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminProyecto\adminRentabilidad\frmConVehDetail.resx">
+      <DependentUpon>frmConVehDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminProyecto\adminValoracion\frmMatrizDecisionDetail.resx">
+      <DependentUpon>frmMatrizDecisionDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminProyecto\adminValoracion\frmMatrizDecisionManager.resx">
+      <DependentUpon>frmMatrizDecisionManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminProyecto\adminValoracion\frmMatrizDecisionSolucion.resx">
+      <DependentUpon>frmMatrizDecisionSolucion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminProyecto\adminValoracion\frmValClimaticas.resx">
+      <DependentUpon>frmValClimaticas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminProyecto\adminValoracion\frmValEconomica.resx">
+      <DependentUpon>frmValEconomica.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminProyecto\adminValoracion\frmValEstTunDetail.resx">
+      <DependentUpon>frmValEstTunDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminProyecto\adminValoracion\frmValGeotecniaDetail.resx">
+      <DependentUpon>frmValGeotecniaDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminProyecto\adminValoracion\frmValMedioAmbientalDetail.resx">
+      <DependentUpon>frmValMedioAmbientalDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminProyecto\adminValoracion\frmValoracionDetail.resx">
+      <DependentUpon>frmValoracionDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminProyecto\adminValoracion\frmValPatrimonialesDetail.resx">
+      <DependentUpon>frmValPatrimonialesDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminProyecto\adminValoracion\frmValSocioEconomicasDetail.resx">
+      <DependentUpon>frmValSocioEconomicasDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminProyecto\adminValoracion\frmValTrazadoDetail.resx">
+      <DependentUpon>frmValTrazadoDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminProyecto\frmDatosAbanico.resx">
+      <DependentUpon>frmDatosAbanico.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminProyecto\frmDatosProyecto.resx">
+      <DependentUpon>frmDatosProyecto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminProyecto\frmDatosTerreno.resx">
+      <DependentUpon>frmDatosTerreno.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminProyecto\frmEjeVisibilidad.resx">
+      <DependentUpon>frmEjeVisibilidad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminProyecto\frmFiles.resx">
+      <DependentUpon>frmFiles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminProyecto\frmProyectoEstilosVisualizacion.resx">
+      <DependentUpon>frmProyectoEstilosVisualizacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminProyecto\frmPtoIni.resx">
+      <DependentUpon>frmPtoIni.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAppManager.resx">
+      <DependentUpon>frmAppManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminProyecto\adminRentabilidad\frmGaCoreDetail.resx">
+      <DependentUpon>frmGaCoreDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminProyecto\adminRentabilidad\frmCoTiFuDetail.resx">
+      <DependentUpon>frmCoTiFuDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminProyecto\adminRentabilidad\frmCosAccDetail.resx">
+      <DependentUpon>frmCosAccDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminProyecto\adminRentabilidad\frmDatTraDetail.resx">
+      <DependentUpon>frmDatTraDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminProyecto\adminRentabilidad\frmInDaTeDetail.resx">
+      <DependentUpon>frmInDaTeDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminProyecto\adminRentabilidad\frmInvTipDetail.resx">
+      <DependentUpon>frmInvTipDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminSecciones\frmRoadDobleSinMediana.resx">
+      <DependentUpon>frmRoadDobleSinMediana.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminSecciones\frmRoadDobleAutovia.resx">
+      <DependentUpon>frmRoadDobleAutovia.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminSecciones\frmRoadUnicaGen.resx">
+      <DependentUpon>frmRoadUnicaGen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminSecciones\frmCunTra.resx">
+      <DependentUpon>frmCunTra.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminSecciones\frmCunTri.resx">
+      <DependentUpon>frmCunTri.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminSecciones\frmManagerSeciones.resx">
+      <DependentUpon>frmManagerSeciones.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminSecciones\frmRoadUnicaManager.resx">
+      <DependentUpon>frmRoadUnicaManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminShare\frmAppDetail.resx">
+      <DependentUpon>frmAppDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminShare\frmDataGrid.resx">
+      <DependentUpon>frmDataGrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminProyecto\frmAppPresupuestoDetail.resx">
+      <DependentUpon>frmAppPresupuestoDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminShare\frmRoot.resx">
+      <DependentUpon>frmRoot.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmBb.resx">
+      <DependentUpon>frmBb.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmData.resx">
+      <DependentUpon>frmData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminNormativa\frmRoad.resx">
+      <DependentUpon>frmRoad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPointEdit.resx">
+      <DependentUpon>frmPointEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminProyecto\frmSolucion.resx">
+      <DependentUpon>frmSolucion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userControl\ucC3dEjeTrazadoEstilos.resx">
+      <DependentUpon>ucC3dEjeTrazadoEstilos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userControl\ucC3dEjeTrazadoEstilosEtiquetas.resx">
+      <DependentUpon>ucC3dEjeTrazadoEstilosEtiquetas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userControl\ucC3dEstiloPerfilEtiquetas.resx">
+      <DependentUpon>ucC3dEstiloPerfilEtiquetas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userControl\ucC3dEstiloPerfilObjeto.resx">
+      <DependentUpon>ucC3dEstiloPerfilObjeto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userControl\ucC3dEstiloVisualizacionGuitarra.resx">
+      <DependentUpon>ucC3dEstiloVisualizacionGuitarra.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userControl\ucC3dEstiloVisualizacionPerfil.resx">
+      <DependentUpon>ucC3dEstiloVisualizacionPerfil.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userControl\ucDgvSoluciones.resx">
+      <DependentUpon>ucDgvSoluciones.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userControl\ucEstudioPrevioDesign.resx">
+      <DependentUpon>ucEstudioPrevioDesign.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userControl\ucSolucionOptAvanzadas.resx">
+      <DependentUpon>ucSolucionOptAvanzadas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userControl\ucRoadDatos.resx">
+      <DependentUpon>ucRoadDatos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userControl\ucDgvSolucionesValorar.resx">
+      <DependentUpon>ucDgvSolucionesValorar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userControl\ucProyectoTipo.resx">
+      <DependentUpon>ucProyectoTipo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userControl\ucPtoIniFin.resx">
+      <DependentUpon>ucPtoIniFin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userControl\ucRoadEstructurasPendientes.resx">
+      <DependentUpon>ucRoadEstructurasPendientes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userControl\ucRoadPreferenciasRectasCurvas.resx">
+      <DependentUpon>ucRoadPreferenciasRectasCurvas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userControl\ucRoadPrerenciasKv.resx">
+      <DependentUpon>ucRoadPrerenciasKv.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userControl\ucSolucionOptAvanzadasCoeficientes.resx">
+      <DependentUpon>ucSolucionOptAvanzadasCoeficientes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userControl\ucSolucionValoracion.resx">
+      <DependentUpon>ucSolucionValoracion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userControl\ucToolDgv.resx">
+      <DependentUpon>ucToolDgv.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userControl\ucCuneta.resx">
+      <DependentUpon>ucCuneta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userControl\uclblCmbMaster.resx">
+      <DependentUpon>uclblCmbMaster.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userControl\ucCimTipo.resx">
+      <DependentUpon>ucCimTipo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userControl\ucEstTipoCode.resx">
+      <DependentUpon>ucEstTipoCode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userControl\ucFileSelect.resx">
+      <DependentUpon>ucFileSelect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userControl\ucGeoCapas.resx">
+      <DependentUpon>ucGeoCapas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userControl\ucLblTxt.resx">
+      <DependentUpon>ucLblTxt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userControl\ucRmrTabla.resx">
+      <DependentUpon>ucRmrTabla.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userControl\ucToolDetail.resx">
+      <DependentUpon>ucToolDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userControl\ucTreeGis.resx">
+      <DependentUpon>ucTreeGis.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userControl\ucTreePrecios.resx">
+      <DependentUpon>ucTreePrecios.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userControl\ucWinColor.resx">
+      <DependentUpon>ucWinColor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userControl\ucZonasCimentacion.resx">
+      <DependentUpon>ucZonasCimentacion.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
+    <None Include="packages.config" />
+    <None Include="Resources\terraplenCaso02.jpg" />
+    <None Include="Resources\terraplenCaso01.jpg" />
+    <None Include="tadil.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\terraplenCaso03.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DesmonteCaso01.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DesmonteCaso02.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DesmonteCaso03.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BtnFileFind.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\secciones tadil tdb1.png" />
+    <None Include="Resources\secciones tadil tdb.PNG" />
+    <None Include="Resources\Cargando1.gif" />
+    <None Include="Resources\Cargando.gif" />
+    <None Include="Resources\gis.jpg" />
+    <None Include="Resources\Image1.bmp" />
+    <None Include="Resources\BtnLoad.Image.png" />
+    <None Include="Resources\BtnNew.Image.png" />
+    <None Include="Resources\BtnSave.Image.png" />
+    <None Include="Resources\btnGis.jpg" />
+    <None Include="Resources\btnPrecios.jpg" />
+    <None Include="Resources\backTadil.jpg" />
+    <None Include="Resources\backTadilStr.jpg" />
+    <None Include="Resources\btnSec.jpg" />
+    <None Include="Resources\about16x16.png" />
+    <Content Include="Imagenes\Cargando.gif" />
+    <None Include="Resources\adecuacion y mejora.png" />
+    <Content Include="Resources\btnMacroPrecios.jpg" />
+    <None Include="Resources\macroPrecios.jpg" />
+    <None Include="Resources\help16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="adminProyecto\adminEstudioPrevio\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

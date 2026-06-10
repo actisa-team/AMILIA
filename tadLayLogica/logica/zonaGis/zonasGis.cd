@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="tadLayLogica.zonaGis.oZonaGis" Collapsed="true">
+    <Position X="23.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQEAoAAAAACECAAMIEAAAAYAAAEAHwgQAACACABkA=</HashCode>
+      <FileName>logica\zonaGis\oZonaGis.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.zonaGis.oZonaGeotecnica" Collapsed="true">
+    <Position X="21.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAABAA=</HashCode>
+      <FileName>logica\zonaGis\oZonaGeotecnica.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.zonaGis.oZonaGeoMovimientoTierras">
+    <Position X="20.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAQAAACAAAAQAIACYaAAEACAAEAgCRCAAIA=</HashCode>
+      <FileName>logica\zonaGis\oZonaGeotecnica.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.zonaGis.oZonaGeoCimentacion">
+    <Position X="24.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAAAAAAAAAYAAAEACAAEAACACAAAA=</HashCode>
+      <FileName>logica\zonaGis\oZonaGeotecnica.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.zonaGis.oZonaGeoEstructuras">
+    <Position X="18.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAECAAAAAAAAAYAAAEACAAEAACACAAAA=</HashCode>
+      <FileName>logica\zonaGis\oZonaGeotecnica.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.zonaGis.oZonaCruces" Collapsed="true">
+    <Position X="28" Y="7" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAA=</HashCode>
+      <FileName>logica\zonaGis\oZonaCruces.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.zonaGis.oZonaDominioHidraulico">
+    <Position X="26.75" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAECAAAAAAAAAYAAAEACAAEAACACAAAA=</HashCode>
+      <FileName>logica\zonaGis\oZonaCruces.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.zonaGis.oZonaCruInf">
+    <Position X="29.25" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAECAAAAAAAAAYAAAEACAAEAACACAAAA=</HashCode>
+      <FileName>logica\zonaGis\oZonaCruces.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.zonaGis.oZonaClaImg">
+    <Position X="31.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAgAAAAAAECAAAAAAAAAYAAAEACAAEAACACABEA=</HashCode>
+      <FileName>logica\zonaGis\oZonaClaImg.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.zonaGis.oZonaExpropiacion" Collapsed="true">
+    <Position X="11" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAABAA=</HashCode>
+      <FileName>logica\zonaGis\oZonaExpropiacion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.zonaGis.oZonaExSuelo" Collapsed="true">
+    <Position X="15" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAECAAAAAAAACAAAAEACAAEAACAAAAAA=</HashCode>
+      <FileName>logica\zonaGis\oZonaExpropiacion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.zonaGis.oZonaExProduccion" Collapsed="true">
+    <Position X="8" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAECAAAAAAAACAAAAAACAAEAACAAAAAA=</HashCode>
+      <FileName>logica\zonaGis\oZonaExpropiacion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.zonaGis.oZonaSueloNoUrbano" Collapsed="true">
+    <Position X="12.75" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>logica\zonaGis\oZonaExpropiacion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.zonaGis.oZonaSueloUrbano" Collapsed="true">
+    <Position X="15" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>logica\zonaGis\oZonaExpropiacion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.zonaGis.oZonaSueloUrbanizable" Collapsed="true">
+    <Position X="17.25" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>logica\zonaGis\oZonaExpropiacion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.zonaGis.oZonaSectorPrimario" Collapsed="true">
+    <Position X="5.75" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>logica\zonaGis\oZonaExpropiacion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.zonaGis.oZonaSectorSecundario" Collapsed="true">
+    <Position X="8" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>logica\zonaGis\oZonaExpropiacion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.zonaGis.oZonaSectorTerciario" Collapsed="true">
+    <Position X="10.25" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>logica\zonaGis\oZonaExpropiacion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.zonaGis.oZonaGeoTuneles">
+    <Position X="22.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAAAAAAAAAYAAAEACAAEAACACAAAA=</HashCode>
+      <FileName>logica\zonaGis\oZonaGeotecnica.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

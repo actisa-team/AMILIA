@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -225,20 +225,24 @@ namespace engCadNet
 
 		public static void entidadDelete(DBObject iObjId)
 		{
-			entidadDelete(iObjId.ObjectId);    
+			if (iObjId != null && !iObjId.IsDisposed && !iObjId.ObjectId.IsNull)
+			{
+				entidadDelete(iObjId.ObjectId);    
+			}
 		}
 		public static void entidadDelete(ObjectId iObjId)
 		{
+			if (iObjId.IsNull || !iObjId.IsValid) return;
 
-				using (Transaction tr = oCadManager.StartTransaction())
+			using (Transaction tr = oCadManager.StartTransaction())
+			{
+				DBObject obj = tr.GetObject(iObjId, OpenMode.ForWrite);
+				if (obj != null && !obj.IsErased)
 				{
-					Entity myEntidad = tr.GetObject(iObjId, OpenMode.ForWrite) as Entity;
-
-					myEntidad.Erase();
-
-					tr.Commit();                          
+					obj.Erase();
 				}
-
+				tr.Commit();                          
+			}
 		}
 		public static Entity entidadGet(ObjectId iObjId)
 		{
@@ -468,5 +472,16 @@ namespace engCadNet
 
 		
 		}
+
+
+
+		
+		public static void zoomExtension()
+		{
+			Application.DocumentManager.MdiActiveDocument.SendStringToExecute("_zoom _e ", true, false, false);
+
+		}
+	
+
 	}
 }

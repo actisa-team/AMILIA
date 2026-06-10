@@ -60,8 +60,23 @@
     <Reference Include="Datos">
       <HintPath>..\Datos\obj\Debug\Datos.dll</HintPath>
     </Reference>
+    <Reference Include="GeoAPI, Version=1.7.5.0, Culture=neutral, PublicKeyToken=a1a0da7def465678, processorArchitecture=MSIL">
+      <HintPath>..\packages\GeoAPI.Core.1.7.5\lib\net45\GeoAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="GeoAPI.CoordinateSystems, Version=1.7.5.0, Culture=neutral, PublicKeyToken=a1a0da7def465678, processorArchitecture=MSIL">
+      <HintPath>..\packages\GeoAPI.CoordinateSystems.1.7.5\lib\net45\GeoAPI.CoordinateSystems.dll</HintPath>
+    </Reference>
     <Reference Include="MaterialSkin, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MaterialSkin.0.2.1\lib\MaterialSkin.dll</HintPath>
+    </Reference>
+    <Reference Include="NetTopologySuite, Version=1.15.3.0, Culture=neutral, PublicKeyToken=f580a05016ebada1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NetTopologySuite.Core.1.15.3\lib\net45\NetTopologySuite.dll</HintPath>
+    </Reference>
+    <Reference Include="NetTopologySuite.CoordinateSystems, Version=1.15.3.0, Culture=neutral, PublicKeyToken=f580a05016ebada1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NetTopologySuite.CoordinateSystems.1.15.3\lib\net45\NetTopologySuite.CoordinateSystems.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -76,6 +91,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AplitopProperties.cs" />
+    <Compile Include="AutoCADPointConverter.cs" />
+    <Compile Include="AutoCloseMessageBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AutoCloseMessageBox.Designer.cs">
+      <DependentUpon>AutoCloseMessageBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="CalculoPolilineaPreferencias.cs" />
     <Compile Include="ComponentesInfoPanel.cs">
       <SubType>Form</SubType>
@@ -83,11 +105,24 @@
     <Compile Include="ComponentesInfoPanel.Designer.cs">
       <DependentUpon>ComponentesInfoPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="ComponenteTabla.cs" />
     <Compile Include="Detener.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Detener.Designer.cs">
       <DependentUpon>Detener.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditarParametros.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditarParametros.Designer.cs">
+      <DependentUpon>EditarParametros.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EntidadFlotante.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EntidadFlotante.Designer.cs">
+      <DependentUpon>EntidadFlotante.cs</DependentUpon>
     </Compile>
     <Compile Include="info_m3.cs">
       <SubType>Form</SubType>
@@ -101,12 +136,22 @@
     <Compile Include="info_m2.Designer.cs">
       <DependentUpon>info_m2.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormSeleccionCapas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSeleccionCapas.Designer.cs">
+      <DependentUpon>FormSeleccionCapas.cs</DependentUpon>
+    </Compile>
     <Compile Include="info.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="info.Designer.cs">
       <DependentUpon>info.cs</DependentUpon>
     </Compile>
+    <Compile Include="KDTree.cs" />
+    <Compile Include="LandXML.cs" />
+    <Compile Include="Loader.cs" />
+    <Compile Include="NamespaceIgnorantXmlTextReader.cs" />
     <Compile Include="PolilineaInfoPanel.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -125,6 +170,28 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="TerrainService.cs" />
+    <Compile Include="TrazadoUsuario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TrazadoUsuario.Designer.cs">
+      <DependentUpon>TrazadoUsuario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BotonPersonalizado.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ComboBoxPersonalizado.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TextBoxPersonalizado.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TrazadoUsuarioPerfil.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TrazadoUsuarioPerfil.Designer.cs">
+      <DependentUpon>TrazadoUsuarioPerfil.cs</DependentUpon>
+    </Compile>
     <Compile Include="ViabilidadComponentesStatusInfoPanel.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -137,13 +204,31 @@
     <Compile Include="TrazaViabilidadInfo.Designer.cs">
       <DependentUpon>TrazaViabilidadInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="VistaComponentes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VistaComponentes.Designer.cs">
+      <DependentUpon>VistaComponentes.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AutoCloseMessageBox.resx">
+      <DependentUpon>AutoCloseMessageBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ComboBoxPersonalizado.resx">
+      <DependentUpon>ComboBoxPersonalizado.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ComponentesInfoPanel.resx">
       <DependentUpon>ComponentesInfoPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Detener.resx">
       <DependentUpon>Detener.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarParametros.resx">
+      <DependentUpon>EditarParametros.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EntidadFlotante.resx">
+      <DependentUpon>EntidadFlotante.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="info_m3.resx">
       <DependentUpon>info_m3.cs</DependentUpon>
@@ -157,6 +242,9 @@
     <EmbeddedResource Include="PolilineaInfoPanel.resx">
       <DependentUpon>PolilineaInfoPanel.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="principal.es.resx">
+      <DependentUpon>principal.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="principal.resx">
       <DependentUpon>principal.cs</DependentUpon>
     </EmbeddedResource>
@@ -164,11 +252,20 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="TrazadoUsuario.resx">
+      <DependentUpon>TrazadoUsuario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TrazadoUsuarioPerfil.resx">
+      <DependentUpon>TrazadoUsuarioPerfil.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ViabilidadComponentesStatusInfoPanel.resx">
       <DependentUpon>ViabilidadComponentesStatusInfoPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TrazaViabilidadInfo.resx">
       <DependentUpon>TrazaViabilidadInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VistaComponentes.resx">
+      <DependentUpon>VistaComponentes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -179,9 +276,17 @@
       <Project>{caf3e36e-1a68-4a90-bd3f-0b039f70496a}</Project>
       <Name>EjeDeTrazado</Name>
     </ProjectReference>
+    <ProjectReference Include="..\engCadNet\engCadNet.csproj">
+      <Project>{F7B495AC-E395-4519-8723-3BA6CE2933FA}</Project>
+      <Name>engCadNet</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Logica\Logica.csproj">
       <Project>{a6e7dde8-c736-4ce0-9891-6dd7542128d5}</Project>
       <Name>Logica</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\tadLayShare\tadLayShare.csproj">
+      <Project>{A184DFB3-80F5-46C0-802B-BF8B6996B5FA}</Project>
+      <Name>tadLayShare</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -192,6 +297,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\metodo 3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Amilia.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,0 +1,423 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="tadLayUI.adminGis.frmCim" Collapsed="true">
+    <Position X="25.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAIQEADgCCAQMUIAAEGAAAgCoAAAAgCAAABAggAhEAA=</HashCode>
+      <FileName>adminGis\frmCim.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.adminGis.frmCimManager" Collapsed="true">
+    <Position X="1.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAEAAAAACAAAAAAAAAABAAAggAAA=</HashCode>
+      <FileName>adminGis\frmCimManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.adminGis.frmCruInf" Collapsed="true">
+    <Position X="27.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAIAEADgCCAEMUIAAECAAAgCoAAAAAAABABAggAwABA=</HashCode>
+      <FileName>adminGis\frmCruInf.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.adminGis.frmCruInfManager" Collapsed="true">
+    <Position X="8" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAEAEAEACAigAAAAAAAAABAAAggAAA=</HashCode>
+      <FileName>adminGis\frmCruInfManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.adminGis.frmDoHi" Collapsed="true">
+    <Position X="24" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAIAEADgCCAUMUIAAECAAIgCoAAACAAAAABAggAwABA=</HashCode>
+      <FileName>adminGis\frmDoHi.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.adminGis.frmDoHiPuManager" Collapsed="true">
+    <Position X="17" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAEAEAEACAigAAAAAAAAABAAAggAAA=</HashCode>
+      <FileName>adminGis\frmDoHiPuManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.adminGis.frmEst" Collapsed="true">
+    <Position X="25.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAIACADgCDFAMdAAAEGAAAgCoAkAAAAEAABghgAgEAA=</HashCode>
+      <FileName>adminGis\frmEst.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.adminGis.frmEstManager" Collapsed="true">
+    <Position X="19.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAEAAAAACAAAAAAAAAABAAAggAAA=</HashCode>
+      <FileName>adminGis\frmEstManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.adminGis.frmGeo" Collapsed="true">
+    <Position X="27.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>aAIiorjlLmDhOGLKlPKVzcgjqrMIEAohjyRYqxNIZBk=</HashCode>
+      <FileName>adminGis\frmGeo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.adminGis.frmGeoManager" Collapsed="true">
+    <Position X="11.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAgACAAEAAEAECEAAACAAAAAAAAAABAAAggAAA=</HashCode>
+      <FileName>adminGis\frmGeoManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.adminGis.frmManagerGis" Collapsed="true">
+    <Position X="32.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAUAACAAAQAEAQCABAACAAEAAQAAAAAAABAAAAQ=</HashCode>
+      <FileName>adminGis\frmManagerGis.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.adminGis.frmTun" Collapsed="true">
+    <Position X="31" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BwKAAJDgCCFQMdJAAEWAAAgCqAgAAAAAgAJBhgAgBBM=</HashCode>
+      <FileName>adminGis\frmTun.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.adminGis.frmTunManager" Collapsed="true">
+    <Position X="12.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAEAAAAAAAAAAAAAAAABAAAggAAA=</HashCode>
+      <FileName>adminGis\frmTunManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.adminGis.frmZonaGis" Collapsed="true">
+    <Position X="32.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>UIFWJgSBRCQQVQaGJBTCACnmgEBA8iCSiDAAjQIAJEA=</HashCode>
+      <FileName>adminGis\frmZonaGis.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.frmKv" Collapsed="true">
+    <Position X="31" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAABQAACgAAQIFIBDAEAACBAAAACAARCIAhAAAACA=</HashCode>
+      <FileName>adminNormativa\frmKv.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.frmRoad" Collapsed="true">
+    <Position X="29.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>GBEAABQASKhoAUBFJBDAEAACAAAAgCAABIIggAICACA=</HashCode>
+      <FileName>adminNormativa\frmRoad.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.frmBb" Collapsed="true">
+    <Position X="24" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>UFAAABAAECCgAARAAWCAACACgAAQAQQAEAhAARAACAE=</HashCode>
+      <FileName>frmBb.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.frmRoot" Collapsed="true">
+    <Position X="2.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQCAAIBAAAACAAAACAAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>adminShare\frmRoot.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.adminPresupuesto.frmPreciosFactory" Collapsed="true">
+    <Position X="27.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQCAAAAAACCARgDAABCIAgACAMG4gSgCAPALAAAhBEI=</HashCode>
+      <FileName>adminPresupuesto\factory\frmPreciosFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.adminPresupuesto.frmManagerPrecios" Collapsed="true">
+    <Position X="24" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAikgFCDACAeUAESAAGACgBEhUQOTACAAgAKgACE=</HashCode>
+      <FileName>adminPresupuesto\frmManagerPrecios.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.adminSecciones.frmCunTra" Collapsed="true">
+    <Position X="29.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAgAEACgAiAAMUAAAECAAAACoACBAAAAAIBAggggEAA=</HashCode>
+      <FileName>adminSecciones\frmCunTra.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.adminSecciones.frmCunTraManager" Collapsed="true">
+    <Position X="5.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAEAEAAAAAAAAAAAAAAAABAAAgAAAA=</HashCode>
+      <FileName>adminSecciones\frmCunTraManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.adminSecciones.frmCunTri" Collapsed="true">
+    <Position X="31" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAEACgACAAMUAAAECAAAACoACBAAAAAABAggggEAA=</HashCode>
+      <FileName>adminSecciones\frmCunTri.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.adminSecciones.frmCunTriManager" Collapsed="true">
+    <Position X="14.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAEAEAAAAAAAAAAAAAAAABAAAgAAAA=</HashCode>
+      <FileName>adminSecciones\frmCunTriManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.adminSecciones.frmManagerSecciones" Collapsed="true">
+    <Position X="25.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAkAAiAAAQAECECIAAACgAEAAQAAAAAAABAAAAA=</HashCode>
+      <FileName>adminSecciones\frmManagerSeciones.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.adminSecciones.frmRoadDobleAutovia" Collapsed="true">
+    <Position X="5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAEICwFCAAMQwADECAgAECsAFAAIACAShEgiAgEAg=</HashCode>
+      <FileName>adminSecciones\frmRoadDobleAutovia.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.adminSecciones.frmRoadDobleAutoviaManager" Collapsed="true">
+    <Position X="21.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAEAEAAAAAAAAAAAAAAAABAAAgAAAA=</HashCode>
+      <FileName>adminSecciones\frmRoadDobleAutoviaManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.adminSecciones.frmRoadDobleSinMediana" Collapsed="true">
+    <Position X="0.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAEICwBCDAERwAADCAAAECsAEAAIIKASBEgiAgEAg=</HashCode>
+      <FileName>adminSecciones\frmRoadDobleSinMediana.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.adminSecciones.frmRoadDobleSinMedianaManager" Collapsed="true">
+    <Position X="3.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAEAEAAAAAAAAAAAAAAAABAAAgAAAA=</HashCode>
+      <FileName>adminSecciones\frmRoadDobleSinMedianaManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.adminSecciones.frmRoadUnicaGen" Collapsed="true">
+    <Position X="2.75" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAEICgACAAMQwABGCAgAECsAEAAIIgAQBEgyAgEAg=</HashCode>
+      <FileName>adminSecciones\frmRoadUnicaGen.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.adminSecciones.frmRoadUnicaGenManager" Collapsed="true">
+    <Position X="10.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAEAEAAAAAAAAAAAAAAAABAAAgAAAA=</HashCode>
+      <FileName>adminSecciones\frmRoadUnicaManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.Properties.Resources" Collapsed="true">
+    <Position X="29.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>UAAACAAAEICBAACAgIABEAAAgQogAQAAABAAAQAAAIE=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.userControl.ucCimTipos" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="25.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQgAAAEAACAAEAQAAAGAABACBAAAQAAAAMQAAAgAAAA=</HashCode>
+      <FileName>userControl\ucCimTipo.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="tadLayUI.userControl.ucCmbValoracion" Collapsed="true">
+    <Position X="14.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>userControl\ucCmbValoracion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.userControl.ucCuneta" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="27.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BwAAEQkAgCABAAAAAACAIRQDhEAAAAQIAMQCBAgIACA=</HashCode>
+      <FileName>userControl\ucCuneta.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="tadLayUI.userControl.ucCunetaPosicion" Collapsed="true">
+    <Position X="3.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAgAAAA=</HashCode>
+      <FileName>userControl\ucCunetaPosicion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.userControl.ucEstTipoCode" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="29.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ARAAQQEAACACAAgAAEKIARACBAADAQBAMMQAAAgCAAg=</HashCode>
+      <FileName>userControl\ucEstTipoCode.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="tadLayUI.userControl.ucFileSelect" Collapsed="true">
+    <Position X="31" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BCAAAABAACAAAAhAAACAAAACAAAAEAAABAAAEAAAAAA=</HashCode>
+      <FileName>userControl\ucFileSelect.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.userControl.ucGeoCapas" Collapsed="true">
+    <Position X="32.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABygAgCAMCAACAaGBoSAAgADABAASASaAAACgAAAJAg=</HashCode>
+      <FileName>userControl\ucGeoCapas.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.userControl.uclblCmbMaster" Collapsed="true">
+    <Position X="8.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQgAAAEAACAAEAQAAAGAABAChAAAQAAAAMQAAAgAAAA=</HashCode>
+      <FileName>userControl\uclblCmbMaster.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="tadLayUI.userControl.uclblCmbPrecios" Collapsed="true">
+    <Position X="12.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAgAAAAgAIAA=</HashCode>
+      <FileName>userControl\uclblCmbPrecios.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.userControl.uclblSiNo" Collapsed="true">
+    <Position X="16.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAgAAAA=</HashCode>
+      <FileName>userControl\uclblCmbSiNo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.userControl.ucLblCmbTns" Collapsed="true">
+    <Position X="1" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>userControl\ucLblCmbTns.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.userControl.ucLblTxt" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="24" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BRAAACAAICDIECAgAACAAACCAAAAQAAQAUQAAAAAQBA=</HashCode>
+      <FileName>userControl\ucLblTxt.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="tadLayUI.userControl.txtNex" Collapsed="true">
+    <Position X="24" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AhAMAAAAQCgAEAAgAAEAABCAAAAAIAAQAOYACAAAQBA=</HashCode>
+      <FileName>userControl\ucLblTxt.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.userControl.ucMenuNose" Collapsed="true">
+    <Position X="25.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAASEAQSQAEEAIDgCAAIACAAAEwGgAAAiABAgAAQA=</HashCode>
+      <FileName>userControl\ucMenuNose.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.userControl.ucRmrTabla" Collapsed="true">
+    <Position X="27.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAACAACAAAAACAAAACAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>userControl\ucRmrTabla.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.userControl.tbRmr" Collapsed="true">
+    <Position X="31" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABCAAACAAAAAAAABAAAAAAAACAAAAAAAAAAAgA=</HashCode>
+      <FileName>userControl\ucRmrTabla.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.userControl.ucTreeGis" Collapsed="true">
+    <Position X="29.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAACAAAAgAgACAAAACAAIAQAAAAAAAAAgCAAA=</HashCode>
+      <FileName>userControl\ucTreeGis.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.userControl.ucTreePrecios" Collapsed="true">
+    <Position X="8.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gGAABAAAACAAAQAAgACAAAAiAEAAQAAAAAAAAAgAAAA=</HashCode>
+      <FileName>userControl\ucTreePrecios.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.userControl.TreeViewItem" Collapsed="true">
+    <Position X="32.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAgAAAAAEAAAAAIAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>userControl\ucTreePrecios.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.userControl.ucTreeSecciones" Collapsed="true">
+    <Position X="8.25" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>userControl\ucTreeSecciones.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.userControl.ucTunExcTipos" Collapsed="true">
+    <Position X="5.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>userControl\ucTunExcTipo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.userControl.ucTunTratamientosTipos" Collapsed="true">
+    <Position X="7.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>userControl\ucTunTratamientosTipos.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.userControl.ucTreeMacroPrecios" Collapsed="true">
+    <Position X="10" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>userControl\ucTreeMacroPrecios.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayUI.userControl.ucWinColor" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="31" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAACAAEAAAAACAAAACAAAAQAAAAERAAQAgAAA=</HashCode>
+      <FileName>userControl\ucWinColor.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="tadLayUI.userControl.panelNex" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="27.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAABAEAACAAgAAAAAEAAEQAIAAAAAA=</HashCode>
+      <FileName>userControl\ucWinColor.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Interface Name="tadLayUI.adminGis.IfrmManagerPopulate" Collapsed="true">
+    <Position X="24" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>adminGis\IfrmManagerPopulate.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="tadLayUI.userControl.IisValido" Collapsed="true">
+    <Position X="25.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>userControl\IucValidar.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

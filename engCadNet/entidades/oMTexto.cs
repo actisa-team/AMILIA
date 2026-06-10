@@ -90,7 +90,45 @@ namespace engCadNet
             
 
         }
+        public static void addMText2D(string iStr, double[] iPto, double iAltura, double iRotate, string iLayer, string ixData, string ixData2)
+        {
 
 
+            using (Transaction tr = oCadManager.StartTransaction())
+            {
+
+                BlockTable acBlockTable = tr.GetObject(oCadManager.thisBase.BlockTableId, OpenMode.ForRead) as BlockTable;
+
+                //Necesito Crear un Nuevo Registro para Añadir la Linea
+                BlockTableRecord acBlockTableRec = tr.GetObject(acBlockTable[BlockTableRecord.ModelSpace], OpenMode.ForWrite) as BlockTableRecord;
+
+                MText miTexto = new MText();
+
+                miTexto.TextHeight = iAltura;
+
+                miTexto.Location = new Point3d(iPto[0], iPto[1], 0);
+
+                miTexto.Rotation = iRotate;
+
+                miTexto.Contents = iStr;
+
+                miTexto.Layer = iLayer;
+
+
+
+                acBlockTableRec.AppendEntity(miTexto);
+
+
+                oXdata.setXdata(miTexto.ObjectId, ixData, ixData);
+                oXdata.setXdata(miTexto.ObjectId, ixData2, ixData2);
+
+                tr.AddNewlyCreatedDBObject(miTexto, true);
+
+                tr.Commit();
+
+            }
+
+
+        }
     }
 }

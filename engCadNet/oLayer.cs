@@ -439,7 +439,11 @@ namespace engCadNet
 
 
         }
-
+        public static List<string> getListLayerName()
+        {
+            var layers = getLstLayerByDwg(true);
+            return layers.Select(layer => layer.Name).ToList();
+        }
 
     }
 }

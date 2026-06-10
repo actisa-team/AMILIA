@@ -27,6 +27,12 @@
         private double k;
         private bool EliminarClotoide;
         private double Eliminar_Clotoide;
+        private bool EliminarRecta;
+        private double Eliminar_Recta;
+        private bool ingenieril;
+        private double variacion;
+        private double dis_max_puntos;
+        private bool duplicado;
 
 int[] orden;
         public double Gr_Rectas { get => gr_rectas; set => gr_rectas = value; }
@@ -55,5 +61,11 @@ int[] orden;
         public double K { get => k; set => k = value; }
         public bool EliClo { get => EliminarClotoide; set => EliminarClotoide = value; }
         public double Eli_Clo { get => Eliminar_Clotoide; set => Eliminar_Clotoide = value; }
+        public bool EliRec { get => EliminarRecta; set => EliminarRecta = value; }
+        public double Eli_Rec { get => Eliminar_Recta; set => Eliminar_Recta = value; }
+        public bool Ingenieril { get => ingenieril; set => ingenieril = value; }
+        public double Variacion { get => variacion; set => variacion = value; }
+        public double Dis_max_puntos { get => dis_max_puntos; set => dis_max_puntos = value; }
+        public bool Duplicado { get => duplicado; set => duplicado = value; }
     }
 }

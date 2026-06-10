@@ -177,6 +177,40 @@ namespace engNet.Csv
 
 
         }
+        public static void write(List<string> header, List<List<double?>> dataItems, string iFileConExtension)
+        {
+
+            string miFile = iFileConExtension;
+            System.IO.TextWriter output = new StreamWriter(miFile, false, Encoding.BigEndianUnicode);
+
+
+            foreach (var prop in header)
+            {
+                output.Write(prop);
+                output.Write(";");
+            }
+            output.WriteLine();
+
+            foreach (var dataItem in dataItems)
+            {
+                foreach (var data in dataItem)
+                {
+                    if (data != null)
+                    {
+                        output.Write(data.ToString().Replace('.', ','));
+                    }
+                    output.Write(";");
+                }
+                output.WriteLine();
+
+            }
+
+
+            output.Flush();
+            output.Close();
+
+
+        }
 
 
     }

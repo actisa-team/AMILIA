@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MIConvexHull;
+
 
 namespace tadLayShare.puntos
 {
-    public class Punto3d
+    public class Punto3d:IVertex
     {
         #region "Variables privadas"
 
@@ -13,7 +15,7 @@ namespace tadLayShare.puntos
         private double mCoordenadaY;
         private double mCoordenadaZ;
         private int mIndex;
-
+        public double[] Position { get; set; }
         #endregion
 
         #region "Contructores"
@@ -60,10 +62,12 @@ namespace tadLayShare.puntos
         public double coordenadaY
         {
             get { return mCoordenadaY; }
+            set { mCoordenadaY = value; }
         }
         public double coordenadaZ
         {
             get { return mCoordenadaZ; }
+            set { mCoordenadaZ = value; }
         }
 
         public double[] toArray3d

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using EjeDeTrazado.componentes;
@@ -13,9 +13,10 @@ namespace EjeDeTrazado.puntosDelEje
     /// EJE TRAZADO TADIL VERSION 5.0
     /// </summary>
 
+    [Serializable]
     public class EjeTrazado
     {
-        public enum tipoCurva { cnp, cnpAnguloReducido, cp, c5000, c2500, noValorado };
+        public enum tipoCurva { cnp, cnpAnguloReducido, cp, c5000, c2500, noValorado,c3500,c7500 };
         public enum sentidoCurva { Horario, Antihorario, noValorado };
         public enum tipoSegmento { rectaInt, RectaIntParalelismo, RectaIntCurvaS, giroSalidaCP, giroEntradaCP, quedaFijo, noValorado };
         public enum tipoClotoide { entrada, salida };
@@ -279,9 +280,26 @@ namespace EjeDeTrazado.puntosDelEje
             calculaMaxRadio();
         }
 
+        public EjeTrazado(List<Vertice> iLstVertice, List<Componente> iLstComponente, double iPeralteCurva, double iPeralteRecta)
+        {
+            mComponentes = iLstComponente;
+            mVertices = iLstVertice;
+
+            mPeralteCurva = iPeralteCurva;
+            mPeralteRecta = iPeralteRecta;
+            mMaxRadio = 0;
+            foreach (Componente miComp in mComponentes)
+            {
+                if (miComp.getTipoComponente() == Componente.tipoComponente.curva)
+                {
+                    Curva miCurva = (Curva)miComp;
+                    if (mMaxRadio < miCurva.getRadio) mMaxRadio = miCurva.getRadio;
+                }
+            }
+        }
         #region "Métodos privados"
 
-        private bool isSolapeS(Punto3d iCentroCurva, Punto3d iPuntoEntrada, Punto3d iPuntoSalida, Punto3d iVertice, double iQe1, double iQe2)
+        public static bool isSolapeS(Punto3d iCentroCurva, Punto3d iPuntoEntrada, Punto3d iPuntoSalida, Punto3d iVertice, double iQe1, double iQe2)
         {
             bool resultado = false;
             double miAzPE = getAzimutCardinal(iPuntoEntrada.coordenadaX - iCentroCurva.coordenadaX, iPuntoEntrada.coordenadaY - iCentroCurva.coordenadaY);
@@ -501,7 +519,7 @@ namespace EjeDeTrazado.puntosDelEje
             return miTipoS;
         }
 
-        private double getDelta(double iAzimut1, double iAzimut2)
+        public static double getDelta(double iAzimut1, double iAzimut2)
         {
             double miDelta;
             if (Math.Abs(iAzimut2 - iAzimut1) > 180)
@@ -515,7 +533,7 @@ namespace EjeDeTrazado.puntosDelEje
             return miDelta;
         }
 
-        private tipoCurva getTipoCurva(double iDelta)
+        public tipoCurva getTipoCurva(double iDelta)
         {
             tipoCurva mitipo;
             double miPhi = 180 - iDelta;
@@ -589,6 +607,80 @@ namespace EjeDeTrazado.puntosDelEje
             }
             return mitipo;
         }
+        public static tipoCurva getTipoCurva(double iDelta, bool iPrefCruvas, int iGrupo, double iRadio)
+        {
+            tipoCurva mitipo;
+            double miPhi = 180 - iDelta;
+            if (!iPrefCruvas)
+            {
+                if (miPhi > 100)
+                {
+                    if (miPhi > 174.6)
+                    {
+                        if (iGrupo == 1)
+                        {
+                            mitipo = tipoCurva.c7500;
+                        }
+                        else
+                        {
+                            mitipo = tipoCurva.c3500;
+                        }
+                    }
+                    else
+                    {
+                        double param = (Math.Pow(12, 0.5) * Math.Pow(iRadio, -0.5)) * 180 / Math.PI;
+                        if (iDelta < param)
+                        {
+                            mitipo = tipoCurva.cnpAnguloReducido;
+                        }
+                        else
+                        {
+                            mitipo = tipoCurva.cnp;
+                        }
+                    }
+                }
+                else
+                {
+                    mitipo = tipoCurva.cp;
+                }
+            }
+            else
+            {
+                if (miPhi > 120)
+                {
+                    if (miPhi > 174.6)
+                    {
+                        if (iGrupo == 1)
+                        {
+                            mitipo = tipoCurva.c7500;
+
+                        }
+                        else
+                        {
+                            mitipo = tipoCurva.c3500;
+                        }
+
+                    }
+                    else
+                    {
+                        double param = (Math.Pow(12, 0.5) * Math.Pow(iRadio, -0.5)) * 180 / Math.PI;
+                        if (iDelta < param)
+                        {
+                            mitipo = tipoCurva.cnpAnguloReducido;
+                        }
+                        else
+                        {
+                            mitipo = tipoCurva.cnp;
+                        }
+                    }
+                }
+                else
+                {
+                    mitipo = tipoCurva.cp;
+                }
+            }
+            return mitipo;
+        }
 
         public double getRadioReducido(tipoCurva iTipo, double iDelta)
         {
@@ -637,7 +729,7 @@ namespace EjeDeTrazado.puntosDelEje
             return miRadio;
         }
 
-        public sentidoCurva getSentidoCurva(double iAzSegAnt, double iAz)
+        public static sentidoCurva getSentidoCurva(double iAzSegAnt, double iAz)
         {
             sentidoCurva miSent;
             if ((iAzSegAnt >= 0) && (iAzSegAnt <= 180))
@@ -684,7 +776,7 @@ namespace EjeDeTrazado.puntosDelEje
             return new Punto3d(miPuntox, miPuntoy, 0);
         }
 
-        public double getAzimutCardinal(double iDx, double iDy)
+        public static double getAzimutCardinal(double iDx, double iDy)
         {
 
             double miDelta;
@@ -906,7 +998,135 @@ namespace EjeDeTrazado.puntosDelEje
 
             return puntosSing;
         }
+        public Punto3d[] addCurvaNoPaso(ref double miRc, double iAzimut1, double iAzimut2, Punto3d iVerticeAnt, Punto3d iVertice, sentidoCurva sentG, bool iReducido, out double miA)
+        {
+            double miDelta;
+            miDelta = getDelta(iAzimut1, iAzimut2);
+            double miDeltaRad = miDelta * Math.PI / 180;
+            var miLe = CalculoParametrosCurva(ref miRc, miDeltaRad, iReducido, out miA, mGrupo, mVelocidad);
 
+
+            double miQe = miLe / (2 * miRc);
+            double miYe = ((miQe / 3) - (Math.Pow(miQe, 3) / 42) + (Math.Pow(miQe, 5) / 1320) - (Math.Pow(miQe, 7) / 75600)) * miLe;
+            double miDR = miYe - miRc * (1 - Math.Cos(miQe));
+            double miXe = (1 - Math.Pow(miQe, 2) / 10 + Math.Pow(miQe, 4) / 216 - Math.Pow(miQe, 6) / 9360 + Math.Pow(miQe, 8) / 685440) * miLe;
+            double miXM = miXe - miRc * Math.Sin(miQe);
+
+            double miPhi = 180 - miDelta;
+            double miTe = miXM + (miRc + miDR) * Math.Tan(miDelta * Math.PI / 180 / 2);
+            double miEe = ((miRc + miDR) / Math.Abs(Math.Cos(miDelta / 2 * Math.PI / 180))) - miRc;
+            double miPcx, miPcy, miPx1x, miPx1y, miPx2x, miPx2y;
+            double miPcl1x, miPcl1y, miPc1x, miPc1y, miPc2x, miPc2y, miPcl2x, miPcl2y;
+            if (sentG == sentidoCurva.Horario)
+            {
+                miPcx = iVertice.coordenadaX + (miEe + miRc) * Math.Sin((iAzimut2 + miPhi / 2) * Math.PI / 180);
+                miPcy = iVertice.coordenadaY + (miEe + miRc) * Math.Cos((iAzimut2 + miPhi / 2) * Math.PI / 180);
+                miPx1x = miPcx + (miRc + miDR) * Math.Sin((iAzimut1 - 90) * Math.PI / 180);
+                miPx1y = miPcy + (miRc + miDR) * Math.Cos((iAzimut1 - 90) * Math.PI / 180);
+                miPx2x = miPcx + (miRc + miDR) * Math.Sin((iAzimut2 - 90) * Math.PI / 180);
+                miPx2y = miPcy + (miRc + miDR) * Math.Cos((iAzimut2 - 90) * Math.PI / 180);
+
+                miPcl1x = miPx1x + miXM * Math.Sin((iAzimut1 - 180) * Math.PI / 180);
+                miPcl1y = miPx1y + miXM * Math.Cos((iAzimut1 - 180) * Math.PI / 180);
+
+                miPc1x = miPcx + miRc * Math.Sin((iAzimut1 - 90 + miQe * 180 / Math.PI) * Math.PI / 180);
+                miPc1y = miPcy + miRc * Math.Cos((iAzimut1 - 90 + miQe * 180 / Math.PI) * Math.PI / 180);
+
+                miPc2x = miPcx + miRc * Math.Sin((iAzimut2 - 90 - miQe * 180 / Math.PI) * Math.PI / 180);
+                miPc2y = miPcy + miRc * Math.Cos((iAzimut2 - 90 - miQe * 180 / Math.PI) * Math.PI / 180);
+
+                miPcl2x = miPx2x + miXM * Math.Sin(iAzimut2 * Math.PI / 180);
+                miPcl2y = miPx2y + miXM * Math.Cos(iAzimut2 * Math.PI / 180);
+
+            }
+            else
+            {
+                miPcx = iVertice.coordenadaX + (miEe + miRc) * Math.Sin((iAzimut2 - miPhi / 2) * Math.PI / 180);
+                miPcy = iVertice.coordenadaY + (miEe + miRc) * Math.Cos((iAzimut2 - miPhi / 2) * Math.PI / 180);
+                miPx1x = miPcx + (miRc + miDR) * Math.Sin((iAzimut1 + 90) * Math.PI / 180);
+                miPx1y = miPcy + (miRc + miDR) * Math.Cos((iAzimut1 + 90) * Math.PI / 180);
+                miPx2x = miPcx + (miRc + miDR) * Math.Sin((iAzimut2 + 90) * Math.PI / 180);
+                miPx2y = miPcy + (miRc + miDR) * Math.Cos((iAzimut2 + 90) * Math.PI / 180);
+
+
+                miPcl1x = miPx1x + miXM * Math.Sin((iAzimut1 - 180) * Math.PI / 180);
+                miPcl1y = miPx1y + miXM * Math.Cos((iAzimut1 - 180) * Math.PI / 180);
+
+                miPc1x = miPcx + miRc * Math.Sin((iAzimut1 + 90 - miQe * 180 / Math.PI) * Math.PI / 180);
+                miPc1y = miPcy + miRc * Math.Cos((iAzimut1 + 90 - miQe * 180 / Math.PI) * Math.PI / 180);
+
+                miPc2x = miPcx + miRc * Math.Sin((iAzimut2 + 90 + miQe * 180 / Math.PI) * Math.PI / 180);
+                miPc2y = miPcy + miRc * Math.Cos((iAzimut2 + 90 + miQe * 180 / Math.PI) * Math.PI / 180);
+
+                miPcl2x = miPx2x + miXM * Math.Sin(iAzimut2 * Math.PI / 180);
+                miPcl2y = miPx2y + miXM * Math.Cos(iAzimut2 * Math.PI / 180);
+            }
+
+            Punto3d miPuntoC = new Punto3d(miPcx, miPcy, 0);
+            Punto3d miPunto1 = new Punto3d(miPcl1x, miPcl1y, 0);
+            Punto3d miPunto2 = new Punto3d(miPc1x, miPc1y, 0);
+            Punto3d miPunto3 = new Punto3d(miPc2x, miPc2y, 0);
+            Punto3d miPunto4 = new Punto3d(miPcl2x, miPcl2y, 0);
+
+            Punto3d[] puntosSing = new Punto3d[5];
+            puntosSing[0] = miPunto1;
+            puntosSing[1] = miPunto2;
+            puntosSing[2] = miPunto3;
+            puntosSing[3] = miPunto4;
+            puntosSing[4] = miPuntoC;
+
+
+            return puntosSing;
+        }
+        public static double CalculoParametrosCurva(ref double miRc, double miDeltaRad, bool iReducido, out double miA,
+             int iGrupo, double iVp)
+        {
+            double miLe;
+            if (iReducido)
+            {
+                miRc = 1.5 * miRc;
+                double miLmin;
+                miA = Math.Pow((12 * Math.Pow(miRc, 3)), 0.25);
+                miLe = Math.Pow(miA, 2) / miRc;
+                var param = Math.Pow(12, 0.5) * Math.Pow(miRc, -0.5);
+                if (iGrupo == 1)
+                {
+                    miLmin = (10 * 3.5) / (1.8 - 0.01 * iVp);
+                }
+                else
+                {
+                    miLmin = (9 * 3.5) / (1.8 - 0.01 * iVp);
+                }
+                if (param < miDeltaRad)
+                {
+                    if (!(miLe > miLmin && miLe > 20))
+                    {
+                        miRc = 20 / (miDeltaRad - 0.060999257);
+                        miA = Math.Sqrt(Math.Pow(20, 2) / (miDeltaRad - 0.060999257));
+                    }
+                }
+                else
+                {
+                    if (miLmin > 20)
+                    {
+                        miRc = miLmin / (miDeltaRad - 0.060999257);
+                        miA = Math.Sqrt(Math.Pow(miLmin, 2) / (miDeltaRad - 0.060999257));
+                    }
+                    else
+                    {
+                        miRc = 20 / (miDeltaRad - 0.060999257);
+                        miA = Math.Sqrt(Math.Pow(20, 2) / (miDeltaRad - 0.060999257));
+                    }
+                }
+                miLe = Math.Pow(miA, 2) / miRc;
+            }
+            else
+            {
+                miA = Math.Pow((12 * Math.Pow(miRc, 3)), 0.25);
+                miLe = Math.Pow(miA, 2) / miRc;
+            }
+            return miLe;
+        }
         public Punto3d[] addCurvaPaso(double iRc, double iAzimut1, double iAzimut2, Punto3d iVerticeAnt, Punto3d iPuntoC, sentidoCurva sentG)
         {
             double miA = Math.Pow((12 * Math.Pow(iRc, 3)), 0.25);
@@ -1494,20 +1714,43 @@ namespace EjeDeTrazado.puntosDelEje
             }
             else if (mComponentes.ElementAt(i).getTipoComponente() == Componente.tipoComponente.clotoideEntrada)
             {
-                Linea miLineaAnt = (Linea)mComponentes.ElementAt(i - 1);
-                double miAzimutAnt = miLineaAnt.azimut;
+                Componente compAnt = mComponentes.ElementAt(i - 1);
+                double miAzimutAnt = 0;
+                if (compAnt.getTipoComponente() == Componente.tipoComponente.linea)
+                {
+                    miAzimutAnt = ((Linea)compAnt).azimut;
+                }
+                else if (compAnt.getTipoComponente() == Componente.tipoComponente.curva)
+                {
+                    miAzimutAnt = ((Curva)compAnt).getAzimutAtDist(compAnt.getPkFinal());
+                }
+                else
+                {
+                    miAzimutAnt = ((Clotoide)compAnt).mAzimut;
+                }
+
                 Clotoide miClotiode = (Clotoide)mComponentes.ElementAt(i);
                 miPunto = miClotiode.getPointAtLocationClotiode(iDistancia, iOffset, iLadoCalzada, miAzimutAnt);
             }
             else
             {
-                Linea miLineaAnt = (Linea)mComponentes.ElementAt(i + 1);
+                Componente compSig = mComponentes.ElementAt(i + 1);
+                double miAzimutAnt = 0;
+                if (compSig.getTipoComponente() == Componente.tipoComponente.linea)
+                {
+                    miAzimutAnt = ((Linea)compSig).azimut;
+                }
+                else if (compSig.getTipoComponente() == Componente.tipoComponente.curva)
+                {
+                    miAzimutAnt = ((Curva)compSig).getAzimutAtDist(compSig.getPkIni);
+                }
+                else
+                {
+                    miAzimutAnt = ((Clotoide)compSig).mAzimut;
+                }
+
                 Clotoide miClotiode = (Clotoide)mComponentes.ElementAt(i);
-
-                double miAzimutAnt = miLineaAnt.azimut;
                 miPunto = miClotiode.getPointAtLocationClotiode(iDistancia, iOffset, iLadoCalzada, miAzimutAnt);
-
-
             }
             mAzimutTransTemp = miPunto[2];
             double[] miPunto2 = new double[2];
@@ -1567,12 +1810,47 @@ namespace EjeDeTrazado.puntosDelEje
             }
             stream.Close();
         }
+        public void exportarEjeTrazado(string iNombreArchivo)
+        {
 
+            MemoryStream iSerializado = guardarEjeTrazado();
+            string fileName = iNombreArchivo; //+ ".tadeje";
+            FileStream stream = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.Write);
+
+            byte[] miBuffer = iSerializado.GetBuffer();
+
+            for (int i = 0; i < miBuffer.Length; i++)
+            {
+                stream.WriteByte(miBuffer[i]);
+            }
+            stream.Close();
+        }
         public static EjeTrazado recuperaEjeTrazado(MemoryStream iStream)
         {
-            BinaryFormatter formatterR = new BinaryFormatter();
-            EjeTrazado deserializada = (EjeTrazado)formatterR.Deserialize(iStream);
-            return deserializada;
+            ResolveEventHandler resolveHandler = (sender, args) =>
+            {
+                string shortName = args.Name.Split(',')[0];
+                foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+                {
+                    if (assembly.GetName().Name == shortName)
+                    {
+                        return assembly;
+                    }
+                }
+                return null;
+            };
+
+            AppDomain.CurrentDomain.AssemblyResolve += resolveHandler;
+            try
+            {
+                BinaryFormatter formatterR = new BinaryFormatter();
+                EjeTrazado deserializada = (EjeTrazado)formatterR.Deserialize(iStream);
+                return deserializada;
+            }
+            finally
+            {
+                AppDomain.CurrentDomain.AssemblyResolve -= resolveHandler;
+            }
         }
 
         public List<oInformeEje> escribirInforme()
@@ -1754,6 +2032,19 @@ namespace EjeDeTrazado.puntosDelEje
             {
                 return sentidoCurva.noValorado;
             }
+        }
+        public Componente getComponente(double iPk)
+        {
+
+            double miComponetePk = mComponentes.ElementAt(0).getPkFinal();
+            int i = 0;
+            while (miComponetePk <= iPk && i < mComponentes.Count - 1)
+            {
+                i++;
+                miComponetePk = mComponentes.ElementAt(i).getPkFinal();
+            }
+
+            return mComponentes.ElementAt(i);
         }
 
         #endregion

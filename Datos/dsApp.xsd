@@ -12,7 +12,7 @@
   <xs:element name="dsApp" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="dsApp" msprop:Generator_UserDSName="dsApp">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="Polilinea" msprop:Generator_TableClassName="PolilineaDataTable" msprop:Generator_TableVarName="tablePolilinea" msprop:Generator_RowChangedName="PolilineaRowChanged" msprop:Generator_TablePropName="Polilinea" msprop:Generator_RowDeletingName="PolilineaRowDeleting" msprop:Generator_RowChangingName="PolilineaRowChanging" msprop:Generator_RowEvHandlerName="PolilineaRowChangeEventHandler" msprop:Generator_RowDeletedName="PolilineaRowDeleted" msprop:Generator_RowClassName="PolilineaRow" msprop:Generator_UserTableName="Polilinea" msprop:Generator_RowEvArgName="PolilineaRowChangeEvent">
+        <xs:element name="Polilinea" msprop:Generator_TableClassName="PolilineaDataTable" msprop:Generator_TableVarName="tablePolilinea" msprop:Generator_TablePropName="Polilinea" msprop:Generator_RowDeletingName="PolilineaRowDeleting" msprop:Generator_RowChangingName="PolilineaRowChanging" msprop:Generator_RowEvHandlerName="PolilineaRowChangeEventHandler" msprop:Generator_RowDeletedName="PolilineaRowDeleted" msprop:Generator_UserTableName="Polilinea" msprop:Generator_RowChangedName="PolilineaRowChanged" msprop:Generator_RowEvArgName="PolilineaRowChangeEvent" msprop:Generator_RowClassName="PolilineaRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="X" msprop:Generator_ColumnVarNameInTable="columnX" msprop:Generator_ColumnPropNameInRow="X" msprop:Generator_ColumnPropNameInTable="XColumn" msprop:Generator_UserColumnName="X" type="xs:string" minOccurs="0" />
@@ -21,7 +21,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="Polilinea3d" msprop:Generator_TableClassName="Polilinea3dDataTable" msprop:Generator_TableVarName="tablePolilinea3d" msprop:Generator_TablePropName="Polilinea3d" msprop:Generator_RowDeletingName="Polilinea3dRowDeleting" msprop:Generator_RowChangingName="Polilinea3dRowChanging" msprop:Generator_RowEvHandlerName="Polilinea3dRowChangeEventHandler" msprop:Generator_RowDeletedName="Polilinea3dRowDeleted" msprop:Generator_UserTableName="Polilinea3d" msprop:Generator_RowChangedName="Polilinea3dRowChanged" msprop:Generator_RowEvArgName="Polilinea3dRowChangeEvent" msprop:Generator_RowClassName="Polilinea3dRow">
+        <xs:element name="Polilinea3d" msprop:Generator_TableClassName="Polilinea3dDataTable" msprop:Generator_TableVarName="tablePolilinea3d" msprop:Generator_RowChangedName="Polilinea3dRowChanged" msprop:Generator_TablePropName="Polilinea3d" msprop:Generator_RowDeletingName="Polilinea3dRowDeleting" msprop:Generator_RowChangingName="Polilinea3dRowChanging" msprop:Generator_RowEvHandlerName="Polilinea3dRowChangeEventHandler" msprop:Generator_RowDeletedName="Polilinea3dRowDeleted" msprop:Generator_RowClassName="Polilinea3dRow" msprop:Generator_UserTableName="Polilinea3d" msprop:Generator_RowEvArgName="Polilinea3dRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="X" msprop:Generator_ColumnVarNameInTable="columnX" msprop:Generator_ColumnPropNameInRow="X" msprop:Generator_ColumnPropNameInTable="XColumn" msprop:Generator_UserColumnName="X" type="xs:string" minOccurs="0" />
@@ -31,7 +31,33 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="Componentes" msprop:Generator_TableClassName="ComponentesDataTable" msprop:Generator_TableVarName="tableComponentes" msprop:Generator_TablePropName="Componentes" msprop:Generator_RowDeletingName="ComponentesRowDeleting" msprop:Generator_RowChangingName="ComponentesRowChanging" msprop:Generator_RowEvHandlerName="ComponentesRowChangeEventHandler" msprop:Generator_RowDeletedName="ComponentesRowDeleted" msprop:Generator_UserTableName="Componentes" msprop:Generator_RowChangedName="ComponentesRowChanged" msprop:Generator_RowEvArgName="ComponentesRowChangeEvent" msprop:Generator_RowClassName="ComponentesRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="id" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnid" msprop:Generator_ColumnPropNameInRow="id" msprop:Generator_ColumnPropNameInTable="idColumn" msprop:Generator_UserColumnName="id" type="xs:short" />
+              <xs:element name="tipo" msprop:Generator_ColumnVarNameInTable="columntipo" msprop:Generator_ColumnPropNameInRow="tipo" msprop:Generator_ColumnPropNameInTable="tipoColumn" msprop:Generator_UserColumnName="tipo" type="xs:string" minOccurs="0" />
+              <xs:element name="centro" msprop:Generator_ColumnVarNameInTable="columncentro" msprop:Generator_ColumnPropNameInRow="centro" msprop:Generator_ColumnPropNameInTable="centroColumn" msprop:Generator_UserColumnName="centro" type="xs:string" minOccurs="0" />
+              <xs:element name="punto_inicial" msprop:Generator_ColumnVarNameInTable="columnpunto_inicial" msprop:Generator_ColumnPropNameInRow="punto_inicial" msprop:Generator_ColumnPropNameInTable="punto_inicialColumn" msprop:Generator_UserColumnName="punto_inicial" type="xs:string" minOccurs="0" />
+              <xs:element name="punto_final" msprop:Generator_ColumnVarNameInTable="columnpunto_final" msprop:Generator_ColumnPropNameInRow="punto_final" msprop:Generator_ColumnPropNameInTable="punto_finalColumn" msprop:Generator_UserColumnName="punto_final" type="xs:string" minOccurs="0" />
+              <xs:element name="radio" msprop:Generator_ColumnVarNameInTable="columnradio" msprop:Generator_ColumnPropNameInRow="radio" msprop:Generator_ColumnPropNameInTable="radioColumn" msprop:Generator_UserColumnName="radio" type="xs:double" minOccurs="0" />
+              <xs:element name="az_inicial" msprop:Generator_ColumnVarNameInTable="columnaz_inicial" msprop:Generator_ColumnPropNameInRow="az_inicial" msprop:Generator_ColumnPropNameInTable="az_inicialColumn" msprop:Generator_UserColumnName="az_inicial" type="xs:double" minOccurs="0" />
+              <xs:element name="az_final" msprop:Generator_ColumnVarNameInTable="columnaz_final" msprop:Generator_ColumnPropNameInRow="az_final" msprop:Generator_ColumnPropNameInTable="az_finalColumn" msprop:Generator_UserColumnName="az_final" type="xs:double" minOccurs="0" />
+              <xs:element name="sentido" msprop:Generator_ColumnVarNameInTable="columnsentido" msprop:Generator_ColumnPropNameInRow="sentido" msprop:Generator_ColumnPropNameInTable="sentidoColumn" msprop:Generator_UserColumnName="sentido" type="xs:string" minOccurs="0" />
+              <xs:element name="pk_inicial" msprop:Generator_ColumnVarNameInTable="columnpk_inicial" msprop:Generator_ColumnPropNameInRow="pk_inicial" msprop:Generator_ColumnPropNameInTable="pk_inicialColumn" msprop:Generator_UserColumnName="pk_inicial" type="xs:double" minOccurs="0" />
+              <xs:element name="pk_final" msprop:Generator_ColumnVarNameInTable="columnpk_final" msprop:Generator_ColumnPropNameInRow="pk_final" msprop:Generator_ColumnPropNameInTable="pk_finalColumn" msprop:Generator_UserColumnName="pk_final" type="xs:double" minOccurs="0" />
+              <xs:element name="azimut" msprop:Generator_ColumnVarNameInTable="columnazimut" msprop:Generator_ColumnPropNameInRow="azimut" msprop:Generator_ColumnPropNameInTable="azimutColumn" msprop:Generator_UserColumnName="azimut" type="xs:double" minOccurs="0" />
+              <xs:element name="a" msprop:Generator_ColumnVarNameInTable="columna" msprop:Generator_ColumnPropNameInRow="a" msprop:Generator_ColumnPropNameInTable="aColumn" msprop:Generator_UserColumnName="a" type="xs:double" minOccurs="0" />
+              <xs:element name="le" msprop:Generator_ColumnVarNameInTable="columnle" msprop:Generator_ColumnPropNameInRow="le" msprop:Generator_ColumnPropNameInTable="leColumn" msprop:Generator_UserColumnName="le" type="xs:double" minOccurs="0" />
+              <xs:element name="tipo_clotoide" msprop:Generator_ColumnVarNameInTable="columntipo_clotoide" msprop:Generator_ColumnPropNameInRow="tipo_clotoide" msprop:Generator_ColumnPropNameInTable="tipo_clotoideColumn" msprop:Generator_UserColumnName="tipo_clotoide" type="xs:string" minOccurs="0" />
+              <xs:element name="id_componente" msprop:Generator_ColumnVarNameInTable="columnid_componente" msprop:Generator_ColumnPropNameInRow="id_componente" msprop:Generator_ColumnPropNameInTable="id_componenteColumn" msprop:Generator_UserColumnName="id_componente" type="xs:short" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
       </xs:choice>
     </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:Componentes" />
+      <xs:field xpath="mstns:id" />
+    </xs:unique>
   </xs:element>
 </xs:schema>

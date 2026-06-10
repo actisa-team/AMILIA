@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsKv" targetNamespace="http://tempuri.org/dsKv.xsd" xmlns:mstns="http://tempuri.org/dsKv.xsd" xmlns="http://tempuri.org/dsKv.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsKv" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="dsKv" msprop:Generator_UserDSName="dsKv">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="tbKv" msprop:Generator_TableClassName="tbKvDataTable" msprop:Generator_TableVarName="tabletbKv" msprop:Generator_TablePropName="tbKv" msprop:Generator_RowDeletingName="tbKvRowDeleting" msprop:Generator_UserTableName="tbKv" msprop:Generator_RowChangingName="tbKvRowChanging" msprop:Generator_RowEvHandlerName="tbKvRowChangeEventHandler" msprop:Generator_RowDeletedName="tbKvRowDeleted" msprop:Generator_RowEvArgName="tbKvRowChangeEvent" msprop:Generator_RowChangedName="tbKvRowChanged" msprop:Generator_RowClassName="tbKvRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="vp" msprop:Generator_ColumnVarNameInTable="columnvp" msprop:Generator_ColumnPropNameInRow="vp" msprop:Generator_ColumnPropNameInTable="vpColumn" msprop:Generator_UserColumnName="vp" type="xs:double" />
+              <xs:element name="KvMinConvexo" msprop:Generator_ColumnVarNameInTable="columnKvMinConvexo" msprop:Generator_ColumnPropNameInRow="KvMinConvexo" msprop:Generator_ColumnPropNameInTable="KvMinConvexoColumn" msprop:Generator_UserColumnName="KvMinConvexo" type="xs:double" minOccurs="0" />
+              <xs:element name="KvMinConcavo" msprop:Generator_ColumnVarNameInTable="columnKvMinConcavo" msprop:Generator_ColumnPropNameInRow="KvMinConcavo" msprop:Generator_ColumnPropNameInTable="KvMinConcavoColumn" msprop:Generator_UserColumnName="KvMinConcavo" type="xs:double" minOccurs="0" />
+              <xs:element name="KvOptConvexo" msprop:Generator_ColumnVarNameInTable="columnKvOptConvexo" msprop:Generator_ColumnPropNameInRow="KvOptConvexo" msprop:Generator_ColumnPropNameInTable="KvOptConvexoColumn" msprop:Generator_UserColumnName="KvOptConvexo" type="xs:double" minOccurs="0" />
+              <xs:element name="KvOptConcavo" msprop:Generator_ColumnVarNameInTable="columnKvOptConcavo" msprop:Generator_ColumnPropNameInRow="KvOptConcavo" msprop:Generator_ColumnPropNameInTable="KvOptConcavoColumn" msprop:Generator_UserColumnName="KvOptConcavo" type="xs:double" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="tbKvKey1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:tbKv" />
+      <xs:field xpath="mstns:vp" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

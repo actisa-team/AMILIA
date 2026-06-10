@@ -14,22 +14,24 @@ namespace Logica
 {
     public class Rotular
     {
-        private double distancia_global=0;
+        private double distancia_global = 0;
         private double distancia_global2 = 100;
         private double rotulacion;
-        public Rotular(double r)
+        private string documento;
+        public Rotular(double r, string docu)
         {
+            this.documento = docu;
             this.rotulacion = r;
-            if (r<1)
+            if (r < 1)
             {
                 rotulacion = 100;
             }
         }
-        
+
         public void Dibujar_Transversales(EjeDeTrazado.componentes.Componente c)
         {
             int contador = 0;
-            double az=0;
+            double az = 0;
             List<double[]> componentPoint_ant = new List<double[]>();
             componentPoint_ant.Add(new double[] { 0, 0 });
             double[] componentPoint = new double[2];
@@ -55,7 +57,7 @@ namespace Logica
                             double x = componentPoint[0] + 4 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
                             double y = componentPoint[1] + 4 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
                             Dibujar_r(new Point2d(componentPoint[0], componentPoint[1]), new Point2d(x, y), 7, "Linea_Rotulacion_Recta-100");
-                            oTexto.addText2D("Pk: " + getStringPK(i), x, y, 4*(rotulacion/100), az * Math.PI / 180, 7, "Rotulacion-Recta-100");
+                            oTexto.addText2D("Pk: " + getStringPK(i), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-Recta-100");
                             distancia_global2 += 100;
                         }
                         else
@@ -63,7 +65,7 @@ namespace Logica
                             double x = componentPoint[0] + 2 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
                             double y = componentPoint[1] + 2 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
                             Dibujar_r(new Point2d(componentPoint[0], componentPoint[1]), new Point2d(x, y), 2, "Linea_Rotulacion_Recta");
-                            oTexto.addText2D("Pk: " + getStringPK(i), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 2, "Rotulacion-Recta");
+                            oTexto.addText2D("Pk: " + getStringPK(i), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 2, documento + "-Rotulacion-Recta");
                         }
                         i = i + 20;
                     }
@@ -71,17 +73,17 @@ namespace Logica
                     componentPoint_ant[0][0] = componentPoint[0];
                     componentPoint_ant[0][1] = componentPoint[1];
                     contador++;
-                    
+
                 }
                 distancia_global = i;
             }
-            if (c.getTipoComponente()== EjeDeTrazado.componentes.Componente.tipoComponente.curva)
+            if (c.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.curva)
             {
                 Curva elemento = (Curva)c;
                 i = distancia_global;
                 while (i < elemento.getPkFin - 0.1)
                 {
-                    if (i>0)
+                    if (i > 0)
                     {
                         componentPoint_ant[0][0] = elemento.getPointAtDist(i - 0.01)[0];
                         componentPoint_ant[0][1] = elemento.getPointAtDist(i - 0.01)[1];
@@ -92,37 +94,37 @@ namespace Logica
                     {
                         componentPoint_ant[0][0] = elemento.getPointAtDist(i)[0];
                         componentPoint_ant[0][1] = elemento.getPointAtDist(i)[1];
-                        componentPoint[0] = c.getPointAtDist(i+0.0001)[0];
-                        componentPoint[1] = c.getPointAtDist(i+0.0001)[1];
+                        componentPoint[0] = c.getPointAtDist(i + 0.0001)[0];
+                        componentPoint[1] = c.getPointAtDist(i + 0.0001)[1];
                     }
-                    
-                   /* if (contador != 0)
-                    {*/
-                        az = Rellenar_centro(componentPoint[0], componentPoint[1], componentPoint_ant[0][0], componentPoint_ant[0][1], 1).Az;
-                        az = 360 - az;
-                        
-                        if (i== distancia_global2)
-                        {
-                            double x = componentPoint[0] + 4 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
-                            double y = componentPoint[1] + 4 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
-                            Dibujar_r(new Point2d(componentPoint[0], componentPoint[1]), new Point2d(x, y), 7, "Linea_Rotulacion_Curva-100");
-                            oTexto.addText2D("Pk: " + getStringPK(i), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-Curva-100");
-                            distancia_global2 += 100;
-                        }
-                        else
-                        {
-                            double x = componentPoint[0] + 2 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
-                            double y = componentPoint[1] + 2 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
-                            Dibujar_r(new Point2d(componentPoint[0], componentPoint[1]), new Point2d(x, y), 1, "Linea_Rotulacion_Curva");
-                            oTexto.addText2D("Pk: " + getStringPK(i), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-Curva");
-                        }
-                        i = i + 20;
+
+                    /* if (contador != 0)
+                     {*/
+                    az = Rellenar_centro(componentPoint[0], componentPoint[1], componentPoint_ant[0][0], componentPoint_ant[0][1], 1).Az;
+                    az = 360 - az;
+
+                    if (i == distancia_global2)
+                    {
+                        double x = componentPoint[0] + 4 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                        double y = componentPoint[1] + 4 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+                        Dibujar_r(new Point2d(componentPoint[0], componentPoint[1]), new Point2d(x, y), 7, "Linea_Rotulacion_Curva-100");
+                        oTexto.addText2D("Pk: " + getStringPK(i), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-Curva-100");
+                        distancia_global2 += 100;
+                    }
+                    else
+                    {
+                        double x = componentPoint[0] + 2 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                        double y = componentPoint[1] + 2 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+                        Dibujar_r(new Point2d(componentPoint[0], componentPoint[1]), new Point2d(x, y), 1, "Linea_Rotulacion_Curva");
+                        oTexto.addText2D("Pk: " + getStringPK(i), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-Curva");
+                    }
+                    i = i + 20;
                     /*}
                     
                     componentPoint_ant[0][0] = componentPoint[0];
                     componentPoint_ant[0][1] = componentPoint[1];
                     contador++;*/
-                   
+
                 }
                 distancia_global = i;
             }
@@ -151,29 +153,29 @@ namespace Logica
                     //{
                     az = Rellenar_centro(componentPoint[0], componentPoint[1], componentPoint_ant[0][0], componentPoint_ant[0][1], 1).Az;
 
-                        az = 360 - az;
-                        if (i == distancia_global2)
-                        {
-                            double x = componentPoint[0] + 4 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
-                            double y = componentPoint[1] + 4 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
-                            Dibujar_r(new Point2d(componentPoint[0], componentPoint[1]), new Point2d(x, y), 7, "Linea_Rotulacion_Clo-100");
-                            oTexto.addText2D("Pk: " + getStringPK(i), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-Clotoide-100");
-                            distancia_global2 += 100;
-                        }
-                        else
-                        {
-                            double x = componentPoint[0] + 2 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
-                            double y = componentPoint[1] + 2 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
-                            Dibujar_r(new Point2d(componentPoint[0], componentPoint[1]), new Point2d(x, y), 3, "Linea_Rotulacion_Clo");
-                            oTexto.addText2D("Pk: " + getStringPK(i), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 3, "Rotulacion-Clotoide");
-                        }
-                        i = i + 20;
+                    az = 360 - az;
+                    if (i == distancia_global2)
+                    {
+                        double x = componentPoint[0] + 4 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                        double y = componentPoint[1] + 4 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+                        Dibujar_r(new Point2d(componentPoint[0], componentPoint[1]), new Point2d(x, y), 7, "Linea_Rotulacion_Clo-100");
+                        oTexto.addText2D("Pk: " + getStringPK(i), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-Clotoide-100");
+                        distancia_global2 += 100;
+                    }
+                    else
+                    {
+                        double x = componentPoint[0] + 2 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                        double y = componentPoint[1] + 2 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+                        Dibujar_r(new Point2d(componentPoint[0], componentPoint[1]), new Point2d(x, y), 3, "Linea_Rotulacion_Clo");
+                        oTexto.addText2D("Pk: " + getStringPK(i), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 3, documento + "-Rotulacion-Clotoide");
+                    }
+                    i = i + 20;
                     /*}
 
                     componentPoint_ant[0][0] = componentPoint[0];
                     componentPoint_ant[0][1] = componentPoint[1];
                     contador++;*/
-                    
+
                 }
                 distancia_global = i;
             }
@@ -183,36 +185,36 @@ namespace Logica
                 i = distancia_global;
                 while (i < elemento.getPkFin - 0.1)
                 {
-                    componentPoint_ant[0][0] = elemento.getPointAtDist(i-0.01)[0];
-                    componentPoint_ant[0][1] = elemento.getPointAtDist(i-0.01)[1];
+                    componentPoint_ant[0][0] = elemento.getPointAtDist(i - 0.01)[0];
+                    componentPoint_ant[0][1] = elemento.getPointAtDist(i - 0.01)[1];
                     componentPoint[0] = c.getPointAtDist(i)[0];
                     componentPoint[1] = c.getPointAtDist(i)[1];
                     //if (contador != 0)
                     //{
-                        az = Rellenar_centro(componentPoint[0], componentPoint[1], componentPoint_ant[0][0], componentPoint_ant[0][1], 1).Az;
-                        az = 360 - az;
-                        if (i == distancia_global2)
-                        {
-                            double x = componentPoint[0] + 4 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
-                            double y = componentPoint[1] + 4 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
-                            Dibujar_r(new Point2d(componentPoint[0], componentPoint[1]), new Point2d(x, y), 7, "Linea_Rotulacion_Clo-100");
-                            oTexto.addText2D("Pk: " + getStringPK(i), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-Clotoide-100");
-                            distancia_global2 += 100;
-                        }
-                        else
-                        {
-                            double x = componentPoint[0] + 2 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
-                            double y = componentPoint[1] + 2 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
-                            Dibujar_r(new Point2d(componentPoint[0], componentPoint[1]), new Point2d(x, y), 3, "Linea_Rotulacion_Clo");
-                            oTexto.addText2D("Pk: " + getStringPK(i), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 3, "Rotulacion-Clotoide");
-                        }
-                        i = i + 20;
+                    az = Rellenar_centro(componentPoint[0], componentPoint[1], componentPoint_ant[0][0], componentPoint_ant[0][1], 1).Az;
+                    az = 360 - az;
+                    if (i == distancia_global2)
+                    {
+                        double x = componentPoint[0] + 4 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                        double y = componentPoint[1] + 4 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+                        Dibujar_r(new Point2d(componentPoint[0], componentPoint[1]), new Point2d(x, y), 7, "Linea_Rotulacion_Clo-100");
+                        oTexto.addText2D("Pk: " + getStringPK(i), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-Clotoide-100");
+                        distancia_global2 += 100;
+                    }
+                    else
+                    {
+                        double x = componentPoint[0] + 2 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                        double y = componentPoint[1] + 2 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+                        Dibujar_r(new Point2d(componentPoint[0], componentPoint[1]), new Point2d(x, y), 3, "Linea_Rotulacion_Clo");
+                        oTexto.addText2D("Pk: " + getStringPK(i), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 3, documento + "-Rotulacion-Clotoide");
+                    }
+                    i = i + 20;
                     //}
 
                     //componentPoint_ant[0][0] = componentPoint[0];
                     //componentPoint_ant[0][1] = componentPoint[1];
                     //contador++;
-                    
+
 
                 }
                 distancia_global = i;
@@ -246,8 +248,8 @@ namespace Logica
                         {
                             double x = componentPoint[0] + 4 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
                             double y = componentPoint[1] + 4 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
-                            Dibujar_r(new Point2d(componentPoint[0], componentPoint[1]), new Point2d(x, y), 7, "Linea_Rotulacion_Recta-100-"+apartado);
-                            oTexto.addText2D("Pk: " + getStringPK(i), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-Recta-100-" + apartado);
+                            Dibujar_r(new Point2d(componentPoint[0], componentPoint[1]), new Point2d(x, y), 7, "Linea_Rotulacion_Recta-100-" + apartado);
+                            oTexto.addText2D("Pk: " + getStringPK(i), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-Recta-100-" + apartado);
                             distancia_global2 += 100;
                         }
                         else
@@ -255,7 +257,7 @@ namespace Logica
                             double x = componentPoint[0] + 2 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
                             double y = componentPoint[1] + 2 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
                             Dibujar_r(new Point2d(componentPoint[0], componentPoint[1]), new Point2d(x, y), 2, "Linea_Rotulacion_Recta-" + apartado);
-                            oTexto.addText2D("Pk: " + getStringPK(i), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 2, "Rotulacion-Recta-" + apartado);
+                            oTexto.addText2D("Pk: " + getStringPK(i), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 2, documento + "-Rotulacion-Recta-" + apartado);
                         }
                         i = i + 20;
                     }
@@ -298,7 +300,7 @@ namespace Logica
                         double x = componentPoint[0] + 4 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
                         double y = componentPoint[1] + 4 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
                         Dibujar_r(new Point2d(componentPoint[0], componentPoint[1]), new Point2d(x, y), 7, "Linea_Rotulacion_Curva-100-" + apartado);
-                        oTexto.addText2D("Pk: " + getStringPK(i), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-Curva-100-" + apartado);
+                        oTexto.addText2D("Pk: " + getStringPK(i), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-Curva-100-" + apartado);
                         distancia_global2 += 100;
                     }
                     else
@@ -306,7 +308,7 @@ namespace Logica
                         double x = componentPoint[0] + 2 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
                         double y = componentPoint[1] + 2 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
                         Dibujar_r(new Point2d(componentPoint[0], componentPoint[1]), new Point2d(x, y), 1, "Linea_Rotulacion_Curva-" + apartado);
-                        oTexto.addText2D("Pk: " + getStringPK(i), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-Curva-" + apartado);
+                        oTexto.addText2D("Pk: " + getStringPK(i), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-Curva-" + apartado);
                     }
                     i = i + 20;
                     /*}
@@ -349,7 +351,7 @@ namespace Logica
                         double x = componentPoint[0] + 4 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
                         double y = componentPoint[1] + 4 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
                         Dibujar_r(new Point2d(componentPoint[0], componentPoint[1]), new Point2d(x, y), 7, "Linea_Rotulacion_Clo-100-" + apartado);
-                        oTexto.addText2D("Pk: " + getStringPK(i), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-Clotoide-100-" + apartado);
+                        oTexto.addText2D("Pk: " + getStringPK(i), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-Clotoide-100-" + apartado);
                         distancia_global2 += 100;
                     }
                     else
@@ -357,7 +359,7 @@ namespace Logica
                         double x = componentPoint[0] + 2 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
                         double y = componentPoint[1] + 2 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
                         Dibujar_r(new Point2d(componentPoint[0], componentPoint[1]), new Point2d(x, y), 3, "Linea_Rotulacion_Clo-" + apartado);
-                        oTexto.addText2D("Pk: " + getStringPK(i), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 3, "Rotulacion-Clotoide-" + apartado);
+                        oTexto.addText2D("Pk: " + getStringPK(i), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 3, documento + "-Rotulacion-Clotoide-" + apartado);
                     }
                     i = i + 20;
                     /*}
@@ -388,7 +390,7 @@ namespace Logica
                         double x = componentPoint[0] + 4 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
                         double y = componentPoint[1] + 4 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
                         Dibujar_r(new Point2d(componentPoint[0], componentPoint[1]), new Point2d(x, y), 7, "Linea_Rotulacion_Clo-100-" + apartado);
-                        oTexto.addText2D("Pk: " + getStringPK(i), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-Clotoide-100-" + apartado);
+                        oTexto.addText2D("Pk: " + getStringPK(i), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-Clotoide-100-" + apartado);
                         distancia_global2 += 100;
                     }
                     else
@@ -396,7 +398,7 @@ namespace Logica
                         double x = componentPoint[0] + 2 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
                         double y = componentPoint[1] + 2 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
                         Dibujar_r(new Point2d(componentPoint[0], componentPoint[1]), new Point2d(x, y), 3, "Linea_Rotulacion_Clo-" + apartado);
-                        oTexto.addText2D("Pk: " + getStringPK(i), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 3, "Rotulacion-Clotoide-" + apartado);
+                        oTexto.addText2D("Pk: " + getStringPK(i), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 3, documento + "-Rotulacion-Clotoide-" + apartado);
                     }
                     i = i + 20;
                     //}
@@ -434,7 +436,7 @@ namespace Logica
                         Dibujar_r(new Point2d(componentPoint_ant[0][0], componentPoint_ant[0][1]), new Point2d(x, y), 2, "Linea_Rotulacion_Recta_inicial");
                         x = componentPoint_ant[0][0] - 40 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
                         y = componentPoint_ant[0][1] - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
-                        oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 2, "Rotulacion-Recta_inicial");
+                        oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 2, documento + "-Rotulacion-Recta_inicial");
                         double miDir;
                         if (az + 90 > 360)
                         {
@@ -448,7 +450,7 @@ namespace Logica
                         x = x - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                         y = y - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
 
-                        oTexto.addText2D("Az: " + Math.Round(elemento.AzimutFinal, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 2, "Rotulacion-Recta_inicial");
+                        oTexto.addText2D("Az: " + Math.Round(elemento.AzimutFinal, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 2, documento + "-Rotulacion-Recta_inicial");
                     }
                     if (contador == 1)
                     {
@@ -466,16 +468,16 @@ namespace Logica
                 {
                     if (contador != 0)
                     {
-                        
+
                         az = Rellenar_centro(componentPoint[0], componentPoint[1], componentPoint_ant[0][0], componentPoint_ant[0][1], 1).Az;
                         az = 360 - az;
                         double x = componentPoint_ant[0][0] - 6 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
                         double y = componentPoint_ant[0][1] - 6 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
-                        
+
                         Dibujar_r(new Point2d(componentPoint_ant[0][0], componentPoint_ant[0][1]), new Point2d(x, y), 1, "Linea_Rotulacion_Curva_inicial");
                         x = componentPoint_ant[0][0] - 40 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
                         y = componentPoint_ant[0][1] - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
-                        oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-Curva_inicial");
+                        oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-Curva_inicial");
                         double miDir;
                         if (az + 90 > 360)
                         {
@@ -489,9 +491,9 @@ namespace Logica
                         x = x - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                         y = y - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
 
-                        oTexto.addText2D(" R: " + Math.Round(elemento.getRadio, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-Curva_inicial");
+                        oTexto.addText2D(" R: " + Math.Round(elemento.getRadio, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-Curva_inicial");
                     }
-                    if (contador==1)
+                    if (contador == 1)
                     {
                         break;
                     }
@@ -507,7 +509,7 @@ namespace Logica
                 {
                     if (contador != 0)
                     {
-                        
+
                         az = Rellenar_centro(componentPoint[0], componentPoint[1], componentPoint_ant[0][0], componentPoint_ant[0][1], 1).Az;
                         az = 360 - az;
                         double x = componentPoint_ant[0][0] - 6 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
@@ -515,7 +517,7 @@ namespace Logica
                         Dibujar_r(new Point2d(componentPoint_ant[0][0], componentPoint_ant[0][1]), new Point2d(x, y), 3, "Linea_Rotulacion_Clo_inicial");
                         x = componentPoint_ant[0][0] - 40 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
                         y = componentPoint_ant[0][1] - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
-                        oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 3, "Rotulacion-Clotoide_inicial");
+                        oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 3, documento + "-Rotulacion-Clotoide_inicial");
                         double miDir;
                         if (az + 90 > 360)
                         {
@@ -529,7 +531,7 @@ namespace Logica
                         x = x - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                         y = y - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
 
-                        oTexto.addText2D(" A: " + Math.Round(elemento.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 3, "Rotulacion-Clotoide_inicial");
+                        oTexto.addText2D(" A: " + Math.Round(elemento.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 3, documento + "-Rotulacion-Clotoide_inicial");
                     }
                     if (contador == 1)
                     {
@@ -554,7 +556,7 @@ namespace Logica
                         Dibujar_r(new Point2d(componentPoint_ant[0][0], componentPoint_ant[0][1]), new Point2d(x, y), 3, "Linea_Rotulacion_Clo_inicial");
                         x = componentPoint_ant[0][0] - 40 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
                         y = componentPoint_ant[0][1] - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
-                        oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 3, "Rotulacion-Clotoide_inicial");
+                        oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 3, documento + "-Rotulacion-Clotoide_inicial");
                         double miDir;
                         if (az + 90 > 360)
                         {
@@ -568,7 +570,7 @@ namespace Logica
                         x = x - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                         y = y - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
 
-                        oTexto.addText2D(" A: " + Math.Round(elemento.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 3, "Rotulacion-Clotoide_inicial");
+                        oTexto.addText2D(" A: " + Math.Round(elemento.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 3, documento + "-Rotulacion-Clotoide_inicial");
                     }
                     if (contador == 1)
                     {
@@ -580,7 +582,7 @@ namespace Logica
                 }
             }
         }
-        public void Dibujar_Singulares(EjeDeTrazado.componentes.Componente c,int apartado)
+        public void Dibujar_Singulares(EjeDeTrazado.componentes.Componente c, int apartado)
         {
             int contador = 0;
             double az = 0;
@@ -601,10 +603,10 @@ namespace Logica
                         double x = componentPoint_ant[0][0] - 6 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
                         double y = componentPoint_ant[0][1] - 6 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
 
-                        Dibujar_r(new Point2d(componentPoint_ant[0][0], componentPoint_ant[0][1]), new Point2d(x, y), 2, "Linea_Rotulacion_Recta_inicial-"+apartado);
+                        Dibujar_r(new Point2d(componentPoint_ant[0][0], componentPoint_ant[0][1]), new Point2d(x, y), 2, "Linea_Rotulacion_Recta_inicial-" + apartado);
                         x = componentPoint_ant[0][0] - 40 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
                         y = componentPoint_ant[0][1] - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
-                        oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 2, "Rotulacion-Recta_inicial-" + apartado);
+                        oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 2, documento + "-Rotulacion-Recta_inicial-" + apartado);
                         double miDir;
                         if (az + 90 > 360)
                         {
@@ -618,7 +620,7 @@ namespace Logica
                         x = x - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                         y = y - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
 
-                        oTexto.addText2D("Az: " + Math.Round(elemento.AzimutFinal, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 2, "Rotulacion-Recta_inicial-" + apartado);
+                        oTexto.addText2D("Az: " + Math.Round(elemento.AzimutFinal, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 2, documento + "-Rotulacion-Recta_inicial-" + apartado);
                     }
                     if (contador == 1)
                     {
@@ -645,7 +647,7 @@ namespace Logica
                         Dibujar_r(new Point2d(componentPoint_ant[0][0], componentPoint_ant[0][1]), new Point2d(x, y), 1, "Linea_Rotulacion_Curva_inicial-" + apartado);
                         x = componentPoint_ant[0][0] - 40 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
                         y = componentPoint_ant[0][1] - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
-                        oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-Curva_inicial-" + apartado);
+                        oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-Curva_inicial-" + apartado);
                         double miDir;
                         if (az + 90 > 360)
                         {
@@ -659,7 +661,7 @@ namespace Logica
                         x = x - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                         y = y - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
 
-                        oTexto.addText2D(" R: " + Math.Round(elemento.getRadio, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-Curva_inicial-" + apartado);
+                        oTexto.addText2D(" R: " + Math.Round(elemento.getRadio, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-Curva_inicial-" + apartado);
                     }
                     if (contador == 1)
                     {
@@ -685,7 +687,7 @@ namespace Logica
                         Dibujar_r(new Point2d(componentPoint_ant[0][0], componentPoint_ant[0][1]), new Point2d(x, y), 3, "Linea_Rotulacion_Clo_inicial-" + apartado);
                         x = componentPoint_ant[0][0] - 40 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
                         y = componentPoint_ant[0][1] - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
-                        oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 3, "Rotulacion-Clotoide_inicial-" + apartado);
+                        oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 3, documento + "-Rotulacion-Clotoide_inicial-" + apartado);
                         double miDir;
                         if (az + 90 > 360)
                         {
@@ -699,7 +701,7 @@ namespace Logica
                         x = x - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                         y = y - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
 
-                        oTexto.addText2D(" A: " + Math.Round(elemento.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 3, "Rotulacion-Clotoide_inicial-" + apartado);
+                        oTexto.addText2D(" A: " + Math.Round(elemento.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 3, documento + "-Rotulacion-Clotoide_inicial-" + apartado);
                     }
                     if (contador == 1)
                     {
@@ -724,7 +726,7 @@ namespace Logica
                         Dibujar_r(new Point2d(componentPoint_ant[0][0], componentPoint_ant[0][1]), new Point2d(x, y), 3, "Linea_Rotulacion_Clo_inicial-" + apartado);
                         x = componentPoint_ant[0][0] - 40 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
                         y = componentPoint_ant[0][1] - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
-                        oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 3, "Rotulacion-Clotoide_inicial-" + apartado);
+                        oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 3, documento + "-Rotulacion-Clotoide_inicial-" + apartado);
                         double miDir;
                         if (az + 90 > 360)
                         {
@@ -738,7 +740,7 @@ namespace Logica
                         x = x - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                         y = y - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
 
-                        oTexto.addText2D(" A: " + Math.Round(elemento.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 3, "Rotulacion-Clotoide_inicial-" + apartado);
+                        oTexto.addText2D(" A: " + Math.Round(elemento.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 3, documento + "-Rotulacion-Clotoide_inicial-" + apartado);
                     }
                     if (contador == 1)
                     {
@@ -758,6 +760,12 @@ namespace Logica
             componentPoint_ant.Add(new double[] { 0, 0 });
             double distancia = 0;
             double distancia_ac = 0;
+            double punto_recta=6;
+            double punto_texto=40;
+            if(c_ant.getLongitud() <10){
+                punto_recta=45;
+                punto_texto=80;
+            }
             if (c.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.linea)
             {
                 Linea elemento = (Linea)c;
@@ -768,12 +776,12 @@ namespace Logica
 
                         az = elemento.AzimutFinal;
                         az = 360 - az;
-                        double x = componentPoint_ant[0][0] - 6 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
-                        double y = componentPoint_ant[0][1] - 6 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
-                        
+                        double x = componentPoint_ant[0][0] - punto_recta * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                        double y = componentPoint_ant[0][1] - punto_recta * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+
                         Dibujar_r(new Point2d(componentPoint_ant[0][0], componentPoint_ant[0][1]), new Point2d(x, y), 2, "Linea_Rotulacion_Recta_inicial");
-                        x = componentPoint_ant[0][0] - 40 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
-                        y = componentPoint_ant[0][1] - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+                        x = componentPoint_ant[0][0] - punto_texto * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                        y = componentPoint_ant[0][1] - punto_texto * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
                         double x_p = x;
                         double y_p = y;
 
@@ -789,30 +797,30 @@ namespace Logica
 
                         x = x_p + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                         y = y_p + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
-                        oTexto.addText2D("RECTA", x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
+                        oTexto.addText2D("RECTA", x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular");
 
-                        oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x_p, y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
-                        
+                        oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x_p, y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular");
+
                         x = x_p - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                         y = y_p - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
                         if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.curva)
                         {
                             Curva elemento_ant = (Curva)c_ant;
-                            oTexto.addText2D("R: " + Math.Round(elemento_ant.getRadio, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
+                            oTexto.addText2D("R: " + Math.Round(elemento_ant.getRadio, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular");
 
                         }
                         if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.clotoideEntrada)
                         {
                             Clotoide elemento_ant = (Clotoide)c_ant;
-                            oTexto.addText2D("A: " + Math.Round(elemento_ant.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
+                            oTexto.addText2D("A: " + Math.Round(elemento_ant.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular");
 
                         }
                         if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.clotoideSalida)
                         {
                             Clotoide elemento_ant = (Clotoide)c_ant;
-                            oTexto.addText2D("A: " + Math.Round(elemento_ant.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
+                            oTexto.addText2D("A: " + Math.Round(elemento_ant.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular");
                         }
-                        //oTexto.addText2D("Az: " + Math.Round(elemento.AzimutFinal, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 2, "Rotulacion-Recta_inicial");
+                        //oTexto.addText2D("Az: " + Math.Round(elemento.AzimutFinal, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 2, documento+"-Rotulacion-Recta_inicial");
                     }
                     if (contador == 1)
                     {
@@ -833,15 +841,15 @@ namespace Logica
 
                         az = Rellenar_centro(componentPoint[0], componentPoint[1], componentPoint_ant[0][0], componentPoint_ant[0][1], 1).Az;
                         az = 360 - az;
-                        double x = componentPoint_ant[0][0] - 6 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
-                        double y = componentPoint_ant[0][1] - 6 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+                        double x = componentPoint_ant[0][0] - punto_recta * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                        double y = componentPoint_ant[0][1] - punto_recta * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
 
                         Dibujar_r(new Point2d(componentPoint_ant[0][0], componentPoint_ant[0][1]), new Point2d(x, y), 1, "Linea_Rotulacion_Curva_inicial");
-                        x = componentPoint_ant[0][0] - 40 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
-                        y = componentPoint_ant[0][1] - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+                        x = componentPoint_ant[0][0] - punto_texto * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                        y = componentPoint_ant[0][1] - punto_texto * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
                         double x_p = x;
                         double y_p = y;
-                        oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x_p, y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
+                        oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x_p, y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular");
                         double miDir;
                         if (az + 90 > 360)
                         {
@@ -854,408 +862,26 @@ namespace Logica
 
                         x = x_p + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                         y = y_p + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
-                        oTexto.addText2D(" R: " + Math.Round(elemento.getRadio, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
-
-                        x = x_p - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
-                        y = y_p - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
-                        if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.linea)
-                        {
-                            
-                            oTexto.addText2D("RECTA", x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
-
-                        }
-                        if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.clotoideEntrada)
-                        {
-                            Clotoide elemento_ant = (Clotoide)c_ant;
-                            oTexto.addText2D("A: " + Math.Round(elemento_ant.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
-
-                        }
-                        if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.clotoideSalida)
-                        {
-                            Clotoide elemento_ant = (Clotoide)c_ant;
-                            oTexto.addText2D("A: " + Math.Round(elemento_ant.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
-                        }
-                    }
-                    if (contador == 1)
-                    {
-                        break;
-                    }
-                    componentPoint_ant[0][0] = componentPoint[0];
-                    componentPoint_ant[0][1] = componentPoint[1];
-                    contador++;
-                }
-            }
-            if (c.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.clotoideEntrada)
-            {
-                Clotoide elemento = (Clotoide)c;
-                if (elemento.Get_Le_r() > 0)
-                {
-                    foreach (var componentPoint in c.getComponentPoints(c.Get_Le_r()+c.getPkIni))
-                    {
-                        if (contador != 0)
-                        {
-                            az = Rellenar_centro(componentPoint[0], componentPoint[1], componentPoint_ant[0][0], componentPoint_ant[0][1], 1).Az;
-                            az = 360 - az;
-                            double x = componentPoint_ant[0][0] - 6 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
-                            double y = componentPoint_ant[0][1] - 6 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
-                            Dibujar_r(new Point2d(componentPoint_ant[0][0], componentPoint_ant[0][1]), new Point2d(x, y), 3, "Linea_Rotulacion_Clo_inicial");
-                            x = componentPoint_ant[0][0] - 40 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
-                            y = componentPoint_ant[0][1] - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
-                            double x_p = x;
-                            double y_p = y;
-                            oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x_p, y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
-                            double miDir;
-                            if (az + 90 > 360)
-                            {
-                                miDir = az + 90 - 360;
-                            }
-                            else
-                            {
-                                miDir = az + 90;
-                            }
-
-                            x = x_p + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
-                            y = y_p + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
-
-                            oTexto.addText2D(" A: " + Math.Round(elemento.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
-                            x = x_p - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
-                            y = y_p - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
-                            if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.linea)
-                            {
-
-                                oTexto.addText2D("RECTA", x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
-
-                            }
-                            if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.curva)
-                            {
-                                Curva elemento_ant = (Curva)c_ant;
-                                oTexto.addText2D("R: " + Math.Round(elemento_ant.getRadio, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
-
-                            }
-                            if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.clotoideSalida)
-                            {
-                                Clotoide elemento_ant = (Clotoide)c_ant;
-                                oTexto.addText2D("A: " + Math.Round(elemento_ant.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
-                            }
-                        }
-                        if (contador == 1)
-                        {
-                            break;
-                        }
-                        componentPoint_ant[0][0] = componentPoint[0];
-                        componentPoint_ant[0][1] = componentPoint[1];
-                        contador++;
-                    }
-                }
-                else
-                {
-                    foreach (var componentPoint in c.getComponentPoints())
-                    {
-                        if (contador != 0)
-                        {
-                            az = Rellenar_centro(componentPoint[0], componentPoint[1], componentPoint_ant[0][0], componentPoint_ant[0][1], 1).Az;
-                            az = 360 - az;
-                            double x = componentPoint_ant[0][0] - 6 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
-                            double y = componentPoint_ant[0][1] - 6 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
-                            Dibujar_r(new Point2d(componentPoint_ant[0][0], componentPoint_ant[0][1]), new Point2d(x, y), 3, "Linea_Rotulacion_Clo_inicial");
-                            x = componentPoint_ant[0][0] - 40 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
-                            y = componentPoint_ant[0][1] - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
-                            double x_p = x;
-                            double y_p = y;
-                            oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x_p, y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
-                            double miDir;
-                            if (az + 90 > 360)
-                            {
-                                miDir = az + 90 - 360;
-                            }
-                            else
-                            {
-                                miDir = az + 90;
-                            }
-
-                            x = x_p + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
-                            y = y_p + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
-
-                            oTexto.addText2D(" A: " + Math.Round(elemento.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
-                            x = x_p - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
-                            y = y_p - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
-                            if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.linea)
-                            {
-
-                                oTexto.addText2D("RECTA", x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
-
-                            }
-                            if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.curva)
-                            {
-                                Curva elemento_ant = (Curva)c_ant;
-                                oTexto.addText2D("R: " + Math.Round(elemento_ant.getRadio, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
-
-                            }
-                            if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.clotoideSalida)
-                            {
-                                Clotoide elemento_ant = (Clotoide)c_ant;
-                                oTexto.addText2D("A: " + Math.Round(elemento_ant.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
-                            }
-                        }
-                        if (contador == 1)
-                        {
-                            break;
-                        }
-                        componentPoint_ant[0][0] = componentPoint[0];
-                        componentPoint_ant[0][1] = componentPoint[1];
-                        contador++;
-                    }
-                }
-                
-            }
-            if (c.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.clotoideSalida)
-            {
-                Clotoide elemento = (Clotoide)c;
-                if (elemento.Get_Le_r() > 0)
-                {
-                    foreach (var componentPoint in c.getComponentPoints(c.Get_Le_r()))
-                    {
-                        if (contador != 0)
-                        {
-                            az = Rellenar_centro(componentPoint[0], componentPoint[1], componentPoint_ant[0][0], componentPoint_ant[0][1], 1).Az;
-                            az = 360 - az;
-                            double x = componentPoint_ant[0][0] - 6 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
-                            double y = componentPoint_ant[0][1] - 6 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
-                            Dibujar_r(new Point2d(componentPoint_ant[0][0], componentPoint_ant[0][1]), new Point2d(x, y), 3, "Linea_Rotulacion_Clo_inicial");
-                            x = componentPoint_ant[0][0] - 40 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
-                            y = componentPoint_ant[0][1] - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
-                            double x_p = x;
-                            double y_p = y;
-                            oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x_p, y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
-                            double miDir;
-                            if (az + 90 > 360)
-                            {
-                                miDir = az + 90 - 360;
-                            }
-                            else
-                            {
-                                miDir = az + 90;
-                            }
-
-                            x = x_p + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
-                            y = y_p + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
-
-                            oTexto.addText2D(" A: " + Math.Round(elemento.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
-                            x = x_p - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
-                            y = y_p - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
-                            if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.linea)
-                            {
-
-                                oTexto.addText2D("RECTA", x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
-
-                            }
-                            if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.curva)
-                            {
-                                Curva elemento_ant = (Curva)c_ant;
-                                oTexto.addText2D("R: " + Math.Round(elemento_ant.getRadio, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
-
-                            }
-                            if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.clotoideEntrada)
-                            {
-                                Clotoide elemento_ant = (Clotoide)c_ant;
-                                oTexto.addText2D("A: " + Math.Round(elemento_ant.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
-                            }
-                        }
-                        if (contador == 1)
-                        {
-                            break;
-                        }
-                        componentPoint_ant[0][0] = componentPoint[0];
-                        componentPoint_ant[0][1] = componentPoint[1];
-                        contador++;
-                    }
-                }
-                else
-                {
-                    foreach (var componentPoint in c.getComponentPoints())
-                    {
-                        if (contador != 0)
-                        {
-                            az = Rellenar_centro(componentPoint[0], componentPoint[1], componentPoint_ant[0][0], componentPoint_ant[0][1], 1).Az;
-                            az = 360 - az;
-                            double x = componentPoint_ant[0][0] - 6 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
-                            double y = componentPoint_ant[0][1] - 6 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
-                            Dibujar_r(new Point2d(componentPoint_ant[0][0], componentPoint_ant[0][1]), new Point2d(x, y), 3, "Linea_Rotulacion_Clo_inicial");
-                            x = componentPoint_ant[0][0] - 40 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
-                            y = componentPoint_ant[0][1] - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
-                            double x_p = x;
-                            double y_p = y;
-                            oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x_p, y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
-                            double miDir;
-                            if (az + 90 > 360)
-                            {
-                                miDir = az + 90 - 360;
-                            }
-                            else
-                            {
-                                miDir = az + 90;
-                            }
-
-                            x = x_p + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
-                            y = y_p + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
-
-                            oTexto.addText2D(" A: " + Math.Round(elemento.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
-                            x = x_p - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
-                            y = y_p - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
-                            if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.linea)
-                            {
-
-                                oTexto.addText2D("RECTA", x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
-
-                            }
-                            if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.curva)
-                            {
-                                Curva elemento_ant = (Curva)c_ant;
-                                oTexto.addText2D("R: " + Math.Round(elemento_ant.getRadio, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
-
-                            }
-                            if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.clotoideEntrada)
-                            {
-                                Clotoide elemento_ant = (Clotoide)c_ant;
-                                oTexto.addText2D("A: " + Math.Round(elemento_ant.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular");
-                            }
-                        }
-                        if (contador == 1)
-                        {
-                            break;
-                        }
-                        componentPoint_ant[0][0] = componentPoint[0];
-                        componentPoint_ant[0][1] = componentPoint[1];
-                        contador++;
-                    }
-                }
-                
-            }
-        }
-        public void Dibujar_Singulares(EjeDeTrazado.componentes.Componente c, EjeDeTrazado.componentes.Componente c_ant,int apartado)
-        {
-            int contador = 0;
-            double az = 0;
-            List<double[]> componentPoint_ant = new List<double[]>();
-            componentPoint_ant.Add(new double[] { 0, 0 });
-            double distancia = 0;
-            double distancia_ac = 0;
-            if (c.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.linea)
-            {
-                Linea elemento = (Linea)c;
-                foreach (var componentPoint in c.getComponentPoints())
-                {
-                    if (contador != 0)
-                    {
-
-                        az = elemento.AzimutFinal;
-                        az = 360 - az;
-                        double x = componentPoint_ant[0][0] - 6 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
-                        double y = componentPoint_ant[0][1] - 6 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
-
-                        Dibujar_r(new Point2d(componentPoint_ant[0][0], componentPoint_ant[0][1]), new Point2d(x, y), 2, "Linea_Rotulacion_Recta_inicial-"+apartado);
-                        x = componentPoint_ant[0][0] - 40 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
-                        y = componentPoint_ant[0][1] - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
-                        double x_p = x;
-                        double y_p = y;
-
-                        double miDir;
-                        if (az + 90 > 360)
-                        {
-                            miDir = az + 90 - 360;
-                        }
-                        else
-                        {
-                            miDir = az + 90;
-                        }
-
-                        x = x_p + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
-                        y = y_p + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
-                        oTexto.addText2D("RECTA", x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular-" + apartado);
-
-                        oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x_p, y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular-" + apartado);
-
-                        x = x_p - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
-                        y = y_p - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
-                        if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.curva)
-                        {
-                            Curva elemento_ant = (Curva)c_ant;
-                            oTexto.addText2D("R: " + Math.Round(elemento_ant.getRadio, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular-" + apartado);
-
-                        }
-                        if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.clotoideEntrada)
-                        {
-                            Clotoide elemento_ant = (Clotoide)c_ant;
-                            oTexto.addText2D("A: " + Math.Round(elemento_ant.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular-" + apartado);
-
-                        }
-                        if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.clotoideSalida)
-                        {
-                            Clotoide elemento_ant = (Clotoide)c_ant;
-                            oTexto.addText2D("A: " + Math.Round(elemento_ant.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular-" + apartado);
-                        }
-                        //oTexto.addText2D("Az: " + Math.Round(elemento.AzimutFinal, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 2, "Rotulacion-Recta_inicial");
-                    }
-                    if (contador == 1)
-                    {
-                        break;
-                    }
-                    componentPoint_ant[0][0] = componentPoint[0];
-                    componentPoint_ant[0][1] = componentPoint[1];
-                    contador++;
-                }
-            }
-            if (c.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.curva)
-            {
-                Curva elemento = (Curva)c;
-                foreach (var componentPoint in c.getComponentPoints())
-                {
-                    if (contador != 0)
-                    {
-
-                        az = Rellenar_centro(componentPoint[0], componentPoint[1], componentPoint_ant[0][0], componentPoint_ant[0][1], 1).Az;
-                        az = 360 - az;
-                        double x = componentPoint_ant[0][0] - 6 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
-                        double y = componentPoint_ant[0][1] - 6 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
-
-                        Dibujar_r(new Point2d(componentPoint_ant[0][0], componentPoint_ant[0][1]), new Point2d(x, y), 1, "Linea_Rotulacion_Curva_inicial-" + apartado);
-                        x = componentPoint_ant[0][0] - 40 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
-                        y = componentPoint_ant[0][1] - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
-                        double x_p = x;
-                        double y_p = y;
-                        oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x_p, y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular-" + apartado);
-                        double miDir;
-                        if (az + 90 > 360)
-                        {
-                            miDir = az + 90 - 360;
-                        }
-                        else
-                        {
-                            miDir = az + 90;
-                        }
-
-                        x = x_p + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
-                        y = y_p + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
-                        oTexto.addText2D(" R: " + Math.Round(elemento.getRadio, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular-" + apartado);
+                        oTexto.addText2D(" R: " + Math.Round(elemento.getRadio, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular");
 
                         x = x_p - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                         y = y_p - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
                         if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.linea)
                         {
 
-                            oTexto.addText2D("RECTA", x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular-" + apartado);
+                            oTexto.addText2D("RECTA", x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular");
 
                         }
                         if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.clotoideEntrada)
                         {
                             Clotoide elemento_ant = (Clotoide)c_ant;
-                            oTexto.addText2D("A: " + Math.Round(elemento_ant.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular-" + apartado);
+                            oTexto.addText2D("A: " + Math.Round(elemento_ant.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular");
 
                         }
                         if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.clotoideSalida)
                         {
                             Clotoide elemento_ant = (Clotoide)c_ant;
-                            oTexto.addText2D("A: " + Math.Round(elemento_ant.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular-" + apartado);
+                            oTexto.addText2D("A: " + Math.Round(elemento_ant.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular");
                         }
                     }
                     if (contador == 1)
@@ -1278,14 +904,14 @@ namespace Logica
                         {
                             az = Rellenar_centro(componentPoint[0], componentPoint[1], componentPoint_ant[0][0], componentPoint_ant[0][1], 1).Az;
                             az = 360 - az;
-                            double x = componentPoint_ant[0][0] - 6 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
-                            double y = componentPoint_ant[0][1] - 6 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
-                            Dibujar_r(new Point2d(componentPoint_ant[0][0], componentPoint_ant[0][1]), new Point2d(x, y), 3, "Linea_Rotulacion_Clo_inicial-" + apartado);
-                            x = componentPoint_ant[0][0] - 40 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
-                            y = componentPoint_ant[0][1] - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+                            double x = componentPoint_ant[0][0] - punto_recta * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                            double y = componentPoint_ant[0][1] - punto_recta * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+                            Dibujar_r(new Point2d(componentPoint_ant[0][0], componentPoint_ant[0][1]), new Point2d(x, y), 3, "Linea_Rotulacion_Clo_inicial");
+                            x = componentPoint_ant[0][0] - punto_texto * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                            y = componentPoint_ant[0][1] - punto_texto * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
                             double x_p = x;
                             double y_p = y;
-                            oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x_p, y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular-" + apartado);
+                            oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x_p, y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular");
                             double miDir;
                             if (az + 90 > 360)
                             {
@@ -1299,25 +925,25 @@ namespace Logica
                             x = x_p + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                             y = y_p + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
 
-                            oTexto.addText2D(" A: " + Math.Round(elemento.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular-" + apartado);
+                            oTexto.addText2D(" A: " + Math.Round(elemento.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular");
                             x = x_p - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                             y = y_p - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
                             if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.linea)
                             {
 
-                                oTexto.addText2D("RECTA", x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular-" + apartado);
+                                oTexto.addText2D("RECTA", x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular");
 
                             }
                             if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.curva)
                             {
                                 Curva elemento_ant = (Curva)c_ant;
-                                oTexto.addText2D("R: " + Math.Round(elemento_ant.getRadio, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular-" + apartado);
+                                oTexto.addText2D("R: " + Math.Round(elemento_ant.getRadio, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular");
 
                             }
                             if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.clotoideSalida)
                             {
                                 Clotoide elemento_ant = (Clotoide)c_ant;
-                                oTexto.addText2D("A: " + Math.Round(elemento_ant.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular-" + apartado);
+                                oTexto.addText2D("A: " + Math.Round(elemento_ant.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular");
                             }
                         }
                         if (contador == 1)
@@ -1337,14 +963,14 @@ namespace Logica
                         {
                             az = Rellenar_centro(componentPoint[0], componentPoint[1], componentPoint_ant[0][0], componentPoint_ant[0][1], 1).Az;
                             az = 360 - az;
-                            double x = componentPoint_ant[0][0] - 6 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
-                            double y = componentPoint_ant[0][1] - 6 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
-                            Dibujar_r(new Point2d(componentPoint_ant[0][0], componentPoint_ant[0][1]), new Point2d(x, y), 3, "Linea_Rotulacion_Clo_inicial-" + apartado);
-                            x = componentPoint_ant[0][0] - 40 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
-                            y = componentPoint_ant[0][1] - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+                            double x = componentPoint_ant[0][0] - punto_recta * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                            double y = componentPoint_ant[0][1] - punto_recta * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+                            Dibujar_r(new Point2d(componentPoint_ant[0][0], componentPoint_ant[0][1]), new Point2d(x, y), 3, "Linea_Rotulacion_Clo_inicial");
+                            x = componentPoint_ant[0][0] - punto_texto * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                            y = componentPoint_ant[0][1] - punto_texto * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
                             double x_p = x;
                             double y_p = y;
-                            oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x_p, y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular-" + apartado);
+                            oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x_p, y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular");
                             double miDir;
                             if (az + 90 > 360)
                             {
@@ -1358,25 +984,25 @@ namespace Logica
                             x = x_p + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                             y = y_p + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
 
-                            oTexto.addText2D(" A: " + Math.Round(elemento.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular-" + apartado);
+                            oTexto.addText2D(" A: " + Math.Round(elemento.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular");
                             x = x_p - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                             y = y_p - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
                             if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.linea)
                             {
 
-                                oTexto.addText2D("RECTA", x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular-" + apartado);
+                                oTexto.addText2D("RECTA", x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular");
 
                             }
                             if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.curva)
                             {
                                 Curva elemento_ant = (Curva)c_ant;
-                                oTexto.addText2D("R: " + Math.Round(elemento_ant.getRadio, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular-" + apartado);
+                                oTexto.addText2D("R: " + Math.Round(elemento_ant.getRadio, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular");
 
                             }
                             if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.clotoideSalida)
                             {
                                 Clotoide elemento_ant = (Clotoide)c_ant;
-                                oTexto.addText2D("A: " + Math.Round(elemento_ant.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular-" + apartado);
+                                oTexto.addText2D("A: " + Math.Round(elemento_ant.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular");
                             }
                         }
                         if (contador == 1)
@@ -1401,14 +1027,14 @@ namespace Logica
                         {
                             az = Rellenar_centro(componentPoint[0], componentPoint[1], componentPoint_ant[0][0], componentPoint_ant[0][1], 1).Az;
                             az = 360 - az;
-                            double x = componentPoint_ant[0][0] - 6 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
-                            double y = componentPoint_ant[0][1] - 6 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
-                            Dibujar_r(new Point2d(componentPoint_ant[0][0], componentPoint_ant[0][1]), new Point2d(x, y), 3, "Linea_Rotulacion_Clo_inicial-" + apartado);
-                            x = componentPoint_ant[0][0] - 40 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
-                            y = componentPoint_ant[0][1] - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+                            double x = componentPoint_ant[0][0] - punto_recta * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                            double y = componentPoint_ant[0][1] - punto_recta * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+                            Dibujar_r(new Point2d(componentPoint_ant[0][0], componentPoint_ant[0][1]), new Point2d(x, y), 3, "Linea_Rotulacion_Clo_inicial");
+                            x = componentPoint_ant[0][0] - punto_texto * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                            y = componentPoint_ant[0][1] - punto_texto * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
                             double x_p = x;
                             double y_p = y;
-                            oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x_p, y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular-" + apartado);
+                            oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x_p, y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular");
                             double miDir;
                             if (az + 90 > 360)
                             {
@@ -1422,25 +1048,25 @@ namespace Logica
                             x = x_p + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                             y = y_p + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
 
-                            oTexto.addText2D(" A: " + Math.Round(elemento.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular-" + apartado);
+                            oTexto.addText2D(" A: " + Math.Round(elemento.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular");
                             x = x_p - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                             y = y_p - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
                             if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.linea)
                             {
 
-                                oTexto.addText2D("RECTA", x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular-" + apartado);
+                                oTexto.addText2D("RECTA", x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular");
 
                             }
                             if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.curva)
                             {
                                 Curva elemento_ant = (Curva)c_ant;
-                                oTexto.addText2D("R: " + Math.Round(elemento_ant.getRadio, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular-" + apartado);
+                                oTexto.addText2D("R: " + Math.Round(elemento_ant.getRadio, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular");
 
                             }
                             if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.clotoideEntrada)
                             {
                                 Clotoide elemento_ant = (Clotoide)c_ant;
-                                oTexto.addText2D("A: " + Math.Round(elemento_ant.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular-" + apartado);
+                                oTexto.addText2D("A: " + Math.Round(elemento_ant.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular");
                             }
                         }
                         if (contador == 1)
@@ -1460,14 +1086,14 @@ namespace Logica
                         {
                             az = Rellenar_centro(componentPoint[0], componentPoint[1], componentPoint_ant[0][0], componentPoint_ant[0][1], 1).Az;
                             az = 360 - az;
-                            double x = componentPoint_ant[0][0] - 6 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
-                            double y = componentPoint_ant[0][1] - 6 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
-                            Dibujar_r(new Point2d(componentPoint_ant[0][0], componentPoint_ant[0][1]), new Point2d(x, y), 3, "Linea_Rotulacion_Clo_inicial-" + apartado);
-                            x = componentPoint_ant[0][0] - 40 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
-                            y = componentPoint_ant[0][1] - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+                            double x = componentPoint_ant[0][0] - punto_recta * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                            double y = componentPoint_ant[0][1] - punto_recta * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+                            Dibujar_r(new Point2d(componentPoint_ant[0][0], componentPoint_ant[0][1]), new Point2d(x, y), 3, "Linea_Rotulacion_Clo_inicial");
+                            x = componentPoint_ant[0][0] - punto_texto * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                            y = componentPoint_ant[0][1] - punto_texto * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
                             double x_p = x;
                             double y_p = y;
-                            oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x_p, y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular-" + apartado);
+                            oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x_p, y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular");
                             double miDir;
                             if (az + 90 > 360)
                             {
@@ -1481,25 +1107,413 @@ namespace Logica
                             x = x_p + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                             y = y_p + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
 
-                            oTexto.addText2D(" A: " + Math.Round(elemento.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular-" + apartado);
+                            oTexto.addText2D(" A: " + Math.Round(elemento.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular");
                             x = x_p - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                             y = y_p - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
                             if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.linea)
                             {
 
-                                oTexto.addText2D("RECTA", x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular-" + apartado);
+                                oTexto.addText2D("RECTA", x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular");
 
                             }
                             if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.curva)
                             {
                                 Curva elemento_ant = (Curva)c_ant;
-                                oTexto.addText2D("R: " + Math.Round(elemento_ant.getRadio, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular-" + apartado);
+                                oTexto.addText2D("R: " + Math.Round(elemento_ant.getRadio, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular");
 
                             }
                             if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.clotoideEntrada)
                             {
                                 Clotoide elemento_ant = (Clotoide)c_ant;
-                                oTexto.addText2D("A: " + Math.Round(elemento_ant.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-singular-" + apartado);
+                                oTexto.addText2D("A: " + Math.Round(elemento_ant.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular");
+                            }
+                        }
+                        if (contador == 1)
+                        {
+                            break;
+                        }
+                        componentPoint_ant[0][0] = componentPoint[0];
+                        componentPoint_ant[0][1] = componentPoint[1];
+                        contador++;
+                    }
+                }
+
+            }
+        }
+        public void Dibujar_Singulares(EjeDeTrazado.componentes.Componente c, EjeDeTrazado.componentes.Componente c_ant, int apartado)
+        {
+            int contador = 0;
+            double az = 0;
+            List<double[]> componentPoint_ant = new List<double[]>();
+            componentPoint_ant.Add(new double[] { 0, 0 });
+            double distancia = 0;
+            double distancia_ac = 0;
+            double punto_recta=6;
+            double punto_texto=40;
+            if(c_ant.getLongitud() <10){
+                punto_recta=45;
+                punto_texto=80;
+            }
+            if (c.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.linea)
+            {
+                Linea elemento = (Linea)c;
+                foreach (var componentPoint in c.getComponentPoints())
+                {
+                    if (contador != 0)
+                    {
+
+                        az = elemento.AzimutFinal;
+                        az = 360 - az;
+                        double x = componentPoint_ant[0][0] - punto_recta * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                        double y = componentPoint_ant[0][1] - punto_recta * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+
+                        Dibujar_r(new Point2d(componentPoint_ant[0][0], componentPoint_ant[0][1]), new Point2d(x, y), 2, "Linea_Rotulacion_Recta_inicial-" + apartado);
+                        x = componentPoint_ant[0][0] - punto_texto * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                        y = componentPoint_ant[0][1] - punto_texto * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+                        double x_p = x;
+                        double y_p = y;
+
+                        double miDir;
+                        if (az + 90 > 360)
+                        {
+                            miDir = az + 90 - 360;
+                        }
+                        else
+                        {
+                            miDir = az + 90;
+                        }
+
+                        x = x_p + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
+                        y = y_p + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
+                        oTexto.addText2D("RECTA", x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular-" + apartado);
+
+                        oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x_p, y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular-" + apartado);
+
+                        x = x_p - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
+                        y = y_p - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
+                        if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.curva)
+                        {
+                            Curva elemento_ant = (Curva)c_ant;
+                            oTexto.addText2D("R: " + Math.Round(elemento_ant.getRadio, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular-" + apartado);
+
+                        }
+                        if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.clotoideEntrada)
+                        {
+                            Clotoide elemento_ant = (Clotoide)c_ant;
+                            oTexto.addText2D("A: " + Math.Round(elemento_ant.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular-" + apartado);
+
+                        }
+                        if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.clotoideSalida)
+                        {
+                            Clotoide elemento_ant = (Clotoide)c_ant;
+                            oTexto.addText2D("A: " + Math.Round(elemento_ant.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular-" + apartado);
+                        }
+                        //oTexto.addText2D("Az: " + Math.Round(elemento.AzimutFinal, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 2, documento+"-Rotulacion-Recta_inicial");
+                    }
+                    if (contador == 1)
+                    {
+                        break;
+                    }
+                    componentPoint_ant[0][0] = componentPoint[0];
+                    componentPoint_ant[0][1] = componentPoint[1];
+                    contador++;
+                }
+            }
+            if (c.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.curva)
+            {
+                Curva elemento = (Curva)c;
+                foreach (var componentPoint in c.getComponentPoints())
+                {
+                    if (contador != 0)
+                    {
+
+                        az = Rellenar_centro(componentPoint[0], componentPoint[1], componentPoint_ant[0][0], componentPoint_ant[0][1], 1).Az;
+                        az = 360 - az;
+                        double x = componentPoint_ant[0][0] - punto_recta * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                        double y = componentPoint_ant[0][1] - punto_recta * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+
+                        Dibujar_r(new Point2d(componentPoint_ant[0][0], componentPoint_ant[0][1]), new Point2d(x, y), 1, "Linea_Rotulacion_Curva_inicial-" + apartado);
+                        x = componentPoint_ant[0][0] - punto_texto * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                        y = componentPoint_ant[0][1] - punto_texto * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+                        double x_p = x;
+                        double y_p = y;
+                        oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x_p, y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular-" + apartado);
+                        double miDir;
+                        if (az + 90 > 360)
+                        {
+                            miDir = az + 90 - 360;
+                        }
+                        else
+                        {
+                            miDir = az + 90;
+                        }
+
+                        x = x_p + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
+                        y = y_p + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
+                        oTexto.addText2D(" R: " + Math.Round(elemento.getRadio, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular-" + apartado);
+
+                        x = x_p - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
+                        y = y_p - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
+                        if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.linea)
+                        {
+
+                            oTexto.addText2D("RECTA", x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular-" + apartado);
+
+                        }
+                        if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.clotoideEntrada)
+                        {
+                            Clotoide elemento_ant = (Clotoide)c_ant;
+                            oTexto.addText2D("A: " + Math.Round(elemento_ant.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular-" + apartado);
+
+                        }
+                        if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.clotoideSalida)
+                        {
+                            Clotoide elemento_ant = (Clotoide)c_ant;
+                            oTexto.addText2D("A: " + Math.Round(elemento_ant.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular-" + apartado);
+                        }
+                    }
+                    if (contador == 1)
+                    {
+                        break;
+                    }
+                    componentPoint_ant[0][0] = componentPoint[0];
+                    componentPoint_ant[0][1] = componentPoint[1];
+                    contador++;
+                }
+            }
+            if (c.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.clotoideEntrada)
+            {
+                Clotoide elemento = (Clotoide)c;
+                if (elemento.Get_Le_r() > 0)
+                {
+                    foreach (var componentPoint in c.getComponentPoints(c.Get_Le_r() + c.getPkIni))
+                    {
+                        if (contador != 0)
+                        {
+                            az = Rellenar_centro(componentPoint[0], componentPoint[1], componentPoint_ant[0][0], componentPoint_ant[0][1], 1).Az;
+                            az = 360 - az;
+                            double x = componentPoint_ant[0][0] - punto_recta * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                            double y = componentPoint_ant[0][1] - punto_recta * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+                            Dibujar_r(new Point2d(componentPoint_ant[0][0], componentPoint_ant[0][1]), new Point2d(x, y), 3, "Linea_Rotulacion_Clo_inicial-" + apartado);
+                            x = componentPoint_ant[0][0] - punto_texto * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                            y = componentPoint_ant[0][1] - punto_texto * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+                            double x_p = x;
+                            double y_p = y;
+                            oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x_p, y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular-" + apartado);
+                            double miDir;
+                            if (az + 90 > 360)
+                            {
+                                miDir = az + 90 - 360;
+                            }
+                            else
+                            {
+                                miDir = az + 90;
+                            }
+
+                            x = x_p + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
+                            y = y_p + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
+
+                            oTexto.addText2D(" A: " + Math.Round(elemento.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular-" + apartado);
+                            x = x_p - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
+                            y = y_p - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
+                            if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.linea)
+                            {
+
+                                oTexto.addText2D("RECTA", x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular-" + apartado);
+
+                            }
+                            if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.curva)
+                            {
+                                Curva elemento_ant = (Curva)c_ant;
+                                oTexto.addText2D("R: " + Math.Round(elemento_ant.getRadio, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular-" + apartado);
+
+                            }
+                            if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.clotoideSalida)
+                            {
+                                Clotoide elemento_ant = (Clotoide)c_ant;
+                                oTexto.addText2D("A: " + Math.Round(elemento_ant.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular-" + apartado);
+                            }
+                        }
+                        if (contador == 1)
+                        {
+                            break;
+                        }
+                        componentPoint_ant[0][0] = componentPoint[0];
+                        componentPoint_ant[0][1] = componentPoint[1];
+                        contador++;
+                    }
+                }
+                else
+                {
+                    foreach (var componentPoint in c.getComponentPoints())
+                    {
+                        if (contador != 0)
+                        {
+                            az = Rellenar_centro(componentPoint[0], componentPoint[1], componentPoint_ant[0][0], componentPoint_ant[0][1], 1).Az;
+                            az = 360 - az;
+                            double x = componentPoint_ant[0][0] - punto_recta * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                            double y = componentPoint_ant[0][1] - punto_recta * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+                            Dibujar_r(new Point2d(componentPoint_ant[0][0], componentPoint_ant[0][1]), new Point2d(x, y), 3, "Linea_Rotulacion_Clo_inicial-" + apartado);
+                            x = componentPoint_ant[0][0] - punto_texto * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                            y = componentPoint_ant[0][1] - punto_texto * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+                            double x_p = x;
+                            double y_p = y;
+                            oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x_p, y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular-" + apartado);
+                            double miDir;
+                            if (az + 90 > 360)
+                            {
+                                miDir = az + 90 - 360;
+                            }
+                            else
+                            {
+                                miDir = az + 90;
+                            }
+
+                            x = x_p + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
+                            y = y_p + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
+
+                            oTexto.addText2D(" A: " + Math.Round(elemento.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular-" + apartado);
+                            x = x_p - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
+                            y = y_p - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
+                            if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.linea)
+                            {
+
+                                oTexto.addText2D("RECTA", x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular-" + apartado);
+
+                            }
+                            if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.curva)
+                            {
+                                Curva elemento_ant = (Curva)c_ant;
+                                oTexto.addText2D("R: " + Math.Round(elemento_ant.getRadio, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular-" + apartado);
+
+                            }
+                            if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.clotoideSalida)
+                            {
+                                Clotoide elemento_ant = (Clotoide)c_ant;
+                                oTexto.addText2D("A: " + Math.Round(elemento_ant.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular-" + apartado);
+                            }
+                        }
+                        if (contador == 1)
+                        {
+                            break;
+                        }
+                        componentPoint_ant[0][0] = componentPoint[0];
+                        componentPoint_ant[0][1] = componentPoint[1];
+                        contador++;
+                    }
+                }
+
+            }
+            if (c.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.clotoideSalida)
+            {
+                Clotoide elemento = (Clotoide)c;
+                if (elemento.Get_Le_r() > 0)
+                {
+                    foreach (var componentPoint in c.getComponentPoints(c.Get_Le_r()))
+                    {
+                        if (contador != 0)
+                        {
+                            az = Rellenar_centro(componentPoint[0], componentPoint[1], componentPoint_ant[0][0], componentPoint_ant[0][1], 1).Az;
+                            az = 360 - az;
+                            double x = componentPoint_ant[0][0] - punto_recta * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                            double y = componentPoint_ant[0][1] - punto_recta * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+                            Dibujar_r(new Point2d(componentPoint_ant[0][0], componentPoint_ant[0][1]), new Point2d(x, y), 3, "Linea_Rotulacion_Clo_inicial-" + apartado);
+                            x = componentPoint_ant[0][0] - punto_texto * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                            y = componentPoint_ant[0][1] - punto_texto * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+                            double x_p = x;
+                            double y_p = y;
+                            oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x_p, y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular-" + apartado);
+                            double miDir;
+                            if (az + 90 > 360)
+                            {
+                                miDir = az + 90 - 360;
+                            }
+                            else
+                            {
+                                miDir = az + 90;
+                            }
+
+                            x = x_p + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
+                            y = y_p + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
+
+                            oTexto.addText2D(" A: " + Math.Round(elemento.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular-" + apartado);
+                            x = x_p - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
+                            y = y_p - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
+                            if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.linea)
+                            {
+
+                                oTexto.addText2D("RECTA", x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular-" + apartado);
+
+                            }
+                            if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.curva)
+                            {
+                                Curva elemento_ant = (Curva)c_ant;
+                                oTexto.addText2D("R: " + Math.Round(elemento_ant.getRadio, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular-" + apartado);
+
+                            }
+                            if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.clotoideEntrada)
+                            {
+                                Clotoide elemento_ant = (Clotoide)c_ant;
+                                oTexto.addText2D("A: " + Math.Round(elemento_ant.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular-" + apartado);
+                            }
+                        }
+                        if (contador == 1)
+                        {
+                            break;
+                        }
+                        componentPoint_ant[0][0] = componentPoint[0];
+                        componentPoint_ant[0][1] = componentPoint[1];
+                        contador++;
+                    }
+                }
+                else
+                {
+                    foreach (var componentPoint in c.getComponentPoints())
+                    {
+                        if (contador != 0)
+                        {
+                            az = Rellenar_centro(componentPoint[0], componentPoint[1], componentPoint_ant[0][0], componentPoint_ant[0][1], 1).Az;
+                            az = 360 - az;
+                            double x = componentPoint_ant[0][0] - punto_recta * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                            double y = componentPoint_ant[0][1] - punto_recta * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+                            Dibujar_r(new Point2d(componentPoint_ant[0][0], componentPoint_ant[0][1]), new Point2d(x, y), 3, "Linea_Rotulacion_Clo_inicial-" + apartado);
+                            x = componentPoint_ant[0][0] - punto_texto * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                            y = componentPoint_ant[0][1] - punto_texto * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+                            double x_p = x;
+                            double y_p = y;
+                            oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkIni, 2)), x_p, y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular-" + apartado);
+                            double miDir;
+                            if (az + 90 > 360)
+                            {
+                                miDir = az + 90 - 360;
+                            }
+                            else
+                            {
+                                miDir = az + 90;
+                            }
+
+                            x = x_p + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
+                            y = y_p + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
+
+                            oTexto.addText2D(" A: " + Math.Round(elemento.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular-" + apartado);
+                            x = x_p - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
+                            y = y_p - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
+                            if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.linea)
+                            {
+
+                                oTexto.addText2D("RECTA", x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular-" + apartado);
+
+                            }
+                            if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.curva)
+                            {
+                                Curva elemento_ant = (Curva)c_ant;
+                                oTexto.addText2D("R: " + Math.Round(elemento_ant.getRadio, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular-" + apartado);
+
+                            }
+                            if (c_ant.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.clotoideEntrada)
+                            {
+                                Clotoide elemento_ant = (Clotoide)c_ant;
+                                oTexto.addText2D("A: " + Math.Round(elemento_ant.getValorA(), 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-singular-" + apartado);
                             }
                         }
                         if (contador == 1)
@@ -1538,7 +1552,7 @@ namespace Logica
                 Dibujar_r(new Point2d(componentPoint[0], componentPoint[1]), new Point2d(x, y), 2, "Linea_Rotulacion_Recta_inicial");
                 x = componentPoint[0] - 40 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
                 y = componentPoint[1] - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
-                oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkFin, 2)), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 2, "Rotulacion-Recta_inicial");
+                oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkFin, 2)), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 2, documento + "-Rotulacion-Recta_inicial");
                 double miDir;
                 if (az + 90 > 360)
                 {
@@ -1550,7 +1564,7 @@ namespace Logica
                 }
                 x = x - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                 y = y - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
-                oTexto.addText2D("Az: " + Math.Round(elemento.AzimutFinal, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 2, "Rotulacion-Recta_inicial");
+                oTexto.addText2D("Az: " + Math.Round(elemento.AzimutFinal, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 2, documento + "-Rotulacion-Recta_inicial");
             }
             if (c.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.curva)
             {
@@ -1567,7 +1581,7 @@ namespace Logica
                 Dibujar_r(new Point2d(componentPoint[0], componentPoint[1]), new Point2d(x, y), 1, "Linea_Rotulacion_Curva_final");
                 x = componentPoint[0] - 40 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
                 y = componentPoint[1] - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
-                oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkFin, 2)), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-Curva_final");
+                oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkFin, 2)), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-Curva_final");
                 double miDir;
                 if (az + 90 > 360)
                 {
@@ -1579,10 +1593,10 @@ namespace Logica
                 }
                 x = x - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                 y = y - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
-                oTexto.addText2D("R: " + Math.Round(elemento.getRadio, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-Curva_final");
+                oTexto.addText2D("R: " + Math.Round(elemento.getRadio, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-Curva_final");
             }
         }
-        public void Dibujar_Final(EjeDeTrazado.componentes.Componente c,int apartado)
+        public void Dibujar_Final(EjeDeTrazado.componentes.Componente c, int apartado)
         {
             int contador = 0;
             double az = 0;
@@ -1603,10 +1617,10 @@ namespace Logica
                 double x = componentPoint[0] - 6 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
                 double y = componentPoint[1] - 6 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
 
-                Dibujar_r(new Point2d(componentPoint[0], componentPoint[1]), new Point2d(x, y), 2, "Linea_Rotulacion_Recta_inicial-"+apartado);
+                Dibujar_r(new Point2d(componentPoint[0], componentPoint[1]), new Point2d(x, y), 2, "Linea_Rotulacion_Recta_inicial-" + apartado);
                 x = componentPoint[0] - 40 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
                 y = componentPoint[1] - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
-                oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkFin, 2)), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 2, "Rotulacion-Recta_inicial-" + apartado);
+                oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkFin, 2)), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 2, documento + "-Rotulacion-Recta_inicial-" + apartado);
                 double miDir;
                 if (az + 90 > 360)
                 {
@@ -1618,7 +1632,7 @@ namespace Logica
                 }
                 x = x - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                 y = y - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
-                oTexto.addText2D("Az: " + Math.Round(elemento.AzimutFinal, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 2, "Rotulacion-Recta_inicial-" + apartado);
+                oTexto.addText2D("Az: " + Math.Round(elemento.AzimutFinal, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 2, documento + "-Rotulacion-Recta_inicial-" + apartado);
             }
             if (c.getTipoComponente() == EjeDeTrazado.componentes.Componente.tipoComponente.curva)
             {
@@ -1635,7 +1649,7 @@ namespace Logica
                 Dibujar_r(new Point2d(componentPoint[0], componentPoint[1]), new Point2d(x, y), 1, "Linea_Rotulacion_Curva_final-" + apartado);
                 x = componentPoint[0] - 40 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
                 y = componentPoint[1] - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
-                oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkFin, 2)), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-Curva_final-" + apartado);
+                oTexto.addText2D("Pk: " + getStringPK(Math.Round(c.getPkFin, 2)), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-Curva_final-" + apartado);
                 double miDir;
                 if (az + 90 > 360)
                 {
@@ -1647,7 +1661,7 @@ namespace Logica
                 }
                 x = x - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                 y = y - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
-                oTexto.addText2D("R: " + Math.Round(elemento.getRadio, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-Curva_final-" + apartado);
+                oTexto.addText2D("R: " + Math.Round(elemento.getRadio, 2), x, y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-Curva_final-" + apartado);
             }
         }
         private string getStringPK(double i)
@@ -1674,7 +1688,7 @@ namespace Logica
             }
             return miPk;
         }
-        private void Dibujar_r(Point2d p1, Point2d p2,short color,string iLayer)
+        private void Dibujar_r(Point2d p1, Point2d p2, short color, string iLayer)
         {
             Point3dCollection poly = new Point3dCollection();
             poly.Add(new Point3d(p1.X, p1.Y, 0));
@@ -1686,7 +1700,7 @@ namespace Logica
             using (DocumentLock docLock = acDoc2.LockDocument())
             {
 
-                engCadNet.oLayer.addLayer(iLayer, color, false);
+                engCadNet.oLayer.addLayer(documento + "-" + iLayer, color, false);
                 using (Transaction acTrans = HostApplicationServices.WorkingDatabase.TransactionManager.StartTransaction())
                 {
                     BlockTable acBlkTbl;
@@ -1699,7 +1713,7 @@ namespace Logica
                     Editor e = Application.DocumentManager.MdiActiveDocument.Editor;
                     Document d = Application.DocumentManager.MdiActiveDocument;
                     Polyline3d pol = new Polyline3d(new Poly3dType(), poly, false);
-                    pol.Layer = iLayer;
+                    pol.Layer = documento + "-" + iLayer;
 
                     acBlkTblRec.AppendEntity(pol);
 
@@ -1911,9 +1925,9 @@ namespace Logica
         /// <param name="p1"></param>
         /// <param name="p2"></param>
         /// <param name="tipo">si el trazado empieza en acuerdo la primera parte ya esta dibujada, con el valor diferente de un 1 o 3 no se pintará y con el 3 solo se pintara el principio del acuerdo</param>
-        public void Dibujar_Singulares_Perfil(Parabola p,Point2d p_ini,Point2d p_fin,double escala,double p1,double p2,int tipo,double x_ins,double y_ins)
+        public void Dibujar_Singulares_Perfil(Parabola p, Point2d p_ini, Point2d p_fin, double escala, double p1, double p2, int tipo, double x_ins, double y_ins)
         {
-            engCadNet.oLayer.addLayer("Rotulacion-singular", 1, false);
+            engCadNet.oLayer.addLayer(documento + "-Rotulacion-singular", 1, false);
             double x2;
             double x1;
             double x;
@@ -1927,7 +1941,7 @@ namespace Logica
             double y_p;
             double miDir;
             double kv;
-            if (tipo==1 || tipo==3)
+            if (tipo == 1 || tipo == 3)
             {
                 //inicial del acuerdo
                 x2 = p.parabola[0];
@@ -1950,8 +1964,8 @@ namespace Logica
                 y = p_ini_y - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
                 x_p = x;
                 y_p = y;
-                oTexto.addText2D("Pk: " + getStringPK(Math.Round(p_ini_x, 2)), x_p + x_ins, y_ins + y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular");
-                
+                oTexto.addText2D("Pk: " + getStringPK(Math.Round(p_ini_x, 2)), x_p + x_ins, y_ins + y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular");
+
                 if (az + 90 > 360)
                 {
                     miDir = az + 90 - 360;
@@ -1964,14 +1978,14 @@ namespace Logica
                 x = x_p - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                 y = y_p - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
                 kv = 1 / (2 * x2);
-                oTexto.addText2D(" Kv: " + Math.Round(kv, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular");
+                oTexto.addText2D(" Kv: " + Math.Round(kv, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular");
                 x = x_p + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                 y = y_p + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
-                oTexto.addText2D(" Pdte: " + Math.Round(p1, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular");
+                oTexto.addText2D(" Pdte: " + Math.Round(p1, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular");
 
             }
 
-            if (tipo==3)
+            if (tipo == 3)
             {
 
             }
@@ -1997,7 +2011,7 @@ namespace Logica
                 y = p_fin_y - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
                 x_p = x;
                 y_p = y;
-                oTexto.addText2D("Pk: " + getStringPK(Math.Round(p_fin_x, 2)), x_p + x_ins, y_ins + y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular");
+                oTexto.addText2D("Pk: " + getStringPK(Math.Round(p_fin_x, 2)), x_p + x_ins, y_ins + y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular");
                 if (az + 90 > 360)
                 {
                     miDir = az + 90 - 360;
@@ -2010,10 +2024,10 @@ namespace Logica
                 x = x_p + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                 y = y_p + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
                 kv = 1 / (2 * x2);
-                oTexto.addText2D(" Kv: " + Math.Round(kv, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular");
+                oTexto.addText2D(" Kv: " + Math.Round(kv, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular");
                 x = x_p - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                 y = y_p - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
-                oTexto.addText2D(" Pdte: " + Math.Round(p2, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular");
+                oTexto.addText2D(" Pdte: " + Math.Round(p2, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular");
             }
 
         }
@@ -2027,9 +2041,9 @@ namespace Logica
         /// <param name="p1"></param>
         /// <param name="p2"></param>
         /// <param name="tipo">si el trazado empieza en acuerdo la primera parte ya esta dibujada, con el valor diferente de un 1 o 3 no se pintará y con el 3 solo se pintara el principio del acuerdo</param>
-        public void Dibujar_Singulares_Perfil(Parabola p, Point2d p_ini, Point2d p_fin, double escala, double p1, double p2, int tipo, double x_ins, double y_ins,int conta_apartado)
+        public void Dibujar_Singulares_Perfil(Parabola p, Point2d p_ini, Point2d p_fin, double escala, double p1, double p2, int tipo, double x_ins, double y_ins, int conta_apartado)
         {
-            engCadNet.oLayer.addLayer("Rotulacion-singular-"+ conta_apartado, 1, false);
+            engCadNet.oLayer.addLayer(documento + "-Rotulacion-singular-" + conta_apartado, 1, false);
             double x2;
             double x1;
             double x;
@@ -2066,7 +2080,7 @@ namespace Logica
                 y = p_ini_y - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
                 x_p = x;
                 y_p = y;
-                oTexto.addText2D("Pk: " + getStringPK(Math.Round(p_ini_x, 2)), x_p + x_ins, y_ins + y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular-" + conta_apartado);
+                oTexto.addText2D("Pk: " + getStringPK(Math.Round(p_ini_x, 2)), x_p + x_ins, y_ins + y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular-" + conta_apartado);
 
                 if (az + 90 > 360)
                 {
@@ -2080,10 +2094,10 @@ namespace Logica
                 x = x_p - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                 y = y_p - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
                 kv = 1 / (2 * x2);
-                oTexto.addText2D(" Kv: " + Math.Round(kv, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular-" + conta_apartado);
+                oTexto.addText2D(" Kv: " + Math.Round(kv, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular-" + conta_apartado);
                 x = x_p + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                 y = y_p + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
-                oTexto.addText2D(" Pdte: " + Math.Round(p1, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular-" + conta_apartado);
+                oTexto.addText2D(" Pdte: " + Math.Round(p1, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular-" + conta_apartado);
 
             }
 
@@ -2113,7 +2127,7 @@ namespace Logica
                 y = p_fin_y - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
                 x_p = x;
                 y_p = y;
-                oTexto.addText2D("Pk: " + getStringPK(Math.Round(p_fin_x, 2)), x_p + x_ins, y_ins + y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular-" + conta_apartado);
+                oTexto.addText2D("Pk: " + getStringPK(Math.Round(p_fin_x, 2)), x_p + x_ins, y_ins + y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular-" + conta_apartado);
                 if (az + 90 > 360)
                 {
                     miDir = az + 90 - 360;
@@ -2126,10 +2140,10 @@ namespace Logica
                 x = x_p + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                 y = y_p + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
                 kv = 1 / (2 * x2);
-                oTexto.addText2D(" Kv: " + Math.Round(kv, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular-" + conta_apartado);
+                oTexto.addText2D(" Kv: " + Math.Round(kv, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular-" + conta_apartado);
                 x = x_p - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                 y = y_p - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
-                oTexto.addText2D(" Pdte: " + Math.Round(p2, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular-" + conta_apartado);
+                oTexto.addText2D(" Pdte: " + Math.Round(p2, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular-" + conta_apartado);
             }
 
         }
@@ -2146,7 +2160,7 @@ namespace Logica
         /// <param name="tipo">si el trazado empieza en acuerdo la primera parte ya esta dibujada, con el valor diferente de un 1 o 3 no se pintará y con el 3 solo se pintara el principio del acuerdo</param>
         public void Dibujar_Singulares_Perfil_Circular(Curva p, Point2d p_ini, Point2d p_fin, double escala, double p1, double p2, int tipo, double x_ins, double y_ins)
         {
-            engCadNet.oLayer.addLayer("Rotulacion-singular", 1, false);
+            engCadNet.oLayer.addLayer(documento + "-Rotulacion-singular", 1, false);
             double x2;
             double x1;
             double x;
@@ -2180,7 +2194,7 @@ namespace Logica
                 y = p_ini_y - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
                 x_p = x;
                 y_p = y;
-                oTexto.addText2D("Pk: " + getStringPK(Math.Round(p_ini_x, 2)), x_p + x_ins, y_ins + y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular");
+                oTexto.addText2D("Pk: " + getStringPK(Math.Round(p_ini_x, 2)), x_p + x_ins, y_ins + y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular");
 
                 if (az + 90 > 360)
                 {
@@ -2194,10 +2208,10 @@ namespace Logica
                 x = x_p - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                 y = y_p - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
                 kv = p.getRadio;
-                oTexto.addText2D(" R: " + Math.Round(kv, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular");
+                oTexto.addText2D(" R: " + Math.Round(kv, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular");
                 x = x_p + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                 y = y_p + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
-                oTexto.addText2D(" Pdte: " + Math.Round(p1, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular");
+                oTexto.addText2D(" Pdte: " + Math.Round(p1, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular");
 
             }
 
@@ -2210,7 +2224,7 @@ namespace Logica
 
                 //final del acuerdo
                 List<double[]> l = p.getComponentPoints();
-                pk_ini =l[l.Count-2][0];
+                pk_ini = l[l.Count - 2][0];
                 y = l[l.Count - 2][1];//x^2+x+c
                 p_fin_x = p_fin.X;
                 p_fin_y = p_fin.Y * escala;
@@ -2224,7 +2238,7 @@ namespace Logica
                 y = p_fin_y - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
                 x_p = x;
                 y_p = y;
-                oTexto.addText2D("Pk: " + getStringPK(Math.Round(p_fin_x, 2)), x_p + x_ins, y_ins + y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular");
+                oTexto.addText2D("Pk: " + getStringPK(Math.Round(p_fin_x, 2)), x_p + x_ins, y_ins + y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular");
                 if (az + 90 > 360)
                 {
                     miDir = az + 90 - 360;
@@ -2237,10 +2251,10 @@ namespace Logica
                 x = x_p + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                 y = y_p + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
                 kv = p.getRadio;
-                oTexto.addText2D(" R: " + Math.Round(kv, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular");
+                oTexto.addText2D(" R: " + Math.Round(kv, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular");
                 x = x_p - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                 y = y_p - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
-                oTexto.addText2D(" Pdte: " + Math.Round(p2, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular");
+                oTexto.addText2D(" Pdte: " + Math.Round(p2, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular");
             }
 
         }
@@ -2254,9 +2268,9 @@ namespace Logica
         /// <param name="p1"></param>
         /// <param name="p2"></param>
         /// <param name="tipo">si el trazado empieza en acuerdo la primera parte ya esta dibujada, con el valor diferente de un 1 o 3 no se pintará y con el 3 solo se pintara el principio del acuerdo</param>
-        public void Dibujar_Singulares_Perfil_Circular(Curva p, Point2d p_ini, Point2d p_fin, double escala, double p1, double p2, int tipo, double x_ins, double y_ins,int apartado)
+        public void Dibujar_Singulares_Perfil_Circular(Curva p, Point2d p_ini, Point2d p_fin, double escala, double p1, double p2, int tipo, double x_ins, double y_ins, int apartado)
         {
-            engCadNet.oLayer.addLayer("Rotulacion-singular-"+apartado, 1, false);
+            engCadNet.oLayer.addLayer(documento + "-Rotulacion-singular-" + apartado, 1, false);
             double x2;
             double x1;
             double x;
@@ -2290,7 +2304,7 @@ namespace Logica
                 y = p_ini_y - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
                 x_p = x;
                 y_p = y;
-                oTexto.addText2D("Pk: " + getStringPK(Math.Round(p_ini_x, 2)), x_p + x_ins, y_ins + y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular-" + apartado);
+                oTexto.addText2D("Pk: " + getStringPK(Math.Round(p_ini_x, 2)), x_p + x_ins, y_ins + y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular-" + apartado);
 
                 if (az + 90 > 360)
                 {
@@ -2304,10 +2318,10 @@ namespace Logica
                 x = x_p - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                 y = y_p - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
                 kv = p.getRadio;
-                oTexto.addText2D(" R: " + Math.Round(kv, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular-" + apartado);
+                oTexto.addText2D(" R: " + Math.Round(kv, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular-" + apartado);
                 x = x_p + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                 y = y_p + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
-                oTexto.addText2D(" Pdte: " + Math.Round(p1, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular-" + apartado);
+                oTexto.addText2D(" Pdte: " + Math.Round(p1, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular-" + apartado);
 
             }
 
@@ -2334,7 +2348,7 @@ namespace Logica
                 y = p_fin_y - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
                 x_p = x;
                 y_p = y;
-                oTexto.addText2D("Pk: " + getStringPK(Math.Round(p_fin_x, 2)), x_p + x_ins, y_ins + y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular-" + apartado);
+                oTexto.addText2D("Pk: " + getStringPK(Math.Round(p_fin_x, 2)), x_p + x_ins, y_ins + y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular-" + apartado);
                 if (az + 90 > 360)
                 {
                     miDir = az + 90 - 360;
@@ -2347,10 +2361,10 @@ namespace Logica
                 x = x_p + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                 y = y_p + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
                 kv = p.getRadio;
-                oTexto.addText2D(" R: " + Math.Round(kv, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular-" + apartado);
+                oTexto.addText2D(" R: " + Math.Round(kv, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular-" + apartado);
                 x = x_p - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                 y = y_p - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
-                oTexto.addText2D(" Pdte: " + Math.Round(p2, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular-" + apartado);
+                oTexto.addText2D(" Pdte: " + Math.Round(p2, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular-" + apartado);
             }
 
         }
@@ -2359,11 +2373,11 @@ namespace Logica
         /// </summary>
         /// <param name="p">Pendiente a rotular</param>
         /// <param name="tipo">1 inicio y 2 final</param>
-        public void Dibujar_Ini_Fin_Pendiente(Pendiente p,int tipo,double escala,double pendiente,double x_ins,double y_ins)
+        public void Dibujar_Ini_Fin_Pendiente(Pendiente p, int tipo, double escala, double pendiente, double x_ins, double y_ins)
         {
-            engCadNet.oLayer.addLayer("Rotulacion-singular_inicial", 1, false);
-            engCadNet.oLayer.addLayer("Rotulacion-singular_final", 1, false);
-            if (tipo==1)
+            engCadNet.oLayer.addLayer(documento + "-Rotulacion-singular_inicial", 1, false);
+            engCadNet.oLayer.addLayer(documento + "-Rotulacion-singular_final", 1, false);
+            if (tipo == 1)
             {
                 double p_ini_x = p.Puntos[0].X;
                 double p_ini_y = p.Puntos[0].Y * escala;
@@ -2380,7 +2394,7 @@ namespace Logica
                 double x_p = x;
                 double y_p = y;
 
-                oTexto.addText2D("Pk: " + 0, x_p + x_ins, y_ins + y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular_inicial");
+                oTexto.addText2D("Pk: " + 0, x_p + x_ins, y_ins + y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular_inicial");
                 double miDir;
                 if (az + 90 > 360)
                 {
@@ -2394,7 +2408,7 @@ namespace Logica
                 x = x_p - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                 y = y_p - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
 
-                oTexto.addText2D(" Pdte: " + Math.Round(pendiente, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular_inicial");
+                oTexto.addText2D(" Pdte: " + Math.Round(pendiente, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular_inicial");
             }
             else
             {
@@ -2413,7 +2427,7 @@ namespace Logica
                 double x_p = x;
                 double y_p = y;
 
-                oTexto.addText2D("Pk: " + getStringPK(Math.Round(p_fin_x, 2)), x_p + x_ins, y_ins + y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular_final");
+                oTexto.addText2D("Pk: " + getStringPK(Math.Round(p_fin_x, 2)), x_p + x_ins, y_ins + y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular_final");
                 double miDir;
                 if (az + 90 > 360)
                 {
@@ -2427,7 +2441,7 @@ namespace Logica
                 x = x_p + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                 y = y_p + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
 
-                oTexto.addText2D(" Pdte: " + Math.Round(pendiente, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular_final");
+                oTexto.addText2D(" Pdte: " + Math.Round(pendiente, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular_final");
             }
         }
         /// <summary>
@@ -2435,10 +2449,10 @@ namespace Logica
         /// </summary>
         /// <param name="p">Pendiente a rotular</param>
         /// <param name="tipo">1 inicio y 2 final</param>
-        public void Dibujar_Ini_Fin_Pendiente(Pendiente p, int tipo, double escala, double pendiente, double x_ins, double y_ins,int apartado)
+        public void Dibujar_Ini_Fin_Pendiente(Pendiente p, int tipo, double escala, double pendiente, double x_ins, double y_ins, int apartado,double pk_ini=0)
         {
-            engCadNet.oLayer.addLayer("Rotulacion-singular_inicial-"+apartado, 1, false);
-            engCadNet.oLayer.addLayer("Rotulacion-singular_final-" + apartado, 1, false);
+            engCadNet.oLayer.addLayer(documento + "-Rotulacion-singular_inicial-" + apartado, 1, false);
+            engCadNet.oLayer.addLayer(documento + "-Rotulacion-singular_final-" + apartado, 1, false);
             if (tipo == 1)
             {
                 double p_ini_x = p.Puntos[0].X;
@@ -2456,7 +2470,7 @@ namespace Logica
                 double x_p = x;
                 double y_p = y;
 
-                oTexto.addText2D("Pk: " + 0, x_p + x_ins, y_ins + y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular_inicial-" + apartado);
+                oTexto.addText2D("Pk: " + pk_ini, x_p + x_ins, y_ins + y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular_inicial-" + apartado);
                 double miDir;
                 if (az + 90 > 360)
                 {
@@ -2470,7 +2484,7 @@ namespace Logica
                 x = x_p - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                 y = y_p - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
 
-                oTexto.addText2D(" Pdte: " + Math.Round(pendiente, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular_inicial-" + apartado);
+                oTexto.addText2D(" Pdte: " + Math.Round(pendiente, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular_inicial-" + apartado);
             }
             else
             {
@@ -2489,7 +2503,7 @@ namespace Logica
                 double x_p = x;
                 double y_p = y;
 
-                oTexto.addText2D("Pk: " + getStringPK(Math.Round(p_fin_x, 2)), x_p + x_ins, y_ins + y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular_final-" + apartado);
+                oTexto.addText2D("Pk: " + getStringPK(Math.Round(p_fin_x, 2)), x_p + x_ins, y_ins + y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular_final-" + apartado);
                 double miDir;
                 if (az + 90 > 360)
                 {
@@ -2503,7 +2517,7 @@ namespace Logica
                 x = x_p + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                 y = y_p + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
 
-                oTexto.addText2D(" Pdte: " + Math.Round(pendiente, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular_final-" + apartado);
+                oTexto.addText2D(" Pdte: " + Math.Round(pendiente, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular_final-" + apartado);
             }
         }
         /// <summary>
@@ -2513,8 +2527,8 @@ namespace Logica
         /// <param name="tipo">1 inicio y 2 final</param>
         public void Dibujar_Ini_Fin_Acuerdo(Parabola p, int tipo, double escala, double pkfin, double x_ins, double y_ins)
         {
-            engCadNet.oLayer.addLayer("Rotulacion-singular_inicial", 1, false);
-            engCadNet.oLayer.addLayer("Rotulacion-singular_final", 1, false);
+            engCadNet.oLayer.addLayer(documento + "-Rotulacion-singular_inicial", 1, false);
+            engCadNet.oLayer.addLayer(documento + "-Rotulacion-singular_final", 1, false);
             if (tipo == 1)
             {
                 double x2 = p.parabola[0];
@@ -2538,7 +2552,7 @@ namespace Logica
                 y = p_ini_y - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
                 double x_p = x;
                 double y_p = y;
-                oTexto.addText2D("Pk: " + getStringPK(Math.Round(p_ini_x, 2)), x_p + x_ins, y_ins + y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular_inicial");
+                oTexto.addText2D("Pk: " + getStringPK(Math.Round(p_ini_x, 2)), x_p + x_ins, y_ins + y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular_inicial");
                 double miDir;
                 if (az + 90 > 360)
                 {
@@ -2552,7 +2566,7 @@ namespace Logica
                 x = x_p - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                 y = y_p - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
                 double kv = 1 / (2 * x2);
-                oTexto.addText2D(" Kv: " + Math.Round(kv, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular_inicial");
+                oTexto.addText2D(" Kv: " + Math.Round(kv, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular_inicial");
             }
             else
             {
@@ -2576,7 +2590,7 @@ namespace Logica
                 y = p_fin_y - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
                 double x_p = x;
                 double y_p = y;
-                oTexto.addText2D("Pk: " + getStringPK(Math.Round(p_fin_x, 2)), x_p + x_ins, y_ins + y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular_final");
+                oTexto.addText2D("Pk: " + getStringPK(Math.Round(p_fin_x, 2)), x_p + x_ins, y_ins + y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular_final");
                 double miDir;
                 if (az + 90 > 360)
                 {
@@ -2590,7 +2604,7 @@ namespace Logica
                 x = x_p + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                 y = y_p + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
                 double kv = 1 / (2 * x2);
-                oTexto.addText2D(" Kv: " + Math.Round(kv, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular_final");
+                oTexto.addText2D(" Kv: " + Math.Round(kv, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular_final");
             }
         }
         /// <summary>
@@ -2598,10 +2612,10 @@ namespace Logica
         /// </summary>
         /// <param name="p">Parabola a rotular</param>
         /// <param name="tipo">1 inicio y 2 final</param>
-        public void Dibujar_Ini_Fin_Acuerdo(Parabola p, int tipo, double escala, double pkfin, double x_ins, double y_ins,int conta_apartado)
+        public void Dibujar_Ini_Fin_Acuerdo(Parabola p, int tipo, double escala, double pkfin, double x_ins, double y_ins, int conta_apartado)
         {
-            engCadNet.oLayer.addLayer("Rotulacion-singular_inicial-"+ conta_apartado, 1, false);
-            engCadNet.oLayer.addLayer("Rotulacion-singular_final-" + conta_apartado, 1, false);
+            engCadNet.oLayer.addLayer(documento + "-Rotulacion-singular_inicial-" + conta_apartado, 1, false);
+            engCadNet.oLayer.addLayer(documento + "-Rotulacion-singular_final-" + conta_apartado, 1, false);
             if (tipo == 1)
             {
                 double x2 = p.parabola[0];
@@ -2625,7 +2639,7 @@ namespace Logica
                 y = p_ini_y - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
                 double x_p = x;
                 double y_p = y;
-                oTexto.addText2D("Pk: " + getStringPK(Math.Round(p_ini_x, 2)), x_p + x_ins, y_ins + y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular_inicial-" + conta_apartado);
+                oTexto.addText2D("Pk: " + getStringPK(Math.Round(p_ini_x, 2)), x_p + x_ins, y_ins + y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular_inicial-" + conta_apartado);
                 double miDir;
                 if (az + 90 > 360)
                 {
@@ -2639,7 +2653,7 @@ namespace Logica
                 x = x_p - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                 y = y_p - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
                 double kv = 1 / (2 * x2);
-                oTexto.addText2D(" Kv: " + Math.Round(kv, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular_inicial-" + conta_apartado);
+                oTexto.addText2D(" Kv: " + Math.Round(kv, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular_inicial-" + conta_apartado);
             }
             else
             {
@@ -2663,7 +2677,7 @@ namespace Logica
                 y = p_fin_y - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
                 double x_p = x;
                 double y_p = y;
-                oTexto.addText2D("Pk: " + getStringPK(Math.Round(p_fin_x, 2)), x_p + x_ins, y_ins + y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular_final-" + conta_apartado);
+                oTexto.addText2D("Pk: " + getStringPK(Math.Round(p_fin_x, 2)), x_p + x_ins, y_ins + y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular_final-" + conta_apartado);
                 double miDir;
                 if (az + 90 > 360)
                 {
@@ -2677,7 +2691,7 @@ namespace Logica
                 x = x_p + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                 y = y_p + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
                 double kv = 1 / (2 * x2);
-                oTexto.addText2D(" Kv: " + Math.Round(kv, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular_final-" + conta_apartado);
+                oTexto.addText2D(" Kv: " + Math.Round(kv, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular_final-" + conta_apartado);
             }
         }
         /// <summary>
@@ -2685,13 +2699,13 @@ namespace Logica
         /// </summary>
         /// <param name="p">Parabola a rotular</param>
         /// <param name="tipo">1 inicio y 2 final</param>
-        public void Dibujar_Ini_Fin_Acuerdo_Circular(Curva p, int tipo, double escala, double pkfin, double  x_ins,double y_ins  )
+        public void Dibujar_Ini_Fin_Acuerdo_Circular(Curva p, int tipo, double escala, double pkfin, double x_ins, double y_ins)
         {
-            engCadNet.oLayer.addLayer("Rotulacion-singular_inicial", 1, false);
-            engCadNet.oLayer.addLayer("Rotulacion-singular_final", 1, false);
+            engCadNet.oLayer.addLayer(documento + "-Rotulacion-singular_inicial", 1, false);
+            engCadNet.oLayer.addLayer(documento + "-Rotulacion-singular_final", 1, false);
             if (tipo == 1)
             {
-                List<double[]>l= p.getComponentPoints();
+                List<double[]> l = p.getComponentPoints();
                 double pk_ini = l[0][0];
                 double y = l[0][1];
                 double pk = l[1][0];
@@ -2710,7 +2724,7 @@ namespace Logica
                 y = p_ini_y - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
                 double x_p = x;
                 double y_p = y;
-                oTexto.addText2D("Pk: " + getStringPK(Math.Round(p_ini_x, 2)), x_p + x_ins, y_ins + y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular_inicial");
+                oTexto.addText2D("Pk: " + getStringPK(Math.Round(p_ini_x, 2)), x_p + x_ins, y_ins + y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular_inicial");
                 double miDir;
                 if (az + 90 > 360)
                 {
@@ -2724,7 +2738,7 @@ namespace Logica
                 x = x_p - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                 y = y_p - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
                 double kv = p.getRadio;
-                oTexto.addText2D(" R: " + Math.Round(kv, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular_inicial");
+                oTexto.addText2D(" R: " + Math.Round(kv, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular_inicial");
             }
             else
             {
@@ -2736,7 +2750,7 @@ namespace Logica
                 double y = l[l.Count - 1][1];
                 double p_fin_x = l[l.Count - 1][0];
                 double p_fin_y = y * escala;
-                double az = Rellenar_centro(pk_ini, y1* escala, p_fin_x, p_fin_y, 1).Az;
+                double az = Rellenar_centro(pk_ini, y1 * escala, p_fin_x, p_fin_y, 1).Az;
                 az = 360 - az;
                 double x = p_fin_x - 6 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
                 y = p_fin_y - 6 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
@@ -2746,7 +2760,7 @@ namespace Logica
                 y = p_fin_y - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
                 double x_p = x;
                 double y_p = y;
-                oTexto.addText2D("Pk: " + getStringPK(Math.Round(p_fin_x, 2)), x_p + x_ins, y_ins + y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular_final");
+                oTexto.addText2D("Pk: " + getStringPK(Math.Round(p_fin_x, 2)), x_p + x_ins, y_ins + y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular_final");
                 double miDir;
                 if (az + 90 > 360)
                 {
@@ -2760,7 +2774,7 @@ namespace Logica
                 x = x_p + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                 y = y_p + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
                 double kv = p.getRadio;
-                oTexto.addText2D(" R: " + Math.Round(kv, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular_final");
+                oTexto.addText2D(" R: " + Math.Round(kv, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular_final");
             }
         }
         /// <summary>
@@ -2768,10 +2782,10 @@ namespace Logica
         /// </summary>
         /// <param name="p">Parabola a rotular</param>
         /// <param name="tipo">1 inicio y 2 final</param>
-        public void Dibujar_Ini_Fin_Acuerdo_Circular(Curva p, int tipo, double escala, double pkfin, double x_ins, double y_ins,int apartado)
+        public void Dibujar_Ini_Fin_Acuerdo_Circular(Curva p, int tipo, double escala, double pkfin, double x_ins, double y_ins, int apartado)
         {
-            engCadNet.oLayer.addLayer("Rotulacion-singular_inicial-"+apartado, 1, false);
-            engCadNet.oLayer.addLayer("Rotulacion-singular_final-" + apartado, 1, false);
+            engCadNet.oLayer.addLayer(documento + "-Rotulacion-singular_inicial-" + apartado, 1, false);
+            engCadNet.oLayer.addLayer(documento + "-Rotulacion-singular_final-" + apartado, 1, false);
             if (tipo == 1)
             {
                 List<double[]> l = p.getComponentPoints();
@@ -2793,7 +2807,7 @@ namespace Logica
                 y = p_ini_y - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
                 double x_p = x;
                 double y_p = y;
-                oTexto.addText2D("Pk: " + getStringPK(Math.Round(p_ini_x, 2)), x_p + x_ins, y_ins + y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular_inicial-" + apartado);
+                oTexto.addText2D("Pk: " + getStringPK(Math.Round(p_ini_x, 2)), x_p + x_ins, y_ins + y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular_inicial-" + apartado);
                 double miDir;
                 if (az + 90 > 360)
                 {
@@ -2807,7 +2821,7 @@ namespace Logica
                 x = x_p - 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                 y = y_p - 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
                 double kv = p.getRadio;
-                oTexto.addText2D(" R: " + Math.Round(kv, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular_inicial-" + apartado);
+                oTexto.addText2D(" R: " + Math.Round(kv, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular_inicial-" + apartado);
             }
             else
             {
@@ -2829,7 +2843,7 @@ namespace Logica
                 y = p_fin_y - 40 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
                 double x_p = x;
                 double y_p = y;
-                oTexto.addText2D("Pk: " + getStringPK(Math.Round(p_fin_x, 2)), x_p + x_ins, y_ins + y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular_final-" + apartado);
+                oTexto.addText2D("Pk: " + getStringPK(Math.Round(p_fin_x, 2)), x_p + x_ins, y_ins + y_p, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular_final-" + apartado);
                 double miDir;
                 if (az + 90 > 360)
                 {
@@ -2843,43 +2857,10 @@ namespace Logica
                 x = x_p + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
                 y = y_p + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
                 double kv = p.getRadio;
-                oTexto.addText2D(" R: " + Math.Round(kv, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, "Rotulacion-singular_final-" + apartado);
+                oTexto.addText2D(" R: " + Math.Round(kv, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 1, documento + "-Rotulacion-singular_final-" + apartado);
             }
         }
         public int Dibujar_PK_Acuerdo_Circular(Curva p, int pk, double escala, double pk_fin, double min, double x_ins, double y_ins)
-        {
-            /*double a = p.parabola[0];
-            double b = p.parabola[1];
-            double c = p.parabola[2];*/
-            double y1 = 0, y2 = 0;
-            double pk2 = 0;
-            int minimo = (int)Math.Truncate(min) * (int)escala - 6 * (int)escala;
-            while (pk < pk_fin)
-            {
-                pk2 = pk - 0.1;
-                List<double[]> l = p.getComponentPoints();
-                y1=p.getPointAtDist(pk-l[0][0])[1];
-                //y1 = (pk * pk) * a + pk * b + c;
-                //y2 = (pk2 * pk2) * a + pk2 * b + c;
-                y1 = y1 * escala;
-                //y2 = y2 * escala;
-                //double az = Rellenar_centro(pk - 0.1, y2, pk, y1, 1).Az;
-               // az = 360 - az;
-                //double x = pk + 4 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
-                //double y = y1 + 4 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
-                double x = pk + 4 * (rotulacion / 100) * Math.Cos(270 * Math.PI / 180);
-                double y = minimo + 4 * (rotulacion / 100) * Math.Sin(270 * Math.PI / 180);
-                //Dibujar_r(new Point2d(pk, y1), new Point2d(x, y), 7, "Linea_Rotulacion_Acuerdo");
-                oTexto.addText2D("Cota: " + Math.Round(y1 / escala, 2), x + x_ins, y_ins + minimo, 4 * (rotulacion / 100), 270 * Math.PI / 180, 7, "Rotulacion-pk");
-                pk += 20;
-                if (pk - l[0][0]>p.getPkFinal())
-                {
-                    break;
-                }
-            }
-            return pk;
-        }
-        public int Dibujar_PK_Acuerdo_Circular(Curva p, int pk, double escala, double pk_fin, double min, double x_ins, double y_ins,int apartado)
         {
             /*double a = p.parabola[0];
             double b = p.parabola[1];
@@ -2903,7 +2884,7 @@ namespace Logica
                 double x = pk + 4 * (rotulacion / 100) * Math.Cos(270 * Math.PI / 180);
                 double y = minimo + 4 * (rotulacion / 100) * Math.Sin(270 * Math.PI / 180);
                 //Dibujar_r(new Point2d(pk, y1), new Point2d(x, y), 7, "Linea_Rotulacion_Acuerdo");
-                oTexto.addText2D("Cota: " + Math.Round(y1 / escala, 2), x + x_ins, y_ins + minimo, 4 * (rotulacion / 100), 270 * Math.PI / 180, 7, "Rotulacion-pk-"+apartado);
+                oTexto.addText2D("Cota: " + Math.Round(y1 / escala, 2), x + x_ins, y_ins + minimo, 4 * (rotulacion / 100), 270 * Math.PI / 180, 7, documento + "-Rotulacion-pk");
                 pk += 20;
                 if (pk - l[0][0] > p.getPkFinal())
                 {
@@ -2912,34 +2893,40 @@ namespace Logica
             }
             return pk;
         }
-        public int Dibujar_PK_Acuerdo(Parabola p, int pk, double escala,double pk_fin,double min, double  x_ins,double y_ins )
+        public int Dibujar_PK_Acuerdo_Circular(Curva p, int pk, double escala, double pk_fin, double min, double x_ins, double y_ins, int apartado)
         {
-            double a = p.parabola[0];
+            /*double a = p.parabola[0];
             double b = p.parabola[1];
-            double c = p.parabola[2];
-            double y1=0,y2=0;
+            double c = p.parabola[2];*/
+            double y1 = 0, y2 = 0;
             double pk2 = 0;
             int minimo = (int)Math.Truncate(min) * (int)escala - 6 * (int)escala;
             while (pk < pk_fin)
             {
                 pk2 = pk - 0.1;
-                y1 = (pk * pk) * a + pk * b + c;
-                y2 = (pk2 * pk2) * a + pk2 * b + c;
+                List<double[]> l = p.getComponentPoints();
+                y1 = p.getPointAtDist(pk - l[0][0])[1];
+                //y1 = (pk * pk) * a + pk * b + c;
+                //y2 = (pk2 * pk2) * a + pk2 * b + c;
                 y1 = y1 * escala;
-                y2 = y2 * escala;
-                double az = Rellenar_centro(pk-0.1, y2, pk, y1, 1).Az;
-                az = 360 - az;
+                //y2 = y2 * escala;
+                //double az = Rellenar_centro(pk - 0.1, y2, pk, y1, 1).Az;
+                // az = 360 - az;
                 //double x = pk + 4 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
                 //double y = y1 + 4 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
                 double x = pk + 4 * (rotulacion / 100) * Math.Cos(270 * Math.PI / 180);
                 double y = minimo + 4 * (rotulacion / 100) * Math.Sin(270 * Math.PI / 180);
                 //Dibujar_r(new Point2d(pk, y1), new Point2d(x, y), 7, "Linea_Rotulacion_Acuerdo");
-                oTexto.addText2D("Cota: " + Math.Round(y1 /escala,2), x + x_ins, y_ins + minimo, 4 * (rotulacion / 100), 270 * Math.PI / 180, 7, "Rotulacion-pk");
+                oTexto.addText2D("Cota: " + Math.Round(y1 / escala, 2), x + x_ins, y_ins + minimo, 4 * (rotulacion / 100), 270 * Math.PI / 180, 7, documento + "-Rotulacion-pk-" + apartado);
                 pk += 20;
+                if (pk - l[0][0] > p.getPkFinal())
+                {
+                    break;
+                }
             }
             return pk;
         }
-        public int Dibujar_PK_Acuerdo(Parabola p, int pk, double escala, double pk_fin, double min, double x_ins, double y_ins,int conta_apartado)
+        public int Dibujar_PK_Acuerdo(Parabola p, int pk, double escala, double pk_fin, double min, double x_ins, double y_ins)
         {
             double a = p.parabola[0];
             double b = p.parabola[1];
@@ -2961,12 +2948,12 @@ namespace Logica
                 double x = pk + 4 * (rotulacion / 100) * Math.Cos(270 * Math.PI / 180);
                 double y = minimo + 4 * (rotulacion / 100) * Math.Sin(270 * Math.PI / 180);
                 //Dibujar_r(new Point2d(pk, y1), new Point2d(x, y), 7, "Linea_Rotulacion_Acuerdo");
-                oTexto.addText2D("Cota: " + Math.Round(y1 / escala, 2), x + x_ins, y_ins + minimo, 4 * (rotulacion / 100), 270 * Math.PI / 180, 7, "Rotulacion-pk-"+conta_apartado);
+                oTexto.addText2D("Cota: " + Math.Round(y1 / escala, 2), x + x_ins, y_ins + minimo, 4 * (rotulacion / 100), 270 * Math.PI / 180, 7, documento + "-Rotulacion-pk");
                 pk += 20;
             }
             return pk;
         }
-        public void Dibujar_PK_Acuerdo_Final(Parabola p, double pk, double escala, double min, double x_ins,double y_ins)
+        public int Dibujar_PK_Acuerdo(Parabola p, int pk, double escala, double pk_fin, double min, double x_ins, double y_ins, int conta_apartado)
         {
             double a = p.parabola[0];
             double b = p.parabola[1];
@@ -2974,19 +2961,26 @@ namespace Logica
             double y1 = 0, y2 = 0;
             double pk2 = 0;
             int minimo = (int)Math.Truncate(min) * (int)escala - 6 * (int)escala;
-            pk2 = pk - 0.1;
-            y1 = (pk * pk) * a + pk * b + c;
-            y2 = (pk2 * pk2) * a + pk2 * b + c;
-            y1 = y1 * escala;
-            y2 = y2 * escala;
-            double az = Rellenar_centro(pk - 0.1, y2, pk, y1, 1).Az;
-            az = 360 - az;
-            double x = pk + 4 * (rotulacion / 100) * Math.Cos(270 * Math.PI / 180);
-            double y = minimo + 4 * (rotulacion / 100) * Math.Sin(270 * Math.PI / 180);
-
-            oTexto.addText2D("Cota: " + Math.Round(y1 / escala, 2), x + x_ins, y_ins + minimo, 4 * (rotulacion / 100), 270 * Math.PI / 180, 7, "Rotulacion-pk");
+            while (pk < pk_fin)
+            {
+                pk2 = pk - 0.1;
+                y1 = (pk * pk) * a + pk * b + c;
+                y2 = (pk2 * pk2) * a + pk2 * b + c;
+                y1 = y1 * escala;
+                y2 = y2 * escala;
+                double az = Rellenar_centro(pk - 0.1, y2, pk, y1, 1).Az;
+                az = 360 - az;
+                //double x = pk + 4 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
+                //double y = y1 + 4 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
+                double x = pk + 4 * (rotulacion / 100) * Math.Cos(270 * Math.PI / 180);
+                double y = minimo + 4 * (rotulacion / 100) * Math.Sin(270 * Math.PI / 180);
+                //Dibujar_r(new Point2d(pk, y1), new Point2d(x, y), 7, "Linea_Rotulacion_Acuerdo");
+                oTexto.addText2D("Cota: " + Math.Round(y1 / escala, 2), x + x_ins, y_ins + minimo, 4 * (rotulacion / 100), 270 * Math.PI / 180, 7, documento + "-Rotulacion-pk-" + conta_apartado);
+                pk += 20;
+            }
+            return pk;
         }
-        public void Dibujar_PK_Acuerdo_Final(Parabola p, double pk, double escala, double min, double x_ins, double y_ins,int conta_apartado)
+        public void Dibujar_PK_Acuerdo_Final(Parabola p, double pk, double escala, double min, double x_ins, double y_ins)
         {
             double a = p.parabola[0];
             double b = p.parabola[1];
@@ -3004,7 +2998,27 @@ namespace Logica
             double x = pk + 4 * (rotulacion / 100) * Math.Cos(270 * Math.PI / 180);
             double y = minimo + 4 * (rotulacion / 100) * Math.Sin(270 * Math.PI / 180);
 
-            oTexto.addText2D("Cota: " + Math.Round(y1 / escala, 2), x + x_ins, y_ins + minimo, 4 * (rotulacion / 100), 270 * Math.PI / 180, 7, "Rotulacion-pk-"+conta_apartado);
+            oTexto.addText2D("Cota: " + Math.Round(y1 / escala, 2), x + x_ins, y_ins + minimo, 4 * (rotulacion / 100), 270 * Math.PI / 180, 7, documento + "-Rotulacion-pk");
+        }
+        public void Dibujar_PK_Acuerdo_Final(Parabola p, double pk, double escala, double min, double x_ins, double y_ins, int conta_apartado)
+        {
+            double a = p.parabola[0];
+            double b = p.parabola[1];
+            double c = p.parabola[2];
+            double y1 = 0, y2 = 0;
+            double pk2 = 0;
+            int minimo = (int)Math.Truncate(min) * (int)escala - 6 * (int)escala;
+            pk2 = pk - 0.1;
+            y1 = (pk * pk) * a + pk * b + c;
+            y2 = (pk2 * pk2) * a + pk2 * b + c;
+            y1 = y1 * escala;
+            y2 = y2 * escala;
+            double az = Rellenar_centro(pk - 0.1, y2, pk, y1, 1).Az;
+            az = 360 - az;
+            double x = pk + 4 * (rotulacion / 100) * Math.Cos(270 * Math.PI / 180);
+            double y = minimo + 4 * (rotulacion / 100) * Math.Sin(270 * Math.PI / 180);
+
+            oTexto.addText2D("Cota: " + Math.Round(y1 / escala, 2), x + x_ins, y_ins + minimo, 4 * (rotulacion / 100), 270 * Math.PI / 180, 7, documento + "-Rotulacion-pk-" + conta_apartado);
         }
         public void Dibujar_PK_Acuerdo_Final_Circular(Curva p, double pk, double escala, double min, double x_ins, double y_ins)
         {
@@ -3018,9 +3032,9 @@ namespace Logica
             double x = pk + 4 * (rotulacion / 100) * Math.Cos(270 * Math.PI / 180);
             double y = minimo + 4 * (rotulacion / 100) * Math.Sin(270 * Math.PI / 180);
 
-            oTexto.addText2D("Cota: " + Math.Round(y1 / escala, 2), x + x_ins, y_ins + minimo, 4 * (rotulacion / 100), 270 * Math.PI / 180, 7, "Rotulacion-pk");
+            oTexto.addText2D("Cota: " + Math.Round(y1 / escala, 2), x + x_ins, y_ins + minimo, 4 * (rotulacion / 100), 270 * Math.PI / 180, 7, documento + "-Rotulacion-pk");
         }
-        public void Dibujar_PK_Acuerdo_Final_Circular(Curva p, double pk, double escala, double min, double x_ins, double y_ins,int apartado)
+        public void Dibujar_PK_Acuerdo_Final_Circular(Curva p, double pk, double escala, double min, double x_ins, double y_ins, int apartado)
         {
             double y1 = 0, y2 = 0;
             double pk2 = 0;
@@ -3032,63 +3046,9 @@ namespace Logica
             double x = pk + 4 * (rotulacion / 100) * Math.Cos(270 * Math.PI / 180);
             double y = minimo + 4 * (rotulacion / 100) * Math.Sin(270 * Math.PI / 180);
 
-            oTexto.addText2D("Cota: " + Math.Round(y1 / escala, 2), x + x_ins, y_ins + minimo, 4 * (rotulacion / 100), 270 * Math.PI / 180, 7, "Rotulacion-pk-"+apartado);
+            oTexto.addText2D("Cota: " + Math.Round(y1 / escala, 2), x + x_ins, y_ins + minimo, 4 * (rotulacion / 100), 270 * Math.PI / 180, 7, documento + "-Rotulacion-pk-" + apartado);
         }
-        public void Guitarra(double min,double max,double dist,double escala,double x_ins, double y_ins)
-        {
-            int minimo = (int)Math.Truncate(min)*(int)escala- 5 * (int)escala;
-            int maximo = (int)Math.Truncate(max)*(int)escala+ 5 * (int)escala;
-            double distancia= Math.Truncate(dist)+20;
-            distancia = Math.Truncate(distancia / 10) + 20;
-            distancia = distancia * 10;
-            double x = 0;
-            double y = minimo - 20;
-            bool primero = true;
-            while (minimo<maximo+25)
-            {
-                if (primero)
-                {
-                    Dibujar_r(new Point2d(x + x_ins, minimo + y_ins), new Point2d(x + distancia + x_ins, minimo + y_ins), 2, "Guitarra horizontal");
-                    oTexto.addText2D(getStringPK(minimo/escala), x - 4 + x_ins, y_ins + minimo, 1, 0 * Math.PI / 180, 7, "Rotulacion-Cota");
-                    minimo += 20;
-                    primero = false;
-                }
-                else
-                {
-                    Dibujar_r(new Point2d(x + x_ins, minimo + y_ins), new Point2d(x + distancia + x_ins, minimo + y_ins), 8, "Guitarra horizontal intermedia");
-                    oTexto.addText2D(getStringPK(minimo/escala), x - 4 + x_ins, y_ins + minimo, 1, 0 * Math.PI / 180, 7, "Rotulacion-Cota");
-                    minimo += 20;
-                }
-                
-            }
-            Dibujar_r(new Point2d(x + x_ins, minimo + y_ins), new Point2d(x + distancia + x_ins, minimo + y_ins), 2, "Guitarra horizontal");
-            oTexto.addText2D(getStringPK(minimo/escala), x - 4 + x_ins, y_ins + minimo, 1, 0 * Math.PI / 180, 7, "Rotulacion-Cota");
-            maximo = minimo;
-            minimo = (int)Math.Truncate(min) * (int)escala-5 * (int)escala;
-            
-            primero = true;
-            while (x < distancia )
-            {
-                if (primero)
-                {
-                    Dibujar_r(new Point2d(x + x_ins, minimo + y_ins), new Point2d(x + x_ins, maximo + y_ins), 3, "Guitarra vertical");
-                    oTexto.addText2D(getStringPK(x), x- 1 + x_ins, y_ins + minimo -1, 1, 0 * Math.PI / 180, 7, "Rotulacion-Cota");
-                    x += 20;
-                    primero = false;
-                }
-                else
-                {
-                    Dibujar_r(new Point2d(x + x_ins, minimo + y_ins), new Point2d(x + x_ins, maximo + y_ins), 8, "Guitarra vertical intermedia");
-                    oTexto.addText2D(getStringPK(x), x- 1 + x_ins, y_ins + minimo - 1, 1, 0 * Math.PI / 180, 7, "Rotulacion-Cota");
-                    x += 20;
-                }
-                
-            }
-            Dibujar_r(new Point2d(distancia + x_ins, minimo + y_ins), new Point2d(distancia + x_ins, maximo + y_ins), 3, "Guitarra vertical");
-            oTexto.addText2D(getStringPK(x), x- 1 + x_ins, y_ins + minimo - 1, 1, 0 * Math.PI / 180, 7, "Rotulacion-Cota");
-
-        }
-        public void Guitarra(double min, double max, double dist, double escala, double x_ins, double y_ins,int apartado)
+        public void Guitarra(double min, double max, double dist, double escala, double x_ins, double y_ins)
         {
             int minimo = (int)Math.Truncate(min) * (int)escala - 5 * (int)escala;
             int maximo = (int)Math.Truncate(max) * (int)escala + 5 * (int)escala;
@@ -3103,20 +3063,20 @@ namespace Logica
                 if (primero)
                 {
                     Dibujar_r(new Point2d(x + x_ins, minimo + y_ins), new Point2d(x + distancia + x_ins, minimo + y_ins), 2, "Guitarra horizontal");
-                    oTexto.addText2D(getStringPK(minimo / escala), x - 4 + x_ins, y_ins + minimo, 1, 0 * Math.PI / 180, 7, "Rotulacion-Cota-"+apartado);
+                    oTexto.addText2D(getStringPK(minimo / escala), x - 4 + x_ins, y_ins + minimo, 1, 0 * Math.PI / 180, 7, documento + "-Rotulacion-Cota");
                     minimo += 20;
                     primero = false;
                 }
                 else
                 {
                     Dibujar_r(new Point2d(x + x_ins, minimo + y_ins), new Point2d(x + distancia + x_ins, minimo + y_ins), 8, "Guitarra horizontal intermedia");
-                    oTexto.addText2D(getStringPK(minimo / escala), x - 4 + x_ins, y_ins + minimo, 1, 0 * Math.PI / 180, 7, "Rotulacion-Cota-" + apartado);
+                    oTexto.addText2D(getStringPK(minimo / escala), x - 4 + x_ins, y_ins + minimo, 1, 0 * Math.PI / 180, 7, documento + "-Rotulacion-Cota");
                     minimo += 20;
                 }
 
             }
             Dibujar_r(new Point2d(x + x_ins, minimo + y_ins), new Point2d(x + distancia + x_ins, minimo + y_ins), 2, "Guitarra horizontal");
-            oTexto.addText2D(getStringPK(minimo / escala), x - 4 + x_ins, y_ins + minimo, 1, 0 * Math.PI / 180, 7, "Rotulacion-Cota-" + apartado);
+            oTexto.addText2D(getStringPK(minimo / escala), x - 4 + x_ins, y_ins + minimo, 1, 0 * Math.PI / 180, 7, documento + "-Rotulacion-Cota");
             maximo = minimo;
             minimo = (int)Math.Truncate(min) * (int)escala - 5 * (int)escala;
 
@@ -3126,50 +3086,77 @@ namespace Logica
                 if (primero)
                 {
                     Dibujar_r(new Point2d(x + x_ins, minimo + y_ins), new Point2d(x + x_ins, maximo + y_ins), 3, "Guitarra vertical");
-                    oTexto.addText2D(getStringPK(x), x - 1 + x_ins, y_ins + minimo - 1, 1, 0 * Math.PI / 180, 7, "Rotulacion-Cota-" + apartado);
+                    oTexto.addText2D(getStringPK(x), x - 1 + x_ins, y_ins + minimo - 1, 1, 0 * Math.PI / 180, 7, documento + "-Rotulacion-Cota");
                     x += 20;
                     primero = false;
                 }
                 else
                 {
                     Dibujar_r(new Point2d(x + x_ins, minimo + y_ins), new Point2d(x + x_ins, maximo + y_ins), 8, "Guitarra vertical intermedia");
-                    oTexto.addText2D(getStringPK(x), x - 1 + x_ins, y_ins + minimo - 1, 1, 0 * Math.PI / 180, 7, "Rotulacion-Cota-" + apartado);
+                    oTexto.addText2D(getStringPK(x), x - 1 + x_ins, y_ins + minimo - 1, 1, 0 * Math.PI / 180, 7, documento + "-Rotulacion-Cota");
                     x += 20;
                 }
 
             }
             Dibujar_r(new Point2d(distancia + x_ins, minimo + y_ins), new Point2d(distancia + x_ins, maximo + y_ins), 3, "Guitarra vertical");
-            oTexto.addText2D(getStringPK(x), x - 1 + x_ins, y_ins + minimo - 1, 1, 0 * Math.PI / 180, 7, "Rotulacion-Cota-" + apartado);
+            oTexto.addText2D(getStringPK(x), x - 1 + x_ins, y_ins + minimo - 1, 1, 0 * Math.PI / 180, 7, documento + "-Rotulacion-Cota");
 
         }
-        public int Dibujar_PK_Pendiente(Pendiente p,int pk,double escala,double min, double x_ins,double y_ins )
+        public void Guitarra(double min, double max, double dist, double escala, double x_ins, double y_ins, int apartado)
         {
-            
-            double az = Rellenar_centro(p.Puntos[0].X, p.Puntos[0].Y*escala, p.Puntos[1].X, p.Puntos[1].Y*escala, 1).Az;
-            az = 360 - az;
-            double a_x0 = p.Puntos[0].X;
-            double a_y0 = p.Puntos[0].Y*escala;
-            double b_x1 = p.Puntos[1].X;
-            double b_y1 = p.Puntos[1].Y*escala;
-
-            double a_1 = (a_y0 - b_y1) / (a_x0 - b_x1);
-            double b_1 = -b_x1 * (a_y0 - b_y1) / (a_x0 - b_x1) + b_y1;
-            double pk_y = 0;
-            int minimo = (int)Math.Truncate(min) * (int)escala - 6 * (int)escala;
-            while (pk< p.Puntos[1].X)
+            int minimo = (int)Math.Truncate(min) * (int)escala - 5 * (int)escala;
+            int maximo = (int)Math.Truncate(max) * (int)escala + 5 * (int)escala;
+            double distancia = Math.Truncate(dist) + 20;
+            distancia = Math.Truncate(distancia / 10) + 20;
+            distancia = distancia * 10;
+            double x = 0;
+            double y = minimo - 20;
+            bool primero = true;
+            while (minimo < maximo + 25)
             {
-                pk_y = a_1 * pk + b_1;
-                double x = pk + 4 * (rotulacion / 100) * Math.Cos(270 * Math.PI / 180);
-                double y = minimo + 4 * (rotulacion / 100) * Math.Sin(270 * Math.PI / 180);
-                //Dibujar_r(new Point2d(pk, minimo), new Point2d(x, y), 7, "Linea_Rotulacion_Pendiente");
-                oTexto.addText2D("Cota: " + Math.Round(pk_y /escala,2), x + x_ins, y_ins + minimo, 4 * (rotulacion / 100), 270 * Math.PI / 180, 7, "Rotulacion-pk");
-                pk += 20;
-            }
-            
+                if (primero)
+                {
+                    Dibujar_r(new Point2d(x + x_ins, minimo + y_ins), new Point2d(x + distancia + x_ins, minimo + y_ins), 2, "Guitarra horizontal");
+                    oTexto.addText2D(getStringPK(minimo / escala), x - 4 + x_ins, y_ins + minimo, 1, 0 * Math.PI / 180, 7, documento + "-Rotulacion-Cota-" + apartado);
+                    minimo += 20;
+                    primero = false;
+                }
+                else
+                {
+                    Dibujar_r(new Point2d(x + x_ins, minimo + y_ins), new Point2d(x + distancia + x_ins, minimo + y_ins), 8, "Guitarra horizontal intermedia");
+                    oTexto.addText2D(getStringPK(minimo / escala), x - 4 + x_ins, y_ins + minimo, 1, 0 * Math.PI / 180, 7, documento + "-Rotulacion-Cota-" + apartado);
+                    minimo += 20;
+                }
 
-            return pk;
+            }
+            Dibujar_r(new Point2d(x + x_ins, minimo + y_ins), new Point2d(x + distancia + x_ins, minimo + y_ins), 2, "Guitarra horizontal");
+            oTexto.addText2D(getStringPK(minimo / escala), x - 4 + x_ins, y_ins + minimo, 1, 0 * Math.PI / 180, 7, documento + "-Rotulacion-Cota-" + apartado);
+            maximo = minimo;
+            minimo = (int)Math.Truncate(min) * (int)escala - 5 * (int)escala;
+
+            primero = true;
+            while (x < distancia)
+            {
+                if (primero)
+                {
+                    Dibujar_r(new Point2d(x + x_ins, minimo + y_ins), new Point2d(x + x_ins, maximo + y_ins), 3, "Guitarra vertical");
+                    oTexto.addText2D(getStringPK(x), x - 1 + x_ins, y_ins + minimo - 1, 1, 0 * Math.PI / 180, 7, documento + "-Rotulacion-Cota-" + apartado);
+                    x += 20;
+                    primero = false;
+                }
+                else
+                {
+                    Dibujar_r(new Point2d(x + x_ins, minimo + y_ins), new Point2d(x + x_ins, maximo + y_ins), 8, "Guitarra vertical intermedia");
+                    oTexto.addText2D(getStringPK(x), x - 1 + x_ins, y_ins + minimo - 1, 1, 0 * Math.PI / 180, 7, documento + "-Rotulacion-Cota-" + apartado);
+                    x += 20;
+                }
+
+            }
+            Dibujar_r(new Point2d(distancia + x_ins, minimo + y_ins), new Point2d(distancia + x_ins, maximo + y_ins), 3, "Guitarra vertical");
+            oTexto.addText2D(getStringPK(x), x - 1 + x_ins, y_ins + minimo - 1, 1, 0 * Math.PI / 180, 7, documento + "-Rotulacion-Cota-" + apartado);
+
         }
-        public int Dibujar_PK_Pendiente(Pendiente p, int pk, double escala, double min, double x_ins, double y_ins,int apartado)
+        public int Dibujar_PK_Pendiente(Pendiente p, int pk, double escala, double min, double x_ins, double y_ins)
         {
 
             double az = Rellenar_centro(p.Puntos[0].X, p.Puntos[0].Y * escala, p.Puntos[1].X, p.Puntos[1].Y * escala, 1).Az;
@@ -3189,14 +3176,41 @@ namespace Logica
                 double x = pk + 4 * (rotulacion / 100) * Math.Cos(270 * Math.PI / 180);
                 double y = minimo + 4 * (rotulacion / 100) * Math.Sin(270 * Math.PI / 180);
                 //Dibujar_r(new Point2d(pk, minimo), new Point2d(x, y), 7, "Linea_Rotulacion_Pendiente");
-                oTexto.addText2D("Cota: " + Math.Round(pk_y / escala, 2), x + x_ins, y_ins + minimo, 4 * (rotulacion / 100), 270 * Math.PI / 180, 7, "Rotulacion-pk-"+apartado);
+                oTexto.addText2D("Cota: " + Math.Round(pk_y / escala, 2), x + x_ins, y_ins + minimo, 4 * (rotulacion / 100), 270 * Math.PI / 180, 7, documento + "-Rotulacion-pk");
                 pk += 20;
             }
 
 
             return pk;
         }
-        public void Dibujar_PK_Pendiente_Final(Pendiente p, int pk, double escala, double min, double x_ins,double y_ins)
+        public int Dibujar_PK_Pendiente(Pendiente p, int pk, double escala, double min, double x_ins, double y_ins, int apartado)
+        {
+
+            double az = Rellenar_centro(p.Puntos[0].X, p.Puntos[0].Y * escala, p.Puntos[1].X, p.Puntos[1].Y * escala, 1).Az;
+            az = 360 - az;
+            double a_x0 = p.Puntos[0].X;
+            double a_y0 = p.Puntos[0].Y * escala;
+            double b_x1 = p.Puntos[1].X;
+            double b_y1 = p.Puntos[1].Y * escala;
+
+            double a_1 = (a_y0 - b_y1) / (a_x0 - b_x1);
+            double b_1 = -b_x1 * (a_y0 - b_y1) / (a_x0 - b_x1) + b_y1;
+            double pk_y = 0;
+            int minimo = (int)Math.Truncate(min) * (int)escala - 6 * (int)escala;
+            while (pk < p.Puntos[1].X)
+            {
+                pk_y = a_1 * pk + b_1;
+                double x = pk + 4 * (rotulacion / 100) * Math.Cos(270 * Math.PI / 180);
+                double y = minimo + 4 * (rotulacion / 100) * Math.Sin(270 * Math.PI / 180);
+                //Dibujar_r(new Point2d(pk, minimo), new Point2d(x, y), 7, "Linea_Rotulacion_Pendiente");
+                oTexto.addText2D("Cota: " + Math.Round(pk_y / escala, 2), x + x_ins, y_ins + minimo, 4 * (rotulacion / 100), 270 * Math.PI / 180, 7, documento + "-Rotulacion-pk-" + apartado);
+                pk += 20;
+            }
+
+
+            return pk;
+        }
+        public void Dibujar_PK_Pendiente_Final(Pendiente p, int pk, double escala, double min, double x_ins, double y_ins)
         {
 
             double az = Rellenar_centro(p.Puntos[0].X, p.Puntos[0].Y * escala, p.Puntos[1].X, p.Puntos[1].Y * escala, 1).Az;
@@ -3214,10 +3228,10 @@ namespace Logica
             double x = b_x1 + 4 * (rotulacion / 100) * Math.Cos(270 * Math.PI / 180);
             double y = minimo + 4 * (rotulacion / 100) * Math.Sin(270 * Math.PI / 180);
             //Dibujar_r(new Point2d(pk, minimo), new Point2d(x, y), 7, "Linea_Rotulacion_Pendiente");
-            oTexto.addText2D("Cota: " + Math.Round(pk_y / escala, 2), x + x_ins, y_ins + minimo, 4 * (rotulacion / 100), 270 * Math.PI / 180, 7, "Rotulacion-pk");
+            oTexto.addText2D("Cota: " + Math.Round(pk_y / escala, 2), x + x_ins, y_ins + minimo, 4 * (rotulacion / 100), 270 * Math.PI / 180, 7, documento + "-Rotulacion-pk");
             b_x1 += 20;
         }
-        public void Dibujar_PK_Pendiente_Final(Pendiente p, int pk, double escala, double min, double x_ins, double y_ins,int apartado)
+        public void Dibujar_PK_Pendiente_Final(Pendiente p, int pk, double escala, double min, double x_ins, double y_ins, int apartado)
         {
 
             double az = Rellenar_centro(p.Puntos[0].X, p.Puntos[0].Y * escala, p.Puntos[1].X, p.Puntos[1].Y * escala, 1).Az;
@@ -3235,29 +3249,29 @@ namespace Logica
             double x = b_x1 + 4 * (rotulacion / 100) * Math.Cos(270 * Math.PI / 180);
             double y = minimo + 4 * (rotulacion / 100) * Math.Sin(270 * Math.PI / 180);
             //Dibujar_r(new Point2d(pk, minimo), new Point2d(x, y), 7, "Linea_Rotulacion_Pendiente");
-            oTexto.addText2D("Cota: " + Math.Round(pk_y / escala, 2), x + x_ins, y_ins + minimo, 4 * (rotulacion / 100), 270 * Math.PI / 180, 7, "Rotulacion-pk-"+apartado);
+            oTexto.addText2D("Cota: " + Math.Round(pk_y / escala, 2), x + x_ins, y_ins + minimo, 4 * (rotulacion / 100), 270 * Math.PI / 180, 7, documento + "-Rotulacion-pk-" + apartado);
             b_x1 += 20;
         }
-        public void Cota(double x,double y,Parabola p,double escala, double x_ins,double y_ins)
+        public void Cota(double x, double y, Parabola p, double escala, double x_ins, double y_ins)
         {
             double a = p.parabola[0];
             double b = p.parabola[1];
             double c = p.parabola[2];
             double yy = (x * x) * a + x * b + c;
-            yy = yy*escala;
+            yy = yy * escala;
             double x2 = x - 0.1;
             double yy1 = (x2 * x2) * a + x2 * b + c;
-            yy1= yy1* escala;
-            double az = Rellenar_centro(x-0.1, yy1, x, yy, 1).Az;
+            yy1 = yy1 * escala;
+            double az = Rellenar_centro(x - 0.1, yy1, x, yy, 1).Az;
             az = 360 - az;
             double x3 = x + 6 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
             double y3 = yy + 6 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
 
-            Dibujar_r(new Point2d(x + x_ins,y_ins + yy), new Point2d(x3 + x_ins, y_ins + y3), 7, "Linea_Cota");
+            Dibujar_r(new Point2d(x + x_ins, y_ins + yy), new Point2d(x3 + x_ins, y_ins + y3), 7, "Linea_Cota");
             x3 = x + 4 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
             y3 = yy + 4 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
             Dibujar_r(new Point2d(x + x_ins, y_ins + yy), new Point2d(x3 + x_ins, y_ins + y3), 7, "Linea_Rotulacion_Pendiente");
-            oTexto.addText2D("Pk: " + getStringPK(x), x3 + x_ins, y_ins + y3, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-Cota");
+            oTexto.addText2D("Pk: " + getStringPK(x), x3 + x_ins, y_ins + y3, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-Cota");
 
             double miDir;
             if (az + 90 > 360)
@@ -3271,10 +3285,10 @@ namespace Logica
             x = x + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
             y = yy + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
 
-            oTexto.addText2D("  Cota: " + Math.Round(yy/escala, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-Cota");
+            oTexto.addText2D("  Cota: " + Math.Round(yy / escala, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-Cota");
 
         }
-        public void Cota(double x, double y, Parabola p, double escala, double x_ins, double y_ins,int conta_apartado)
+        public void Cota(double x, double y, Parabola p, double escala, double x_ins, double y_ins, int conta_apartado)
         {
             double a = p.parabola[0];
             double b = p.parabola[1];
@@ -3293,7 +3307,7 @@ namespace Logica
             x3 = x + 4 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
             y3 = yy + 4 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
             Dibujar_r(new Point2d(x + x_ins, y_ins + yy), new Point2d(x3 + x_ins, y_ins + y3), 7, "Linea_Rotulacion_Pendiente-" + conta_apartado);
-            oTexto.addText2D("Pk: " + getStringPK(x), x3 + x_ins, y_ins + y3, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-Cota-"+ conta_apartado);
+            oTexto.addText2D("Pk: " + getStringPK(x), x3 + x_ins, y_ins + y3, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-Cota-" + conta_apartado);
 
             double miDir;
             if (az + 90 > 360)
@@ -3307,13 +3321,12 @@ namespace Logica
             x = x + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
             y = yy + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
 
-            oTexto.addText2D("  Cota: " + Math.Round(yy / escala, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-Cota-" + conta_apartado);
+            oTexto.addText2D("  Cota: " + Math.Round(yy / escala, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-Cota-" + conta_apartado);
 
         }
         public void Cota_Circular(double x, double y, Curva p, double escala, double x_ins, double y_ins)
         {
-            List<double[]> l = p.getComponentPoints();
-            double yy = p.getPointAtDist(x-l[0][0])[1];
+            double yy = y;
             yy = yy * escala;
             double az = 90;
             double x3 = x + 6 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
@@ -3323,7 +3336,7 @@ namespace Logica
             x3 = x + 4 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
             y3 = yy + 4 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
             Dibujar_r(new Point2d(x + x_ins, y_ins + yy), new Point2d(x3 + x_ins, y_ins + y3), 7, "Linea_Rotulacion_Pendiente");
-            oTexto.addText2D("Pk: " + getStringPK(x), x3 + x_ins, y_ins + y3, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-Cota");
+            oTexto.addText2D("Pk: " + getStringPK(x), x3 + x_ins, y_ins + y3, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-Cota");
 
             double miDir;
             if (az + 90 > 360)
@@ -3337,23 +3350,22 @@ namespace Logica
             x = x + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
             y = yy + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
 
-            oTexto.addText2D("  Cota: " + Math.Round(yy / escala, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), 90 * Math.PI / 180, 7, "Rotulacion-Cota");
+            oTexto.addText2D("  Cota: " + Math.Round(yy / escala, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), 90 * Math.PI / 180, 7, documento + "-Rotulacion-Cota");
 
         }
-        public void Cota_Circular(double x, double y, Curva p, double escala, double x_ins, double y_ins,int apartado)
+        public void Cota_Circular(double x, double y, Curva p, double escala, double x_ins, double y_ins, int apartado)
         {
-            List<double[]> l = p.getComponentPoints();
-            double yy = p.getPointAtDist(x - l[0][0])[1];
+            double yy = y;
             yy = yy * escala;
             double az = 90;
             double x3 = x + 6 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
             double y3 = yy + 6 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
 
-            Dibujar_r(new Point2d(x + x_ins, y_ins + yy), new Point2d(x3 + x_ins, y_ins + y3), 7, "Linea_Cota-"+apartado);
+            Dibujar_r(new Point2d(x + x_ins, y_ins + yy), new Point2d(x3 + x_ins, y_ins + y3), 7, "Linea_Cota-" + apartado);
             x3 = x + 4 * (rotulacion / 100) * Math.Cos(az * Math.PI / 180);
             y3 = yy + 4 * (rotulacion / 100) * Math.Sin(az * Math.PI / 180);
             Dibujar_r(new Point2d(x + x_ins, y_ins + yy), new Point2d(x3 + x_ins, y_ins + y3), 7, "Linea_Rotulacion_Pendiente-" + apartado);
-            oTexto.addText2D("Pk: " + getStringPK(x), x3 + x_ins, y_ins + y3, 4 * (rotulacion / 100), az * Math.PI / 180, 7, "Rotulacion-Cota-" + apartado);
+            oTexto.addText2D("Pk: " + getStringPK(x), x3 + x_ins, y_ins + y3, 4 * (rotulacion / 100), az * Math.PI / 180, 7, documento + "-Rotulacion-Cota-" + apartado);
 
             double miDir;
             if (az + 90 > 360)
@@ -3367,7 +3379,7 @@ namespace Logica
             x = x + 5 * (rotulacion / 100) * Math.Cos(miDir * Math.PI / 180);
             y = yy + 5 * (rotulacion / 100) * Math.Sin(miDir * Math.PI / 180);
 
-            oTexto.addText2D("  Cota: " + Math.Round(yy / escala, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), 90 * Math.PI / 180, 7, "Rotulacion-Cota-" + apartado);
+            oTexto.addText2D("  Cota: " + Math.Round(yy / escala, 2), x + x_ins, y_ins + y, 4 * (rotulacion / 100), 90 * Math.PI / 180, 7, documento + "-Rotulacion-Cota-" + apartado);
 
         }
     }

@@ -1,23 +1,37 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using tadLayShare.puntos;
 
 
+using Newtonsoft.Json;
+
 namespace EjeDeTrazado.componentes
 {
     
+    [Serializable]
     public class Curva : Componente
     {
+        [JsonProperty]
         private double mCentroCurvaX;
+        [JsonProperty]
         private double mCentroCurvaY;
+        [JsonProperty]
         private double mRc;
+        [JsonProperty]
         private double mPeralte;
+        [JsonProperty]
         private EjeDeTrazado.puntosDelEje.EjeTrazado.sentidoCurva mSentCurva;
+        [JsonProperty]
         private double mPkfinal;
+        [JsonProperty]
         private bool mIsCurvaGranRadio;
 
+
+        public Curva() : base(new Punto3d(0, 0, 0), new Punto3d(0, 0, 0), 0)
+        {
+        }
 
         public Curva(Punto3d iPuntoEntrada, Punto3d iPuntoSalida, Punto3d iCentroCurva, double iRc, double iPkIni, double iPeralte, EjeDeTrazado.puntosDelEje.EjeTrazado.sentidoCurva iSentCurva)
             : base(iPuntoEntrada, iPuntoSalida, iPkIni)
@@ -38,6 +52,25 @@ namespace EjeDeTrazado.componentes
             }
         }
 
+        public Curva(Punto3d iPuntoEntrada, Punto3d iPuntoSalida, Punto3d iCentroCurva, double iRc,
+            double iPkIni, double iPeralte, double bombeo, puntosDelEje.EjeTrazado.sentidoCurva iSentCurva, double longClotoideAnterior)
+            : base(iPuntoEntrada, iPuntoSalida, iPkIni)
+        {
+            mCentroCurvaX = iCentroCurva.coordenadaX;
+            mCentroCurvaY = iCentroCurva.coordenadaY;
+            mRc = iRc;
+            mPeralte = iPeralte;
+            mSentCurva = iSentCurva;
+            mPkfinal = iPkIni + getLongitud();
+
+            if ((longClotoideAnterior == 0))
+            {
+                mIsCurvaGranRadio = true;
+                mPeralte = bombeo;
+
+            }
+
+        }
 
         public Punto3d getCentroCurva
         {
@@ -54,7 +87,18 @@ namespace EjeDeTrazado.componentes
                 return mRc;
             }
         }
-
+        public override EjeDeTrazado.puntosDelEje.EjeTrazado.sentidoCurva getSentido()
+        {
+            return mSentCurva;
+        }
+        public override double get_Radio()
+        {
+            return mRc;
+        }
+        public override Punto3d get_Centro()
+        {
+            return new Punto3d(mCentroCurvaX,mCentroCurvaY,0);
+        }
         public override double getLongitud()
         {
 
@@ -838,6 +882,10 @@ namespace EjeDeTrazado.componentes
         public override double Get_Le_m()
         {
             return -1;
+        }
+        public bool isCurvaGranRadio()
+        {
+            return mIsCurvaGranRadio;
         }
     }
     

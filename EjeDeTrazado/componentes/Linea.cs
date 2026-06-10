@@ -1,21 +1,35 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using tadLayShare.puntos;
 
+using Newtonsoft.Json;
+
 namespace EjeDeTrazado.componentes
 {
 
+    [Serializable]
     public class Linea : Componente
     {
+        [JsonProperty]
         private double mPeralte;
+        [JsonProperty]
         private double mAzimut;
+        [JsonProperty]
         private bool mCurvaS=false;
+        [JsonProperty]
         private double mPuntoEX;
+        [JsonProperty]
         private double mPuntoEY;
+        [JsonProperty]
         private double mPuntoSX;
+        [JsonProperty]
         private double mPuntoSY;
+
+        public Linea() : base(new Punto3d(0, 0, 0), new Punto3d(0, 0, 0), 0)
+        {
+        }
 
         public Linea(Punto3d iPuntoEntrada, Punto3d iPuntoSalida, double iPkIni, double iPeralte, double iAzimut)
             : base(iPuntoEntrada, iPuntoSalida, iPkIni)
@@ -374,6 +388,18 @@ namespace EjeDeTrazado.componentes
         public override double Get_Le_m()
         {
             return -1;
+        }
+        public override EjeDeTrazado.puntosDelEje.EjeTrazado.sentidoCurva getSentido()
+        {
+            return EjeDeTrazado.puntosDelEje.EjeTrazado.sentidoCurva.noValorado;
+        }
+        public override double get_Radio()
+        {
+            return 0;
+        }
+        public override Punto3d get_Centro()
+        {
+            return new Punto3d(0,0, 0);
         }
     }
 }

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using tadLayShare.puntos;
 
+using Newtonsoft.Json;
+
 namespace EjeDeTrazado.componentes
 {
     [Serializable]
@@ -12,11 +14,17 @@ namespace EjeDeTrazado.componentes
 
         public enum tipoComponente {curva, linea, clotoideEntrada, clotoideSalida};
 
+        [JsonProperty]
         private double mPuntoEntradaX;
+        [JsonProperty]
         private double mPuntoSalidaX;
+        [JsonProperty]
         private double mPuntoEntradaY;
+        [JsonProperty]
         private double mPuntoSalidaY;
+        [JsonProperty]
         private double mPkInicial;
+        [JsonProperty]
         private double mPkFinal;
 
 
@@ -29,7 +37,9 @@ namespace EjeDeTrazado.componentes
             mPuntoSalidaY = iPuntoSalida.coordenadaY;
             mPkInicial = iPkIni;
         }
-       
+        abstract public Punto3d get_Centro();
+        abstract public EjeDeTrazado.puntosDelEje.EjeTrazado.sentidoCurva getSentido();
+        abstract public double get_Radio(); 
         abstract public double getLongitud();
         abstract public double getPkFinal();
         

@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsInfra" targetNamespace="http://tempuri.org/dsInfra.xsd" xmlns:mstns="http://tempuri.org/dsInfra.xsd" xmlns="http://tempuri.org/dsInfra.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsInfra" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="dsInfra" msprop:Generator_UserDSName="dsInfra">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="tbCarreteraGrupos" msprop:Generator_TableClassName="tbCarreteraGruposDataTable" msprop:Generator_TableVarName="tabletbCarreteraGrupos" msprop:Generator_TablePropName="tbCarreteraGrupos" msprop:Generator_RowDeletingName="tbCarreteraGruposRowDeleting" msprop:Generator_UserTableName="tbCarreteraGrupos" msprop:Generator_RowChangingName="tbCarreteraGruposRowChanging" msprop:Generator_RowEvHandlerName="tbCarreteraGruposRowChangeEventHandler" msprop:Generator_RowDeletedName="tbCarreteraGruposRowDeleted" msprop:Generator_RowEvArgName="tbCarreteraGruposRowChangeEvent" msprop:Generator_RowChangedName="tbCarreteraGruposRowChanged" msprop:Generator_RowClassName="tbCarreteraGruposRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="IDGrupo" msdata:AutoIncrement="true" msprop:Generator_ColumnVarNameInTable="columnIDGrupo" msprop:Generator_ColumnPropNameInRow="IDGrupo" msprop:Generator_ColumnPropNameInTable="IDGrupoColumn" msprop:Generator_UserColumnName="IDGrupo" type="xs:short" minOccurs="0" />
+              <xs:element name="nombre" msprop:Generator_ColumnVarNameInTable="columnnombre" msprop:Generator_ColumnPropNameInRow="nombre" msprop:Generator_ColumnPropNameInTable="nombreColumn" msprop:Generator_UserColumnName="nombre" type="xs:string" minOccurs="0" />
+              <xs:element name="descripcion" msprop:Generator_ColumnVarNameInTable="columndescripcion" msprop:Generator_ColumnPropNameInRow="descripcion" msprop:Generator_ColumnPropNameInTable="descripcionColumn" msprop:Generator_UserColumnName="descripcion" type="xs:string" minOccurs="0" />
+              <xs:element name="tbCarreteraItems" msprop:Generator_TableClassName="tbCarreteraItemsDataTable" msprop:Generator_TableVarName="tabletbCarreteraItems" msprop:Generator_TablePropName="tbCarreteraItems" msprop:Generator_RowDeletingName="tbCarreteraItemsRowDeleting" msprop:Generator_UserTableName="tbCarreteraItems" msprop:Generator_RowChangingName="tbCarreteraItemsRowChanging" msprop:Generator_RowEvHandlerName="tbCarreteraItemsRowChangeEventHandler" msprop:Generator_RowDeletedName="tbCarreteraItemsRowDeleted" msprop:Generator_RowEvArgName="tbCarreteraItemsRowChangeEvent" msprop:Generator_RowChangedName="tbCarreteraItemsRowChanged" msprop:Generator_RowClassName="tbCarreteraItemsRow" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="velocidad" msprop:Generator_ColumnVarNameInTable="columnvelocidad" msprop:Generator_ColumnPropNameInRow="velocidad" msprop:Generator_ColumnPropNameInTable="velocidadColumn" msprop:Generator_UserColumnName="velocidad" type="xs:double" minOccurs="0" />
+                    <xs:element name="radio" msprop:Generator_ColumnVarNameInTable="columnradio" msprop:Generator_ColumnPropNameInRow="radio" msprop:Generator_ColumnPropNameInTable="radioColumn" msprop:Generator_UserColumnName="radio" type="xs:double" minOccurs="0" />
+                    <xs:element name="peralte" msprop:Generator_ColumnVarNameInTable="columnperalte" msprop:Generator_ColumnPropNameInRow="peralte" msprop:Generator_ColumnPropNameInTable="peralteColumn" msprop:Generator_UserColumnName="peralte" type="xs:double" minOccurs="0" />
+                    <xs:element name="IDGrupo" msprop:Generator_ColumnVarNameInTable="columnIDGrupo" msprop:Generator_ColumnPropNameInRow="IDGrupo" msprop:Generator_ColumnPropNameInTable="IDGrupoColumn" msprop:Generator_UserColumnName="IDGrupo" type="xs:short" minOccurs="0" />
+                    <xs:element name="IDVel" msdata:AutoIncrement="true" msprop:Generator_ColumnVarNameInTable="columnIDVel" msprop:Generator_ColumnPropNameInRow="IDVel" msprop:Generator_ColumnPropNameInTable="IDVelColumn" msprop:Generator_UserColumnName="IDVel" type="xs:int" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="tbCarreteraItems_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:tbCarreteraItems" />
+      <xs:field xpath="mstns:IDVel" />
+    </xs:unique>
+    <xs:unique name="Constraint1">
+      <xs:selector xpath=".//mstns:tbCarreteraGrupos" />
+      <xs:field xpath="mstns:IDGrupo" />
+    </xs:unique>
+    <xs:keyref name="FK_tbCarreteraGrupos_tbCarreteraItems" refer="Constraint1" msdata:IsNested="true" msprop:rel_Generator_UserChildTable="tbCarreteraItems" msprop:rel_Generator_ChildPropName="GettbCarreteraItemsRows" msprop:rel_Generator_ParentPropName="tbCarreteraGruposRow" msprop:rel_Generator_UserRelationName="FK_tbCarreteraGrupos_tbCarreteraItems" msprop:rel_Generator_RelationVarName="relationFK_tbCarreteraGrupos_tbCarreteraItems" msprop:rel_Generator_UserParentTable="tbCarreteraGrupos">
+      <xs:selector xpath=".//mstns:tbCarreteraItems" />
+      <xs:field xpath="mstns:IDGrupo" />
+    </xs:keyref>
+  </xs:element>
+</xs:schema>

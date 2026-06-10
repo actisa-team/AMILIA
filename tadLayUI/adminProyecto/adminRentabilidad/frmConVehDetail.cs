@@ -1,0 +1,200 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+using tadLayLan.Tdi;
+
+namespace tadLayUI.adminRentabilidad
+{
+    using System.IO;
+    using System.Globalization;
+
+
+    using tadLayUI;
+
+    using tadLayLan;
+    using tadLayData;
+    using tadLayLogica.datos.proyecto;
+    using tadLayLogica;
+    
+    /// <summary>
+    /// DATOS TRAFICO Y CONEXION ACTUAL
+    /// </summary>
+    public partial class frmConVehDetail : frmRoot
+    {
+
+        private string mId = "APP";
+        private string mIdVehiculoTipo = string.Empty;
+        private BindingSource mBindMaster;
+
+        /// <summary>
+        /// DATOS TRAFICO Y CONEXION ACTUAL
+        /// </summary>
+        public frmConVehDetail()
+            : base()    
+        {
+            InitializeComponent();
+            postConstructor();
+          
+        }
+
+        #region "Metodos Privados"
+        private void  postConstructor()
+        {
+
+            //Traduccion
+            grTipoVehiculo.Text = strFrmRentabilidad.uiVehiculoTipo;
+            grDgvMaster.Text = strFrmRentabilidad.uiGrTablaConsumo;
+            grDgvDetail.Text = strFrmRentabilidad.uiGrDetalle;
+            ucVelocidad.uiLbl = strFrmRentabilidad.uiVelocidad;
+            ucConCombustible.uiLbl = strFrmRentabilidad.uiCombustible;
+            ucConLubricante.uiLbl = strFrmRentabilidad.uiLubricante;
+
+            bindCreate();
+            
+            //Enable
+            grDgvMaster.Enabled = true;
+            grDgvDetail.Enabled = false;
+
+           //Eventos
+            ucVehiculoTipo1.uiCombo.SelectedIndexChanged += new EventHandler(uiCombo_SelectedIndexChanged);
+            ucToolDgv1.lnkEdit.Click += new EventHandler(lnkEdit_Click);
+            ucToolDetail1.lnkSave.Click += new EventHandler(lnkSave_Click);
+            ucToolDetail1.lnkCancel.Click += new EventHandler(lnkCancel_Click);
+
+            ucToolDetail1.lnkSalir.Visible = false;
+
+
+            uiCombo_SelectedIndexChanged(ucVehiculoTipo1.uiCombo, new EventArgs());
+
+            //Ojo Si pone antes del lanzar el Evento Combo No trabaja ¿?¿?
+            dgvSetUp();
+          
+        }
+        private void bindCreate()
+        {
+
+            //Si no Existen Valores de Consumo Obtengo los Defecto
+            oDalVehiculos.addConsumosDefault();
+
+            //DataBind
+            mBindMaster = new BindingSource();
+            mBindMaster.DataMember = ds.dataset.tbVehCon.TableName;
+            mBindMaster.DataSource = ds.dataset.tbVehCon;
+      
+            CultureInfo miCulInfo = CultureInfo.InvariantCulture;
+
+            ucVelocidad.textbox.DataBindings.Add("Text", mBindMaster, "velocidad", true, DataSourceUpdateMode.OnPropertyChanged, null, "0", miCulInfo);
+            ucConCombustible.textbox.DataBindings.Add("Text", mBindMaster, ds.dataset.tbVehCon.consumoCombustibleColumn.ColumnName, true, DataSourceUpdateMode.OnPropertyChanged, null, "0", miCulInfo);
+            ucConLubricante.textbox.DataBindings.Add("Text", mBindMaster, ds.dataset.tbVehCon.consumoLubricanteColumn.ColumnName, true, DataSourceUpdateMode.OnPropertyChanged, null, "0.0000", miCulInfo);
+        
+        
+        }
+        private void dgvSetUp()
+        {
+            ucDgvMaster.DataSource = mBindMaster;
+            ucDgvMaster.dgvSetUpUIDefault(true);
+            ucDgvMaster.CellDoubleClick += new DataGridViewCellEventHandler(ucDgvMaster_CellDoubleClick);
+            ucDgvMaster.dgvColumnsHide(new int[] { 0, 4 });
+
+            ucDgvMaster.Columns[1].HeaderText = strFrmRentabilidad.uiVelocidad;
+            ucDgvMaster.Columns[2].HeaderText = strFrmRentabilidad.uiCombustible;
+            ucDgvMaster.Columns[3].HeaderText = strFrmRentabilidad.uiLubricante;
+        }
+        private void grMasterEnable(bool iEstado)
+        {
+            grDgvMaster.Enabled = iEstado;
+            ucDgvMaster.Enabled = iEstado;
+            grDgvDetail.Enabled = !iEstado;
+        }
+       #endregion
+        #region "BOTON MASTER"
+        private void lnkEdit_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ucVelocidad.textbox.Focus();
+                grMasterEnable(false);
+            }
+            catch (Exception ex)
+            {
+               oTadil.data.UserInfo.showError(ex);
+            }
+        }
+        #endregion
+        #region "BOTON DETAIL"
+        //SAVE
+        private void lnkSave_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (isValidoFrm)
+                {
+                    mBindMaster.EndEdit();
+
+                    ds.saveDataTable(ds.dataset.tbVehCon, true);
+
+                    grMasterEnable(true);
+
+
+                    //PRUEBA
+                    OnControlRemoved(new ControlEventArgs(new Control()));
+                }
+                else
+                {
+                    oTadil.data.UserInfo.showInfo(strError.eValidacion);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                oTadil.data.UserInfo.showError(ex);
+            }
+
+
+        }
+        //CANCEL
+        private void lnkCancel_Click(object sender, EventArgs e)
+        {
+
+            try
+            {
+                mBindMaster.ResetCurrentItem();
+                grMasterEnable(true);
+            }
+            catch (Exception ex)
+            {
+                oTadil.data.UserInfo.showError(ex);
+            }
+
+        }
+        #endregion
+        #region "FRM EVENTOS"
+        private void frmConVehDetail_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            ds.Dispose();
+            mBindMaster.Dispose();
+        }
+       private void uiCombo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            grMasterEnable(true);
+
+            string miQuery = "idVehiculoTipo = '{0}'";
+
+            mBindMaster.Filter = string.Format(miQuery, ucVehiculoTipo1.valor);
+
+            mBindMaster.MoveFirst();
+        }
+       private void ucDgvMaster_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            lnkEdit_Click(null, new EventArgs());
+        }
+        #endregion
+
+
+    }
+}

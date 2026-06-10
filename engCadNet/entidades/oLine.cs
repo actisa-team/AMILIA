@@ -11,6 +11,7 @@ namespace engCadNet
     using Autodesk.AutoCAD.DatabaseServices;
     using Autodesk.AutoCAD.ApplicationServices;
     using tadLayLan;
+    using tadLayShare.puntos;
 
     public class oLine
     {
@@ -157,5 +158,144 @@ namespace engCadNet
 
                 }
             }
+        public static double[] getPointAtDist(double iDistancia, Line iLinea)
+        {
+            double[] miPunto = new double[2];
+            double miPK = iDistancia;
+
+
+            double miAzimut = oTrigo.getAzimutGrados(new oP2d(iLinea.StartPoint.X, iLinea.StartPoint.Y), new oP2d(iLinea.EndPoint.X, iLinea.EndPoint.Y));
+
+            double miXi = iLinea.StartPoint.X + miPK * Math.Sin(miAzimut * Math.PI / 180);
+            double miYi = iLinea.StartPoint.Y + miPK * Math.Cos(miAzimut * Math.PI / 180);
+
+            miPunto[0] = miXi;
+            miPunto[1] = miYi;
+
+            return miPunto;
+        }
+        public static double[] getPointAtLocation(double iDist, double iOffset, bool iDerecha, Line iLinea)
+        {
+
+            //double miDistIniFin = iLinea.Length;
+            //double miDistPMedio = miDistIniFin / 2;
+
+            double[] miPuntoDis = getPointAtDist(iDist, iLinea);
+
+            double[] miPunto = new double[2];
+
+
+            double miD1 = iLinea.EndPoint.X - iLinea.StartPoint.X;
+            double miD2 = iLinea.EndPoint.Y - iLinea.StartPoint.Y;
+
+            double miAzimut = getAzimut(miD1, miD2);
+
+
+            double miAzimutTrans;
+            if ((miAzimut < 180) && (miAzimut > 90))
+            {
+                miAzimut = miAzimut + 180;
+
+            }
+            else if ((miAzimut < 360) && (miAzimut > 270))
+            {
+                miAzimut = miAzimut - 180;
+            }
+            if (iDerecha)
+            {
+                if (miAzimut - 90 >= 0)
+                {
+                    miAzimutTrans = miAzimut - 90;
+                }
+                else
+                {
+                    miAzimutTrans = miAzimut - 90 + 360;
+                }
+
+            }
+            else
+            {
+                if (miAzimut + 90 >= 360)
+                {
+                    miAzimutTrans = miAzimut + 90 - 360;
+                }
+                else
+                {
+                    miAzimutTrans = miAzimut + 90;
+                }
+            }
+
+            miPunto[0] = miPuntoDis[0] + iOffset * Math.Cos(miAzimutTrans * Math.PI / 180);
+            miPunto[1] = miPuntoDis[1] + iOffset * Math.Sin(miAzimutTrans * Math.PI / 180);
+
+            return miPunto;
+        }
+        public static double getAzimut(double iDx, double iDy)
+        {
+
+            double miDelta;
+            if ((iDx == 0) || (iDy == 0))
+            {
+                miDelta = 0;
+            }
+            else
+            {
+                miDelta = Math.Atan(iDx / iDy);
+            }
+            double miDeltaGra = miDelta * 180 / Math.PI;
+            double miAzimut;
+
+            if (miDeltaGra == 0)
+            {
+                if (iDy == 0)
+                {
+                    if (iDx < 0)
+                    {
+                        miAzimut = 180;
+                    }
+                    else
+                    {
+                        miAzimut = 0;
+                    }
+                }
+                else
+                {
+                    if (iDx < 0)
+                    {
+                        miAzimut = 270;
+                    }
+                    else
+                    {
+                        miAzimut = 90;
+                    }
+                }
+            }
+            else
+            {
+                if (miDeltaGra < 0)
+                {
+                    if (iDx >= 0)
+                    {
+                        miAzimut = 90 - miDeltaGra;
+                    }
+                    else
+                    {
+                        miAzimut = 270 - miDeltaGra;
+                    }
+                }
+                else
+                {
+                    if (iDy >= 0)
+                    {
+                        miAzimut = 90 - miDeltaGra;
+                    }
+                    else
+                    {
+                        miAzimut = 270 - miDeltaGra;
+                    }
+                }
+            }
+            return miAzimut;
+        }
     }
 }

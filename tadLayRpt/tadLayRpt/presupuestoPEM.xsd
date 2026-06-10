@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="presupuestoPEM" targetNamespace="http://tempuri.org/presupuestoPEM.xsd" xmlns:mstns="http://tempuri.org/presupuestoPEM.xsd" xmlns="http://tempuri.org/presupuestoPEM.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="presupuestoPEM" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="presupuestoPEM" msprop:Generator_UserDSName="presupuestoPEM">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="tbGrupos" msprop:Generator_TableClassName="tbGruposDataTable" msprop:Generator_TableVarName="tabletbGrupos" msprop:Generator_TablePropName="tbGrupos" msprop:Generator_RowDeletingName="tbGruposRowDeleting" msprop:Generator_UserTableName="tbGrupos" msprop:Generator_RowChangingName="tbGruposRowChanging" msprop:Generator_RowEvHandlerName="tbGruposRowChangeEventHandler" msprop:Generator_RowDeletedName="tbGruposRowDeleted" msprop:Generator_RowEvArgName="tbGruposRowChangeEvent" msprop:Generator_RowChangedName="tbGruposRowChanged" msprop:Generator_RowClassName="tbGruposRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="id" msprop:Generator_ColumnVarNameInTable="columnid" msprop:Generator_ColumnPropNameInRow="id" msprop:Generator_ColumnPropNameInTable="idColumn" msprop:Generator_UserColumnName="id" type="xs:int" />
+              <xs:element name="nombre" msprop:Generator_ColumnVarNameInTable="columnnombre" msprop:Generator_ColumnPropNameInRow="nombre" msprop:Generator_ColumnPropNameInTable="nombreColumn" msprop:Generator_UserColumnName="nombre" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="tbCapitulos" msprop:Generator_TableClassName="tbCapitulosDataTable" msprop:Generator_TableVarName="tabletbCapitulos" msprop:Generator_TablePropName="tbCapitulos" msprop:Generator_RowDeletingName="tbCapitulosRowDeleting" msprop:Generator_UserTableName="tbCapitulos" msprop:Generator_RowChangingName="tbCapitulosRowChanging" msprop:Generator_RowEvHandlerName="tbCapitulosRowChangeEventHandler" msprop:Generator_RowDeletedName="tbCapitulosRowDeleted" msprop:Generator_RowEvArgName="tbCapitulosRowChangeEvent" msprop:Generator_RowChangedName="tbCapitulosRowChanged" msprop:Generator_RowClassName="tbCapitulosRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="id" msprop:Generator_ColumnVarNameInTable="columnid" msprop:Generator_ColumnPropNameInRow="id" msprop:Generator_ColumnPropNameInTable="idColumn" msprop:Generator_UserColumnName="id" type="xs:string" minOccurs="0" />
+              <xs:element name="nombre" msprop:Generator_ColumnVarNameInTable="columnnombre" msprop:Generator_ColumnPropNameInRow="nombre" msprop:Generator_ColumnPropNameInTable="nombreColumn" msprop:Generator_UserColumnName="nombre" type="xs:string" minOccurs="0" />
+              <xs:element name="idTbGrupos" msprop:Generator_ColumnVarNameInTable="columnidTbGrupos" msprop:Generator_ColumnPropNameInRow="idTbGrupos" msprop:Generator_ColumnPropNameInTable="idTbGruposColumn" msprop:Generator_UserColumnName="idTbGrupos" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="tbMediciones" msprop:Generator_TableClassName="tbMedicionesDataTable" msprop:Generator_TableVarName="tabletbMediciones" msprop:Generator_TablePropName="tbMediciones" msprop:Generator_RowDeletingName="tbMedicionesRowDeleting" msprop:Generator_UserTableName="tbMediciones" msprop:Generator_RowChangingName="tbMedicionesRowChanging" msprop:Generator_RowEvHandlerName="tbMedicionesRowChangeEventHandler" msprop:Generator_RowDeletedName="tbMedicionesRowDeleted" msprop:Generator_RowEvArgName="tbMedicionesRowChangeEvent" msprop:Generator_RowChangedName="tbMedicionesRowChanged" msprop:Generator_RowClassName="tbMedicionesRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="id" msdata:AutoIncrement="true" msprop:Generator_ColumnVarNameInTable="columnid" msprop:Generator_ColumnPropNameInRow="id" msprop:Generator_ColumnPropNameInTable="idColumn" msprop:Generator_UserColumnName="id" type="xs:int" minOccurs="0" />
+              <xs:element name="material" msprop:Generator_ColumnVarNameInTable="columnmaterial" msprop:Generator_ColumnPropNameInRow="material" msprop:Generator_ColumnPropNameInTable="materialColumn" msprop:Generator_UserColumnName="material" type="xs:string" minOccurs="0" />
+              <xs:element name="origen" msprop:Generator_ColumnVarNameInTable="columnorigen" msprop:Generator_ColumnPropNameInRow="origen" msprop:Generator_ColumnPropNameInTable="origenColumn" msprop:Generator_UserColumnName="origen" type="xs:string" minOccurs="0" />
+              <xs:element name="medicion" msprop:Generator_ColumnVarNameInTable="columnmedicion" msprop:Generator_ColumnPropNameInRow="medicion" msprop:Generator_ColumnPropNameInTable="medicionColumn" msprop:Generator_UserColumnName="medicion" type="xs:double" minOccurs="0" />
+              <xs:element name="precio" msprop:Generator_ColumnVarNameInTable="columnprecio" msprop:Generator_ColumnPropNameInRow="precio" msprop:Generator_ColumnPropNameInTable="precioColumn" msprop:Generator_UserColumnName="precio" type="xs:double" minOccurs="0" />
+              <xs:element name="idTbCapitulos" msprop:Generator_ColumnVarNameInTable="columnidTbCapitulos" msprop:Generator_ColumnPropNameInRow="idTbCapitulos" msprop:Generator_ColumnPropNameInTable="idTbCapitulosColumn" msprop:Generator_UserColumnName="idTbCapitulos" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:tbGrupos" />
+      <xs:field xpath="mstns:id" />
+    </xs:unique>
+    <xs:keyref name="FK_tbGrupos_tbCapitulos" refer="Constraint1" msprop:rel_Generator_UserChildTable="tbCapitulos" msprop:rel_Generator_ChildPropName="GettbCapitulosRows" msprop:rel_Generator_ParentPropName="tbGruposRow" msprop:rel_Generator_UserRelationName="FK_tbGrupos_tbCapitulos" msprop:rel_Generator_RelationVarName="relationFK_tbGrupos_tbCapitulos" msprop:rel_Generator_UserParentTable="tbGrupos">
+      <xs:selector xpath=".//mstns:tbCapitulos" />
+      <xs:field xpath="mstns:idTbGrupos" />
+    </xs:keyref>
+  </xs:element>
+  <xs:annotation>
+    <xs:appinfo>
+      <msdata:Relationship name="tbCapitulos_tbMediciones" msdata:parent="tbCapitulos" msdata:child="tbMediciones" msdata:parentkey="id" msdata:childkey="idTbCapitulos" msprop:Generator_UserChildTable="tbMediciones" msprop:Generator_ChildPropName="GettbMedicionesRows" msprop:Generator_ParentPropName="tbCapitulosRow" msprop:Generator_UserRelationName="tbCapitulos_tbMediciones" msprop:Generator_RelationVarName="relationtbCapitulos_tbMediciones" msprop:Generator_UserParentTable="tbCapitulos" />
+    </xs:appinfo>
+  </xs:annotation>
+</xs:schema>

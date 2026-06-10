@@ -1229,7 +1229,32 @@ namespace engCadNet
             }
             return misUnionesAux;
         }
+        public static bool hasIntersection(Polyline iPolyline1, Polyline iPolyline2)
+        {
+            bool miHasInt = false;
 
+
+
+            Polyline miPol1 = new Polyline();
+            for (int i = 0; i < iPolyline1.NumberOfVertices; i++)
+            {
+                miPol1.AddVertexAt(i, iPolyline1.GetPoint2dAt(i), 0, 0, 0);
+            }
+
+            Polyline miPol2 = new Polyline();
+            for (int i = 0; i < iPolyline2.NumberOfVertices; i++)
+            {
+                miPol2.AddVertexAt(i, iPolyline2.GetPoint2dAt(i), 0, 0, 0);
+            }
+
+
+            Point3dCollection miColPtoInter = new Point3dCollection();
+            miPol1.IntersectWith(iPolyline2, Intersect.OnBothOperands, miColPtoInter, IntPtr.Zero, IntPtr.Zero);
+
+            miHasInt = (miColPtoInter.Count > 0);
+
+            return miHasInt;
+        }
     }
 }
 

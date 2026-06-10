@@ -12,6 +12,8 @@ namespace Logica
         public List<Punto> lista_puntos_i = new List<Punto>();
         public int index { get; set; }//identificador
         public int Tipo { get; set; }//recta==1  // curva==2  //clotoide==3
+        public string PuntoInicial => lista_puntos.Count > 0 ? $"({lista_puntos.First().p.X}, {lista_puntos.First().p.Y})" : "N/A";
+        public string PuntoFinal => lista_puntos.Count > 0 ? $"({lista_puntos.Last().p.X}, {lista_puntos.Last().p.Y})" : "N/A";
         public double xc { get; set; }
         public double yc { get; set; }
         public double xc_i { get; set; }
@@ -62,7 +64,7 @@ namespace Logica
         public int giros { get; set; }//para ver que tipo de giro hizo anteriormente 1-->giro positivo 2-->giro negativo 0--> no ha girado
         /*
          * 
-         * esto nos sirve para saver si ha sido creado posteriormente para segun que casos
+         * esto nos sirve para saber si ha sido creado posteriormente para segun que casos
          * caso1: Se ha eliminado una recta que no se podia girar a otra que es perpendicular 
          * al centro de la recta dada entre entre 2 circunferencias
          * 
@@ -94,9 +96,16 @@ namespace Logica
         public bool caso5_e { get; set; }
         public bool caso6_e { get; set; }
         public bool caso7_e { get; set; }
-        
-        
+        public bool caso8_e { get; set; }//se va a utilizar para cuando  el usuario a marcado distancia minima lo arregle para que aumente la clotoide
+        public bool curva_sin_clotoide { get; set; }
+        public bool curva_con_clotoide { get; set; }
+
         public EjeDeTrazado.puntosDelEje.EjeTrazado.sentidoCurva direccion { get; set; }
+
+        // ObjectId de la entidad de AutoCAD asociada (guardado como string para evitar dependencias)
+        public string EntityId { get; set; }
+
+        
         public Componente()
         {
 

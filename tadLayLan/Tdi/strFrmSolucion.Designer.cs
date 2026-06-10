@@ -19,7 +19,7 @@ namespace tadLayLan.Tdi {
     // a través de una herramienta como ResGen o Visual Studio.
     // Para agregar o quitar un miembro, edite el archivo .ResX y, a continuación, vuelva a ejecutar ResGen
     // con la opción /str o recompile su proyecto de VS.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class strFrmSolucion {
@@ -329,7 +329,17 @@ namespace tadLayLan.Tdi {
                 return ResourceManager.GetString("uiDistancia", resourceCulture);
             }
         }
-        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Distancia enfrentar tijeras.
+        /// </summary>
+        public static string uiDistanciaEnfrentarTijeras
+        {
+            get
+            {
+                return ResourceManager.GetString("uiDistanciaEnfrentarTijeras", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Busca una cadena traducida similar a Distancia de entronque [m].
         /// </summary>

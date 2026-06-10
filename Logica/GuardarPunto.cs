@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Application = Autodesk.AutoCAD.ApplicationServices.Application;
 using Autodesk.AutoCAD.EditorInput;
-using Autodesk.AutoCAD.Interop;
+//using Autodesk.AutoCAD.Interop;
 
 namespace Logica
 {

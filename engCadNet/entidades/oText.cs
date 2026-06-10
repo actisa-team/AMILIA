@@ -2,26 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using Autodesk.AutoCAD.Colors;
+using Autodesk.AutoCAD.Geometry;
+using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.ApplicationServices;
+using Autodesk.AutoCAD.GraphicsInterface;
 namespace engCadNet
 {
 
     using tadLayShare;
 
-    using Autodesk.AutoCAD.Colors;
-    using Autodesk.AutoCAD.Geometry;
-    using Autodesk.AutoCAD.DatabaseServices;
-    using Autodesk.AutoCAD.ApplicationServices;
-    using Autodesk.AutoCAD.GraphicsInterface;
+    
     
     public class oText
     {
-
-
-
-
-
-
 
         public static void addText2D (string iTexto, double[] iPto, double iAltura, double iRotateRadianes, string iLayer)
         {

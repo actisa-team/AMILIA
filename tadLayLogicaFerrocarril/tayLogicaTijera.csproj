@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{77EF85F2-BD25-46EA-9AE7-35C486DDBE15}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>tayLogicaTijera</RootNamespace>
+    <AssemblyName>tayLogicaTijera</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'app|AnyCPU'">
+    <OutputPath>bin\app\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'app|x64'">
+    <OutputPath>bin\x64\app\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="accoremgd">
+      <HintPath>..\acReferencias\referencias\accoremgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="acdbmgd">
+      <HintPath>..\acReferencias\referencias\acdbmgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="acmgd">
+      <HintPath>..\acReferencias\referencias\acmgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Comandos\oComandoEjeBasicoFerrocarril.cs" />
+    <Compile Include="data\oEjeTijeraData.cs" />
+    <Compile Include="data\oEntronqueData.cs" />
+    <Compile Include="EjeBasico\oEjeBasicoFerrocarril.cs" />
+    <Compile Include="EjeBasico\oEntronqueFerrocarril.cs" />
+    <Compile Include="EjeBasico\oTijera.cs" />
+    <Compile Include="EjeBasico\oTramoFerrocarril.cs" />
+    <Compile Include="EjeBasico\oTramoTijera.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EjeDeTrazado\EjeDeTrazado.csproj">
+      <Project>{CAF3E36E-1A68-4A90-BD3F-0B039F70496A}</Project>
+      <Name>EjeDeTrazado</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\engCadNet\engCadNet.csproj">
+      <Project>{F7B495AC-E395-4519-8723-3BA6CE2933FA}</Project>
+      <Name>engCadNet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\engNet\engNet.csproj">
+      <Project>{5A9CDA59-6441-4614-B1B3-58F83C2E2113}</Project>
+      <Name>engNet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PerfilLongitudinal\PerfilLongitudinal.csproj">
+      <Project>{6E9ECFAB-52FB-45E1-9C2A-75E1894B4132}</Project>
+      <Name>PerfilLongitudinal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\tadLayLan\tadLayLan.csproj">
+      <Project>{63F26170-BF7A-413E-9417-FC663F706173}</Project>
+      <Name>tadLayLan</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\tadLayLogica\tadLayLogica.csproj">
+      <Project>{1A1C196F-8548-4241-A714-967BA5B40ED7}</Project>
+      <Name>tadLayLogica</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\tadLayShare\tadLayShare.csproj">
+      <Project>{A184DFB3-80F5-46C0-802B-BF8B6996B5FA}</Project>
+      <Name>tadLayShare</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

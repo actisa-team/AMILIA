@@ -1,0 +1,390 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="tadLayLogica.logica.valoracion.oValoracionComponent" Collapsed="true">
+    <Position X="45.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAgQAAAAACEAgAQAAABABAAEAAAAAAAAAACAAQ=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oValoracionComposite" Collapsed="true">
+    <Position X="48.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAgAAAAAAAAAAAQAAAAAAAAEAAAAAAAAAACAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oCompositeValoracionSolucion" Collapsed="true">
+    <Position X="36.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAABAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAgA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oCompositeValoracionGrupo" Collapsed="true">
+    <Position X="48.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oCompositeValoracionTrazadoGrupo" Collapsed="true">
+    <Position X="56.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oCompositeValoracionGeotecniaGrupo" Collapsed="true">
+    <Position X="59" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oCompositeValoracionEstructurasTunelesMurosGrupo" Collapsed="true">
+    <Position X="41" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oCompositeValoracionAmbientalGrupo" Collapsed="true">
+    <Position X="45.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oCompositeValoracionClimaticaGrupo" Collapsed="true">
+    <Position X="47.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oCompositeValoracionSocioEconomicosGrupo" Collapsed="true">
+    <Position X="50" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oCompositeValoracionPatrimonialGrupo" Collapsed="true">
+    <Position X="52.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oCompositeValoracionEconomicaGrupo" Collapsed="true">
+    <Position X="54.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oComponentValTrazadoPlanta" Collapsed="true">
+    <Position X="81.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oComponentValTrazadoAlzado" Collapsed="true">
+    <Position X="86" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oComponentValTrazadoTiempo" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oComponentValTrazadoTierrasVolumenMovimiento" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oComponentValTrazadoTierrasCompensacion" Collapsed="true">
+    <Position X="16.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oCompositeValoracionGeotecniaItem" Collapsed="true">
+    <Position X="59" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oComponentValGeotecniaEstabilidadHorizontalTerreno" Collapsed="true">
+    <Position X="70.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oComponentValGeotecniaEstabilidadTaludes" Collapsed="true">
+    <Position X="68" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oComponentValGeotecniaValorCBR" Collapsed="true">
+    <Position X="70.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oComponentValGeotecniaAprovechamientos" Collapsed="true">
+    <Position X="72.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oCompositeValoracionExcavabilidad" Collapsed="true">
+    <Position X="34.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oComponetValExcavacionMediosConvencionales" Collapsed="true">
+    <Position X="8.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oComponetValExcavacionMartillo" Collapsed="true">
+    <Position X="5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oComponetValExcavacionVoladuras" Collapsed="true">
+    <Position X="7.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oComponetValExcavacionNivelFreatico" Collapsed="true">
+    <Position X="9.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oComponetValExcavacionVertedero2Fases" Collapsed="true">
+    <Position X="11.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oCompositeValoracionTalud" Collapsed="true">
+    <Position X="61.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oComponentValTaludProteccionSin" Collapsed="true">
+    <Position X="89.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oComponentValTaludProteccionFlexible" Collapsed="true">
+    <Position X="88.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oComponentValTaludProteccionRigida" Collapsed="true">
+    <Position X="90.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oCompositeValoracionPuentesCimentacion" Collapsed="true">
+    <Position X="41" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oCompositeValoracionEstructurasZonas" Collapsed="true">
+    <Position X="41" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oComponetValEstructurasMuro" Collapsed="true">
+    <Position X="77" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oCompositeValoracionTuneles" Collapsed="true">
+    <Position X="38.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oCompositeValoracionTunelesZonas" Collapsed="true">
+    <Position X="38.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oComponetValTunelesRmr" Collapsed="true">
+    <Position X="18.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oComponentValTunMetodosExcavacion" Collapsed="true">
+    <Position X="65.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oComponentValTunTratamientosEspecificos" Collapsed="true">
+    <Position X="65.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oCompositeValoracionMuros" Collapsed="true">
+    <Position X="43.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oComponetValTunelesSinTuneles" Collapsed="true">
+    <Position X="83.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oCompositeZonaGrupo" Collapsed="true">
+    <Position X="63.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAQAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oCompositeZonaClasificacion" Collapsed="true">
+    <Position X="63.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oComponentZonaItem" Collapsed="true">
+    <Position X="14" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAAAAAAAQAABAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oComponentValEconomicaPresupuesto" Collapsed="true">
+    <Position X="26.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oComponentValEconomicaPresupuestoPcaPublicoSinIva" Collapsed="true">
+    <Position X="23" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oComponentValEconomicaRentabilidadSocial_VAN" Collapsed="true">
+    <Position X="25.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oComponentValEconomicaRentabilidadSocial_BC" Collapsed="true">
+    <Position X="27.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oComponentValEconomicaPresupuestoPcaPrivadoSinIva" Collapsed="true">
+    <Position X="29.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oComponentValEconomicaRentabilidadPrivada_VAN" Collapsed="true">
+    <Position X="32" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oComponentValEconomicaRentabilidadPrivada_BC" Collapsed="true">
+    <Position X="20.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tadLayLogica.logica.valoracion.oNotaMaximaMinima" Collapsed="true">
+    <Position X="93" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAABACAEAAAAAAAAABAAAAAAAgAAAAAEAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="tadLayLogica.logica.valoracion.IValoracionPropiedad" Collapsed="true">
+    <Position X="94.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="tadLayLogica.logica.valoracion.IValoracion" Collapsed="true">
+    <Position X="93" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAgQAAAAACAAgAQAAABABAAEAAAAAAAAAACAAQ=</HashCode>
+      <FileName>logica\valoracion\oValoracionComposite.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -482,7 +482,7 @@ namespace engCadNet
 			
 		}
 
-		private static SelectionFilter getFiltroByLayerListAndEntidadAndXdataKey(eEntidades iEntidad, List<string> iLayerList, string iXdataKey)
+		public static SelectionFilter getFiltroByLayerListAndEntidadAndXdataKey(eEntidades iEntidad, List<string> iLayerList, string iXdataKey)
 		{
 
 				//Filtro solo las Capas que Existen en el Actual Dwg
@@ -631,6 +631,65 @@ namespace engCadNet
 
             return miLstZonasGis;
         }
+		public static SelectionFilter getFiltroByLayerListAndXdataKey(List<string> iLayerList, string iXdataKey)
+		{
 
+
+			//Filtro solo las Capas que Existen en el Actual Dwg
+			foreach (string myLayName in iLayerList)
+			{
+				if (!oLayer.HasLayer(myLayName))
+				{
+					iLayerList.Remove(myLayName);
+				}
+			}
+
+
+			//Creo los SubFiltros.
+			TypedValue[] acFilter = new TypedValue[(iLayerList.Count * 4) + 2];
+
+			int i = 1;
+
+
+			acFilter.SetValue(new TypedValue((int)DxfCode.Operator, "<or"), 0);
+
+			foreach (string myLayOk in iLayerList)
+			{
+
+				acFilter.SetValue(new TypedValue((int)DxfCode.Operator, "<and"), i);
+				i++;
+				acFilter.SetValue(new TypedValue((int)DxfCode.LayerName, myLayOk), i);
+				i++;
+				acFilter.SetValue(new TypedValue((int)DxfCode.ExtendedDataRegAppName, iXdataKey), i);
+				i++;
+				acFilter.SetValue(new TypedValue((int)DxfCode.Operator, "and>"), i);
+				i++;
+
+			}
+
+			acFilter.SetValue(new TypedValue((int)DxfCode.Operator, "or>"), i);
+
+
+
+			//Genero el Filtro.
+			SelectionFilter acSelFilter = new SelectionFilter(acFilter);
+
+
+			return acSelFilter;
+		}
+		public static ObjectIdCollection getEntidadesByFilter(SelectionFilter iFiltro)
+		{
+			PromptSelectionResult miSeleccionEntidades = oCadManager.thisEditor.SelectAll(iFiltro);
+			if (miSeleccionEntidades.Status == PromptStatus.OK)
+			{
+				return new ObjectIdCollection(miSeleccionEntidades.Value.GetObjectIds());
+			}
+			else
+			{
+				return new ObjectIdCollection();
+			}
+
+		}
+		
 	}
 }

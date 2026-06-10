@@ -1,78 +1,168 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
+using System.Reflection;
+using System.Windows.Media.Imaging; // Necesario para imágenes si usas iconos
+
+// Librerías de AutoCAD
+using Autodesk.AutoCAD.Runtime;
+using Autodesk.AutoCAD.ApplicationServices;
+using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.Geometry;
+using Autodesk.AutoCAD.EditorInput;
+using Autodesk.AutoCAD.Windows;
+
+
+
+// Tus namespaces
+using System.Windows.Forms;
 using MaterialSkin;
 using Datos;
 using interfaz;
 using Logica;
-namespace APLITOP
+using tadLayLogica;
+using tadLayUI;
+
+namespace AMILIA
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using Autodesk.AutoCAD.Runtime;
-    using Autodesk.AutoCAD.ApplicationServices;
-    using Autodesk.AutoCAD.DatabaseServices;
-    using Autodesk.AutoCAD.Geometry;
-    using Autodesk.AutoCAD.EditorInput;
-    using Autodesk.AutoCAD.Interop;
-    using Autodesk.AutoCAD.Interop.Common;
-    using Autodesk.AutoCAD.Windows;
-    using System.IO;
-    using System.Reflection;
-    using interfaz;
-    
-    public class Class1
+    // Implementamos IExtensionApplication para ejecutar código al inicio
+    public class Class1 
     {
         
-        #region "COMANDOS APLITOP"
-        [CommandMethod("aplitop")]
-        public static void aplitop()
+
+        // ---------------------------------------------------------
+        // PARTE 2: TUS COMANDOS EXISTENTES
+        // ---------------------------------------------------------
+
+        #region "COMANDOS AMILIA"
+        [CommandMethod("amilia")]
+        public static void actisa()
         {
-            /*
-            Document acDoc = Application.DocumentManager.MdiActiveDocument  ;
-            Database AcCurDb = acDoc.Database;
-            
-                using (Transaction acTrans = AcCurDb.TransactionManager.StartTransaction())
-                {
-                    BlockTable acBlkTbl;
-                    acBlkTbl = acTrans.GetObject(AcCurDb.BlockTableId, OpenMode.ForRead) as BlockTable;
-                    BlockTableRecord acBlkTblRec;
-                    acBlkTblRec = acTrans.GetObject(acBlkTbl[BlockTableRecord.ModelSpace], OpenMode.ForWrite) as BlockTableRecord;
-
-                    Editor e = Application.DocumentManager.MdiActiveDocument.Editor;
-                    Document d = Application.DocumentManager.MdiActiveDocument;
-
-                    PromptResult r = e.GetString("estriba su nombre");
-                    e.WriteMessage("Hola" + r.StringResult);
-                    Line l = new Line(new Point3d(0, 0, 0), new Point3d(50, 0, 0));
-
-                    acBlkTblRec.AppendEntity(l);
-                    acTrans.AddNewlyCreatedDBObject(l, true);
-
-                    acTrans.Commit();
-                }
-            */
-
- /*            string strTemplatePath = "ejemplo.dwg";
-
-            DocumentCollection acDocMgr = Application.DocumentManager;
-            Document acDoc = acDocMgr.Add(strTemplatePath);
-            
-           // acDocMgr.MdiActiveDocument = acDoc;
-            DBObjectCollection a =acDoc.TransactionManager.GetAllObjects();*/
-             try
-                 {
-                     principal p = new principal();
-                     p.Show();
-                 }
-                 catch (System.Exception ex)
-                 {
-                     System.Diagnostics.Debug.WriteLine(ex.Message.ToString());
-                 }
-
-             }
+            try
+            {
+                // Tu lógica original intacta
+                principal p = new principal();
+                // Autodesk.AutoCAD.ApplicationServices.Application.ShowModelessDialog(p); // Recomendado para evitar bloqueos
+                p.Show(); 
             }
-#endregion
+            catch (System.Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message.ToString());
+                
+                // También mostramos el error en AutoCAD para que lo veas
+                Editor ed = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor;
+                ed.WriteMessage($"\nError al lanzar ventana: {ex.Message}\n");
+            }
+        }
+        #endregion
+        #region "COMANDOS TADIL"
+        [CommandMethod("tdi")]
+        public void tdi()
+        {
+            try
+            {
 
+                if (oTadilSwitch.hasInstanceTDB)
+                {
+                    oTadilSwitch.showUserNoPermitirInstanciarTDI();
+                }
+                else
+                {
+                    oTadilSwitch.hasInstanceTDI = true;
+
+                    oTadil.data.setIdiomaAplicacion();
+
+                    frmAppManager.getInstance.Show();
+                }
+
+            }
+            catch (System.Exception ex)
+            {
+                oTadil.data.UserInfo.showError(ex);
+            }
+        }
+        [CommandMethod("tdb")]
+        public void tdb()
+        {
+            try
+            {
+
+                if (oTadilSwitch.hasInstanceTDI)
+                {
+                    oTadilSwitch.showUserNoPermitirInstanciarTDB();
+                }
+                else
+                {
+                    oTadilSwitch.hasInstanceTDB = true;
+
+                    oTadil.data.setIdiomaAplicacion();
+
+                    frmBb.getInstance.Show();
+                }
+
+            }
+            catch (System.Exception ex)
+            {
+                oTadil.data.UserInfo.showError(ex);
+            }
+        }
+
+        [CommandMethod("tdm")]
+        public void tdm()
+        {
+            try
+            {
+                oTadil.data.setIdiomaAplicacion();
+                frmManagerTerreno miFrmTerreno = new frmManagerTerreno();
+                miFrmTerreno.Show();
+
+            }
+            catch (System.Exception ex)
+            {
+                oTadil.data.UserInfo.showError(ex);
+            }
+        }
+
+
+        [CommandMethod("tdsp")]
+        public void tdsp()
+        {
+            try
+            {
+
+
+                frmSimplificarPolilineas miFrmPolilineas = new frmSimplificarPolilineas();
+                miFrmPolilineas.ShowDialog();
+
+            }
+            catch (System.Exception ex)
+            {
+                oTadil.data.UserInfo.showError(ex);
+            }
+        }
+
+
+        [CommandMethod("tds")]
+        public void tds()
+        {
+            try
+            {
+
+                oTadil.data.setIdiomaAplicacion();
+
+                frmSimplificarPolilineas.getInstance.Show();
+
+            }
+            catch (System.Exception ex)
+            {
+                oTadil.data.UserInfo.showError(ex);
+            }
+        }
+
+        //frmManagerTerreno
+        #endregion    
+    }
 }
