@@ -215,7 +215,7 @@ namespace tadLayLogica.Comandos
                     oCadManager.thisEditor.WriteMessage(strFrmSolucion.uiGenerandoSecciones);
                     mObraLineal.dibujarSecciones(miPtoIn);
 
-                /*    oCadManager.thisEditor.WriteMessage(strFrmSolucion.uiGenerandoPlanta);
+                    oCadManager.thisEditor.WriteMessage(strFrmSolucion.uiGenerandoPlanta);
                     mObraLineal.createObraLinealPlanta();
 
                     oCadManager.thisEditor.WriteMessage(strFrmSolucion.uiGenerandoMediciones);
@@ -227,7 +227,7 @@ namespace tadLayLogica.Comandos
                     oSingletonDsApp.getInstance.getSolucion(iIdSolucion).isCompleteObraLineal = true;
 
                     oSingletonDsApp.getInstance.solucionSave();
-                */
+                
                     //Info UI
                     miMedicion.Stop();
                     oTadil.data.UserInfo.procesoTerminadoConTiempo(miMedicion.Elapsed.TotalMinutes);

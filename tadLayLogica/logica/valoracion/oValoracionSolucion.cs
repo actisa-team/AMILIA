@@ -125,13 +125,13 @@ namespace tadLayLogica.logica.valoracion
 
 			IValoracion miValoracionTrazado = new oCompositeValoracionTrazadoGrupo(mValoracionAreas.trazadoPC);
 
-			oValoracionTrazadoPlanta miValoracionPlanta = new oValoracionTrazadoPlanta(base.ejeTrazado, oSingletonDsApp.getInstance.valoracionTrazado.trazadoPlantaPC);
+			oValoracionTrazadoPlanta miValoracionPlanta = new oValoracionTrazadoPlanta(base.ejeTrazado, oSingletonDsApp.getInstance.valoracionTrazado.trazadoPlantaPC,this);
 			miValoracionTrazado.add(miValoracionPlanta.valoracion);
 
-			oValoracionTrazadoAlzado miValoracionAlzado = new oValoracionTrazadoAlzado(base.ejePerfilRasante, oSingletonDsApp.getInstance.valoracionTrazado.trazadoAlzadoPC);
+			oValoracionTrazadoAlzado miValoracionAlzado = new oValoracionTrazadoAlzado(base.ejePerfilRasante, oSingletonDsApp.getInstance.valoracionTrazado.trazadoAlzadoPC, this);
 			miValoracionTrazado.add(miValoracionAlzado.valoracion);
 
-			oValoracionTrazadoTiempo miValoracionTiempo = new oValoracionTrazadoTiempo(base.roadDesign.grupo, base.ejeTrazado, oTadil.data.Files.fileNormasCarreteras, oSingletonDsApp.getInstance.valoracionTrazado.tiempoRecorridoPC);
+			oValoracionTrazadoTiempo miValoracionTiempo = new oValoracionTrazadoTiempo(base.roadDesign.grupo, base.ejeTrazado, oTadil.data.Files.fileNormasCarreteras, oSingletonDsApp.getInstance.valoracionTrazado.tiempoRecorridoPC,this);
 			miValoracionTrazado.add(miValoracionTiempo.valoracion);
 
 			oValoracionTierrasVolumenMovimiento miValoracionTierrasVolumenMovimiento = new oValoracionTierrasVolumenMovimiento(base.solucionData, oSingletonDsApp.getInstance.valoracionTrazado.volumenMovTierrasPC);

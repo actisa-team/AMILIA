@@ -38,6 +38,8 @@ namespace tadLayLogica.EjeLongitudinalTadil
         public oPerfilSeccionesInfo(Polyline iEjeTrazado, Polyline iPerfilCarretera, oEstudioCarretera iEstudioCarretera, Func<double[], double> MDT_Abanico_Punto)
         {
 
+
+
             Xrecord miXrecord = engCadNet.oXrecord.getXrecord(iEjeTrazado.ObjectId, "info");
             EjeDeTrazado.puntosDelEje.EjeTrazado miEje = EjeDeTrazado.puntosDelEje.EjeTrazado.recuperaEjeTrazado(engCadNet.oXrecord.getStream(miXrecord));
             mEjeTrazadoTadil = miEje;

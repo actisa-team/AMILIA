@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,6 +27,7 @@ namespace tadLayLogica.Secciones.Geometria.Saneo
         public Guid materialExcavacion { get; set; }
         public Guid materialRelleno { get; set; }
         public double espesor { get; set; }
+        public double Pk { get; set; } = -1;
 
 
         #endregion
@@ -161,13 +162,10 @@ namespace tadLayLogica.Secciones.Geometria.Saneo
                    //Obtengo el Menor Punto de la Lw
                    Point3d miPtoMin = getPtoIntermedioMinY(iLw);
 
-                   //Copio el Objeto 
-                   Polyline miLwClone = iLw.Clone() as Polyline;
-
-
                    //Obtengo las coordenadas de los extremoa
                    double miPini = iLw.StartPoint.Y;
                    double miPfin = iLw.EndPoint.Y;
+
 
 
                    List<Polyline> miLstLw = new List<Polyline>();
@@ -177,7 +175,7 @@ namespace tadLayLogica.Secciones.Geometria.Saneo
 
                    Point3dCollection miColCorte = new Point3dCollection();
                    miColCorte.Add(miPtoMin);
-                   DBObjectCollection miColObj = miLwClone.GetSplitCurves(miColCorte);
+                   DBObjectCollection miColObj = iLw.GetSplitCurves(miColCorte);
                    ObjectId miObjId = ObjectId.Null;
                    //Realizo el Cast
 
@@ -213,13 +211,10 @@ namespace tadLayLogica.Secciones.Geometria.Saneo
                    //Obtengo el Menor Punto de la Lw
                    Point3d miPtoMin = getPtoIntermedioMaxY(iLw);
 
-                   //Copio el Objeto 
-                   Polyline miLwClone = iLw.Clone() as Polyline;
-
-
                    //Obtengo las coordenadas de los extremoa
                    double miPini = iLw.StartPoint.Y;
                    double miPfin = iLw.EndPoint.Y;
+
 
 
                    List<Polyline> miLstLw = new List<Polyline>();
@@ -229,7 +224,7 @@ namespace tadLayLogica.Secciones.Geometria.Saneo
 
                    Point3dCollection miColCorte = new Point3dCollection();
                    miColCorte.Add(miPtoMin);
-                   DBObjectCollection miColObj = miLwClone.GetSplitCurves(miColCorte);
+                   DBObjectCollection miColObj = iLw.GetSplitCurves(miColCorte);
                    ObjectId miObjId = ObjectId.Null;
                    //Realizo el Cast
 
@@ -407,105 +402,161 @@ namespace tadLayLogica.Secciones.Geometria.Saneo
                    }
 
                }                           
-       public static Polyline drawSaneoEscalon (Polyline iLwTndOff,double iEscalonHmax,Color iColor)
-       {
+        public static Polyline drawSaneoEscalon (Polyline iLwTndOff,double iEscalonHmax,Color iColor, double iPk = -1)
+        {
 
 
-           //Determino cual es el punto mas alto
- 
-           Point3d miSaneoOrigen;
-           Point3d miSaneoFin;
-           int miSentidoAvance = 1;
+            //Determino cual es el punto mas alto
+  
+            Point3d miSaneoOrigen;
+            Point3d miSaneoFin;
+            int miSentidoAvance = 1;
 
 
-           Point2d miPtoLineaPendienteIni = iLwTndOff.StartPoint.to2d();
-           Point2d miPtoLineaPendienteFin = iLwTndOff.EndPoint.to2d();
+            Point2d miPtoLineaPendienteIni = iLwTndOff.StartPoint.to2d();
+            Point2d miPtoLineaPendienteFin = iLwTndOff.EndPoint.to2d();
 
-           int miEscalonDrawNum=0;
-           double miEscalonDrawH=0;
+            int miEscalonDrawNum=0;
+            double miEscalonDrawH=0;
 
-           getEscalon(iLwTndOff, iEscalonHmax, ref miEscalonDrawNum, ref miEscalonDrawH);
-
-
-           //Obtengo el Punto Mas Alto // Origen del Saneo
-           if (miPtoLineaPendienteIni.Y > miPtoLineaPendienteFin.Y)
-           {
-               miSaneoOrigen = miPtoLineaPendienteIni.convertTo3D();
-               miSaneoFin = miPtoLineaPendienteFin.convertTo3D();
-           }
-           else
-           {
-               miSaneoOrigen = miPtoLineaPendienteFin.convertTo3D();
-               miSaneoFin = miPtoLineaPendienteIni.convertTo3D();
-           }
-
-           //Determino Si Avanzo en Sentido Positivo o Negativo
-           if (miSaneoOrigen.X > miSaneoFin.X)
-           {
-               miSentidoAvance = -1;
-           }
-           else
-           {
-               miSentidoAvance = 1;
-           }
+            getEscalon(iLwTndOff, iEscalonHmax, ref miEscalonDrawNum, ref miEscalonDrawH);
 
 
-           //Inicio el Bucle
-           double miEscalonX = 0.5;
+            //Obtengo el Punto Mas Alto // Origen del Saneo
+            if (miPtoLineaPendienteIni.Y > miPtoLineaPendienteFin.Y)
+            {
+                miSaneoOrigen = miPtoLineaPendienteIni.convertTo3D();
+                miSaneoFin = miPtoLineaPendienteFin.convertTo3D();
+            }
+            else
+            {
+                miSaneoOrigen = miPtoLineaPendienteFin.convertTo3D();
+                miSaneoFin = miPtoLineaPendienteIni.convertTo3D();
+            }
 
-           Line miLineaEscalonH;
+            //Determino Si Avanzo en Sentido Positivo o Negativo
+            if (miSaneoOrigen.X > miSaneoFin.X)
+            {
+                miSentidoAvance = -1;
+            }
+            else
+            {
+                miSentidoAvance = 1;
+            }
 
-           Point3d miEscalonHP1 = miSaneoOrigen.getFromIncXIncY(0, -miEscalonDrawH, 0);
-           Point3d miEscalonHP2 = miEscalonHP1.getFromIncXIncY(miEscalonX * miSentidoAvance, 0, 0);
+            if (iPk != -1)
+            {
+                try
+                {
+                    oCadManager.thisEditor.WriteMessage(string.Format("\n[DEBUG] drawSaneoEscalon - PK: {0:F3}", iPk));
+                    oCadManager.thisEditor.WriteMessage(string.Format("\n  - Origen: ({0:F3}, {1:F3}), Fin: ({2:F3}, {3:F3})", miSaneoOrigen.X, miSaneoOrigen.Y, miSaneoFin.X, miSaneoFin.Y));
+                    oCadManager.thisEditor.WriteMessage(string.Format("\n  - Sentido avance: {0}, Num escalones: {1}, Altura escalon: {2:F3}", miSentidoAvance, miEscalonDrawNum, miEscalonDrawH));
+                }
+                catch {}
+            }
 
-           Point3dCollection miColInter;
+            //Inicio el Bucle
+            double miEscalonX = 0.5;
 
-           Point3dCollection miLwColPtoSaneoInferior = new Point3dCollection();
+            Line miLineaEscalonH;
 
+            Point3d miEscalonHP1 = miSaneoOrigen.getFromIncXIncY(0, -miEscalonDrawH, 0);
+            Point3d miEscalonHP2 = miEscalonHP1.getFromIncXIncY(miEscalonX * miSentidoAvance, 0, 0);
 
-           for (int i = 1; i < miEscalonDrawNum; i++)
-           {
+            Point3dCollection miColInter;
 
-               miLineaEscalonH = new Line(miEscalonHP1, miEscalonHP2);
-
-               miColInter = new Point3dCollection();
-
-               miLineaEscalonH.IntersectWith(iLwTndOff, Intersect.ExtendThis, miColInter, IntPtr.Zero, IntPtr.Zero);
-
-               if (miColInter.Count == 1)
-               {
-                   miEscalonHP2 = miColInter[0];
-               }
-               else if (miColInter.Count > 1)
-               {
-                   miEscalonHP2 = miEscalonHP2.getPtoMasCercano(miColInter);
-               }
-               else
-               {
-                   throw new Exception("Error  al Obtener las Intersecciones del Saneo Terraplen");
-               }
-
-               miLwColPtoSaneoInferior.Add(miEscalonHP1);
-               miLwColPtoSaneoInferior.Add(miEscalonHP2);
-
-               //oLine.addLine(miEscalonHP1, miEscalonHP2, "0");
-
-               miEscalonHP1 = miEscalonHP2.getFromIncXIncY(0, -miEscalonDrawH, 0);
-               miEscalonHP2 = miEscalonHP1.getFromIncXIncY(miEscalonX * miSentidoAvance, 0, 0);
+            Point3dCollection miLwColPtoSaneoInferior = new Point3dCollection();
 
 
-           }
+            for (int i = 1; i < miEscalonDrawNum; i++)
+            {
+                if (iPk != -1)
+                {
+                    try
+                    {
+                        oCadManager.thisEditor.WriteMessage(string.Format("\n    - Paso {0}: HP1=({1:F3}, {2:F3}), HP2_prev=({3:F3}, {4:F3})", i, miEscalonHP1.X, miEscalonHP1.Y, miEscalonHP2.X, miEscalonHP2.Y));
+                    }
+                    catch {}
+                }
+
+                miLineaEscalonH = new Line(miEscalonHP1, miEscalonHP2);
+
+                miColInter = new Point3dCollection();
+
+                Plane planoProyeccion = new Plane(Point3d.Origin, Vector3d.ZAxis);
+                miLineaEscalonH.IntersectWith(iLwTndOff, Intersect.ExtendThis, planoProyeccion, miColInter, IntPtr.Zero, IntPtr.Zero);
+
+                Point3dCollection miColInterFiltrada = new Point3dCollection();
+                foreach (Point3d pto in miColInter)
+                {
+                    if ((pto.X - miEscalonHP1.X) * miSentidoAvance >= -1e-5)
+                    {
+                        miColInterFiltrada.Add(pto);
+                    }
+                }
+
+                if (iPk != -1)
+                {
+                    try
+                    {
+                        oCadManager.thisEditor.WriteMessage(string.Format("\n      - Encontradas {0} intersecciones filtradas.", miColInterFiltrada.Count));
+                    }
+                    catch {}
+                }
+
+                if (miColInterFiltrada.Count == 1)
+                {
+                    miEscalonHP2 = miColInterFiltrada[0];
+                }
+                else if (miColInterFiltrada.Count > 1)
+                {
+                    miEscalonHP2 = miEscalonHP2.getPtoMasCercano(miColInterFiltrada);
+                }
+                else
+                {
+                    string msg = string.Format("Error al Obtener las Intersecciones del Saneo Terraplen en PK {0:F3}. HP1=({1:F3}, {2:F3}), HP2_prev=({3:F3}, {4:F3})", iPk, miEscalonHP1.X, miEscalonHP1.Y, miEscalonHP2.X, miEscalonHP2.Y);
+                    throw new Exception(msg);
+                }
+
+                if (iPk != -1)
+                {
+                    try
+                    {
+                        oCadManager.thisEditor.WriteMessage(string.Format("\n      - HP2_post=({0:F3}, {1:F3})", miEscalonHP2.X, miEscalonHP2.Y));
+                    }
+                    catch {}
+                }
+
+                miLwColPtoSaneoInferior.Add(miEscalonHP1);
+                miLwColPtoSaneoInferior.Add(miEscalonHP2);
+
+                //oLine.addLine(miEscalonHP1, miEscalonHP2, "0");
+
+                miEscalonHP1 = miEscalonHP2.getFromIncXIncY(0, -miEscalonDrawH, 0);
+                miEscalonHP2 = miEscalonHP1.getFromIncXIncY(miEscalonX * miSentidoAvance, 0, 0);
 
 
-           //Ahora debo de Crear el ultimo Escalon Horizontal
-           miLwColPtoSaneoInferior.Add(miEscalonHP1);
-           miLwColPtoSaneoInferior.Add(miSaneoFin);
+            }
 
-           //Borro la Paralela
-           oTools.entidadDelete(iLwTndOff);
 
-           return oLw.addLw2d(miLwColPtoSaneoInferior, false, "0", null,iColor);
+            //Ahora debo de Crear el ultimo Escalon Horizontal
+            miLwColPtoSaneoInferior.Add(miEscalonHP1);
+            miLwColPtoSaneoInferior.Add(miSaneoFin);
 
-       }
+            if (iPk != -1)
+            {
+                try
+                {
+                    oCadManager.thisEditor.WriteMessage(string.Format("\n    - Ultimo escalon: HP1=({0:F3}, {1:F3}), Fin=({2:F3}, {3:F3})", miEscalonHP1.X, miEscalonHP1.Y, miSaneoFin.X, miSaneoFin.Y));
+                }
+                catch {}
+            }
+
+            //Borro la Paralela
+            oTools.entidadDelete(iLwTndOff);
+
+            return oLw.addLw2d(miLwColPtoSaneoInferior, false, "0", null,iColor);
+
+        }
    }
 }

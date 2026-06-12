@@ -264,10 +264,9 @@ namespace tadLayLogica.ObraLineal
             Point2d miPtoInsertSeccion = new Point2d(iPtoInserccion.X, iPtoInserccion.Y);
 
 
-           // using (StreamWriter writer = new StreamWriter(@"c:\debug.txt", true))
-          //  {
-              
-            
+            // using (StreamWriter writer = new StreamWriter(@"c:\debug.txt", true))
+            //  {
+
 
             foreach (var item in mLstSecciones)
             {

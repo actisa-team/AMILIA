@@ -31,8 +31,7 @@ namespace tadLayLogica
 
     using engNet.ClassT;
     using tadLayShare;
-
-
+    using System.IO;
 
     public class oSolucion :IDisposable
     {
@@ -265,9 +264,25 @@ namespace tadLayLogica
 
         private Point3d getPtoFromPk (double iPk)
         {
+            EjeDeTrazado.puntosDelEje.EjeTrazado miEje = null;
+            if (!this.solucionData.amilia)
+            {
+                Xrecord miXrecord = engCadNet.oXrecord.getXrecord(this.ejeTrazado.ObjectId, "info");
+                miEje = EjeDeTrazado.puntosDelEje.EjeTrazado.recuperaEjeTrazado(engCadNet.oXrecord.getStream(miXrecord));
+            }
+            else
+            {
+                byte[] datosRecuperados = this.solucionData.EjeTrazado_Amilia;
+                using (MemoryStream ms = new MemoryStream(datosRecuperados))
+                {
+                    // 3. Usamos tu método estático para reconstruir la clase
+                    miEje = EjeDeTrazado.puntosDelEje.EjeTrazado.recuperaEjeTrazado(ms);
+                }
+            }
 
-            Xrecord miXrecord = engCadNet.oXrecord.getXrecord(this.ejeTrazado.ObjectId, "info");
-            EjeDeTrazado.puntosDelEje.EjeTrazado miEje = EjeDeTrazado.puntosDelEje.EjeTrazado.recuperaEjeTrazado(engCadNet.oXrecord.getStream(miXrecord));
+
+
+            
             Point3d miPunto = new Point3d(miEje.getPointAtDist(iPk)[0], miEje.getPointAtDist(iPk)[1], 0);
             return miPunto;
         }

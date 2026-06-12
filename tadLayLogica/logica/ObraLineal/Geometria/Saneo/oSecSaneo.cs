@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,16 +31,18 @@ namespace tadLayLogica.Secciones.Geometria.Saneo
         private Polyline mLwExplanada;
         private Polyline mLwTerrenoOriginal;
         private Polyline mLwTerrenoSeccion;
+        private double mPk = -1;
 
 
         
-        public oSecSaneo(Polyline iLwExplanada, Polyline iLwTndOriginal, Polyline iLwTndSeccion, oSaneoDesmonteModel iSaneoDesData, oSaneoTerraplenModel iSaneoTerData)
+        public oSecSaneo(Polyline iLwExplanada, Polyline iLwTndOriginal, Polyline iLwTndSeccion, oSaneoDesmonteModel iSaneoDesData, oSaneoTerraplenModel iSaneoTerData, double iPk = -1)
         {
             mLwExplanada = iLwExplanada;
             mLwTerrenoOriginal = iLwTndOriginal;
             mLwTerrenoSeccion = iLwTndSeccion;
             mSaneoDes = iSaneoDesData;
             mSaneoTer = iSaneoTerData;
+            mPk = iPk;
         }
 
 
@@ -203,6 +205,7 @@ namespace tadLayLogica.Secciones.Geometria.Saneo
                                                     mSaneoDes.espesor,
                                                     iLwSaneo.lwSaneo,
                                                     iLwSaneo.saneo);
+            miSaneo.Pk = mPk;
             return miSaneo;  
         }
         private ISecDrawSaneo saneoTerraplenSimple(oLwSaneo iLwSaneo)
@@ -213,6 +216,7 @@ namespace tadLayLogica.Secciones.Geometria.Saneo
                                                     mSaneoTer.espesor,
                                                     iLwSaneo.lwSaneo,
                                                     iLwSaneo.saneo);
+            miSaneo.Pk = mPk;
             return miSaneo;   
         }
 
@@ -243,19 +247,19 @@ namespace tadLayLogica.Secciones.Geometria.Saneo
                     case eSaneoTerraplenEscalon.simple:
 
                       miSaneoOUT = new oSaneoEscalon(mSaneoTer.materialExcavacion, mSaneoTer.materialRelleno, mSaneoTer.espesor, mSaneoTer.escalonHmax, mSaneoTer.pendienteMaxSinEscalon, iLwSaneo.lwSaneo);
-
+                      ((oSaneo)miSaneoOUT).Pk = mPk;
                       return miSaneoOUT;
 
                     case eSaneoTerraplenEscalon.dobleInferior:
 
                        miSaneoOUT = new oSaneoEscalonDobleInferior(mSaneoTer.materialExcavacion, mSaneoTer.materialRelleno, mSaneoTer.espesor, mSaneoTer.escalonHmax, mSaneoTer.pendienteMaxSinEscalon, iLwSaneo.lwSaneo);                                                                                      
-                      
+                       ((oSaneo)miSaneoOUT).Pk = mPk;
                        return miSaneoOUT;
                        
                     case eSaneoTerraplenEscalon.dobleSuperior:
 
                        miSaneoOUT = new oSaneoEscalonDobleSuperior(mSaneoTer.materialExcavacion, mSaneoTer.materialRelleno, mSaneoTer.espesor, mSaneoTer.escalonHmax, mSaneoTer.pendienteMaxSinEscalon, iLwSaneo.lwSaneo);
-
+                       ((oSaneo)miSaneoOUT).Pk = mPk;
                        return miSaneoOUT;
 
                     default:

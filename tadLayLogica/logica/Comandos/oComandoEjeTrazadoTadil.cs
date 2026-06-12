@@ -174,9 +174,22 @@ namespace tadLayLogica.Comandos
                 using (oSolucion miSolucion = new oSolucion(iIdSolucion))
                 {
                     //CREO EJE TRAZADO TADIL ANGELES
+                    EjeDeTrazado.puntosDelEje.EjeTrazado miEje = null;
+                    if (!miSolucion.solucionData.amilia)
+                    {
+                        Xrecord miXrecord = engCadNet.oXrecord.getXrecord(miSolucion.ejeTrazado.ObjectId, "info");
+                        miEje = EjeDeTrazado.puntosDelEje.EjeTrazado.recuperaEjeTrazado(engCadNet.oXrecord.getStream(miXrecord));
+                    }
+                    else
+                    {
+                        byte[] datosRecuperados = miSolucion.solucionData.EjeTrazado_Amilia;
+                        using (MemoryStream ms = new MemoryStream(datosRecuperados))
+                        {
+                            // 3. Usamos tu método estático para reconstruir la clase
+                            miEje = EjeDeTrazado.puntosDelEje.EjeTrazado.recuperaEjeTrazado(ms);
+                        }
+                    }
 
-                    Xrecord miXrecord = engCadNet.oXrecord.getXrecord(miSolucion.ejeTrazado.ObjectId, "info");
-                    EjeDeTrazado.puntosDelEje.EjeTrazado miEje = EjeDeTrazado.puntosDelEje.EjeTrazado.recuperaEjeTrazado(engCadNet.oXrecord.getStream(miXrecord));
 
                     EjeTrazado miEjeTrazadoTadil = miEje;
 
@@ -250,9 +263,24 @@ namespace tadLayLogica.Comandos
                 miMedicion.Start();
 
                 //CREO EJE TRAZADO TADIL ANGELES
-                Xrecord miXrecord = engCadNet.oXrecord.getXrecord(miSolucion.ejeTrazado.ObjectId, "info");
+                EjeDeTrazado.puntosDelEje.EjeTrazado miEje = null;
+                if (!miSolucion.solucionData.amilia)
+                {
+                    Xrecord miXrecord = engCadNet.oXrecord.getXrecord(miSolucion.ejeTrazado.ObjectId, "info");
+                    miEje = EjeDeTrazado.puntosDelEje.EjeTrazado.recuperaEjeTrazado(engCadNet.oXrecord.getStream(miXrecord));
+                }
+                else
+                {
+                    byte[] datosRecuperados = miSolucion.solucionData.EjeTrazado_Amilia;
+                    using (MemoryStream ms = new MemoryStream(datosRecuperados))
+                    {
+                        // 3. Usamos tu método estático para reconstruir la clase
+                        miEje = EjeDeTrazado.puntosDelEje.EjeTrazado.recuperaEjeTrazado(ms);
+                    }
+                }
+                /*Xrecord miXrecord = engCadNet.oXrecord.getXrecord(miSolucion.ejeTrazado.ObjectId, "info");
                 EjeDeTrazado.puntosDelEje.EjeTrazado miEje =
-                    EjeDeTrazado.puntosDelEje.EjeTrazado.recuperaEjeTrazado(engCadNet.oXrecord.getStream(miXrecord));
+                    EjeDeTrazado.puntosDelEje.EjeTrazado.recuperaEjeTrazado(engCadNet.oXrecord.getStream(miXrecord));*/
 
                 miEjeTrazadoTadil = miEje;
             }

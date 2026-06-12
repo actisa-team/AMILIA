@@ -688,7 +688,7 @@ namespace tadLayLogica.logica.Secciones
 
             if (mSecRoadFullByPk.createSaneoDesmonte | mSecRoadFullByPk.createSaneoTerraplen)
             {
-                mSaneo = new oSecSaneo(miLwExplanda, mLwTndOriginal, mLwSeccionTnd, miSaneoDesmonte, miSaneoTerraplen);
+                mSaneo = new oSecSaneo(miLwExplanda, mLwTndOriginal, mLwSeccionTnd, miSaneoDesmonte, miSaneoTerraplen, mSecRoadFullByPk.Pk);
 
                 mSaneo.draw(mLayer);
 

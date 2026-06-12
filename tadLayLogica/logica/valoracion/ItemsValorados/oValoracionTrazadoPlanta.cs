@@ -5,7 +5,7 @@ using System.Text;
 
 namespace tadLayLogica.logica.valoracion
 {
-    
+
     //System
     using System.ComponentModel;
 
@@ -23,42 +23,50 @@ namespace tadLayLogica.logica.valoracion
     using Autodesk.AutoCAD.DatabaseServices;
     using EjeDeTrazado.componentes;
     using tadLayLan.Tdi;
- 
+    using System.IO;
+
     public class oValoracionTrazadoPlanta : IValoracionPropiedad
     {
 
-       private double? mTrazadoLon =null ;
-       private List<oEntidadesTrazado> mLstEntidades;
+        private double? mTrazadoLon = null;
+        private List<oEntidadesTrazado> mLstEntidades;
 
 
 
-       private double? mTrazadoCurvaturaMayor2500PU = null;
-       private double? mTrazadoCurvaturaMenor2500PU = null;
-       private double? mRadioMedioTrazadoCurvaturaMenor2500 = null;
-       private double? mNotaLocal = null;
-       private double? mNotaLocalValoracionPC = null;
+        private double? mTrazadoCurvaturaMayor2500PU = null;
+        private double? mTrazadoCurvaturaMenor2500PU = null;
+        private double? mRadioMedioTrazadoCurvaturaMenor2500 = null;
+        private double? mNotaLocal = null;
+        private double? mNotaLocalValoracionPC = null;
 
 
 
-       #region "Constructores"
+        #region "Constructores"
 
-//       public oValoracionTrazadoPlanta(cv.Alignment iTrazadoPlanta)
-       public oValoracionTrazadoPlanta(Polyline iTrazadoPlanta)
-       {
-           mTrazadoLon = iTrazadoPlanta.Length;
-           mLstEntidades = descomponerTrazado(iTrazadoPlanta);
-       }
+        //       public oValoracionTrazadoPlanta(cv.Alignment iTrazadoPlanta)
+        public oValoracionTrazadoPlanta(Polyline iTrazadoPlanta)
+        {
+            mTrazadoLon = iTrazadoPlanta.Length;
+            mLstEntidades = descomponerTrazado(iTrazadoPlanta);
+        }
 
 
 
-       public oValoracionTrazadoPlanta(Polyline iTrazadoPlanta, double iValoracionTrazadoPlanta)
-       {
-           mTrazadoLon = iTrazadoPlanta.Length;
-           mNotaLocalValoracionPC = iValoracionTrazadoPlanta;
-           mLstEntidades = descomponerTrazado(iTrazadoPlanta);
-       }
+        public oValoracionTrazadoPlanta(Polyline iTrazadoPlanta, double iValoracionTrazadoPlanta, oSolucion oSolucion = null)
+        {
+            mTrazadoLon = iTrazadoPlanta.Length;
+            mNotaLocalValoracionPC = iValoracionTrazadoPlanta;
+            if (oSolucion == null)
+            {
+                mLstEntidades = descomponerTrazado(iTrazadoPlanta);
+            }
+            else
+            {
+                mLstEntidades = descomponerTrazado(iTrazadoPlanta,oSolucion);
+            }
+        }
 
-       #endregion
+        #endregion
 
 
 
@@ -83,7 +91,7 @@ namespace tadLayLogica.logica.valoracion
 
                     double miLon2500Mayor = miQuery.ToList().Sum(p => p.lon.Value);
 
-                    mTrazadoCurvaturaMayor2500PU =  miLon2500Mayor / mTrazadoLon;
+                    mTrazadoCurvaturaMayor2500PU = miLon2500Mayor / mTrazadoLon;
                 }
 
                 return mTrazadoCurvaturaMayor2500PU.Value;
@@ -106,7 +114,7 @@ namespace tadLayLogica.logica.valoracion
 
                     double miLon2500Menor = miQuery.ToList().Sum(p => p.lon.Value);
 
-                    mTrazadoCurvaturaMenor2500PU = miLon2500Menor/ mTrazadoLon;
+                    mTrazadoCurvaturaMenor2500PU = miLon2500Menor / mTrazadoLon;
                 }
 
                 return mTrazadoCurvaturaMenor2500PU.Value;
@@ -145,7 +153,7 @@ namespace tadLayLogica.logica.valoracion
             {
                 if (mNotaLocal == null)
                 {
-                    double miResta = 100 - (0.5 * trazadoCurvaturaMenor2500PU*100);
+                    double miResta = 100 - (0.5 * trazadoCurvaturaMenor2500PU * 100);
 
                     mNotaLocal = (miResta * radioMedioTrazadoCurvaturaMenor2500) / 250000;
                 }
@@ -158,7 +166,7 @@ namespace tadLayLogica.logica.valoracion
         #endregion
 
 
-        public void writeCSV (string iFilePathFull)
+        public void writeCSV(string iFilePathFull)
         {
             List<oValDesT<string, string>> miLstHeader = new List<oValDesT<string, string>>();
             List<oValDesT<string, double?>> miLstFooter = new List<oValDesT<string, double?>>();
@@ -182,12 +190,12 @@ namespace tadLayLogica.logica.valoracion
 
             tadLayLogica.informes.oExcelInforme.WriteCsv<oValDesT<string, string>,
                                                          oEntidadesTrazado,
-                                                         oValDesT<string, double?>>(miLstHeader, mLstEntidades, miLstFooter,iFilePathFull);
+                                                         oValDesT<string, double?>>(miLstHeader, mLstEntidades, miLstFooter, iFilePathFull);
 
 
         }
 
-        public void writeCSV (string iPath, string iFileNameSinExtension)
+        public void writeCSV(string iPath, string iFileNameSinExtension)
         {
 
             string miFileFull = iPath.createFilePathFull(iFileNameSinExtension, "csv");
@@ -199,9 +207,9 @@ namespace tadLayLogica.logica.valoracion
 
         public IValoracion valoracion
         {
-            get 
+            get
             {
-                return new oComponentValTrazadoPlanta(notaLocal,mNotaLocalValoracionPC.Value);    
+                return new oComponentValTrazadoPlanta(notaLocal, mNotaLocalValoracionPC.Value);
             }
         }
 
@@ -211,20 +219,42 @@ namespace tadLayLogica.logica.valoracion
 
         #region "MetodosPrivados"
 
-      
 
-        private List<oEntidadesTrazado> descomponerTrazado(Polyline iEjeTrazado)
+
+        private List<oEntidadesTrazado> descomponerTrazado(Polyline iEjeTrazado,oSolucion oSolucion=null)
         {
 
             List<oEntidadesTrazado> miLstEntidades = new List<oEntidadesTrazado>();
 
             //A partir de la polilinea recuperar miEjeTadil
             //[ANGELES] : devolver una lista de entidades que contiene el eje
+            EjeDeTrazado.puntosDelEje.EjeTrazado miEje = null;
+            if (oSolucion == null)
+            {
+                Xrecord miXrecord = engCadNet.oXrecord.getXrecord(iEjeTrazado.ObjectId, "info");
+                miEje = EjeDeTrazado.puntosDelEje.EjeTrazado.recuperaEjeTrazado(engCadNet.oXrecord.getStream(miXrecord));
+            }
+            else
+            {
+                
+                if (!oSolucion.solucionData.amilia)
+                {
+                    Xrecord miXrecord = engCadNet.oXrecord.getXrecord(iEjeTrazado.ObjectId, "info");
+                    miEje = EjeDeTrazado.puntosDelEje.EjeTrazado.recuperaEjeTrazado(engCadNet.oXrecord.getStream(miXrecord));
+                }
+                else
+                {
+                    byte[] datosRecuperados = oSolucion.solucionData.EjeTrazado_Amilia;
+                    using (MemoryStream ms = new MemoryStream(datosRecuperados))
+                    {
+                        // 3. Usamos tu método estático para reconstruir la clase
+                        miEje = EjeDeTrazado.puntosDelEje.EjeTrazado.recuperaEjeTrazado(ms);
+                    }
+                }
+            }
 
-            
-            Xrecord miXrecord = engCadNet.oXrecord.getXrecord(iEjeTrazado.ObjectId, "info");
-            EjeDeTrazado.puntosDelEje.EjeTrazado miEje = EjeDeTrazado.puntosDelEje.EjeTrazado.recuperaEjeTrazado(engCadNet.oXrecord.getStream(miXrecord));
-            
+           
+
 
 
 
@@ -338,7 +368,7 @@ namespace tadLayLogica.logica.valoracion
 
 
         }
-        private List<oEntidadesTrazado> espiralDescomponer(int iIdNew, bool iIsEspiralEntrada,  Clotoide iEspiral)
+        private List<oEntidadesTrazado> espiralDescomponer(int iIdNew, bool iIsEspiralEntrada, Clotoide iEspiral)
         {
 
             List<oEntidadesTrazado> miLstSpiral = new List<oEntidadesTrazado>();
@@ -368,7 +398,7 @@ namespace tadLayLogica.logica.valoracion
                 miEntidad2 = new oEntidadesTrazado();
                 miEntidad2.addEspiralMenor2500(iIdNew + 1, miSpiralLon2500Menor.Value, miSpiralLon2500MenorRadioMedio.Value, iEspiral.getValorA());
                 miLstSpiral.Add(miEntidad2);
-         
+
             }
             else
             {
@@ -377,10 +407,10 @@ namespace tadLayLogica.logica.valoracion
                 miEntidad2 = new oEntidadesTrazado();
                 miEntidad2.addEspiralMenor2500(iIdNew, miSpiralLon2500Menor.Value, miSpiralLon2500MenorRadioMedio.Value, iEspiral.getValorA());
                 miLstSpiral.Add(miEntidad2);
-                
+
                 //Parte Recta
                 miEntidad1 = new oEntidadesTrazado();
-                miEntidad1.addEspiralMayor2500(iIdNew+1, miSpiralLon2500Mayor.Value, iEspiral.getValorA());
+                miEntidad1.addEspiralMayor2500(iIdNew + 1, miSpiralLon2500Mayor.Value, iEspiral.getValorA());
                 miLstSpiral.Add(miEntidad1);
 
             }
@@ -401,7 +431,7 @@ namespace tadLayLogica.logica.valoracion
         }
         #endregion
 
- 
+
     }
     internal class oEntidadesTrazado
     {
@@ -445,7 +475,7 @@ namespace tadLayLogica.logica.valoracion
         }
 
 
-        public void addRecta (int iId, double iLon)
+        public void addRecta(int iId, double iLon)
         {
             mEntidad = strFrmInformes.uiRecta;
             id = iId;
@@ -461,7 +491,7 @@ namespace tadLayLogica.logica.valoracion
             radio = iRadio;
         }
 
-        public void addEspiralMenor2500 (int iId, double iLon, double iRadio, double iAspiral)
+        public void addEspiralMenor2500(int iId, double iLon, double iRadio, double iAspiral)
         {
 
             mEntidad = strFrmInformes.uiEspiral;
@@ -471,7 +501,7 @@ namespace tadLayLogica.logica.valoracion
             Aespiral = iAspiral;
         }
 
-        public void addEspiralMayor2500(int iId, double iLon,double iAspiral)
+        public void addEspiralMayor2500(int iId, double iLon, double iAspiral)
         {
             mEntidad = strFrmInformes.uiEspiral;
             id = iId;

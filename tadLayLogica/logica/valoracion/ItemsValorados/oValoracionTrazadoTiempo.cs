@@ -18,7 +18,8 @@ namespace tadLayLogica.logica.valoracion
 using EjeDeTrazado.componentes;
     using tadLayShare;
     using tadLayLan.Tdi;
- 
+    using System.IO;
+
     public class oValoracionTrazadoTiempo:IValoracionPropiedad
     {
 
@@ -36,7 +37,7 @@ using EjeDeTrazado.componentes;
 
 
        #region "Constructor"
-       public oValoracionTrazadoTiempo(eRoadGrupo iRoadGrupo, Polyline iTrazadoPlanta, string iFileNormas, double iValoracionTiempoPC)
+       public oValoracionTrazadoTiempo(eRoadGrupo iRoadGrupo, Polyline iTrazadoPlanta, string iFileNormas, double iValoracionTiempoPC,oSolucion oSolucion=null)
         {
             mRoadGrupo = iRoadGrupo;
 
@@ -49,8 +50,16 @@ using EjeDeTrazado.componentes;
                 mLstRoadItemsByGrupo1 = miDsRoad.getRowsByGrupo(eRoadGrupo.Grupo1);
                 mLstRoadItemsByGrupo2 = miDsRoad.getRowsByGrupo(eRoadGrupo.Grupo2);
             }
+            if (oSolucion == null)
+            {
+                mLstEntidades = descomponerTrazado(iTrazadoPlanta);
+            }
+            else
+            {
+                mLstEntidades = descomponerTrazado(iTrazadoPlanta, oSolucion);
+            }
 
-            mLstEntidades = descomponerTrazado(iTrazadoPlanta);
+            
         }
        #endregion
 
@@ -182,14 +191,37 @@ using EjeDeTrazado.componentes;
 
         }
 
-        private List<oEntidadTrazadoTiempo> descomponerTrazado(Polyline iEjeTrazado)
+        private List<oEntidadTrazadoTiempo> descomponerTrazado(Polyline iEjeTrazado,oSolucion oSolucion=null)
         {
 
             List<oEntidadTrazadoTiempo> miLstEntidades = new List<oEntidadTrazadoTiempo>();
+            EjeDeTrazado.puntosDelEje.EjeTrazado miEje = null;
+            if (oSolucion == null)
+            {
+                Xrecord miXrecord = engCadNet.oXrecord.getXrecord(iEjeTrazado.ObjectId, "info");
+                miEje = EjeDeTrazado.puntosDelEje.EjeTrazado.recuperaEjeTrazado(engCadNet.oXrecord.getStream(miXrecord));
+            }
+            else
+            {
 
+                if (!oSolucion.solucionData.amilia)
+                {
+                    Xrecord miXrecord = engCadNet.oXrecord.getXrecord(iEjeTrazado.ObjectId, "info");
+                    miEje = EjeDeTrazado.puntosDelEje.EjeTrazado.recuperaEjeTrazado(engCadNet.oXrecord.getStream(miXrecord));
+                }
+                else
+                {
+                    byte[] datosRecuperados = oSolucion.solucionData.EjeTrazado_Amilia;
+                    using (MemoryStream ms = new MemoryStream(datosRecuperados))
+                    {
+                        // 3. Usamos tu método estático para reconstruir la clase
+                        miEje = EjeDeTrazado.puntosDelEje.EjeTrazado.recuperaEjeTrazado(ms);
+                    }
+                }
+            }
 
-            Xrecord miXrecord = engCadNet.oXrecord.getXrecord(iEjeTrazado.ObjectId, "info");
-            EjeDeTrazado.puntosDelEje.EjeTrazado miEje = EjeDeTrazado.puntosDelEje.EjeTrazado.recuperaEjeTrazado(engCadNet.oXrecord.getStream(miXrecord));
+            /*Xrecord miXrecord = engCadNet.oXrecord.getXrecord(iEjeTrazado.ObjectId, "info");
+            EjeDeTrazado.puntosDelEje.EjeTrazado miEje = EjeDeTrazado.puntosDelEje.EjeTrazado.recuperaEjeTrazado(engCadNet.oXrecord.getStream(miXrecord));*/
    
 
             string miEntidadTipo = string.Empty;

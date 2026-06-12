@@ -237,7 +237,7 @@ namespace tadLayLogica.Comandos
                                 miMedicion.Stop();
 
                                 //Info UI
-                                oTadil.data.UserInfo.procesoTerminadoConTiempo(miMedicion.Elapsed.TotalMinutes);
+                               // oTadil.data.UserInfo.procesoTerminadoConTiempo(miMedicion.Elapsed.TotalMinutes);
 
                                 tr.Commit();
                             }
