@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,7 +18,7 @@ namespace tadLayLogica.Comandos
     using PerfilLongitudinal;
     using EjeLongitudinalTadil;
     using tadLayLogica.estudioTipo;
-    
+
 
     using System.Diagnostics;
     using System.IO;
@@ -27,6 +27,7 @@ namespace tadLayLogica.Comandos
     using tadLayLogica.zonaGis;
     using tadLayShare.puntos;
     using tadLayData;
+    using EjeDeTrazado.componentes;
 
     public class oComandoPerfilLongitudinalTadil
     {
@@ -39,9 +40,10 @@ namespace tadLayLogica.Comandos
 
             using (DocumentLock myDockLock = oCadManager.thisEditor.Document.LockDocument())
             {
-                try{
+                try
+                {
 
-                Point3d miPtoInsert = (Point3d) engCadNet.oTools.getPointCad(strUserCad.uiSelectPtoInsertPerfilLongitudinal);
+                    Point3d miPtoInsert = (Point3d)engCadNet.oTools.getPointCad(strUserCad.uiSelectPtoInsertPerfilLongitudinal);
 
                     //Creo la medicion
                     Stopwatch miMedicion = new Stopwatch();
@@ -60,7 +62,32 @@ namespace tadLayLogica.Comandos
 
 
                         Guitarra miGuitarra = tadLayLogica.EjeLongitudinalTadil.oFactoryPerfilLongitudinalTadil.getGuitarra(miPtoInsert, miAlzado, 100, 10);
+                        /*
+                             * Para cambiar los peraltes el usuario
+                             */
+                        if (iEstudioTipo == eEstudioTipo.ESTINF)
+                        {
+                            dsApp.tbSolucionRow miRow = oDalTbSolucion.getSolucion(iIdSolucion);
+                            if (!miRow.IsPeraltesNull() && !string.IsNullOrEmpty(miRow.Peraltes))
+                            {
+                                var peraltesGuardados = Newtonsoft.Json.JsonConvert.DeserializeObject<List<PeralteRow>>(miRow.Peraltes);
+                                miEjeTrazado.Set_Peraltes(peraltesGuardados);
+                            }
 
+                            miEjeTrazado = Peraltes(miEjeTrazado);
+                            var peraltes = miEjeTrazado.Get_Peraltes();
+                            if (peraltes != null)
+                            {
+                                miRow.Peraltes = Newtonsoft.Json.JsonConvert.SerializeObject(peraltes, Newtonsoft.Json.Formatting.Indented);
+                            }
+                            else
+                            {
+                                miRow.SetPeraltesNull();
+                            }
+                            miRow.AcceptChanges();
+                            oSingletonDsApp.getInstance.dataset.tbSolucion.AcceptChanges();
+                            oSingletonDsApp.getInstance.saveSinAccepChanges();
+                        }
 
                         PerfilLongitudinalDraw miPerfilDraw = new PerfilLongitudinalDraw(miGuitarra,
                                                                                          miAlzado,
@@ -94,7 +121,7 @@ namespace tadLayLogica.Comandos
 
                             if (iEstudioTipo == eEstudioTipo.ESTINF)
                             {
-                                miPerfilDraw.drawPeralte(miLayerPerfilRotular.name);
+                                miPerfilDraw.drawPeralte(miLayerPerfilRotular.name,miEjeTrazado.Get_Peraltes());
 
 
                                 #region "Calcular Estructuras"
@@ -127,11 +154,11 @@ namespace tadLayLogica.Comandos
 
                     }
                 }
-                catch(oExSelectPointNull)
+                catch (oExSelectPointNull)
                 {
                     oTadil.data.UserInfo.showInfo(strGeneralUser.uiProcesoAnulado);
                 }
-               
+
             }
         }
         public static void create_Amilia(eEstudioTipo iEstudioTipo, Guid iIdSolucion)
@@ -141,7 +168,7 @@ namespace tadLayLogica.Comandos
             {
                 try
                 {
-                    
+
                     Point3d miPtoInsert = (Point3d)engCadNet.oTools.getPointCad(strUserCad.uiSelectPtoInsertPerfilLongitudinal);
 
                     //Creo la medicion
@@ -179,12 +206,32 @@ namespace tadLayLogica.Comandos
 
                             Guitarra miGuitarra = tadLayLogica.EjeLongitudinalTadil.oFactoryPerfilLongitudinalTadil.getGuitarra(miPtoInsert, miAlzado, 100, 10);
 
+                            /*
+                             * Para cambiar los peraltes el usuario
+                             */
+                            if (iEstudioTipo == eEstudioTipo.ESTINF)
+                            {
+                                miEjeTrazado = Peraltes(miEjeTrazado);
+                                MemoryStream memory_miEjeTrazadoTadil = miEjeTrazado.guardarEjeTrazado();
+                                using (Transaction tr = oCadManager.StartTransaction())
+                                {
+                                    oDalTbSolucion.Guardar_EjeAmilia(miSolucion.idSolucion, memory_miEjeTrazadoTadil);
+                                }
+                                miRow = oDalTbSolucion.getSolucion(iIdSolucion);
+                                datosRecuperados = miRow.EjeTrazado_Amilia;
+                                using (MemoryStream ms = new MemoryStream(datosRecuperados))
+                                {
+                                    // 3. Usamos tu método estático para reconstruir la clase
+                                    miEjeTrazado = EjeTrazado.recuperaEjeTrazado(ms);
+                                }
+                            }
+
 
                             PerfilLongitudinalDraw miPerfilDraw = new PerfilLongitudinalDraw(miGuitarra,
-                                                                                             miAlzado,
-                                                                                             miEjeTrazado,
-                                                                                             oSingletonTerreno.getInstance.getZFromXY,
-                                                                                             oSingletonPuntosTerreno.getInstance.MDT_Abanico_Punto);
+                                                                                         miAlzado,
+                                                                                         miEjeTrazado,
+                                                                                         oSingletonTerreno.getInstance.getZFromXY,
+                                                                                         oSingletonPuntosTerreno.getInstance.MDT_Abanico_Punto);
 
 
 
@@ -208,11 +255,9 @@ namespace tadLayLogica.Comandos
                                 ObjectId miId = oSerializarEntidad.StoreObjectInExtensionDictionary("info", miEjeAlzado, tr, miEjeMem, miAlzado.GetType().FullName);
                                 */
                                 oDalTbSolucion.addPerfilLongitudinal(iIdSolucion, miEjeAlzado.Handle.ToString());
-
-
                                 if (iEstudioTipo == eEstudioTipo.ESTINF)
                                 {
-                                    miPerfilDraw.drawPeralte(miLayerPerfilRotular.name);
+                                    miPerfilDraw.drawPeralte(miLayerPerfilRotular.name, miEjeTrazado.Get_Peraltes());
 
 
                                     #region "Calcular Estructuras"
@@ -237,13 +282,13 @@ namespace tadLayLogica.Comandos
                                 miMedicion.Stop();
 
                                 //Info UI
-                               // oTadil.data.UserInfo.procesoTerminadoConTiempo(miMedicion.Elapsed.TotalMinutes);
+                                // oTadil.data.UserInfo.procesoTerminadoConTiempo(miMedicion.Elapsed.TotalMinutes);
 
                                 tr.Commit();
                             }
                         }
                     }
-                    
+
                 }
                 catch (oExSelectPointNull)
                 {
@@ -303,8 +348,8 @@ namespace tadLayLogica.Comandos
                     miNuevoAlzado = oFactoryPerfilLongitudinalTadil.getAlzadoFromListPoint3d(iIdSolucion, iEjeTrazado, miNuevoEjeBasicoDPH, ptoLlegada, ptoSalida, miPtoIniMod, miPtoFinMod);
 
 
-                  List<Point3d> miNuevoEjeBasicoINF = modificarEjeBasicoCheckIntersec(miEstudioDatos, miSolucion, miNuevoAlzado, misINF, miNuevoEjeBasicoDPH, false, misDPH, ref miPtoIniMod, ref miPtoFinMod);
-                  miNuevoAlzado = oFactoryPerfilLongitudinalTadil.getAlzadoFromListPoint3d(iIdSolucion, iEjeTrazado, miNuevoEjeBasicoINF, ptoLlegada, ptoSalida, miPtoIniMod, miPtoFinMod);
+                    List<Point3d> miNuevoEjeBasicoINF = modificarEjeBasicoCheckIntersec(miEstudioDatos, miSolucion, miNuevoAlzado, misINF, miNuevoEjeBasicoDPH, false, misDPH, ref miPtoIniMod, ref miPtoFinMod);
+                    miNuevoAlzado = oFactoryPerfilLongitudinalTadil.getAlzadoFromListPoint3d(iIdSolucion, iEjeTrazado, miNuevoEjeBasicoINF, ptoLlegada, ptoSalida, miPtoIniMod, miPtoFinMod);
 
                     return miNuevoAlzado;
 
@@ -383,7 +428,7 @@ namespace tadLayLogica.Comandos
                         //Calculo la cota de la rasante en la interseccion con el DPH
                         double miCotaRasInters = iAlzado.getCotaRasante((double)miPk);
 
-                   
+
 
                         if (isDPH || dentro || encimaRasante)
                         {
@@ -802,7 +847,7 @@ namespace tadLayLogica.Comandos
             return miColPtoInterES;
         }
 
-        private static bool isRasanteArriba(List<Point3d> iTramo, Alzado iAlzado,  oSingletonTerreno iTerreno)
+        private static bool isRasanteArriba(List<Point3d> iTramo, Alzado iAlzado, oSingletonTerreno iTerreno)
         {
             bool encimaRasante = true;
             bool encimaRasanteInt1 = true;
@@ -868,7 +913,7 @@ namespace tadLayLogica.Comandos
             {
                 Polyline miPolDPH = miZonaDPH.lwZona;
 
-                foreach(Point3d miPuntoTramo in iTramo)
+                foreach (Point3d miPuntoTramo in iTramo)
                 {
                     if (oPolygon.isPointInPolygon(miPolDPH, miPuntoTramo.X, miPuntoTramo.Y))
                     {
@@ -935,6 +980,82 @@ namespace tadLayLogica.Comandos
 
                 oTadil.data.UserInfo.procesoTerminadoConTiempo(miMedicion.Elapsed.Minutes);
             }
+        }
+        private static EjeTrazado Peraltes(EjeTrazado miEjeTrazado)
+        {
+            List<PeralteRow> peraltes = new List<PeralteRow>();
+            if (miEjeTrazado.Get_Peraltes() != null)
+            {
+                peraltes = miEjeTrazado.Get_Peraltes();
+            }
+            else
+            {
+                foreach (var entidad in miEjeTrazado.getComponentes)
+                {
+                    if (entidad.getTipoComponente() == Componente.tipoComponente.curva)
+                    {
+                        if (entidad.getSentido() == EjeDeTrazado.puntosDelEje.EjeTrazado.sentidoCurva.Horario)
+                        {
+                            peraltes.Add(new PeralteRow(entidad.getPkIni, entidad.getPeralte(), entidad.getPeralte()));
+                            peraltes.Add(new PeralteRow(entidad.getPkFinal(), entidad.getPeralte(), entidad.getPeralte()));
+
+                        }
+                        else
+                        {
+                            peraltes.Add(new PeralteRow(entidad.getPkIni, -entidad.getPeralte(), -entidad.getPeralte()));
+                            peraltes.Add(new PeralteRow(entidad.getPkFinal(), -entidad.getPeralte(), -entidad.getPeralte()));
+
+                        }
+                    }
+                    if (entidad.getTipoComponente() == Componente.tipoComponente.linea)
+                    {
+                        peraltes.Add(new PeralteRow(entidad.getPkIni, entidad.getPeralte(), -entidad.getPeralte()));
+                        peraltes.Add(new PeralteRow(entidad.getPkFinal(), entidad.getPeralte(), -entidad.getPeralte()));
+                    }
+                }
+            }
+            System.Reflection.Assembly uiAssembly = null;
+            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                if (assembly.GetName().Name == "tadLayUI")
+                {
+                    uiAssembly = assembly;
+                    break;
+                }
+            }
+            if (uiAssembly != null)
+            {
+                Type typePeraltes = uiAssembly.GetType("tadLayUI.Peraltes.Peraltes");
+                if (typePeraltes != null)
+                {
+                    object formInstance = Activator.CreateInstance(typePeraltes);
+                    var cargarDatosMethod = typePeraltes.GetMethod("CargarDatos");
+                    cargarDatosMethod.Invoke(formInstance, new object[] { peraltes });
+
+                    var cargarComponentesMethod = typePeraltes.GetMethod("CargarComponentes");
+                    if (cargarComponentesMethod != null)
+                    {
+                        cargarComponentesMethod.Invoke(formInstance, new object[] { miEjeTrazado.getComponentes });
+                    }
+
+                    var showDialogMethod = typePeraltes.GetMethod("ShowDialog", Type.EmptyTypes);
+                    object result = showDialogMethod.Invoke(formInstance, null);
+
+                    if (result != null && result.ToString() == "OK")
+                    {
+                        var obtenerDatosMethod = typePeraltes.GetMethod("ObtenerDatos");
+                        var updatedPeraltes = obtenerDatosMethod.Invoke(formInstance, null) as List<PeralteRow>;
+                        if (updatedPeraltes != null)
+                        {
+                            peraltes = updatedPeraltes;
+                            miEjeTrazado.Set_Peraltes(peraltes);
+                        }
+                    }
+                }
+            }
+
+
+            return miEjeTrazado;
         }
     }
 }
